@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>モブ君アプリ</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- A-1: ウェルカム画面 -->
+    <div id="screen-welcome" class="screen">
+        <div class="welcome-content">
+            <h1>モブ君アプリ</h1>
+            <p>画面をタップしてスタート</p>
+        </div>
+    </div>
+
+    <!-- A-2: 名前入力画面 -->
+    <div id="screen-name" class="screen">
+        <div class="container">
+            <h2>あなたのニックネームを教えてください</h2>
+            <input type="text" id="nickname-input" placeholder="ニックネーム（最大10文字）" maxlength="10">
+            <p class="error-message" id="error-message"></p>
+            <button class="btn-primary">次へ</button>
+        </div>
+    </div>
+<!-- A-3: タスク選択画面 -->
+    <div id="screen-task-select" class="screen">
+        <div class="container">
+            <h2>あなたの目標を3つ選んでください</h2>
+            <div class="task-list">
+                <div class="task-chip">
+                    <input type="checkbox" id="task1">
+                    <label for="task1">タスク1</label>
+                </div>
+                <div class="task-chip">
+                    <input type="checkbox" id="task2">
+                    <label for="task2">タスク2</label>
+                </div>
+                <div class="task-chip">
+                    <input type="checkbox" id="task3">
+                    <label for="task3">タスク3</label>
+                </div>
+            </div>
+            <button class="btn-primary" disabled>これで決定</button>
+        </div>
+    </div>
+    <!-- B-1: ホーム画面 -->
+    <div id="screen-home" class="screen">
+        <div class="container">
+            <p class="guide-text">今日完了したタスクにチェックを入れてください</p>
+            
+            <div class="task-list">
+                <div class="task-chip-home">
+                    <input type="checkbox" id="home-task1">
+                    <label for="home-task1">タスク1</label>
+                </div>
+                <div class="task-chip-home">
+                    <input type="checkbox" id="home-task2">
+                    <label for="home-task2">タスク2</label>
+                </div>
+                <div class="task-chip-home">
+                    <input type="checkbox" id="home-task3">
+                    <label for="home-task3">タスク3</label>
+                </div>
+            </div>
+
+            <button class="btn-primary" disabled>完了</button>
+
+            <div class="calendar-placeholder">
+                <p>カレンダー(後で実装)</p>
+            </div>
+        </div>
+    </div>
+    <!-- B-3: プロフィール画面 -->
+    <div id="screen-profile" class="screen">
+        <div class="container">
+            <h2>プロフィール</h2>
+            
+            <div class="profile-stats">
+                <p><strong>ニックネーム:</strong> (未設定)</p>
+                <p><strong>タスク総達成回数:</strong> 0回</p>
+                <p><strong>累計プレイ日数:</strong> 0日</p>
+            </div>
+
+            <div class="teddy-placeholder">
+                <p>テディベア(後で実装)</p>
+            </div>
+
+            <button class="btn-primary">ホームに戻る</button>
+        </div>
+    </div>
+    <!-- C-2: LINE画面 -->
+    <div id="screen-line" class="screen active">
+        <div class="line-container">
+            <div class="line-header">
+                <img src="assets/icon_back_24.svg" alt="戻る">
+                <span>モブ君</span>
+            </div>
+            
+            <div class="line-chat">
+                <div class="line-message mobu">
+                    <p>こんにちは！</p>
+                </div>
+                <div class="line-message user">
+                    <p>こんにちは</p>
+                </div>
+            </div>
+
+            <div class="line-input-area">
+                <p>(入力エリア - 後で実装)</p>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

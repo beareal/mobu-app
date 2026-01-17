@@ -1,0 +1,284 @@
+/* デザイン基盤表①：カラーパレット */
+:root {
+    /* 背景・メイン・アクセント */
+    --bg-base: #F4F9F6;
+    --color-main: #B9DCC6;
+    --color-accent: #F2C9DB;
+    
+    /* テキスト */
+    --text-dark: #3F4342;
+    --text-light: #A5ABA9;
+    
+    /* テーマカラー */
+    --theme-t1: #F2C9DB; /* ピンク */
+    --theme-t2: #FFF4D7; /* イエロー */
+    --theme-t3: #D0E0FB; /* ブルー */
+    --theme-t4: #E6E6FA; /* ラベンダー */
+    
+    /* 追加色 */
+    --color-white: #FFFFFF; /* 純白 */
+    --color-sky: #95C0EC; /* 淡いブルー(LINE背景) */
+    
+    /* 装飾線画色 */
+    --line-deco-1: #B9DCC6; /* メイン */
+    --line-deco-2: #F2C9DB; /* アクセント */
+}
+/* デザイン基盤表①：フォント */
+:root {
+    /* M PLUS Rounded 1c (5ウェイト) */
+    --font-light: 300;      /* Light */
+    --font-regular: 400;    /* Regular */
+    --font-medium: 500;     /* Medium */
+    --font-semibold: 600;   /* SemiBold */
+    --font-bold: 700;       /* Bold */
+}
+
+/* フォントの読み込み(Google Fonts) */
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c:wght@300;400;500;600;700&display=swap');
+/* リセット */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+   font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-regular);
+    background-color: var(--bg-base);
+    color: var(--text-dark);
+}
+
+h1 {
+     text-align: center;
+    margin-top: 50px;
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+}
+
+p {
+    text-align: center;
+    margin-top: 20px;
+}
+/* 画面切り替え用の基本クラス */
+.screen {
+    display: none;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.screen.active {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* A-1: ウェルカム画面 */
+.welcome-content {
+    text-align: center;
+}
+
+.welcome-content h1 {
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.welcome-content p {
+    font-weight: var(--font-regular);
+    color: var(--text-light);
+}
+
+/* A-2: 名前入力画面 */
+.container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.container h2 {
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+    font-size: 16px;
+}
+
+.error-message {
+    color: var(--color-accent);
+    font-weight: var(--font-light);
+    font-size: 14px;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+.btn-primary {
+    width: 100%;
+    padding: 12px;
+    margin-top: 20px;
+    background-color: var(--color-main);
+    color: var(--text-dark);
+    border: none;
+    border-radius: 12px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-medium);
+    font-size: 16px;
+    cursor: pointer;
+}
+/* A-3: タスク選択画面 */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.task-chip {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    background-color: var(--bg-base);
+}
+
+.task-chip input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+.task-chip label {
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+.btn-primary:disabled {
+    background-color: var(--text-light);
+    cursor: not-allowed;
+}
+/* B-1: ホーム画面 */
+.guide-text {
+    font-weight: var(--font-light);
+    color: var(--text-light);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.task-chip-home {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    background-color: var(--bg-base);
+}
+
+.task-chip-home input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+.task-chip-home label {
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+}
+
+.calendar-placeholder {
+    margin-top: 30px;
+    padding: 40px;
+    border: 1px solid var(--text-light);
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-light);
+}
+/* B-3: プロフィール画面 */
+.profile-stats {
+    text-align: left;
+    margin: 20px 0;
+    padding: 20px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    background-color: var(--bg-base);
+}
+
+.profile-stats p {
+    margin: 10px 0;
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+}
+
+.teddy-placeholder {
+    margin: 30px 0;
+    padding: 60px 20px;
+    border: 1px solid var(--text-light);
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-light);
+}
+/* C-2: LINE画面 */
+.line-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-sky);
+}
+
+.line-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--text-light);
+}
+
+.line-header span {
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+}
+
+.line-chat {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.line-message {
+    max-width: 70%;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+}
+
+.line-message.mobu {
+    background-color: var(--color-white);
+    margin-right: auto;
+}
+
+.line-message.user {
+    background-color: var(--color-main);
+    margin-left: auto;
+}
+
+.line-input-area {
+    padding: 16px;
+    background-color: var(--color-white);
+    border-top: 1px solid var(--text-light);
+    text-align: center;
+    color: var(--text-light);
+}
