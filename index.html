@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>モブ君アプリ</title>
-    <link rel="stylesheet" href="style.css">
+    <!-- CSSファイルを読み込み -->
+    <link rel="stylesheet" href="style-base.css">
+    <link rel="stylesheet" href="style-screens.css">
 </head>
 <body>
     <!-- 動画による瞬き演出オーバーレイ -->
@@ -12,7 +14,6 @@
         <!-- muted playsinline は自動再生に必須 -->
         <video id="blink-video" src="assets/blink_transition.mp4" muted playsinline></video>
     </div>
-
     <!-- A-1: ウェルカム画面 -->
     <div id="screen-welcome" class="screen active">
         <div class="welcome-content">
@@ -20,7 +21,6 @@
             <p>画面をタップしてスタート</p>
         </div>
     </div>
-
     <!-- A-2: 名前入力画面 -->
     <div id="screen-name" class="screen">
         <div class="container">
@@ -30,7 +30,6 @@
             <button class="btn-primary">次へ</button>
         </div>
     </div>
-
     <!-- A-3: タスク選択画面 -->
     <div id="screen-task-select" class="screen">
         <div class="container">
@@ -49,15 +48,13 @@
                     <label for="task3">タスク3</label>
                 </div>
             </div>
-            <button class="btn-primary" id="task-select-button" disabled>これで決定</button>
+            <button class="btn-primary" disabled>これで決定</button>
         </div>
     </div>
-
     <!-- B-1: ホーム画面 -->
     <div id="screen-home" class="screen">
         <div class="container">
             <p class="guide-text">今日完了したタスクにチェックを入れてください</p>
-            
             <div class="task-list">
                 <div class="task-chip-home">
                     <input type="checkbox" id="home-task1">
@@ -72,39 +69,27 @@
                     <label for="home-task3">タスク3</label>
                 </div>
             </div>
-
             <button class="btn-primary" disabled>完了</button>
-
             <div class="calendar-placeholder">
                 <p>カレンダー(後で実装)</p>
             </div>
         </div>
     </div>
-
-   <!-- B-2: タスク報告画面（画像実装版） -->
-   <div id="screen-report" class="screen screen-full">
-    <!-- 背景画像 -->
-    <img src="assets/bg_report.png" alt="背景" class="bg-full">
-    
-    <!-- 下部の心の声エリア -->
-    <div class="thought-bubble-container">
-        <p id="report-thought-text" class="thought-text">よし、完了！モブ君に報告しよっと♪</p>
-        <div id="report-selection-area" style="display: none;"></div>
+    <!-- B-2: タスク報告画面（画像実装版） -->
+    <div id="screen-report" class="screen screen-full">
+        <img src="assets/bg_report.png" alt="背景" class="bg-full">
+        <div class="thought-bubble-container">
+            <p id="report-thought-text" class="thought-text">よし、完了！モブ君に報告しよっと♪</p>
+            <div id="report-selection-area" style="display: none;"></div>
+        </div>
     </div>
-</div>
-
-   <!-- C-1: カフェ画面（対面）-->
-   <div id="screen-cafe" class="screen screen-full">
-    <!-- カフェ背景 + モブ君 (統合アセット) -->
-    <img src="assets/bg_cafe_mobu_v1.png" alt="カフェ背景とモブ君" class="bg-full" id="cafe-mobu-bg">
-
-    <!-- 下部のセリフ表示エリア -->
-    <div class="dialog-container">
-        <p id="cafe-dialog-text" class="dialog-text"></p>
-        <button id="cafe-dialog-button" class="dialog-button" style="display: none;">TAP</button>
+    <!-- C-1: カフェ画面 -->
+    <div id="screen-cafe" class="screen screen-full">
+        <div class="cafe-bg-placeholder"></div>
+        <div class="dialogue-container">
+            <p class="dialogue-text">（モブ君のセリフがここに表示されます）</p>
+        </div>
     </div>
-</div>
-
     <!-- C-2: LINE画面 -->
     <div id="screen-line" class="screen">
         <div class="line-container">
@@ -126,6 +111,32 @@
         </div>
     </div>
 
-    <script src="script.js"></script>
+    <!-- D-3: スタッフロール画面 -->
+    <div id="screen-staff-roll" class="screen screen-full">
+        <div class="staff-roll-container">
+            <div class="staff-roll-content">
+                <p>企画・開発</p>
+                <p class="staff-name">なつき</p>
+                
+                <p>制作理念</p>
+                <p class="staff-name">（ここに理念を記載）</p>
+
+                <p>AI協力</p>
+                <p class="staff-name">Claude, ChatGPT, Gemini</p>
+                
+                <p>Special Thanks</p>
+                <p class="staff-name">あなた</p>
+            </div>
+        </div>
+        <div class="fin-container">
+            <p class="fin-text">Fin</p>
+            <button id="restart-button" class="btn-primary">今度はどんな私に会えるかな?</button>
+        </div>
+    </div>
+
+    <!-- JavaScriptファイルを読み込み -->
+    <script src="logic-state.js"></script>
+    <script src="logic-router.js"></script>
+    <script src="main.js"></script>
 </body>
 </html>

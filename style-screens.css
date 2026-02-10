@@ -1,0 +1,294 @@
+/* A-1: ウェルカム画面 */
+.welcome-content {
+    text-align: center;
+}
+
+.welcome-content h1 {
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.welcome-content p {
+    font-weight: var(--font-regular);
+    color: var(--text-light);
+}
+
+/* A-2: 名前入力画面 */
+.container {
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.container h2 {
+    font-weight: var(--font-bold);
+    color: var(--text-dark);
+    margin-bottom: 30px;
+    font-size: 20px;
+}
+
+.container input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+    font-size: 18px;
+}
+
+.error-message {
+    color: var(--color-accent);
+    font-weight: var(--font-light);
+    font-size: 14px;
+    margin-top: 10px;
+    min-height: 20px;
+}
+
+/* A-3: タスク選択画面 */
+.task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.task-chip {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    background-color: var(--bg-base);
+}
+
+.task-chip input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+.task-chip label {
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+    cursor: pointer;
+}
+
+/* B-1: ホーム画面 */
+.guide-text {
+    font-weight: var(--font-light);
+    color: var(--text-light);
+    font-size: 14px;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.task-chip-home {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    background-color: var(--bg-base);
+}
+
+.task-chip-home input[type="checkbox"] {
+    margin-right: 12px;
+}
+
+.task-chip-home label {
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+}
+
+.calendar-placeholder {
+    margin-top: 30px;
+    padding: 40px;
+    border: 1px solid var(--text-light);
+    border-radius: 12px;
+    text-align: center;
+    color: var(--text-light);
+}
+
+/* C-2: LINE画面 */
+.line-container {
+    width: 100%;
+    max-width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--color-sky);
+}
+
+.line-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background-color: var(--color-white);
+    border-bottom: 1px solid var(--text-light);
+}
+
+.line-header span {
+    font-weight: var(--font-semibold);
+    color: var(--text-dark);
+}
+
+.line-chat {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.line-message {
+    max-width: 70%;
+    margin-bottom: 12px;
+    padding: 12px;
+    border-radius: 12px;
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+}
+
+.line-message.mobu {
+    background-color: var(--color-white);
+    margin-right: auto;
+}
+
+.line-message.user {
+    background-color: var(--color-main);
+    margin-left: auto;
+}
+
+.line-input-area {
+    padding: 16px;
+    background-color: var(--color-white);
+    border-top: 1px solid var(--text-light);
+    text-align: center;
+    color: var(--text-light);
+}
+
+
+/* =========================================
+   Phase 3-2: タスク報告画面（全画面レイアウト）
+   ========================================= */
+.thought-bubble-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 20px 50px 20px;
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(4px);
+    z-index: 2;
+    border-top: 1px solid var(--line-deco-1);
+    text-align: center;
+}
+
+.thought-text {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+    font-size: 16px;
+    line-height: 1.6;
+}
+
+/* =========================================
+   Phase 3-2 修正: 全画面化のためのスタイル
+   ========================================= */
+.screen.screen-full {
+    padding: 0 !important;
+    display: none;
+}
+
+.screen.screen-full.active {
+    display: block;
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.bg-full {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.thought-bubble-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 20px 60px 20px;
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(4px);
+    z-index: 2;
+    border-top: 1px solid var(--line-deco-1);
+    text-align: center;
+}
+
+/* =========================================
+   Phase 3-3: カフェ画面
+   ========================================= */
+.cafe-bg-placeholder {
+    width: 100%;
+    height: 100%;
+    background-color: #cccccc;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+}
+
+.dialogue-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 30px 20px 60px 20px;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    z-index: 2;
+    box-sizing: border-box;
+}
+
+.dialogue-text {
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-regular);
+    color: var(--color-white);
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+    margin: 0;
+}
+
+/* =========================================
+   Phase 3-4: イベント用UI (ここから追加)
+   ========================================= */
+/* イベントUIをまとめるコンテナ */
+.event-ui-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 中央寄せ */
+    margin-top: 10px;
+}
+
+/* イベント専用ボタン（ピンク色） */
+.btn-event {
+    width: auto; /* 幅を自動調整 */
+    padding: 12px 24px;
+    margin-top: 15px;
+    background-color: var(--color-accent); /* アクセントカラー（ピンク） */
+    color: var(--text-dark);
+    border: none;
+    border-radius: 12px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-medium);
+    font-size: 16px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1); /* 少し影をつける */
+}

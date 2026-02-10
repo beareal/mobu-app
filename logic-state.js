@@ -1,0 +1,130 @@
+// ===============================================
+// State Management (データの保存・読み込み)
+// ===============================================
+
+/**
+ * 一意のユーザーIDを生成し、LocalStorageに保存する
+ * @returns {string} 生成された、または既存のユーザーID
+ */
+function generateUserId() {
+    let userId = localStorage.getItem('userId');
+    if (!userId) {
+        userId = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+        localStorage.setItem('userId', userId);
+    }
+    return userId;
+}
+
+
+/**
+ * LocalStorageに保存されたタスクを読み込み、ホーム画面の表示を更新する
+ */
+function updateHomeTasks() {
+    const storedTasks = localStorage.getItem('selectedTasks');
+    if (storedTasks) {
+        const tasks = JSON.parse(storedTasks);
+        const homeLabels = document.querySelectorAll('.task-chip-home label');
+        const homeInputs = document.querySelectorAll('.task-chip-home input');
+
+        tasks.forEach((taskName, index) => {
+            if (homeLabels[index]) homeLabels[index].textContent = taskName;
+            if (homeInputs[index]) {
+                homeInputs[index].value = taskName;
+                homeInputs[index].checked = false;
+            }
+        });
+    }
+}
+
+// ===============================================
+// 累計タスク達成回数の管理
+// ===============================================
+
+function getTotalTasksCompleted() {
+    return parseInt(localStorage.getItem('totalTasksCompleted') || '0', 10);
+}
+
+function addTasksCompleted(countToAdd) {
+    const currentTotal = getTotalTasksCompleted();
+    const newTotal = currentTotal + countToAdd;
+    localStorage.setItem('totalTasksCompleted', newTotal.toString());
+}
+
+function setPreviousTotalTasks(totalTasks) {
+    localStorage.setItem('previousTotalTasks', totalTasks.toString());
+}
+
+function getPreviousTotalTasks() {
+    return parseInt(localStorage.getItem('previousTotalTasks') || '0', 10);
+}
+
+
+// ===============================================
+// Phase 3-5: オネェ化・放置判定ロジック (ここから追加)
+// ===============================================
+
+// アプリのどこかを操作するたびに、この関数を呼んで日時を更新する
+function updateLastLoginDate() {
+    const now = new Date();
+    // 日付を 'YYYY-MM-DD' の形式で保存（時間を含めると計算が複雑になるため）
+    const dateString = now.toISOString().split('T')[0];
+    localStorage.setItem('lastLoginDate', dateString);
+}
+
+// 保存された最後の日付を取得する
+function getLastLoginDate() {
+    return localStorage.getItem('lastLoginDate');
+}
+
+// モブ君の現在の状態を保存する（例：'normal', 'onee_lv1'など）
+function setMobuState(state) {
+    localStorage.setItem('mobuState', state);
+}
+
+// モブ君の現在の状態を取得する
+function getMobuState() {
+    return localStorage.getItem('mobuState') || 'normal';
+}
+
+/**
+ * 最終ログインからの経過日数を計算し、モブ君の状態を更新する
+ */
+function checkAbandonment() {
+    const lastLoginDateStr = getLastLoginDate();
+    if (!lastLoginDateStr) {
+        // ログイン履歴がなければ何もしない（初回起動時など）
+        updateLastLoginDate(); // 今日の日付を記録だけしておく
+        return;
+    }
+
+    const lastLoginDate = new Date(lastLoginDateStr);
+    const today = new Date();
+    // 時間を切り捨てて日付だけで比較
+    lastLoginDate.setHours(0, 0, 0, 0);
+    today.setHours(0, 0, 0, 0);
+
+    // ミリ秒単位で差を計算し、日数に変換
+    const diffTime = Math.abs(today - lastLoginDate);
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    console.log(`最終ログインから ${diffDays} 日経過`);
+
+    // 資料7に基づき、放置日数に応じて状態を決定
+    if (diffDays >= 1 && diffDays <= 3) {
+        setMobuState('onee_lv1');
+        console.log("モブ君の状態: オネェLv1");
+    } else if (diffDays >= 4 && diffDays <= 9) { // (資料では7日までだが、余裕を持たせる)
+        setMobuState('onee_lv2');
+        console.log("モブ君の状態: オネェLv2");
+    } else if (diffDays >= 10) {
+        setMobuState('onee_lv3');
+        console.log("モブ君の状態: オネェLv3");
+    } else {
+        // 放置日数が0日（つまり今日ログイン済み）の場合は、通常状態に戻す
+        setMobuState('normal');
+        console.log("モブ君の状態: 通常");
+    }
+
+    // 最後に、今日のログイン日時を更新する
+    updateLastLoginDate();
+}
