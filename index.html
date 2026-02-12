@@ -98,15 +98,23 @@
                 <span>モブ君</span>
             </div>
             <div class="line-chat">
-                <div class="line-message mobu">
-                    <p>こんにちは！</p>
-                </div>
-                <div class="line-message user">
-                    <p>こんにちは</p>
-                </div>
+                
             </div>
+            <!-- ★★★ 変更点：入力エリアの構造を変更 ★★★ -->
             <div class="line-input-area">
-                <p>(入力エリア - 後で実装)</p>
+                <!-- 普段表示される偽の入力バー -->
+                <div id="line-input-bar">
+                    <p>(入力エリア)</p>
+                </div>
+                <!-- 気分共有の時に表示されるスタンプ選択エリア -->
+                <div id="mood-stamp-selector" style="display: none;">
+                    <button class="mood-stamp">静か</button>
+                    <button class="mood-stamp">元気</button>
+                    <button class="mood-stamp">頑張った</button>
+                    <button class="mood-stamp">しんどい</button>
+                    <button class="mood-stamp">不安</button>
+                    <button class="mood-stamp">嬉しい</button>
+                </div>
             </div>
         </div>
     </div>

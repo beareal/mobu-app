@@ -3,6 +3,33 @@
 // ===============================================
 
 /**
+ * LINE画面にアニメーション付きでメッセージを追加する
+ * @param {string} sender 'mobu' または 'user'
+ * @param {string} text 表示するメッセージのテキスト
+ * @param {number} delay 表示するまでの遅延時間（ミリ秒）
+ */
+function appendLineMessage(sender, text, delay = 0) {
+    const chatArea = document.querySelector('#screen-line .line-chat');
+    if (!chatArea) return;
+
+    setTimeout(() => {
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `line-message ${sender} new`;
+        
+        const p = document.createElement('p');
+        p.textContent = text;
+        messageDiv.appendChild(p);
+        
+        chatArea.appendChild(messageDiv);
+        chatArea.scrollTop = chatArea.scrollHeight;
+
+        messageDiv.addEventListener('animationend', () => {
+            messageDiv.classList.remove('new');
+        });
+    }, delay);
+}
+
+/**
  * 指定されたIDの画面を表示する
  * @param {string} screenId 表示したい画面のID
  */
@@ -16,7 +43,24 @@ function showScreen(screenId) {
         window.scrollTo(0, 0);
 
         if (screenId === 'screen-line') {
-            checkAndSetupEvent();
+            const chatArea = document.querySelector('#screen-line .line-chat');
+            chatArea.innerHTML = '';
+            
+            const reportedTask = localStorage.getItem('currentReportTask');
+
+            appendLineMessage('user', `「${reportedTask}」を完了！`, 500);
+            appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, 1500);
+
+            // ★★★ 変更点：タスク報告の2秒後に、確率で気分共有イベントを開始 ★★★
+            setTimeout(() => {
+                if (Math.random() < 0.5) { // 50%の確率
+                    startMoodSharing();
+                } else {
+                    console.log("気分共有イベントは発生しませんでした。");
+                    // 通常のイベントチェックに進む
+                    checkAndSetupEvent();
+                }
+            }, 2000);
         }
     }
 }
@@ -118,6 +162,66 @@ function setupReportScreen(completedTasks) {
 
 
 // ===============================================
+// Phase 4-2: 気分共有ロジック (ここから追加)
+// ===============================================
+
+/**
+ * 気分共有イベントを開始する
+ */
+function startMoodSharing() {
+    const inputBar = document.getElementById('line-input-bar');
+    const stampSelector = document.getElementById('mood-stamp-selector');
+    const stamps = document.querySelectorAll('.mood-stamp');
+
+    // モブ君からの問いかけ（仮）
+    const question = "ところで、今日の気分はどうですか？";
+    appendLineMessage('mobu', question, 1000);
+
+    setTimeout(() => {
+        inputBar.style.display = 'none';
+        stampSelector.style.display = 'grid';
+    }, 1500);
+
+    stamps.forEach(stamp => {
+        // イベントリスナーが重複しないように一度クローンして置き換える
+        const newStamp = stamp.cloneNode(true);
+        stamp.parentNode.replaceChild(newStamp, stamp);
+        
+        newStamp.addEventListener('click', () => {
+            handleMoodStampClick(newStamp.textContent);
+        }, { once: true });
+    });
+}
+
+/**
+ * 気分スタンプがクリックされたときの処理
+ * @param {string} mood 選択された気分のテキスト
+ */
+function handleMoodStampClick(mood) {
+    const inputBar = document.getElementById('line-input-bar');
+    const stampSelector = document.getElementById('mood-stamp-selector');
+
+    appendLineMessage('user', mood, 300);
+
+    let reply = "";
+    switch (mood) {
+        case '元気': reply = "元気なんですね！よかったです！"; break;
+        case '嬉しい': reply = "何か嬉しいことがあったんですね！"; break;
+        default: reply = `${mood}、なんですね。教えてくれてありがとうございます。`; break;
+    }
+    appendLineMessage('mobu', reply, 1300);
+
+    setTimeout(() => {
+        stampSelector.style.display = 'none';
+        inputBar.style.display = 'block';
+
+        // ★★★ 気分共有の会話が終わった後に、イベントチェックを実行 ★★★
+        checkAndSetupEvent();
+    }, 1800);
+}
+
+
+// ===============================================
 // イベント分岐ロジック
 // ===============================================
 /**
@@ -152,7 +256,6 @@ function checkAndSetupEvent() {
             button.textContent = 'カフェへ向かう';
             button.className = 'btn-event';
 
-            // ★★★ 修正点：瞬き演出を削除し、直接画面遷移させる ★★★
             button.onclick = function() {
                 showScreen('screen-cafe');
             };
@@ -160,10 +263,11 @@ function checkAndSetupEvent() {
             eventUIContainer.appendChild(message);
             eventUIContainer.appendChild(button);
 
+            // ★★★ 呼び出しタイミングが変わったので、setTimeoutの時間を調整 ★★★
             setTimeout(() => {
                 chatArea.appendChild(eventUIContainer);
-                chatArea.scrollTop = chat.scrollHeight;
-            }, 1000);
+                chatArea.scrollTop = chatArea.scrollHeight;
+            }, 500); 
 
             eventOccurred = true;
             break;
