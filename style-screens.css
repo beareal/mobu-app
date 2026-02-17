@@ -361,3 +361,102 @@
        left: 0;
        z-index: 1;
    }
+
+   /* =========================================
+   Phase 5-1.5: B-3 プロフィール画面
+   ========================================= */
+#profile-nickname {
+    font-weight: var(--font-bold);
+    font-size: 24px;
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+.profile-stats {
+    display: flex;
+    justify-content: space-around;
+    width: 100%;
+    margin-bottom: 30px;
+    padding: 20px 0;
+    border-top: 1px solid var(--color-main);
+    border-bottom: 1px solid var(--color-main);
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.stat-value {
+    font-weight: var(--font-semibold);
+    font-size: 28px;
+    color: var(--text-dark);
+}
+
+.stat-label {
+    font-weight: var(--font-regular);
+    font-size: 14px;
+    color: var(--text-light);
+    margin-top: 4px;
+}
+
+.teddy-bear-area {
+    width: 100%;
+    height: 200px;
+    background-color: #e9e9e9; /* 仮のグレー背景 */
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--text-light);
+    margin-bottom: 20px;
+}
+
+.progress-text {
+    font-weight: var(--font-regular);
+    color: var(--text-dark);
+    margin-bottom: 20px;
+}
+
+/* 戻るボタン用のスタイル */
+.btn-secondary {
+    width: 100%;
+    padding: 12px;
+    margin-top: 10px;
+    background-color: transparent;
+    color: var(--text-dark);
+    border: 1px solid var(--color-main);
+    border-radius: 12px;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-medium);
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* =========================================
+   Phase 5-1.5: B-1 ホーム画面ナビゲーション
+   ========================================= */
+   .home-nav {
+    position: fixed; /* 画面右下に固定 */
+    bottom: 30px;
+    right: 30px;
+    display: flex;
+    flex-direction: column; /* 縦に並べる */
+    gap: 20px; /* アイコン間の隙間 */
+    z-index: 100; /* 他の要素より手前に表示 */
+}
+
+#nav-profile-icon,
+#nav-settings-icon {
+    width: 44px;  /* タッチターゲットを考慮 */
+    height: 44px;
+    cursor: pointer;
+    opacity: 0.8;
+    transition: opacity 0.2s ease;
+}
+
+#nav-profile-icon:hover,
+#nav-settings-icon:hover {
+    opacity: 1;
+}

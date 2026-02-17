@@ -98,11 +98,79 @@ function showScreen(screenId) {
                 }
             }, 2000);
         } else if (screenId === 'screen-cafe') {
+            
+            
+            
             playBGM('bgm_cafe_ambience.mp3', true);
+            const totalTasks = getTotalTasksCompleted();
+            if (totalTasks >= 10 && totalTasks < 20) {
+                handleCafeEvent(10); // 10回達成イベントを開始
+            } else if (totalTasks >= 20 && totalTasks < 30) {
+                handleCafeEvent(20); // 20回達成イベントを開始
+            }
         } else if (screenId === 'screen-ending') {
             handleEndingDialogue();
         }
     }
+}
+
+/**
+ * プロフィール画面の表示とデータ更新を行う
+ */
+function showProfileScreen() {
+    // 他のすべての画面を非表示にする
+    document.querySelectorAll('.screen').forEach(screen => {
+        screen.classList.remove('active');
+    });
+    // プロフィール画面だけを表示する
+    const profileScreen = document.getElementById('screen-profile');
+    if (profileScreen) {
+        profileScreen.classList.add('active');
+    } else {
+        console.error("エラー: プロフィール画面が見つかりません。");
+        return;
+    }
+
+    // --- データの表示更新 ---
+    const nicknameEl = document.getElementById('profile-nickname');
+    const totalTasksEl = document.getElementById('profile-total-tasks');
+    const totalDaysEl = document.getElementById('profile-total-days');
+    const progressTextEl = document.getElementById('profile-progress');
+
+    const nickname = localStorage.getItem('nickname') || 'ななしさん';
+    const totalTasks = getTotalTasksCompleted();
+
+    nicknameEl.textContent = nickname;
+    totalTasksEl.textContent = totalTasks;
+    totalDaysEl.textContent = 0; // 仮置き
+
+    const nextMilestone = (Math.floor(totalTasks / 10) + 1) * 10;
+    if (totalTasks >= 40) {
+         progressTextEl.textContent = '全てのブーケを受け取りました！';
+    } else if (totalTasks < 10){
+         const remaining = 10 - totalTasks;
+         progressTextEl.textContent = `次のブーケまで あと ${remaining} 回`;
+    }
+    else {
+        const remaining = nextMilestone - totalTasks;
+        progressTextEl.textContent = `次のブーケまで あと ${remaining} 回`;
+    }
+    
+    // ★★★ 追加ここから ★★★
+    // --- 未再生のご褒美演出がないかチェック ---
+    // ルール：一度に再生するのは1つだけ
+    if (totalTasks >= 10 && !hasProfileRewardBeenSeen(10)) {
+        console.log("【演出再生】10回達成！テディベアの演出を開始します。");
+        // alert("10回達成おめでとう！特別な演出があります！"); // ← テスト用
+        markProfileRewardAsSeen(10);
+    } else if (totalTasks >= 20 && !hasProfileRewardBeenSeen(20)) {
+        // console.log("【演出再生】20回達成！テディベアの演出を開始します。");
+        // markProfileRewardAsSeen(20);
+    }
+    // ここに30回、40回のelse ifが続く
+    // ★★★ 追加ここまで ★★★
+
+    console.log("プロフィール画面の表示とデータ更新が完了しました。");
 }
 
 /**
@@ -301,52 +369,54 @@ function checkAndSetupEvent() {
         existingEventUI.remove();
     }
 
-    const milestones = [10, 20, 30, 40];
-    let eventOccurred = false;
+    const milestones = [10, 20, 30, 40]; // 判定する節目
+    let eventTriggeredMilestone = 0; // どのイベントが発生したかを記録する変数
 
+    // どの節目を超えたかをチェック
     for (const milestone of milestones) {
         if (previousTotal < milestone && currentTotal >= milestone) {
-            
-            console.log(`イベント発生！ ${milestone}回目の節目を超えました。`);
-            
-            const eventUIContainer = document.createElement('div');
-            eventUIContainer.className = 'event-ui-container';
-
-            const message = document.createElement('div');
-            message.className = 'line-message mobu';
-
-            if (milestone === 40) {
-                message.innerHTML = `<p>とうとう40個目だね！直接伝えたいことがあるから、カフェで待ってるよ。</p>`;
-            } else {
-                message.innerHTML = `<p>ところで、累計タスクが${milestone}個を超えましたね！<br>お店でささやかなお祝いをさせてください😊</p>`;
-            }
-            
-            const button = document.createElement('button');
-            button.textContent = 'カフェへ向かう';
-            button.className = 'btn-event';
-
-            button.onclick = function() {
-                if (milestone === 40) {
-                    startEndingSequence();
-                } else {
-                    showScreen('screen-cafe');
-                }
-            };
-
-            eventUIContainer.appendChild(message);
-            eventUIContainer.appendChild(button);
-
-            setTimeout(() => {
-                chatArea.appendChild(eventUIContainer);
-                chatArea.scrollTop = chatArea.scrollHeight;
-            }, 500); 
-
-            eventOccurred = true;
-            break;
+            eventTriggeredMilestone = milestone;
+            break; // 最初に見つかったイベントだけを発生させる
         }
     }
 
-    if (!eventOccurred) {
+    // イベントが発生した場合のみUIを作成
+    if (eventTriggeredMilestone > 0) {
+        console.log(`イベント発生！ ${eventTriggeredMilestone}回目の節目を超えました。`);
+        
+        const eventUIContainer = document.createElement('div');
+        eventUIContainer.className = 'event-ui-container';
+
+        const message = document.createElement('div');
+        message.className = 'line-message mobu';
+
+        if (eventTriggeredMilestone === 40) {
+            message.innerHTML = `<p>とうとう40個目だね！直接伝えたいことがあるから、カフェで待ってるよ。</p>`;
+        } else {
+            message.innerHTML = `<p>ところで、累計タスクが${eventTriggeredMilestone}個を超えましたね！<br>お店でささやかなお祝いをさせてください😊</p>`;
+        }
+        
+        const button = document.createElement('button');
+        button.textContent = 'カフェへ向かう';
+        button.className = 'btn-event';
+
+        button.onclick = function() {
+            if (eventTriggeredMilestone === 40) {
+                startEndingSequence();
+            } else {
+                showScreen('screen-cafe');
+            }
+        };
+
+        eventUIContainer.appendChild(message);
+        eventUIContainer.appendChild(button);
+
+        setTimeout(() => {
+            chatArea.appendChild(eventUIContainer);
+            chatArea.scrollTop = chatArea.scrollHeight;
+        }, 500); 
+
+    } else {
         console.log(`通常タスク報告。累計: ${currentTotal} (前回: ${previousTotal})`);
     }
 }
@@ -415,6 +485,67 @@ function handleEndingDialogue() {
                 showScreen('screen-staff-roll');
                 playBGM('bgm_epilogue_staffroll.mp3', true);
             }, 5000);
+        }
+    };
+}
+
+// ===============================================
+// Phase 5-1.5: カフェイベントと誘導ロジック
+// ===============================================
+
+/**
+ * カフェでのイベント会話（10回、20回達成時など）を管理する
+ * @param {number} milestone - 発生させるイベントの達成回数 (10 or 20)
+ */
+
+function handleCafeEvent(milestone) {
+    const cafeScreen = document.getElementById('screen-cafe');
+    const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
+
+    let dialogues = [];
+
+    // イベントの種類に応じてセリフをセット
+    if (milestone === 10) {
+        dialogues = [
+            "あ、（ユーザー名）！来てくれてありがとうございます。えーっと...その...髪、少し切ったんですけど...似合ってます？",
+            "10個タスク達成、本当におめでとうございます！俺も無事に習慣が定着しました。",
+            "これは、そのお祝いといいますか...試作品のスイーツをサービスさせてもらいますね。",
+        ];
+        // B-3誘導セリフの追加判定
+        if (!hasProfileRewardBeenSeen(10)) {
+            dialogues.push("そういえば、10タスク完了するごとに可愛いイベント演出があるらしいですよ。もうアプリのプロフィール画面見てみました?");
+        }
+    } else if (milestone === 20) {
+        // 【ステップ3】 誘導ロジックを追加
+        const nickname = localStorage.getItem('nickname') || 'あなた';
+        dialogues = [
+            `${nickname}、来てくれたんですね、ありがとうございます。その……メガネやめてコンタクトにしてみたんですけど……どうですか？ ずっと変えたいなって思ってたんですよ。`,
+            `それはそうと20回達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺までなんだか力が湧いてくるんですよ。……その…これ、ささやかですが、感謝の気持ちです。`,
+            `${nickname}がいつも頼んでる紅茶の傾向、俺、覚えてますから。これは絶対気に入ってくれると思って。ぜひ試してみてほしいな。`,
+            `……また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`
+        ];
+    
+        // B-3誘導セリフの追加判定 (10回目の演出を見ていない場合のみ)
+        if (!hasProfileRewardBeenSeen(10)) {
+            dialogues.push("あ、そうだ。10タスクごとにプロフィール画面でかわいい演出があるらしいって話、覚えてます？俺、この前友達にその画面見せてもらったんだけど、すごくかわいかったですよ");
+        }
+    }
+
+    let currentDialogueIndex = 0;
+    dialogueText.textContent = dialogues[currentDialogueIndex];
+    
+    // 画面クリックで会話を進行させる
+    cafeScreen.onclick = function() {
+        currentDialogueIndex++;
+        if (currentDialogueIndex < dialogues.length) {
+            playSE('se_text_advance.mp3');
+            dialogueText.textContent = dialogues[currentDialogueIndex];
+        } else {
+            // 全ての会話が終了したら
+            cafeScreen.onclick = null; // クリックイベントを解除
+            console.log(`${milestone}回達成イベント終了。ホーム画面に戻ります。`);
+            // ここでプレゼント獲得画面(C-3)へ遷移する処理が入るが、今回はスキップ
+            playBlinkVideo(() => showScreen('screen-home'));
         }
     };
 }

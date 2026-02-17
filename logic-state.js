@@ -128,3 +128,30 @@ function checkAbandonment() {
     // 最後に、今日のログイン日時を更新する
     updateLastLoginDate();
 }
+
+// ===============================================
+// Phase 5-1.5: プロフィール画面の演出管理
+// ===============================================
+
+/**
+ * プロフィール画面(B-3)の特定の演出が再生済みかどうかをチェックする
+ * @param {number} milestoneToCheck - チェックしたい達成回数 (例: 10, 20)
+ * @returns {boolean} - 再生済みならtrue, まだならfalse
+ */
+function hasProfileRewardBeenSeen(milestoneToCheck) {
+    const seenRewards = JSON.parse(localStorage.getItem('profileRewardsSeen') || '[]');
+    return seenRewards.includes(milestoneToCheck);
+}
+
+/**
+ * プロフィール画面(B-3)の特定の演出を「再生済み」として記録する
+ * @param {number} milestoneToMark - 「再生済み」として記録したい達成回数 (例: 10, 20)
+ */
+function markProfileRewardAsSeen(milestoneToMark) {
+    const seenRewards = JSON.parse(localStorage.getItem('profileRewardsSeen') || '[]');
+    if (!seenRewards.includes(milestoneToMark)) {
+        seenRewards.push(milestoneToMark);
+        localStorage.setItem('profileRewardsSeen', JSON.stringify(seenRewards));
+        console.log(`プロフィール演出 ${milestoneToMark}回目を「再生済み」として記録しました。`);
+    }
+}
