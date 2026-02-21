@@ -491,6 +491,12 @@
     object-fit: contain; /* アスペクト比を保ったままフィットさせる */
 }
 
+/* 演出中に箱のクマを一時的に隠すためのスタイル */
+.teddy-bear-placeholder.hide-for-animation {
+    opacity: 0;
+    transition: opacity 0.3s ease-out;
+}
+
 /* 達成済みのテディベアのスタイル */
 .teddy-bear-placeholder.achieved {
     background-color: var(--color-main); /* メインカラー（ミントグリーン）に */

@@ -32,21 +32,17 @@ function stopAllSounds() {
 // ===============================================
 
 /**
- * 未再生のプロフィール演出があれば再生する
+ * 未再生のプロフィール演出があれば再生する【完成版】
  */
 function playProfileRewardAnimationIfNeeded() {
     const totalTasks = getTotalTasksCompleted();
     const modal = document.getElementById('reward-modal');
     const teddyImage = document.getElementById('reward-teddy-image');
-
-    if (!modal || !teddyImage) {
-        console.error("モーダル用のHTML要素が見つかりません。");
-        return;
-    }
+    if (!modal || !teddyImage) return;
 
     let milestoneToPlay = 0;
 
-    // どの演出を再生するかを決定 (一度に一つだけ)
+    // どの演出を再生するかを決定
     if (totalTasks >= 10 && !hasProfileRewardBeenSeen(10)) {
         milestoneToPlay = 10;
     } else if (totalTasks >= 20 && !hasProfileRewardBeenSeen(20)) {
@@ -58,28 +54,41 @@ function playProfileRewardAnimationIfNeeded() {
     }
 
     if (milestoneToPlay > 0) {
+        // ★★★ 1. 演出対象の箱を見つけて、透明にする ★★★
+        const targetBearBox = document.querySelector(`.teddy-bear-placeholder[data-milestone="${milestoneToPlay}"]`);
+        if (targetBearBox) {
+            targetBearBox.classList.add('hide-for-animation');
+        }
+
+        // 2. 演出用の画像を設定
         const theme = `t${milestoneToPlay / 10}`;
         const imageName = `ui_teddy_${theme}_give.png`;
         const imagePath = `assets/images/${imageName}`;
         teddyImage.src = imagePath;
 
+        // 3. 演出を開始
         modal.classList.add('active');
-
         setTimeout(() => {
             teddyImage.classList.add('animate');
         }, 100);
 
+        // 4. 演出を見たと記録
         markProfileRewardAsSeen(milestoneToPlay);
 
+        // 5. 演出を終了する
         setTimeout(() => {
+            // ★★★ 6. 透明にした箱を元に戻す ★★★
+            if (targetBearBox) {
+                targetBearBox.classList.remove('hide-for-animation');
+            }
+            
+            // 7. 画面を更新し、モーダルを閉じる
             showProfileScreen();
             modal.classList.remove('active');
             teddyImage.classList.remove('animate');
         }, 2500);
-
     }
 }
-
 
 /**
  * プロフィール画面の表示とデータ更新を行う
