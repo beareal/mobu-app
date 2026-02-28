@@ -4,11 +4,15 @@
 
 // DOMが読み込まれたらアプリを初期化
 document.addEventListener('DOMContentLoaded', function() {
-showScreen('screen-welcome');
-
-checkAbandonment();
-generateUserId();
-updateHomeTasks();
+    // ★★★ 修正: 最初にサボり判定を行ってから画面を表示する ★★★
+    checkAbandonment(); // まずサボり日数を計算させる
+    
+    // その他の初期化処理
+    generateUserId();
+    updateHomeTasks();
+    
+    // 最後にウェルカム画面を表示
+    showScreen('screen-welcome');
 
 // --- 各画面のイベントリスナーを登録 ---
 

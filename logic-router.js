@@ -1,4 +1,73 @@
 // ===============================================
+// Dialogue Data (セリフデータ)
+// ===============================================
+
+// 資料7を基にした、サボりからの復帰時のセリフ集
+const recoveryDialogues = {
+    // Ver.1 (タスク達成回数 0-9回)
+    ver1: {
+        onee_lv1: "……あら、あなた！戻ってきたのね💖……って、また口調がっ💦　も、もう“アタシ”じゃなくて“俺”だから！おかえり、ほんとに嬉しい。", // No.10
+        onee_lv2: "……あら、あなた久しぶり💜…いや、『あら💜』じゃなかった💦再開してくれたんですね！あなたが戻って来てくれて、本当にうれしい！", // No.12
+        onee_lv3: "あなた！戻ってきてくれたのね！アタシ危うく美容インフルエンサーになるところだったの💦ハッ！？癖が抜けないのよね。…じゃなくて抜けないんです💦でも、また一緒に頑張れるの嬉しい！" // No.14
+    },
+    // Ver.2 (タスク達成回数 10-19回) - 内心付き
+    ver2: {
+        onee_lv1: {
+            main: "まぁ！あなた、戻ってきたのね？嬉しいわ……って、うっかり“アタシ”が出ちゃいました💦", // No.16 💬
+            inner: "（また戻ってきてくれて嬉しい。けど、いきなりオネェ口調戻すのも、正直違和感あるんだよな。多分すぐ、いつもの俺に戻れるよな…？)" // No.16 💭
+        },
+        onee_lv2: {
+            main: "また頑張り屋なあなたに戻ってくれて、アタシもいつものペースに…ってまた一人称おかしくなってた💦 あなたがいない間の俺、美容熱が行き過ぎて人格変わってた💦はは…", // No.17 💬
+            inner: "（無理に笑ってるけど、ちょっと恥ずかしい。オネェ化した姿見せたあとでも普通に接してくれるって、あなたはホント優しいな…）" // No.17 💭
+        },
+        onee_lv3: {
+            main: "おかえり！アタシ…じゃなくて俺、嬉しくてちょっと、涙出てるかも～😂", // No.18 💬
+            inner: "（あなたが再開してくれたのが、嬉しくて正直泣きそうだ💦 何とか笑いでごまかしたけど、目が潤んでるのバレてない…よな？）" // No.18 💭
+        }
+    },
+    // Ver.3, Ver.4 も同様に追加可能 (今回は省略)
+};
+
+// ユーザーの返信セリフデータ
+const userReplyDialogues = {
+    // 復帰時の汎用リアクションセリフ (ランダムで選ばれる)
+    recoveryReactions: [
+        "待っててくれてありがと～🥲",
+        "私一人じゃ、このまま辞めてた。一緒に頑張ってくれてありがとう！",
+        "ありがとう！気合入れ直して頑張るね！"
+    ],
+    // タスクごとの報告セリフ
+    taskReports: {
+        "朝食前に白湯を飲む": "朝食前に白湯を飲んだよ",
+        "間食を1回だけ我慢": "間食を1回だけ我慢したよ",
+        "朝ごはんにフルーツを足す": "朝ごはんにフルーツを足したよ",
+        "寝る前スマホを15分おやすみ": "寝る前スマホを15分お休みしたよ",
+        "1日1カ所だけ片づけ": "1か所だけ片付けしたよ",
+        "今日の“ありがとう”をひとつ思い出す": "今日の“ありがとう”を一つ思い出したよ",
+        "1分ストレッチ": "1分ストレッチをやったよ",
+        "階段を選ぶ": "階段を選んだよ",
+        "背筋を伸ばす時間を意識": "背筋を伸ばす時間を意識したよ",
+        "スキンケアを丁寧にする": "スキンケアを丁寧にしたよ",
+        "リップやハンドケアを忘れずに": "リップとハンドケアを忘れずにやったよ",
+        "深呼吸を3回する": "深呼吸を3回したよ"
+    }
+};
+
+/**
+ * 現在のタスク達成回数に応じて、モブ君のバージョンを返す
+ * @returns {'ver1' | 'ver2'}
+ */
+function getMobuVersion() {
+    const totalTasks = getTotalTasksCompleted();
+    if (totalTasks >= 10 && totalTasks < 20) {
+        return 'ver2';
+    }
+    // (今後、ver3, ver4 もここに追加していく)
+    
+    // 上記以外はすべて ver1 とする
+    return 'ver1';
+}
+// ===============================================
 // Audio Control (音響演出)
 // ===============================================
 
@@ -160,19 +229,58 @@ function showScreen(screenId) {
 
         // --- 各画面表示時のユニークな処理 ---
         if (screenId === 'screen-line') {
-            // (LINE画面の処理は変更なし)
             const chatArea = document.querySelector('#screen-line .line-chat');
-            chatArea.innerHTML = '';
+            chatArea.innerHTML = ''; 
+
+            const mobuState = getMobuState(); 
             const reportedTask = localStorage.getItem('currentReportTask');
-            appendLineMessage('user', `「${reportedTask}」を完了！`, 500);
-            appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, 1500);
+            let initialDelay = 500;
+            
+            // ★★★ ここからが新しいロジック ★★★
+            // ユーザーが報告するタスクのセリフを準備
+            const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `${reportedTask}を完了！`;
+
+            // --- サボりからの復帰かどうかで分岐 ---
+            if (mobuState !== 'normal') {
+                // [A] サボりからの復帰フロー
+                const mobuVersion = getMobuVersion();
+                const dialogueData = recoveryDialogues[mobuVersion];
+                
+                if (dialogueData && dialogueData[mobuState]) {
+                    const dialogue = dialogueData[mobuState];
+                    // 1. モブ君からのオネェメッセージ
+                    appendLineMessage('mobu', dialogue, initialDelay);
+                    initialDelay += 1500;
+                    
+                    // 2. ユーザーからの汎用リアクション (ランダム)
+                    const reactions = userReplyDialogues.recoveryReactions;
+                    const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+                    appendLineMessage('user', randomReaction, initialDelay);
+                    initialDelay += 1500;
+                }
+                setMobuState('normal');
+
+            } 
+
+            // --- 共通のタスク報告フロー ---
+            // 3. ユーザーからのタスク報告 (復帰フローの場合はリアクションの後)
+            appendLineMessage('user', userTaskReportText, initialDelay);
+            initialDelay += 1000;
+
+            // 4. モブ君からの返信
+            appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
+            initialDelay += 1000;
+            
+            // --- 気分共有またはイベントチェックのフローへ ---
             setTimeout(() => {
                 if (Math.random() < 0.5) {
                     startMoodSharing();
                 } else {
                     checkAndSetupEvent();
                 }
-            }, 2000);
+            }, initialDelay + 1000);
+            
+
         } else if (screenId === 'screen-cafe') {
             // (カフェ画面の処理は変更なし)
             playBGM('bgm_cafe_ambience.mp3', true);
