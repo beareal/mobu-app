@@ -236,7 +236,8 @@
 </div>
 <!-- C-1: カフェ画面 -->
 <div id="screen-cafe" class="screen screen-full">
-    <div class="cafe-bg-placeholder"></div>
+    <!-- ★変更: グレーの箱をimgタグに置き換え -->
+    <img id="cafe-background-image" src="" alt="カフェの背景" class="bg-full">
     <div class="dialogue-container">
         <p class="dialogue-text">（モブ君のセリフがここに表示されます）</p>
     </div>
@@ -372,8 +373,6 @@
     </div>
 </div>
 
-<!-- ★★★ Phase 5-4 テスト用ボタン（後で削除） ★★★ -->
-<button id="test-notification-button" style="position: fixed; bottom: 10px; left: 10px; z-index: 9999;">テスト通知</button>
 
 <!-- JavaScriptファイルを読み込み -->
 <script src="logic-state.js"></script>
