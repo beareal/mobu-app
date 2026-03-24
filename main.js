@@ -136,6 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateHomeTasks();
                 
                 schedulePeriodicNotifications(selectedTaskIds);
+                requestNotificationPermission();
 
                 const appPhase = localStorage.getItem('appPhase');
                 if (appPhase === 'main_loop') {
@@ -367,4 +368,16 @@ function schedulePeriodicNotifications(taskIds) {
   
     localStorage.setItem('notificationSchedule', JSON.stringify(schedule));
     console.log('通知スケジュールを保存しました:', schedule);
+  }
+
+  // 通知許可をユーザー操作後に求める
+async function requestNotificationPermission() {
+    const permission = await Notification.requestPermission();
+    if (permission === 'granted') {
+      console.log('通知許可が得られました。FCMトークンを取得します。');
+      const { initializeFCM } = await import('./firebase-config.js');
+      await initializeFCM();
+    } else {
+      console.log('通知が許可されませんでした。');
+    }
   }
