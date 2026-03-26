@@ -342,14 +342,13 @@ async function initializeNotificationFeatures() {
   
     try {
         const registration = await navigator.serviceWorker.register('/sw.js');
-      console.log('Service Worker登録成功:', registration);
-      const { initializeFCM, setupForegroundMessageHandler } = await import('./firebase-config.js');
-      await initializeFCM();
-      setupForegroundMessageHandler();
+        console.log('Service Worker登録成功:', registration);
+        const { setupForegroundMessageHandler } = await import('./firebase-config.js');
+        setupForegroundMessageHandler();
     } catch (error) {
-      console.error('初期化エラー:', error);
+        console.error('初期化エラー:', error);
     }
-  }
+}
 
 // 定時通知の予約（FCMトークンをlocalStorageに保存するだけ）
 function schedulePeriodicNotifications(taskIds) {
