@@ -136,7 +136,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 updateHomeTasks();
                 
                 schedulePeriodicNotifications(selectedTaskIds);
-                requestNotificationPermission();
+             
 
                 const appPhase = localStorage.getItem('appPhase');
                 if (appPhase === 'main_loop') {
