@@ -7,7 +7,7 @@ admin.initializeApp();
 exports.sendScheduledNotifications = functions.pubsub
   .schedule("every 1 minutes")
   .onRun(async (context) => {
-    const now = new Date();
+    const now = new Date(new Date().toLocaleString("ja-JP", { timeZone: "Asia/Tokyo" }));
     const hours = now.getHours().toString().padStart(2, "0");
     const minutes = now.getMinutes().toString().padStart(2, "0");
     const currentTime = `${hours}:${minutes}`;
