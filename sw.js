@@ -20,6 +20,22 @@ const messaging = firebase.messaging();
 // バックグラウンド時のメッセージ受信
 messaging.onBackgroundMessage((payload) => {
   console.log('バックグラウンドでメッセージを受信:', payload);
+
+  const notificationId = payload.data?.notificationId;
+  if (notificationId) {
+    const key = `shown-${notificationId}`;
+    if (self[key]) return;
+    self[key] = true;
+  }
+
+  const title = payload.notification?.title || "通知";
+  const body = payload.notification?.body || "";
+  const tag = payload.webpush?.notification?.tag || "default";
+
+  self.registration.showNotification(title, {
+    body: body,
+    tag: tag,
+  });
 });
 
 // 通知クリック時の処理
