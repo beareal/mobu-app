@@ -90,19 +90,18 @@ export default {
         body: JSON.stringify({
           message: {
             token,
-            notification: { title, body },
             android: { priority: "high" },
-            webpush: {
-              headers: {
-                TTL: "3600",
-              },
-              notification: {
-                tag: tag,
-              },
-              data: {
-                notificationId: notificationId,
-              },
-            },
+webpush: {
+  headers: {
+    TTL: "3600",
+  },
+},
+data: {
+  title,
+  body,
+  tag,
+  notificationId,
+},
           },
         }),
     });
