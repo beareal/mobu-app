@@ -39,28 +39,22 @@ const tag = payload.data?.tag || "default";
 });
 
 // 通知クリック時の処理
+// 通知クリック時の処理
 self.addEventListener('notificationclick', (event) => {
   console.log('通知がクリックされました', event.notification);
-  const notificationData = event.notification.data;
   event.notification.close();
+
+  const targetUrl = 'https://lanadelreyki9.github.io/mobu-app/';
 
   event.waitUntil(
     clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
       for (const client of clientList) {
-        if (client.url === self.registration.scope && 'focus' in client) {
-          client.focus();
-          client.postMessage({
-            type: 'notification-clicked',
-            notificationType: notificationData.type,
-            message: event.notification.body
-          });
-          return;
+        if (client.url === targetUrl && 'focus' in client) {
+          return client.focus();
         }
       }
       if (clients.openWindow) {
-        const urlToOpen = new URL(self.registration.scope);
-        urlToOpen.hash = `#notificationType=${notificationData.type}&message=${encodeURIComponent(event.notification.body)}`;
-        return clients.openWindow(urlToOpen);
+        return clients.openWindow(targetUrl);
       }
     })
   );
