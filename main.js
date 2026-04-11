@@ -433,10 +433,15 @@ async function requestNotificationPermission() {
             showScreen('screen-welcome');
 
             setTimeout(() => {
-                // 2回目のパチッ＋暗転解除
+                // 2回目のパチッ
                 playBlink();
-                fadeOverlay.classList.remove('active');
-            }, 100);
+
+                setTimeout(() => {
+                    // パチッの後に暗転解除
+                    fadeOverlay.classList.remove('active');
+                }, 200);
+
+            }, 300);
 
         }, 500);
 
