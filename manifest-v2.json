@@ -1,5 +1,6 @@
 {
   "name": "なりたい私とモブくん",
+  "categories": ["productivity"],
   "short_name": "なりモブ",
   "start_url": ".",
   "display": "standalone",
