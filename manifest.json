@@ -1,0 +1,20 @@
+{
+    "name": "なりたい私とモブくん",
+    "short_name": "モブくん",
+    "start_url": ".",
+    "display": "standalone",
+    "icons": [
+      {
+        "src": "assets/images/icons/icon-ios.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any" 
+      },
+      {
+        "src": "assets/images/icons/icon-android-fg.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
+      }
+    ]
+  }
