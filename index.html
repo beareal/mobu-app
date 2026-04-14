@@ -222,9 +222,24 @@
             </div>
         </div>
         <button class="btn-primary" disabled>完了</button>
-        <div class="calendar-placeholder">
-            <p>カレンダー(後で実装)</p>
+        <div class="calendar-wrapper">
+            <div class="calendar-header">
+                <button class="cal-nav-btn" id="cal-prev">＜</button>
+                <span class="cal-title" id="cal-title"></span>
+                <button class="cal-nav-btn" id="cal-next">＞</button>
+            </div>
+            <div class="calendar-grid">
+                <div class="cal-day-label">日</div>
+                <div class="cal-day-label">月</div>
+                <div class="cal-day-label">火</div>
+                <div class="cal-day-label">水</div>
+                <div class="cal-day-label">木</div>
+                <div class="cal-day-label">金</div>
+                <div class="cal-day-label">土</div>
+            </div>
+            <div class="calendar-days" id="calendar-days"></div>
         </div>
+        
         <!-- ★★★ 修正: アイコンのパスを正しいものに ★★★ -->
         <div class="home-nav">
             <img src="assets/icon_profile_24.svg" alt="プロフィール" id="nav-profile-icon">

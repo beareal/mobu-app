@@ -189,6 +189,7 @@ showSplashScreen();
                 const currentTotal = getTotalTasksCompleted();
                 setPreviousTotalTasks(currentTotal);
                 addTasksCompleted(completedTasks.length);
+                recordTodayAchievement(completedTasks.length);
 
                 if (currentTotal === 0) {
                     localStorage.setItem('isFirstReport', 'true');
@@ -287,6 +288,18 @@ showSplashScreen();
             }
         });
     }
+    // カレンダー初期化
+    renderCalendar(new Date());
+
+    document.getElementById('cal-prev').addEventListener('click', () => {
+        currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
+        renderCalendar(currentCalendarDate);
+    });
+
+    document.getElementById('cal-next').addEventListener('click', () => {
+        currentCalendarDate.setMonth(currentCalendarDate.getMonth() + 1);
+        renderCalendar(currentCalendarDate);
+    });
 });
 
 
@@ -446,4 +459,119 @@ async function requestNotificationPermission() {
         }, 500);
 
     }, 1000);
+}
+let currentCalendarDate = new Date();
+
+function renderCalendar(date) {
+    const totalTasks = getTotalTasksCompleted();
+
+    // テーマ設定
+    const themes = [
+        { color: '#F2C9DB', dark: '#c97fa0' }, // ピンク (0-9)
+        { color: '#FFF4D7', dark: '#c9a84c' }, // イエロー (10-19)
+        { color: '#D0E0FB', dark: '#6a8fd8' }, // ブルー (20-29)
+        { color: '#E6E6FA', dark: '#8a7fc9' }, // ラベンダー (30+)
+    ];
+    const themeIndex = Math.min(Math.floor(totalTasks / 10), 3);
+    const theme = themes[themeIndex];
+
+    // 月タイトル
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    document.getElementById('cal-title').textContent =
+        `${year}年${month + 1}月`;
+
+    // 達成ログ取得
+    const log = getAchievementLog();
+
+    // 日付セルを生成
+    const container = document.getElementById('calendar-days');
+    container.innerHTML = '';
+
+    const firstDay = new Date(year, month, 1).getDay();
+    const daysInMonth = new Date(year, month + 1, 0).getDate();
+    const today = new Date().toISOString().split('T')[0];
+
+    // 空白セル
+    for (let i = 0; i < firstDay; i++) {
+        const empty = document.createElement('div');
+        empty.className = 'cal-day empty';
+        container.appendChild(empty);
+    }
+
+    // 日付セル
+    for (let d = 1; d <= daysInMonth; d++) {
+        const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(d).padStart(2, '0')}`;
+        const cell = document.createElement('div');
+        cell.className = 'cal-day';
+        if (dateStr === today) cell.classList.add('today');
+
+        const dateNum = document.createElement('span');
+        dateNum.className = 'cal-date';
+        dateNum.textContent = d;
+        cell.appendChild(dateNum);
+
+        // 達成日はチューリップSVGを表示
+        if (log[dateStr]) {
+            const count = log[dateStr]; // 1〜3
+            const opacity = count === 1 ? 0.45 : count === 2 ? 0.72 : 1.0;
+            const svg = createTulipSVG(theme.color, theme.dark, opacity);
+            cell.appendChild(svg);
+        }
+
+        container.appendChild(cell);
+    }
+}
+
+function createTulipSVG(petalColor, stemColor, opacity) {
+    const ns = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(ns, 'svg');
+    svg.setAttribute('viewBox', '0 0 16 20');
+    svg.setAttribute('width', '16');
+    svg.setAttribute('height', '20');
+    svg.setAttribute('class', 'cal-flower');
+    svg.style.opacity = opacity;
+
+    // 茎
+    const stem = document.createElementNS(ns, 'line');
+    stem.setAttribute('x1', '8'); stem.setAttribute('y1', '20');
+    stem.setAttribute('x2', '8'); stem.setAttribute('y2', '11');
+    stem.setAttribute('stroke', stemColor);
+    stem.setAttribute('stroke-width', '1.2');
+    stem.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(stem);
+
+    // 葉
+    const leaf = document.createElementNS(ns, 'path');
+    leaf.setAttribute('d', 'M8 15 Q5 13 4 10');
+    leaf.setAttribute('stroke', stemColor);
+    leaf.setAttribute('stroke-width', '1');
+    leaf.setAttribute('fill', 'none');
+    leaf.setAttribute('stroke-linecap', 'round');
+    svg.appendChild(leaf);
+
+    // 花びら（左）
+    const petalL = document.createElementNS(ns, 'ellipse');
+    petalL.setAttribute('cx', '6'); petalL.setAttribute('cy', '8');
+    petalL.setAttribute('rx', '2.5'); petalL.setAttribute('ry', '4');
+    petalL.setAttribute('fill', petalColor);
+    petalL.setAttribute('transform', 'rotate(-15 6 8)');
+    svg.appendChild(petalL);
+
+    // 花びら（右）
+    const petalR = document.createElementNS(ns, 'ellipse');
+    petalR.setAttribute('cx', '10'); petalR.setAttribute('cy', '8');
+    petalR.setAttribute('rx', '2.5'); petalR.setAttribute('ry', '4');
+    petalR.setAttribute('fill', petalColor);
+    petalR.setAttribute('transform', 'rotate(15 10 8)');
+    svg.appendChild(petalR);
+
+    // 花びら（中央）
+    const petalC = document.createElementNS(ns, 'ellipse');
+    petalC.setAttribute('cx', '8'); petalC.setAttribute('cy', '7');
+    petalC.setAttribute('rx', '2.2'); petalC.setAttribute('ry', '4');
+    petalC.setAttribute('fill', petalColor);
+    svg.appendChild(petalC);
+
+    return svg;
 }

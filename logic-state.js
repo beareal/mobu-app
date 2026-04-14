@@ -176,3 +176,18 @@ function resetAllData() {
     localStorage.setItem('userId', userId); // userIdを再設定
     console.log("データのリセットが完了しました。");
 }
+
+// ===============================================
+// カレンダー用：達成日の記録管理
+// ===============================================
+
+function recordTodayAchievement(count) {
+    const today = new Date().toISOString().split('T')[0]; // 'YYYY-MM-DD'
+    const data = JSON.parse(localStorage.getItem('achievementLog') || '{}');
+    data[today] = count; // その日の達成タスク数を上書き保存
+    localStorage.setItem('achievementLog', JSON.stringify(data));
+}
+
+function getAchievementLog() {
+    return JSON.parse(localStorage.getItem('achievementLog') || '{}');
+}
