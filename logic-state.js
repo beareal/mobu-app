@@ -188,3 +188,7 @@ function recordTodayAchievement(count) {
     data[today] = Math.min(existing + count, 3); // 最大3で上限を設ける
     localStorage.setItem('achievementLog', JSON.stringify(data));
 }
+
+function getAchievementLog() {
+    return JSON.parse(localStorage.getItem('achievementLog') || '{}');
+}
