@@ -515,23 +515,22 @@ function renderCalendar(date) {
         // 達成日はチューリップSVGを表示
         if (log[dateStr]) {
             const count = log[dateStr]; // 1〜3
-            const opacity = count === 1 ? 0.45 : count === 2 ? 0.72 : 1.0;
-            const svg = createTulipSVG(theme.color, theme.dark, opacity);
-            cell.appendChild(svg);
+            const size = count === 1 ? 12 : count === 2 ? 16 : 20;
+const svg = createTulipSVG(theme.color, theme.dark, size);
+cell.appendChild(svg);
         }
 
         container.appendChild(cell);
     }
 }
 
-function createTulipSVG(petalColor, stemColor, opacity) {
+function createTulipSVG(petalColor, stemColor, size) {
     const ns = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(ns, 'svg');
     svg.setAttribute('viewBox', '0 0 16 20');
-    svg.setAttribute('width', '16');
-    svg.setAttribute('height', '20');
+    svg.setAttribute('width', size);
+    svg.setAttribute('height', size * 1.25);
     svg.setAttribute('class', 'cal-flower');
-    svg.style.opacity = opacity;
 
     // 茎
     const stem = document.createElementNS(ns, 'line');
