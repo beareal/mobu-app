@@ -44,7 +44,11 @@ homeInputs[index].checked = false;
 // ===============================================
 
 function getTotalTasksCompleted() {
-return parseInt(localStorage.getItem('totalTasksCompleted') || '0', 10);
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has('test_total')) {
+        return parseInt(urlParams.get('test_total'), 10);
+    }
+    return parseInt(localStorage.getItem('totalTasksCompleted') || '0', 10);
 }
 
 function addTasksCompleted(countToAdd) {
