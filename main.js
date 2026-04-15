@@ -289,6 +289,19 @@ showSplashScreen();
             }
         });
     }
+
+// 隠しデバッグ：cal-titleを3連打で累積タスクを10ずつ増やす
+let debugTapCount = 0;
+document.getElementById('cal-title').addEventListener('click', (e) => {
+    if (e.detail === 3) {
+        const current = getTotalTasksCompleted();
+        const next = (current + 10) % 50;
+        localStorage.setItem('totalTasksCompleted', next.toString());
+        renderCalendar(currentCalendarDate);
+        alert(`Debug: Total = ${next}`);
+    }
+});
+
     // カレンダー初期化
     renderCalendar(new Date());
 
