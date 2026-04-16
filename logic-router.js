@@ -345,14 +345,21 @@ function showScreen(screenId) {
             const today = new Date().toISOString().split('T')[0];
             const log = getAchievementLog();
             const todayCount = log[today] || 0;
+            
+            // IDで指定するのが一番確実です
             const btn = document.querySelector('#screen-home .btn-primary');
             const msg = document.getElementById('task-limit-message');
-
+        
             if (todayCount >= 3) {
-                btn.disabled = true;
-                btn.style.pointerEvents = 'auto';
-                btn.onclick = function() {
+                // 【重要】disabledにするとクリックイベントが死ぬので、
+                // 代わりにスタイル（透明度など）で「無効感」を出します
+                btn.style.opacity = '0.5';
+                btn.style.filter = 'grayscale(100%)'; 
+                
+                btn.onclick = function(e) {
+                    e.preventDefault(); // 本来の「完了」処理を止める
                     if (!msg) return;
+                    // メッセージを表示する処理
                     msg.style.display = 'block';
                     msg.style.opacity = '1';
                     clearTimeout(msg._hideTimer);
@@ -362,8 +369,10 @@ function showScreen(screenId) {
                     }, 3000);
                 };
             } else {
-                btn.style.pointerEvents = '';
-                btn.onclick = null;
+                // 3タスク未満なら元に戻す
+                btn.style.opacity = '1';
+                btn.style.filter = 'none';
+                btn.onclick = null; // 本来の「完了」処理が動くように（※1）
             }
         }
         if (screenId === 'screen-line') {

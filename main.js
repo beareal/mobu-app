@@ -178,6 +178,8 @@ showSplashScreen();
             });
 
             homeCompleteButton.addEventListener('click', function() {
+                // 完了ボタンが押された時の処理の「最後」にこれを追加
+if (typeof showScreen === 'function') { showScreen('screen-home'); }
                 if (this.disabled) return;
                 updateLastLoginDate();
                 
