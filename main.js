@@ -178,6 +178,10 @@ showSplashScreen();
             });
 
             homeCompleteButton.addEventListener('click', function() {
+                const today = new Date().toISOString().split('T')[0];
+    const log = getAchievementLog();
+    if ((log[today] || 0) >= 3) return; // 3個以上ならこの後の処理を全部無視する
+    
                 // 完了ボタンが押された時の処理の「最後」にこれを追加
 if (typeof showScreen === 'function') { showScreen('screen-home'); }
                 if (this.disabled) return;
