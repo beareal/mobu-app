@@ -196,3 +196,51 @@ function recordTodayAchievement(count) {
 function getAchievementLog() {
     return JSON.parse(localStorage.getItem('achievementLog') || '{}');
 }
+
+// ===============================================
+// STEP 1: 朝4時リセット基準の日付取得
+// ===============================================
+
+function getGameDate() {
+    const now = new Date();
+    if (now.getHours() < 4) {
+        now.setDate(now.getDate() - 1);
+    }
+    return now.toISOString().split('T')[0];
+}
+
+// ===============================================
+// STEP 1-B: 既存関数の日付取得を getGameDate() に置き換え
+// ===============================================
+
+// recordTodayAchievement を上書き
+function recordTodayAchievement(count) {
+    const today = getGameDate();
+    const data = JSON.parse(localStorage.getItem('achievementLog') || '{}');
+    const existing = data[today] || 0;
+    data[today] = Math.min(existing + count, 3);
+    localStorage.setItem('achievementLog', JSON.stringify(data));
+}
+
+// ===============================================
+// STEP 1-C: completedToday の保存・取得・リセット
+// ===============================================
+
+function saveCompletedToday(taskIndices) {
+    const data = {
+        date: getGameDate(),
+        taskIndices: taskIndices
+    };
+    localStorage.setItem('completedToday', JSON.stringify(data));
+}
+
+function getCompletedToday() {
+    const raw = localStorage.getItem('completedToday');
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (data.date !== getGameDate()) {
+        localStorage.removeItem('completedToday');
+        return null;
+    }
+    return data;
+}
