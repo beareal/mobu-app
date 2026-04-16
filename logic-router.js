@@ -351,15 +351,20 @@ function showScreen(screenId) {
             const msg = document.getElementById('task-limit-message');
         
             if (todayCount >= 3) {
-                // 【重要】disabledにするとクリックイベントが死ぬので、
-                // 代わりにスタイル（透明度など）で「無効感」を出します
+                // 1. 見た目をグレーにする
                 btn.style.opacity = '0.5';
-                btn.style.filter = 'grayscale(100%)'; 
-                
+                btn.style.filter = 'grayscale(100%)';
+                btn.style.cursor = 'not-allowed';
+
+                // 2. 本来の処理を「横取り」して強力に止める
                 btn.onclick = function(e) {
-                    e.preventDefault(); // 本来の「完了」処理を止める
+                    if (e) {
+                        e.preventDefault();
+                        e.stopImmediatePropagation(); // 他の処理（完了処理など）を即座に中止
+                    }
+
+                    // 3. 代わりにメッセージを出す
                     if (!msg) return;
-                    // メッセージを表示する処理
                     msg.style.display = 'block';
                     msg.style.opacity = '1';
                     clearTimeout(msg._hideTimer);
@@ -367,13 +372,16 @@ function showScreen(screenId) {
                         msg.style.opacity = '0';
                         setTimeout(() => { msg.style.display = 'none'; }, 400);
                     }, 3000);
+                    
+                    return false;
                 };
             } else {
-                // 3タスク未満なら元に戻す
+                // 3タスク未満なら元に戻す（通常モード）
                 btn.style.opacity = '1';
                 btn.style.filter = 'none';
-                btn.onclick = null; // 本来の「完了」処理が動くように（※1）
-            }
+                btn.style.cursor = 'pointer';
+                btn.onclick = null; 
+            }   
         }
         if (screenId === 'screen-line') {
             // --- UI要素を取得 ---
