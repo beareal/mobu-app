@@ -19,6 +19,36 @@ const TASK_CATEGORY_MAP = {
     'task-select-11': 'var(--chip-color-beauty)',
     'task-select-12': 'var(--chip-color-mental)',
 };
+function updateHomeTasks() {
+    const storedTasks = localStorage.getItem('selectedTasks');
+    const storedIds   = JSON.parse(localStorage.getItem('selectedTaskIds') || '[]');
+    if (!storedTasks) return;
+
+    const tasks = JSON.parse(storedTasks);
+    const chips = document.querySelectorAll('.task-chip-home');
+    const completed = getCompletedToday();
+
+    chips.forEach((chip, index) => {
+        const label = chip.querySelector('.chip-label');
+        const iconWrap = chip.querySelector('.chip-icon-wrap');
+
+        if (label && tasks[index]) label.textContent = tasks[index];
+
+        const taskId = storedIds[index];
+        if (taskId && TASK_CATEGORY_MAP[taskId]) {
+            chip.style.backgroundColor = TASK_CATEGORY_MAP[taskId];
+        }
+
+        if (completed && completed.taskIndices.includes(index)) {
+            chip.classList.add('completed');
+            iconWrap.innerHTML = '';
+            iconWrap.appendChild(createFlowerSVG());
+        } else {
+            chip.classList.remove('completed');
+            iconWrap.innerHTML = '<span class="chip-icon-placeholder"></span>';
+        }
+    });
+}
 
 // ===============================================
 // STEP 4-B: お花SVGを生成する関数
