@@ -475,13 +475,6 @@ if (calNextEl) {
 renderCalendar(currentCalendarDate || new Date());
 // --- カレンダーのイベント設定（ここまで） ---
 
-const calPrevEl = document.getElementById('cal-prev');
-if (calPrevEl) {
-    calPrevEl.addEventListener('click', () => {
-        currentCalendarDate.setMonth(currentCalendarDate.getMonth() - 1);
-        renderCalendar(currentCalendarDate);
-    });
-}
 });
 
 
