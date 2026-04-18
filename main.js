@@ -180,13 +180,17 @@ showSplashScreen();
             } else if (nickname) {
                 if (appPhase === 'introduction_task_select') {
                     showScreen('screen-task-select');
+                } else if (appPhase === 'introduction_motivation') {
+                    localStorage.setItem('appPhase', 'main_loop');
+                    updateHomeTasks();
+                    showScreen('screen-home');
                 } else {
                     showScreen('screen-cafe');
                 }
             } else {
                 showScreen('screen-name');
             }
-        });
+            });
     }
 
     // A-2: 名前入力画面
