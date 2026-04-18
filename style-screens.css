@@ -127,10 +127,7 @@ margin-bottom: 20px;
     position: relative;
     transition: opacity 0.3s ease;
 }
-.task-chip-home:has(.chip-checkbox:checked) {
-    opacity: 0.6;
-    outline: 2px solid #aaa;
-}
+
 
 /* アイコン枠（固定幅） */
 .chip-icon-wrap {
