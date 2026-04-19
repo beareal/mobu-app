@@ -184,10 +184,15 @@ showSplashScreen();
                     localStorage.setItem('appPhase', 'main_loop');
                     updateHomeTasks();
                     showScreen('screen-home');
-                } else {
-                    updateHomeTasks();
-    showScreen('screen-home');
-                }
+               } else {
+    const selectedTasks = localStorage.getItem('selectedTasks');
+    if (!selectedTasks) {
+        showScreen('screen-task-select');
+    } else {
+        updateHomeTasks();
+        showScreen('screen-home');
+    }
+}
             } else {
                 showScreen('screen-name');
             }
