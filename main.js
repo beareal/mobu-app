@@ -277,7 +277,6 @@ showSplashScreen();
             });
         }
     }
-}
 
    // B-1: ホーム画面
    const homeScreen = document.getElementById('screen-home');
