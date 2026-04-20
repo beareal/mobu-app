@@ -5,6 +5,20 @@
 // ===============================================
 // STEP 4-A: タスクID → カテゴリー背景色マップ
 // ===============================================
+const TASK_ICON_MAP = {
+    'task-select-1':  'assets/images/icon_hotwater_24.svg',
+    'task-select-2':  'assets/images/icon_snack_24.svg',
+    'task-select-3':  'assets/images/icon_fruits_24.svg',
+    'task-select-4':  'assets/images/icon_phone_24.svg',
+    'task-select-5':  'assets/images/icon_clean_24.svg',
+    'task-select-6':  'assets/images/icon_thanks_24.svg',
+    'task-select-7':  'assets/images/icon_stretch_24.svg',
+    'task-select-8':  'assets/images/icon_stairs_24.svg',
+    'task-select-9':  'assets/images/icon_posture_24.svg',
+    'task-select-10': 'assets/images/icon_skincare_24.svg',
+    'task-select-11': 'assets/images/icon_lips_24.svg',
+    'task-select-12': 'assets/images/icon_breath_24.svg',
+};
 const TASK_CATEGORY_MAP = {
     'task-select-1':  'var(--chip-color-diet)',
     'task-select-2':  'var(--chip-color-diet)',
@@ -45,7 +59,15 @@ function updateHomeTasks() {
             iconWrap.appendChild(createFlowerSVG());
         } else {
             chip.classList.remove('completed');
-            iconWrap.innerHTML = '<span class="chip-icon-placeholder"></span>';
+            iconWrap.innerHTML = '';
+            const iconPath = TASK_ICON_MAP[taskId];
+            if (iconPath) {
+                const img = document.createElement('img');
+                img.src = iconPath;
+                img.className = 'chip-icon';
+                img.alt = '';
+                iconWrap.appendChild(img);
+            }
         }
     });
 }
