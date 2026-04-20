@@ -323,7 +323,16 @@ showSplashScreen();
                if (this.classList.contains('completed')) return;
                const checkbox = this.querySelector('.chip-checkbox');
                checkbox.checked = !checkbox.checked;
-  
+  const iconWrap = this.querySelector('.chip-icon-wrap');
+if (checkbox.checked) {
+    iconWrap.innerHTML = '';
+    iconWrap.appendChild(createFlowerSVG());
+    const clearText = this.querySelector('.chip-clear-text');
+    clearText.classList.add('show');
+    setTimeout(() => clearText.classList.remove('show'), 2000);
+} else {
+    iconWrap.innerHTML = '<span class="chip-icon-placeholder"></span>';
+}
                // 完了ボタンの活性制御（二重押し中も無効化するように強化）
                const checkedCount = homeScreen.querySelectorAll('.chip-checkbox:checked').length;
                homeCompleteButton.disabled = (checkedCount === 0 || isCompleting);
