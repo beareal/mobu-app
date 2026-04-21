@@ -160,7 +160,28 @@ margin-bottom: 20px;
 .chip-checkbox {
     display: none;
 }
+/* チェックボックス見た目（正方形枠） */
+.chip-checkbox-visual {
+    position: relative;
+    flex-shrink: 0;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #ccc;
+    border-radius: 4px;
+    background: #fff;
+    overflow: visible;
+}
 
+/* チューリップ✔（初期は非表示） */
+.chip-tulip-check {
+    position: absolute;
+    width: 32px;
+    height: 32px;
+    bottom: -2px;
+    left: -4px;
+    opacity: 0;
+    pointer-events: none;
+}
 /* ===============================================
    STEP 3-C: 完了状態
    =============================================== */
