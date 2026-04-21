@@ -182,6 +182,13 @@ margin-bottom: 20px;
     opacity: 0;
     pointer-events: none;
 }
+/* チェック時：チューリップぴょこっと出現 */
+.task-chip-home.checked .chip-checkbox-visual {
+    border-color: #8EBF9E;
+}
+.task-chip-home.checked .chip-tulip-check {
+    opacity: 1;
+}
 /* ===============================================
    STEP 3-C: 完了状態
    =============================================== */
