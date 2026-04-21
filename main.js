@@ -56,7 +56,7 @@ function updateHomeTasks() {
         if (completed && completed.taskIndices.includes(index)) {
             chip.classList.add('completed');
             iconWrap.innerHTML = '';
-            iconWrap.appendChild(createFlowerSVG());
+chip.classList.add('checked');
         } else {
             chip.classList.remove('completed');
             iconWrap.innerHTML = '';
@@ -127,8 +127,8 @@ function completeChip(chipEl) {
 
     // アイコンをお花に差し替え
     const iconWrap = chipEl.querySelector('.chip-icon-wrap');
-    iconWrap.innerHTML = '';
-    iconWrap.appendChild(createFlowerSVG());
+iconWrap.innerHTML = '';
+chipEl.classList.add('checked');
 
     // Clear! を表示してフェードアウト
    const clearText = chipEl.querySelector('.chip-clear-text');
