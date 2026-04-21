@@ -208,8 +208,9 @@ margin-bottom: 20px;
    =============================================== */
 .chip-clear-text {
     position: absolute;
-    right: 16px;
-    font-size: 13px;
+    left: 0px;
+    top: -21px;
+    font-size: 16px;
     font-family: 'Caveat', cursive;
     color: var(--text-dark);
     opacity: 0;
