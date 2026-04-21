@@ -623,27 +623,27 @@ cursor: pointer;
 Phase 5-1.5: B-1 ホーム画面ナビゲーション
 ========================================= */
 .home-nav {
-position: fixed; / 画面右下に固定 /
-bottom: 30px;
-right: 30px;
-display: flex;
-flex-direction: column; / 縦に並べる /
-gap: 20px; / アイコン間の隙間 /
-z-index: 100; / 他の要素より手前に表示 */
+  position: fixed; /* 画面右下に固定 */
+  bottom: 24px;    /* 下端からの距離を微調整 */
+  right: 24px;     /* 右端からの距離を微調整 */
+  display: flex;
+  flex-direction: column; /* 縦に並べる */
+  gap: 16px;       /* アイコン間の隙間 */
+  z-index: 100;    /* 他の要素より手前に表示 */
 }
 
 #nav-profile-icon,
 #nav-settings-icon {
-width: 44px;  /* タッチターゲットを考慮 */
-height: 44px;
-cursor: pointer;
-opacity: 0.8;
-transition: opacity 0.2s ease;
+  width: 44px;  /* タッチターゲットを考慮 */
+  height: 44px;
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s ease;
 }
 
 #nav-profile-icon:hover,
 #nav-settings-icon:hover {
-opacity: 1;
+  opacity: 1;
 }
 
 /* B-3: プロフィール画面のテディベアUIレイアウト */
