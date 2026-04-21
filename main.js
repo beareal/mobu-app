@@ -60,7 +60,7 @@ function updateHomeTasks() {
             iconWrap.innerHTML = '';
 chip.classList.add('checked');
         } else {
-            chip.classList.remove('completed');
+            chip.classList.remove('completed', 'checked');
             iconWrap.innerHTML = '';
             const iconPath = TASK_ICON_MAP[taskId];
             if (iconPath) {
