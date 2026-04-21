@@ -175,8 +175,8 @@ margin-bottom: 20px;
 /* チューリップ✔（初期は非表示） */
 .chip-tulip-check {
     position: absolute;
-    width: 45px;
-    height: 45px;
+    width: 51px;
+    height: 51px;
     bottom: -2px;
     left: -4px;
     opacity: 0;
