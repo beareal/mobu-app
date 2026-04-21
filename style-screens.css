@@ -105,6 +105,9 @@ min-height: 20px;
 }
 
 /* B-1: ホーム画面 */
+#screen-home {
+    padding-bottom: 120px;
+}
 .guide-text {
 font-weight: var(--font-light);
 color: var(--text-light);
