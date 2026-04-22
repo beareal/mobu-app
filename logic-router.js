@@ -1037,12 +1037,16 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
         return;
     }
     
- // --- 既存の処理 ---
+// --- 既存の処理 ---
 senderEl.textContent = sender;
 messageEl.textContent = message;
 iconEl.src = iconSrc;
 playSE('se_line_receive.mp3');
-banner.classList.add('show');
+
+// 50ms遅らせてshowを付ける
+setTimeout(() => {
+    banner.classList.add('show');
+}, 50);
 
 // 5秒後に自動で消えるタイマーを設定
 const hideTimer = setTimeout(() => {
