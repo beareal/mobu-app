@@ -106,7 +106,7 @@ min-height: 20px;
 
 /* B-1: ホーム画面 */
 #screen-home {
-    padding-bottom: 120px;
+    padding-bottom: 160px;
 }
 .guide-text {
 font-weight: var(--font-light);
@@ -872,27 +872,39 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
 }
 
 .fake-notification {
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%) translateY(-150%);
+    position: relative;
     width: 95%;
     max-width: 500px;
-    z-index: 10001;
+    margin: 0 auto 0 auto;
+    z-index: 10;
     padding: 12px;
     background-color: rgba(240, 240, 240, 0.9);
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     border-radius: 20px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
-    transition: transform 0.4s cubic-bezier(0.25, 1, 0.5, 1);
     cursor: pointer;
+
+    /* 初期状態：非表示（高さ0・透明） */
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-bottom: 0;
+    transition:
+        max-height 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+        opacity 0.4s ease,
+        padding 0.4s ease,
+        margin-bottom 0.4s ease;
 }
 
 .fake-notification.show {
-    transform: translateX(-50%) translateY(20px);
+    max-height: 120px;
+    opacity: 1;
+    padding: 12px;
+    margin-bottom: 12px;
 }
-
 .notification-content {
     display: flex;
     align-items: flex-start;

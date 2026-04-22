@@ -13,22 +13,7 @@
 </head>
 
 <body>
-    <!-- ★★★ Phase3-X: フェイク通知UI ★★★ -->
-    <div id="fake-notification-banner" class="fake-notification">
-        <div class="notification-content">
-            <div class="icon-container">
-                <img src="assets/images/mobu_icon_v1.png" alt="icon" id="notification-icon" class="profile-icon">
-                <div class="app-badge">IINE</div>
-            </div>
-            <div class="text-container">
-                <p class="sender-name" id="notification-sender">モブ君</p>
-                <p class="message-text" id="notification-message">「今度の土曜、空いてる？」</p>
-            </div>
-            <div class="time-stamp">
-                <p id="notification-timestamp">今</p>
-            </div>
-        </div>
-    </div>
+   
     <!-- 動画による瞬き演出オーバーレイ -->
     <div id="video-overlay">
         <video id="blink-video" src="assets/blink_transition.mp4" muted playsinline></video>
@@ -206,6 +191,22 @@
 
 <!-- B-1: ホーム画面 -->
 <div id="screen-home" class="screen">
+      <!-- ★★★ Phase3-X: フェイク通知UI（ホーム画面内に移動） ★★★ -->
+    <div id="fake-notification-banner" class="fake-notification">
+        <div class="notification-content">
+            <div class="icon-container">
+                <img src="assets/images/mobu_icon_v1.png" alt="icon" id="notification-icon" class="profile-icon">
+                <div class="app-badge">IINE</div>
+            </div>
+            <div class="text-container">
+                <p class="sender-name" id="notification-sender">モブ君</p>
+                <p class="message-text" id="notification-message">「今度の土曜、空いてる？」</p>
+            </div>
+            <div class="time-stamp">
+                <p id="notification-timestamp">今</p>
+            </div>
+        </div>
+    </div>
     <div class="task-list">
         <div class="task-chip-home" id="chip-0">
     <span class="chip-checkbox-visual">
