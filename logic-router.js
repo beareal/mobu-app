@@ -1014,12 +1014,6 @@ function showSettingsScreen() {
 // ===============================================
 
 /**
- * LINE風のフェイク通知バナーを表示する
- * @param {string} sender - 送信者名
- * @param {string} message - メッセージ本文
- * @param {string} iconSrc - プロフィールアイコンの画像パス
- */
-/**
  * LINE風のフェイク通知バナーを表示し、クリックイベントを設定する
  * @param {string} sender - 送信者名
  * @param {string} message - メッセージ本文
@@ -1037,33 +1031,38 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
         return;
     }
     
-// --- 既存の処理 ---
-senderEl.textContent = sender;
-messageEl.textContent = message;
-iconEl.src = iconSrc;
-playSE('se_line_receive.mp3');
-
-// 50ms遅らせてshowを付ける
-setTimeout(() => {
-    banner.classList.add('show');
-}, 50);
-
-// 5秒後に自動で消えるタイマーを設定
-const hideTimer = setTimeout(() => {
-    banner.classList.remove('show');
-}, 5000);
-
-    // ★★★ ここからが追加・変更箇所 ★★★
-    // 既存のクリックイベントを一旦リセット（重要）
+    // 最初に要素を置き換える
     const newBanner = banner.cloneNode(true);
     banner.parentNode.replaceChild(newBanner, banner);
+    
+    // 置き換えた後の要素を取得
+    const replacedBanner = document.getElementById('fake-notification-banner');
+    const replacedSenderEl = document.getElementById('notification-sender');
+    const replacedMessageEl = document.getElementById('notification-message');
+    const replacedIconEl = document.getElementById('notification-icon');
+    
+    // 内容を設定
+    replacedSenderEl.textContent = sender;
+    replacedMessageEl.textContent = message;
+    replacedIconEl.src = iconSrc;
+    playSE('se_line_receive.mp3');
+
+    // 50ms遅らせてshowを付ける
+    setTimeout(() => {
+        replacedBanner.classList.add('show');
+    }, 50);
+
+    // 5秒後に自動で消えるタイマーを設定
+    const hideTimer = setTimeout(() => {
+        replacedBanner.classList.remove('show');
+    }, 5000);
 
     // 新しいバナー要素にクリックイベントを設定
-    newBanner.addEventListener('click', function() {
+    replacedBanner.addEventListener('click', function() {
         // タイマーを解除して、クリック後にバナーが消えないようにする
         clearTimeout(hideTimer);
         // バナーを即座に隠す
-        newBanner.classList.remove('show');
+        replacedBanner.classList.remove('show');
 
         // どの通知がタップされたかを localStorage に保存
         localStorage.setItem('tappedNotification', JSON.stringify({
@@ -1079,7 +1078,6 @@ const hideTimer = setTimeout(() => {
         });
     }, { once: true }); // イベントが一度だけ実行されるように設定
 }
-
 /**
  * 現在の時刻に基づいて 'morning', 'afternoon', 'night' のいずれかの時間帯を返す
  * @returns {('morning'|'afternoon'|'night')}
