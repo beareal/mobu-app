@@ -908,6 +908,18 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     gap: 12px;
 }
 
+#fake-notification-banner {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.4s ease;
+}
+
+#fake-notification-banner.show {
+    max-height: 120px;
+    opacity: 1;
+}
+
 .icon-container {
     position: relative;
     flex-shrink: 0;
