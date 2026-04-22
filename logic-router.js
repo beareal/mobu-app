@@ -1078,6 +1078,7 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
         });
     }, { once: true }); // イベントが一度だけ実行されるように設定
 }
+
 /**
  * 現在の時刻に基づいて 'morning', 'afternoon', 'night' のいずれかの時間帯を返す
  * @returns {('morning'|'afternoon'|'night')}
