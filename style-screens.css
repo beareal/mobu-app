@@ -902,6 +902,11 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     padding: 12px;
     margin-bottom: 12px;
 }
+.notification-content {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
 
 .icon-container {
     position: relative;
