@@ -168,7 +168,7 @@ document.addEventListener('DOMContentLoaded', function() {
             history.replaceState(null, null, ' ');
         }
     // ★★★ ここまでが最後の仕上げ ★★★
-    
+    }
     generateUserId();
     updateHomeTasks();
     const urlParams = new URLSearchParams(window.location.search);
