@@ -1031,7 +1031,7 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
         return;
     }
     
-    // 最初に要素を置き換える
+    // 最初に要素を置き換える（クリックイベントの重複防止）
     const newBanner = banner.cloneNode(true);
     banner.parentNode.replaceChild(newBanner, banner);
     
@@ -1047,23 +1047,13 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
     replacedIconEl.src = iconSrc;
     playSE('se_line_receive.mp3');
 
-    // 50ms遅らせてshowを付ける
+    // 50ms遅らせてshowを付ける（スライドイン演出）
     setTimeout(() => {
         replacedBanner.classList.add('show');
     }, 50);
 
-    // 5秒後に自動で消えるタイマーを設定
-    const hideTimer = setTimeout(() => {
-        replacedBanner.classList.remove('show');
-    }, 5000);
-
-    // 新しいバナー要素にクリックイベントを設定
+    // タップ時：バナーは消さず、LINE画面に遷移するだけ
     replacedBanner.addEventListener('click', function() {
-        // タイマーを解除して、クリック後にバナーが消えないようにする
-        clearTimeout(hideTimer);
-        // バナーを即座に隠す
-        replacedBanner.classList.remove('show');
-
         // どの通知がタップされたかを localStorage に保存
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
@@ -1076,7 +1066,7 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
         playBlinkVideo(() => {
             showScreen('screen-line');
         });
-    }, { once: true }); // イベントが一度だけ実行されるように設定
+    }, { once: true });
 }
 
 /**
