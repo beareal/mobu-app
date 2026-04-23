@@ -557,21 +557,7 @@ if (iineLog.date !== today) {
 
 // 3回以上表示済みなら終了
 if (iineLog.count >= 3) return;
-
-// 30分以内の再起動なら終了
-const iineKey = 'iine_display_log';
-const now = Date.now();
-const today = new Date().toISOString().split('T')[0];
-let iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
-
-if (iineLog.date !== today) {
-    iineLog = { date: today, count: 0, lastTime: 0 };
-}
-
-if (iineLog.count >= 3) return;
-
-if (now - iineLog.lastTime < 30 * 60 * 1000) return;
-
+const mobuState = getMobuState();
     if (mobuState !== 'normal') {
         const dialogues = oneeNotificationDialogues[mobuState];
         if (!dialogues || dialogues.length === 0) return;
