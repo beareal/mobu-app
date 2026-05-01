@@ -543,6 +543,9 @@ function handleOSNotificationClick(notificationType, message) {
 function handleAppLaunchNotification() {
     if (document.visibilityState !== 'visible') return;
 
+    const mobuState = getMobuState();
+    if (mobuState === 'normal') return;
+
     const iineKey = 'iine_display_log';
     const now = Date.now();
     const today = new Date().toISOString().split('T')[0];
@@ -555,55 +558,15 @@ function handleAppLaunchNotification() {
     if (now - iineLog.lastTime < 30 * 60 * 1000) return;
     if (iineLog.count >= 3) return;
 
-    const mobuState = getMobuState();
+    const dialogues = oneeNotificationDialogues[mobuState];
+    if (!dialogues || dialogues.length === 0) return;
 
-    if (mobuState !== 'normal') {
-        const dialogues = oneeNotificationDialogues[mobuState];
-        if (!dialogues || dialogues.length === 0) return;
-        const message = dialogues[Math.floor(Math.random() * dialogues.length)];
-        iineLog.count += 1;
-        iineLog.lastTime = now;
-        localStorage.setItem(iineKey, JSON.stringify(iineLog));
-        showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'onee');
-    } else {
-        const storedTaskIds = JSON.parse(localStorage.getItem('selectedTaskIds') || '[]');
-        if (storedTaskIds.length === 0) return;
+    const message = dialogues[Math.floor(Math.random() * dialogues.length)];
+    iineLog.count += 1;
+    iineLog.lastTime = now;
+    localStorage.setItem(iineKey, JSON.stringify(iineLog));
 
-        const nickname = localStorage.getItem('nickname') || 'あなた';
-
-        const candidates = periodicNotificationDialogues.filter(d =>
-            storedTaskIds.includes(d.taskId)
-        );
-        if (candidates.length === 0) return;
-
-        const seenKey = 'iine_seen_indices';
-        let seen = JSON.parse(localStorage.getItem(seenKey) || '[]');
-        const candidateIndices = candidates.map(d => periodicNotificationDialogues.indexOf(d));
-        const unseenIndices = candidateIndices.filter(i => !seen.includes(i));
-
-        let chosenIndex;
-        if (unseenIndices.length === 0) {
-            seen = [];
-            localStorage.setItem(seenKey, JSON.stringify(seen));
-            chosenIndex = candidateIndices[Math.floor(Math.random() * candidateIndices.length)];
-        } else {
-            chosenIndex = unseenIndices[Math.floor(Math.random() * unseenIndices.length)];
-        }
-
-        seen.push(chosenIndex);
-        localStorage.setItem(seenKey, JSON.stringify(seen));
-
-        const chosen = periodicNotificationDialogues[chosenIndex];
-        const message = chosen.text.replace(/\$\{nickname\}/g, nickname);
-
-        const timestampEl = document.getElementById('notification-timestamp');
-        if (timestampEl) timestampEl.textContent = chosen.time;
-
-        iineLog.count += 1;
-        iineLog.lastTime = now;
-        localStorage.setItem(iineKey, JSON.stringify(iineLog));
-        showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'periodic');
-    }
+    showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'onee');
 }
 
 
