@@ -412,7 +412,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'recov
             });
         }, 500);
     };
-} else
+
             } else if (tappedNotificationData) {
                 // [A] 通知をタップして遷移してきた場合
                 const notification = JSON.parse(tappedNotificationData);
