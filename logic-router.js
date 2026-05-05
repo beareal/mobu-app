@@ -390,8 +390,30 @@ function showScreen(screenId) {
 
             // --- 通知からの遷移か、タスク報告からの遷移かを判定 ---
             const tappedNotificationData = localStorage.getItem('tappedNotification');
+if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'recovery') {
+    const notification = JSON.parse(tappedNotificationData);
+    localStorage.removeItem('tappedNotification');
 
-            if (tappedNotificationData) {
+    inputBar.style.display = 'none';
+    moodSelector.style.display = 'none';
+    replyArea.style.display = 'flex';
+    replyStamp.src = 'assets/images/stamp_normal.png';
+
+    appendLineMessage('mobu', notification.message, 100);
+
+    let stampClicked = false;
+    replyStamp.onclick = function() {
+        if (stampClicked) return;
+        stampClicked = true;
+        appendUserStampMessage(replyStamp.src);
+        setTimeout(() => {
+            playBlinkVideo(() => {
+                showScreen('screen-home');
+            });
+        }, 500);
+    };
+} else
+            } else if (tappedNotificationData) {
                 // [A] 通知をタップして遷移してきた場合
                 const notification = JSON.parse(tappedNotificationData);
 
