@@ -656,6 +656,8 @@ async function requestNotificationPermission() {
 
     }, 1000);
 }
+document.addEventListener('visibilitychange', showOneeNotification);
+
 document.addEventListener('visibilitychange', handleAppLaunchNotification);
 let currentCalendarDate = new Date();
 

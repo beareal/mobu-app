@@ -237,6 +237,67 @@ function saveCompletedToday(taskIndices) {
     };
     localStorage.setItem('completedToday', JSON.stringify(data));
 }
+// ===============================================
+// 表1：オネェ化セリフ 表示済み管理
+// ===============================================
+
+function getOneeDialogueLog() {
+    return JSON.parse(localStorage.getItem('oneeDialogueLog') || '{"lv1":[],"lv2":[],"lv3":[]}');
+}
+
+function saveOneeDialogueLog(log) {
+    localStorage.setItem('oneeDialogueLog', JSON.stringify(log));
+}
+
+// ===============================================
+// 表1：オネェ化バナー 表示条件チェック
+// ===============================================
+
+function canShowOneeMessage() {
+    const raw = localStorage.getItem('oneeMessageShownAt');
+    const today = getGameDate();
+
+    // 条件B：今日のAM4:00以降まだ表示していないか
+    const shownDate = raw ? JSON.parse(raw).date : null;
+    if (shownDate === today) return false;
+
+    // 条件A：前回表示から12時間以上経過しているか
+    const lastTime = raw ? JSON.parse(raw).time : 0;
+    const twelveHours = 12 * 60 * 60 * 1000;
+    if (Date.now() - lastTime < twelveHours) return false;
+
+    return true;
+}
+
+function markOneeMessageShown() {
+    const data = {
+        date: getGameDate(),
+        time: Date.now()
+    };
+    localStorage.setItem('oneeMessageShownAt', JSON.stringify(data));
+}
+
+function getNextOneeDialogue(level) {
+    const log = getOneeDialogueLog();
+    const key = 'lv' + level;
+    const all = oneeNotificationDialogues['onee_' + key];
+    if (!all || all.length === 0) return null;
+
+    let shown = log[key] || [];
+    let candidates = all.filter((_, i) => !shown.includes(i));
+
+    if (candidates.length === 0) {
+        log[key] = [];
+        saveOneeDialogueLog(log);
+        candidates = all;
+        shown = [];
+    }
+
+    const chosenIndex = all.indexOf(candidates[Math.floor(Math.random() * candidates.length)]);
+    log[key].push(chosenIndex);
+    saveOneeDialogueLog(log);
+    return all[chosenIndex];
+}
 
 function getCompletedToday() {
     const raw = localStorage.getItem('completedToday');
