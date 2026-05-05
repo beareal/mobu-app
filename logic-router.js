@@ -1420,8 +1420,10 @@ const recoveryFollowUpDialogues = {
     lv2: "俺このところ、『美の伝道師』に転職しそうだったから、助かった😂○○が頑張る姿が俺の一番の励みです。一緒にペース戻していきましょう！",
     lv3: "○○が再開してくれたから、俺もいつもの調子に戻れました。ありがとう。これからはまたいつもの俺たちのペースで、続けていきましょう！"
 };
-
+let isRecoveryFollowUpShowing = false;
 function showRecoveryFollowUpNotification() {
+    if (isRecoveryFollowUpShowing) return;
+isRecoveryFollowUpShowing = true;
     const followUp = getRecoveryFollowUp();
     if (!followUp || followUp.shown) return;
 
@@ -1432,7 +1434,7 @@ function showRecoveryFollowUpNotification() {
     const message = raw.replace(/○○/g, nickname);
 
     clearRecoveryFollowUp();
-
+setTimeout(() => { isRecoveryFollowUpShowing = false; }, 3000);
     showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'recovery');
 }
 
