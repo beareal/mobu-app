@@ -1431,8 +1431,7 @@ function showRecoveryFollowUpNotification() {
 
     const message = raw.replace(/○○/g, nickname);
 
-    followUp.shown = true;
-    localStorage.setItem('recoveryFollowUp', JSON.stringify(followUp));
+    clearRecoveryFollowUp();
 
     showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'recovery');
 }
