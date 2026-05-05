@@ -113,10 +113,10 @@ const periodicNotificationDialogues = [
 // 資料7を基にした、サボりからの復帰時のセリフ集
 const recoveryDialogues = {
     // Ver.1 (タスク達成回数 0-9回)
-    ver1: {
-        onee_lv1: "……あら、あなた！戻ってきたのね💖……って、また口調がっ💦　も、もう“アタシ”じゃなくて“俺”だから！おかえり、ほんとに嬉しい。", // No.10
-        onee_lv2: "……あら、あなた久しぶり💜…いや、『あら💜』じゃなかった💦再開してくれたんですね！あなたが戻って来てくれて、本当にうれしい！", // No.12
-        onee_lv3: "あなた！戻ってきてくれたのね！アタシ危うく美容インフルエンサーになるところだったの💦ハッ！？癖が抜けないのよね。…じゃなくて抜けないんです💦でも、また一緒に頑張れるの嬉しい！" // No.14
+   ver1: {
+        onee_lv1: "○○！自分磨き再開したのね💖…って、また口調がっ💦　も、もう『アタシ』じゃなくて『俺』だから！おかえり😊ほんとに嬉しい。",
+        onee_lv2: "……あら、○○久しぶり💜…いや、『あら💜』じゃなかった💦再開してくれたんですね！○○が戻って来てくれて、本当にうれしい！",
+        onee_lv3: "戻ってきてくれたのね！アタシ危うく美容インフルエンサーになるところだったの💦ハッ！？口調の癖が抜けないのよね。…じゃなくて抜けないんです💦でも、また一緒に頑張れるの嬉しい！"
     },
     // Ver.2 (タスク達成回数 10-19回) - 内心付き
     ver2: {
@@ -467,6 +467,8 @@ newReplyStamp.addEventListener('click', function() {
                         appendLineMessage('user', randomReaction, initialDelay);
                         initialDelay += 1500;
                     }
+                    const followUpLevel = mobuState.replace('onee_', '');
+setRecoveryFollowUp(followUpLevel);
                     setMobuState('normal');
                 }
                 
@@ -1409,6 +1411,31 @@ const cafeEventData = {
 // ===============================================
 // 表1：オネェ化バナー表示関数
 // ===============================================
+// ===============================================
+// 表2：翌通知バナー表示関数
+// ===============================================
+
+const recoveryFollowUpDialogues = {
+    lv1: "最近までいつもの『俺』じゃなくなってて、自分でも戸惑ってました💦 これからは一緒に、自然体で続けていきましょうね☕",
+    lv2: "俺このところ、『美の伝道師』に転職しそうだったから、助かった😂○○が頑張る姿が俺の一番の励みです。一緒にペース戻していきましょう！",
+    lv3: "○○が再開してくれたから、俺もいつもの調子に戻れました。ありがとう。これからはまたいつもの俺たちのペースで、続けていきましょう！"
+};
+
+function showRecoveryFollowUpNotification() {
+    const followUp = getRecoveryFollowUp();
+    if (!followUp || followUp.shown) return;
+
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+    const raw = recoveryFollowUpDialogues[followUp.level];
+    if (!raw) return;
+
+    const message = raw.replace(/○○/g, nickname);
+
+    followUp.shown = true;
+    localStorage.setItem('recoveryFollowUp', JSON.stringify(followUp));
+
+    showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'recovery');
+}
 
 function showOneeNotification() {
     const mobuState = getMobuState();

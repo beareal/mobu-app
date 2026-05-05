@@ -252,6 +252,24 @@ function saveOneeDialogueLog(log) {
 // ===============================================
 // 表1：オネェ化バナー 表示条件チェック
 // ===============================================
+// ===============================================
+// 表2：復帰フォローアップ状態の管理
+// ===============================================
+
+function setRecoveryFollowUp(level) {
+    const data = { level: level, shown: false };
+    localStorage.setItem('recoveryFollowUp', JSON.stringify(data));
+}
+
+function getRecoveryFollowUp() {
+    const raw = localStorage.getItem('recoveryFollowUp');
+    if (!raw) return null;
+    return JSON.parse(raw);
+}
+
+function clearRecoveryFollowUp() {
+    localStorage.removeItem('recoveryFollowUp');
+}
 
 function canShowOneeMessage() {
     const raw = localStorage.getItem('oneeMessageShownAt');
