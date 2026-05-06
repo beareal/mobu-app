@@ -414,6 +414,7 @@ if (checkbox.checked) {
        }
    }
 
+
     // C-2: LINE画面
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
