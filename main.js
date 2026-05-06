@@ -417,10 +417,18 @@ if (checkbox.checked) {
     // C-2: LINE画面
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
-        lineBackIcon.addEventListener('click', function() {
-            updateLastLoginDate();
-            showScreen('screen-home');
-        });
+      lineBackIcon.addEventListener('click', function() {
+    updateLastLoginDate();
+    const followUp = getRecoveryFollowUp();
+    const mobuVersion = getMobuVersion();
+    if (followUp && !followUp.shown && mobuVersion !== 'ver1') {
+        const verNum = mobuVersion.replace('ver', '');
+        const levelNum = followUp.level.replace('lv', '');
+        showCinematicScene(verNum, levelNum);
+    } else {
+        showScreen('screen-home');
+    }
+});
     }
 
     // B-3: プロフィール画面
