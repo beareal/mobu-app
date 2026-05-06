@@ -118,20 +118,23 @@ const recoveryDialogues = {
         onee_lv2: "……あら、○○久しぶり💜…いや、『あら💜』じゃなかった💦再開してくれたんですね！○○が戻って来てくれて、本当にうれしい！",
         onee_lv3: "戻ってきてくれたのね！アタシ危うく美容インフルエンサーになるところだったの💦ハッ！？口調の癖が抜けないのよね。…じゃなくて抜けないんです💦でも、また一緒に頑張れるの嬉しい！"
     },
-    // Ver.2 (タスク達成回数 10-19回) - 内心付き
+   // Ver.2 (タスク達成回数 10-19回)
     ver2: {
-        onee_lv1: {
-            main: "まぁ！あなた、戻ってきたのね？嬉しいわ……って、うっかり“アタシ”が出ちゃいました💦", // No.16 💬
-            inner: "（また戻ってきてくれて嬉しい。けど、いきなりオネェ口調戻すのも、正直違和感あるんだよな。多分すぐ、いつもの俺に戻れるよな…？)" // No.16 💭
-        },
-        onee_lv2: {
-            main: "また頑張り屋なあなたに戻ってくれて、アタシもいつものペースに…ってまた一人称おかしくなってた💦 あなたがいない間の俺、美容熱が行き過ぎて人格変わってた💦はは…", // No.17 💬
-            inner: "（無理に笑ってるけど、ちょっと恥ずかしい。オネェ化した姿見せたあとでも普通に接してくれるって、あなたはホント優しいな…）" // No.17 💭
-        },
-        onee_lv3: {
-            main: "おかえり！アタシ…じゃなくて俺、嬉しくてちょっと、涙出てるかも～😂", // No.18 💬
-            inner: "（あなたが再開してくれたのが、嬉しくて正直泣きそうだ💦 何とか笑いでごまかしたけど、目が潤んでるのバレてない…よな？）" // No.18 💭
-        }
+        onee_lv1: "まぁ！○○、戻ってきたのね？嬉しいわ…💛って、うっかり『アタシ』が出ちゃいました💦",
+        onee_lv2: "また頑張り屋な○○に戻ってくれて、アタシもいつものペースに…ってまた一人称おかしくなってた💦○○がいない間の俺、美容熱が行き過ぎて人格変わってた😂",
+        onee_lv3: "おかえり！アタシ…じゃなくて俺、嬉しくてちょっと、涙出てるかも～😂"
+    },
+    // Ver.3 (タスク達成回数 20-29回)
+    ver3: {
+        onee_lv1: "おっ、再開したんですね！きっとすぐ取り戻せますよ！そういえば前の俺、『あらっ！』とか言ってましたよね。あれ思い出すと、ちょっと照れる💦",
+        onee_lv2: "○○は、戻ってきてくれると思ってました。おかげで俺はまた本来の自分で頑張れそう！……少し前の俺、『美』にのめりこんでました…今見たら完全にネタですね😂",
+        onee_lv3: "○○、また始めてくれたんだ？やったー😊あ、でも俺の『アタシ期』のことはもう忘れてほしいです💦イジらないでください💦"
+    },
+    // Ver.4 (タスク達成回数 30回以上)
+    ver4: {
+        onee_lv1: "また一緒に頑張れるんだな😊こうしてタスクやったよって教えてくれるだけで、ほっとするよ。",
+        onee_lv2: "一人で頑張ってた時は正直少し寂しかった💦戻ってきてくれて本当に嬉しいよ！でも…また一人にされるとオネェ様になるかも？なんて、冗談だよ！",
+        onee_lv3: "○○は知らないかもしれないけど、俺、○○がタスクやったよって報告してくれる瞬間が好きなんだ。どんなに間が空いても、また一緒に頑張れるのが嬉しい。"
     },
     // Ver.3, Ver.4 も同様に追加可能 (今回は省略)
 };
@@ -165,6 +168,57 @@ const userReplyDialogues = {
  * 現在のタスク達成回数に応じて、モブ君のバージョンを返す
  * @returns {'ver1' | 'ver2'}
  */
+// ===============================================
+// 表3：シネマティック演出セリフデータ
+// ===============================================
+
+const cinematicDialogues = {
+    ver2: {
+        onee_lv1: [
+            "○○がまた戻ってきてくれて嬉しい。",
+            "でも、いきなりオネェ口調戻すのも、正直違和感あるんだよなぁ。",
+            "多分すぐ、いつもの俺に戻れるよな…？"
+        ],
+        onee_lv2: [
+            "無理に笑ってるけど、ちょっと恥ずかしい。",
+            "オネェ化した姿見せたあとでも普通に接してくれるって、○○はホント優しいな…。"
+        ],
+        onee_lv3: [
+            "○○が再開してくれたのが、嬉しくて正直泣きそうだ…何とか笑いでごまかしたけど。",
+            "○○は、俺がこんなに喜んでるの気づいてるのかな…？"
+        ]
+    },
+    ver3: {
+        onee_lv1: [
+            "オネェ入ってた俺も一生懸命だったけど、振り返るとちょっと意味不明だったよなぁ…。",
+            "○○が余裕なくて、タスクできない時も、ドンと構えて待てる自分でいたいな。"
+        ],
+        onee_lv2: [
+            "オネェっぽくなってた俺、○○がいなくて空回りしてた反動だったんだろうな。",
+            "今こうして報告くれるだけで、等身大の自分でまたがんばれそうだ。"
+        ],
+        onee_lv3: [
+            "オネェ期の事が今、笑って話せるのも、○○が戻ってきてくれたからだな。",
+            "戻ってきてくれなかったら、どうしようかと思った。"
+        ]
+    },
+    ver4: {
+        onee_lv1: [
+            "気負わなくていいって、○○に言われた気がしたな。",
+            "あの頃の俺を思い出しても、もう恥ずかしさより『ありがとう』の気持ちが強いな…。"
+        ],
+        onee_lv2: [
+            "オネェ寄りだった時期も、もう笑い話じゃなくて…あれも俺の一部なんだよな。",
+            "○○が戻ってきてくれるだけで、胸の奥がじんわり温かくなる。"
+        ],
+        onee_lv3: [
+            "最初は○○がサボるのがさみしかったな。",
+            "それで『美』にのめり込んだ結果、オネェ化したりしてたけど、",
+            "今は落ち着いて待てるようになったなぁ…。"
+        ]
+    }
+};
+
 function getMobuVersion() {
     const totalTasks = getTotalTasksCompleted();
     if (totalTasks >= 10 && totalTasks < 20) {
@@ -498,14 +552,22 @@ setRecoveryFollowUp(followUpLevel);
                 initialDelay += 1000;
                 appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
                 initialDelay += 1000;
-
-                setTimeout(() => {
-                    if (Math.random() < 0.5) {
-                        startMoodSharing();
-                    } else {
-                        checkAndSetupEvent();
-                    }
-                }, initialDelay + 1000);
+setTimeout(() => {
+    const currentMobuVersion = getMobuVersion();
+    const currentMobuState = localStorage.getItem('mobuState');
+    if (currentMobuVersion !== 'ver1' && currentMobuState === 'normal' && localStorage.getItem('recoveryFollowUp')) {
+        const followUp = getRecoveryFollowUp();
+        const verNum = currentMobuVersion.replace('ver', '');
+        const levelNum = followUp ? followUp.level.replace('lv', '') : '1';
+        showCinematicScene(verNum, levelNum);
+    } else {
+        if (Math.random() < 0.5) {
+            startMoodSharing();
+        } else {
+            checkAndSetupEvent();
+        }
+    }
+}, initialDelay + 1000);
             }
 
         } else if (screenId === 'screen-cafe') {
@@ -1458,6 +1520,48 @@ isRecoveryFollowUpShowing = true;
     clearRecoveryFollowUp();
 setTimeout(() => { isRecoveryFollowUpShowing = false; }, 3000);
     showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'recovery');
+}
+// ===============================================
+// 表3：シネマティック演出表示関数
+// ===============================================
+
+function showCinematicScene(ver, level) {
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+    const verKey = 'ver' + ver;
+    const levelKey = 'onee_lv' + level;
+
+    const rawLines = cinematicDialogues[verKey] && cinematicDialogues[verKey][levelKey];
+    if (!rawLines || rawLines.length === 0) return;
+
+    const lines = rawLines.map(line => line.replace(/○○/g, nickname));
+
+    showScreen('screen-cinematic');
+
+    const subtitleEl = document.getElementById('cinematic-subtitle');
+    let currentIndex = 0;
+
+    subtitleEl.textContent = lines[0];
+
+    const cinematicScreen = document.getElementById('screen-cinematic');
+
+    function handleTap() {
+        currentIndex++;
+        if (currentIndex < lines.length) {
+            subtitleEl.style.opacity = '0';
+            setTimeout(() => {
+                subtitleEl.textContent = lines[currentIndex];
+                subtitleEl.style.transition = 'opacity 0.4s';
+                subtitleEl.style.opacity = '1';
+            }, 300);
+        } else {
+            cinematicScreen.removeEventListener('click', handleTap);
+            playBlinkVideo(() => {
+                showScreen('screen-home');
+            });
+        }
+    }
+
+    cinematicScreen.addEventListener('click', handleTap);
 }
 
 function showOneeNotification() {

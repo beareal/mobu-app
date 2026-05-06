@@ -988,3 +988,127 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     width: 39px;
     height: 39px;
 }
+/* ===============================================
+   シネマティック演出画面
+=============================================== */
+
+#screen-cinematic {
+    background-color: #1a1a1a;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.cinematic-bg {
+    position: absolute;
+    inset: 0;
+    background-color: #888888;
+    z-index: 0;
+}
+
+.cinematic-letterbox {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 12vh;
+    background-color: #000000;
+    z-index: 10;
+}
+
+.cinematic-letterbox-top {
+    top: 0;
+}
+
+.cinematic-letterbox-bottom {
+    bottom: 0;
+}
+
+.cinematic-subtitle-area {
+    position: absolute;
+    bottom: 14vh;
+    left: 0;
+    right: 0;
+    padding: 0 24px;
+    z-index: 11;
+    text-align: center;
+}
+
+.cinematic-subtitle-text {
+    font-family: 'Zen Kurenaido', sans-serif;
+    font-size: 18px;
+    color: #ffffff;
+    line-height: 1.8;
+    text-shadow: 1px 1px 4px rgba(0,0,0,0.8);
+}
+
+/* フィルムグレイン */
+.cinematic-film-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    opacity: 0.08;
+    animation: filmGrain 0.08s steps(1) infinite;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-size: 150px 150px;
+}
+
+@keyframes filmGrain {
+    0%   { background-position: 0 0; }
+    25%  { background-position: -30px 20px; }
+    50%  { background-position: 20px -10px; }
+    75%  { background-position: -10px 30px; }
+    100% { background-position: 15px -20px; }
+}
+
+/* ダスト＆スクラッチ */
+.cinematic-dust {
+    position: absolute;
+    inset: 0;
+    z-index: 6;
+    pointer-events: none;
+    animation: dustMove 3s linear infinite;
+}
+
+.cinematic-dust::before {
+    content: '';
+    position: absolute;
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.6);
+    top: -40px;
+    left: 30%;
+    animation: dustFall 3s linear infinite;
+}
+
+.cinematic-dust::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: rgba(255,255,255,0.8);
+    border-radius: 50%;
+    top: 20%;
+    left: 70%;
+    animation: dustFall 4.5s linear infinite 1.5s;
+}
+
+@keyframes dustFall {
+    0%   { transform: translateY(-10px); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: 1; }
+    100% { transform: translateY(100vh); opacity: 0; }
+}
+
+/* 手ブレ（Camera Shake） */
+#screen-cinematic {
+    animation: cameraShake 4s ease-in-out infinite;
+}
+
+@keyframes cameraShake {
+    0%   { transform: translate(0px, 0px); }
+    20%  { transform: translate(0.4px, -0.3px); }
+    40%  { transform: translate(-0.3px, 0.5px); }
+    60%  { transform: translate(0.5px, 0.2px); }
+    80%  { transform: translate(-0.2px, -0.4px); }
+    100% { transform: translate(0px, 0px); }
+}
