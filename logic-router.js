@@ -553,19 +553,10 @@ setRecoveryFollowUp(followUpLevel);
                 appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
                 initialDelay += 1000;
 setTimeout(() => {
-    const currentMobuVersion = getMobuVersion();
-    const currentMobuState = localStorage.getItem('mobuState');
-    if (currentMobuVersion !== 'ver1' && currentMobuState === 'normal' && localStorage.getItem('recoveryFollowUp')) {
-        const followUp = getRecoveryFollowUp();
-        const verNum = currentMobuVersion.replace('ver', '');
-        const levelNum = followUp ? followUp.level.replace('lv', '') : '1';
-        showCinematicScene(verNum, levelNum);
+    if (Math.random() < 0.5) {
+        startMoodSharing();
     } else {
-        if (Math.random() < 0.5) {
-            startMoodSharing();
-        } else {
-            checkAndSetupEvent();
-        }
+        checkAndSetupEvent();
     }
 }, initialDelay + 1000);
             }
