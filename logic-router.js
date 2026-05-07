@@ -1527,6 +1527,10 @@ function showCinematicScene(ver, level) {
     const lines = rawLines.map(line => line.replace(/○○/g, nickname));
 
     showScreen('screen-cinematic');
+const cinematicBg = document.querySelector('.cinematic-bg');
+if (cinematicBg) {
+    cinematicBg.className = 'cinematic-bg ver' + ver;
+}
 
     const subtitleEl = document.getElementById('cinematic-subtitle');
     let currentIndex = 0;
