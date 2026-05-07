@@ -1003,7 +1003,21 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     position: absolute;
     inset: 0;
     background-color: #888888;
+    background-size: cover;
+    background-position: center;
     z-index: 0;
+}
+
+.cinematic-bg.ver2 {
+    background-image: url('assets/cinema/ver2cinema.png');
+}
+
+.cinematic-bg.ver3 {
+    background-image: url('assets/cinema/ver3cinema.png');
+}
+
+.cinematic-bg.ver4 {
+    background-image: url('assets/cinema/ver4cinema.png');
 }
 
 .cinematic-letterbox {
