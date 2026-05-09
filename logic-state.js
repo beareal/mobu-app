@@ -68,17 +68,22 @@ return parseInt(localStorage.getItem('previousTotalTasks') || '0', 10);
 // Phase 3-5: オネェ化・放置判定ロジック (ここから追加)
 // ===============================================
 
-// アプリのどこかを操作するたびに、この関数を呼んで日時を更新する
-function updateLastLoginDate() {
-const now = new Date();
-// 日付を 'YYYY-MM-DD' の形式で保存（時間を含めると計算が複雑になるため）
-const dateString = now.toISOString().split('T')[0];
-localStorage.setItem('lastLoginDate', dateString);
+// 最後にタスクを完了したゲーム日付を更新・取得する
+function saveLastCompletionGameDate() {
+    localStorage.setItem('lastCompletionGameDate', getGameDate());
 }
 
-// 保存された最後の日付を取得する
-function getLastLoginDate() {
-return localStorage.getItem('lastLoginDate');
+function getLastCompletionGameDate() {
+    return localStorage.getItem('lastCompletionGameDate');
+}
+
+// 復帰プロセス段階2（IINEバナー）の表示待ちフラグ管理
+function setIsWaitingForRecoveryPhase2(value) {
+    localStorage.setItem('isWaitingForRecoveryPhase2', value ? 'true' : 'false');
+}
+
+function getIsWaitingForRecoveryPhase2() {
+    return localStorage.getItem('isWaitingForRecoveryPhase2') === 'true';
 }
 
 // モブ君の現在の状態を保存する（例：'normal', 'onee_lv1'など）

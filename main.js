@@ -143,9 +143,12 @@ setTimeout(() => {
 document.addEventListener('DOMContentLoaded', function() {
     generateUserId(); //
     initializeNotificationFeatures();
-    
+
+    // サボり判定を最初に行う
+    checkAbandonment();
     showSlotMessage();
-    checkAbandonment(); 
+    // 判定後に復帰バナー（段階2）のチェックを行う
+    showRecoveryFollowUpNotification();
  
 
     // ★★★ ここからが最後の仕上げ ★★★

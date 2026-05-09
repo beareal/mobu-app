@@ -1134,6 +1134,12 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
             message: message,
             icon: iconSrc
         }));
+
+        // 重要：復帰プロセス段階2のフラグ消去（バナーをタップした瞬間）
+        if (notificationType === 'recovery') {
+            setIsWaitingForRecoveryPhase2(false);
+        }
+
 markSlotAsShown();
         // 瞬き演出を挟んでLINE画面へ遷移
         replacedBanner.classList.remove('show');
