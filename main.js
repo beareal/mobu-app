@@ -558,7 +558,8 @@ function handleAppLaunchNotification() {
 
     const iineKey = 'iine_display_log';
     const now = Date.now();
-    const today = new Date().toISOString().split('T')[0];
+    const today = getGameDate();
+    
     let iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
 
     if (iineLog.date !== today) {
