@@ -1140,6 +1140,11 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
             setIsWaitingForRecoveryPhase2(false);
         }
 
+        // オネェバナーの既読処理（タップした瞬間）
+        if (notificationType === 'onee') {
+            markOneeMessageShown();
+        }
+
 markSlotAsShown();
         // 瞬き演出を挟んでLINE画面へ遷移
         replacedBanner.classList.remove('show');
@@ -1585,7 +1590,6 @@ function showOneeNotification() {
 
     const message = raw.replace(/○○/g, nickname);
 
-    markOneeMessageShown();
     showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'onee');
 }
 
