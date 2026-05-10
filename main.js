@@ -1,10 +1,10 @@
 // ===============================================
-// Main Logic (イベントリスナ�Eの登録)
+// Main Logic (イベントリスナーの登録)
 // ===============================================
-// ☁E��加: 二重押し防止フラグ
+// ★追加: 二重押し防止フラグ
 let isCompleting = false;
 // ===============================================
-// STEP 4-A: タスクID ↁEカチE��リー背景色マッチE
+// STEP 4-A: タスクID → カテゴリー背景色マップ
 // ===============================================
 const TASK_ICON_MAP = {
     'task-select-1':  'assets/images/icon_hotwater_24.svg',
@@ -84,7 +84,7 @@ function createFlowerSVG() {
     svg.setAttribute('width', '40');
     svg.setAttribute('height', '40');
 
-    // 茎（チェチE��マ�Eク形�E�E
+    // 茎（チェックマーク形）
     const check = document.createElementNS(ns, 'polyline');
     check.setAttribute('points', '8,22 16,30 32,12');
     check.setAttribute('stroke', '#7caf7c');
@@ -94,7 +94,7 @@ function createFlowerSVG() {
     check.setAttribute('stroke-linejoin', 'round');
     svg.appendChild(check);
 
-    // 花びらÁE
+    // 花びら×5
     const petalAngles = [0, 72, 144, 216, 288];
     petalAngles.forEach(angle => {
         const ellipse = document.createElementNS(ns, 'ellipse');
@@ -108,7 +108,7 @@ function createFlowerSVG() {
         svg.appendChild(ellipse);
     });
 
-    // 花の中忁E
+    // 花の中心
     const center = document.createElementNS(ns, 'circle');
     center.setAttribute('cx', '20');
     center.setAttribute('cy', '20');
@@ -120,26 +120,26 @@ function createFlowerSVG() {
 }
 
 // ===============================================
-// STEP 4-B: チップを完亁E��態にする関数
+// STEP 4-B: チップを完了状態にする関数
 // ===============================================
 function completeChip(chipEl) {
     if (chipEl.classList.contains('completed')) return;
 
     chipEl.classList.add('completed');
 
-    // アイコンをお花に差し替ぁE
+    // アイコンをお花に差し替え
     const iconWrap = chipEl.querySelector('.chip-icon-wrap');
 iconWrap.innerHTML = '';
 chipEl.classList.add('checked');
 
-    // Clear! を表示してフェードアウチE
+    // Clear! を表示してフェードアウト
    const clearText = chipEl.querySelector('.chip-clear-text');
 clearText.classList.add('show');
 setTimeout(() => {
     clearText.classList.remove('show');
 }, 2000);
 }
-// DOMが読み込まれたらアプリを�E期化
+// DOMが読み込まれたらアプリを初期化
 document.addEventListener('DOMContentLoaded', function() {
     generateUserId(); //
     initializeNotificationFeatures();
@@ -147,31 +147,31 @@ document.addEventListener('DOMContentLoaded', function() {
     // サボり判定を最初に行う
     checkAbandonment();
     showSlotMessage();
-    // 判定後に復帰バナー�E�段隁E�E��EチェチE��を行う
+    // 判定後に復帰バナー（段階2）のチェックを行う
     showRecoveryFollowUpNotification();
  
 
-    // ☁E�E☁Eここからが最後�E仕上げ ☁E�E☁E
-    // Service WorkerからメチE��ージを受け取るリスナ�E
+    // ★★★ ここからが最後の仕上げ ★★★
+    // Service Workerからメッセージを受け取るリスナー
     navigator.serviceWorker.addEventListener('message', event => {
         if (event.data && event.data.type === 'notification-clicked') {
-            console.log('アプリが開ぁE��ぁE��状態で通知クリチE��を検知�E�E);
+            console.log('アプリが開いている状態で通知クリックを検知！');
             handleOSNotificationClick(event.data.notificationType, event.data.message);
         }
     });
 
-    // アプリ起動時にURLのハッシュをチェチE��
+    // アプリ起動時にURLのハッシュをチェック
     if (window.location.hash) {
         const params = new URLSearchParams(window.location.hash.substring(1));
         const type = params.get('notificationType');
         const message = params.get('message');
         if (type && message) {
-            console.log('URLハッシュから通知クリチE��を検知�E�E);
+            console.log('URLハッシュから通知クリックを検知！');
             handleOSNotificationClick(type, decodeURIComponent(message));
-            // 処琁E��にハッシュをクリアしてリロードによる再実行を防ぁE
+            // 処理後にハッシュをクリアしてリロードによる再実行を防ぐ
             history.replaceState(null, null, ' ');
         }
-    // ☁E�E☁Eここまでが最後�E仕上げ ☁E�E☁E
+    // ★★★ ここまでが最後の仕上げ ★★★
     }
     generateUserId();
     updateHomeTasks();
@@ -187,12 +187,13 @@ if (urlParams.get('from') === 'notification') {
 }
 showSplashScreen();
 
-    // --- 吁E��面のイベントリスナ�Eを登録 ---
+    // --- 各画面のイベントリスナーを登録 ---
 
     // A-1: ウェルカム画面
     const welcomeScreen = document.getElementById('screen-welcome');
     if (welcomeScreen) {
         welcomeScreen.addEventListener('click', function() {
+            updateLastLoginDate();
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 
@@ -231,14 +232,14 @@ showSplashScreen();
         if (nicknameInput && nameScreenButton) {
             nicknameInput.addEventListener('input', function() {
                 const value = this.value;
-                const invalidChars = /[#@%�E�E���E�E/u;
+                const invalidChars = /[#@%＃＠％]/u;
                 if (invalidChars.test(value)) {
-                    errorMessage.textContent = '絵斁E��や特殊記号は使えません';
+                    errorMessage.textContent = '絵文字や特殊記号は使えません';
                     nameScreenButton.disabled = true;
                     return;
                 }
                 if (value.length === 0 || value.length > 10) {
-                    errorMessage.textContent = value.length > 10 ? '10斁E��以冁E��入力してください' : '';
+                    errorMessage.textContent = value.length > 10 ? '10文字以内で入力してください' : '';
                     nameScreenButton.disabled = true;
                     return;
                 }
@@ -248,6 +249,7 @@ showSplashScreen();
 
             nameScreenButton.addEventListener('click', function() {
                 if (this.disabled) return;
+                updateLastLoginDate();
                 const nickname = nicknameInput.value.trim();
                 localStorage.setItem('nickname', nickname);
                 playBlinkVideo(() => {
@@ -266,6 +268,7 @@ showSplashScreen();
         if (taskCheckboxes.length > 0 && taskSelectButton) {
             taskCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
+                    updateLastLoginDate();
                     const checkedCount = taskSelectScreen.querySelectorAll('input[type="checkbox"]:checked').length;
                     if (checkedCount > 3) {
                         this.checked = false;
@@ -276,6 +279,7 @@ showSplashScreen();
 
             taskSelectButton.addEventListener('click', function() {
                 if (this.disabled) return;
+                updateLastLoginDate();
 
                 const selectedTasks = [];
                 const selectedTaskIds = [];
@@ -292,7 +296,7 @@ showSplashScreen();
 
                 const appPhase = localStorage.getItem('appPhase');
                 if (appPhase === 'main_loop') {
-                    alert('タスクを変更しました、E);
+                    alert('タスクを変更しました。');
                     showScreen('screen-home');
                 } else {
                     playBlinkVideo(() => {
@@ -303,7 +307,7 @@ showSplashScreen();
         }
     }
 
-   // B-1: ホ�Eム画面
+   // B-1: ホーム画面
    const homeScreen = document.getElementById('screen-home');
    if (homeScreen) {
        const homeChips = homeScreen.querySelectorAll('.task-chip-home');
@@ -312,7 +316,7 @@ showSplashScreen();
        const settingsIcon = document.getElementById('nav-settings-icon');
    
    
-       // チップをタチE�EしたらチェチE��状態をトグル�E�完亁E��みは無視！E
+       // チップをタップしたらチェック状態をトグル（完了済みは無視）
        homeChips.forEach((chip) => {
            chip.addEventListener('click', function() {
             
@@ -328,25 +332,26 @@ if (checkbox.checked) {
 } else {
     this.classList.remove('checked');
 }
-               // 完亁E�Eタンの活性制御�E�二重押し中も無効化するよぁE��強化！E
+               // 完了ボタンの活性制御（二重押し中も無効化するように強化）
                const checkedCount = homeScreen.querySelectorAll('.chip-checkbox:checked').length;
                homeCompleteButton.disabled = (checkedCount === 0 || isCompleting);
            });
         });
-       // 完亁E�Eタン
+       // 完了ボタン
        homeCompleteButton.addEventListener('click', function() {
-           // ☁E��正: 二重実行�EガーチE
+           // ★修正: 二重実行のガード
            if (this.disabled || isCompleting) return;
            isCompleting = true;
            this.disabled = true;
    
            try {
+               updateLastLoginDate();
    
-               // 今日の上限チェチE���E�EetGameDate基準！E
+               // 今日の上限チェック（getGameDate基準）
                const today = getGameDate();
                const log = getAchievementLog();
                if ((log[today] || 0) >= 3) {
-                   console.log("今日の上限に達してぁE��ぁE);
+                   console.log("今日の上限に達しています");
                    return;
                }
    
@@ -361,19 +366,19 @@ if (checkbox.checked) {
                    }
                });
    
-               // お花演�E
+               // お花演出
                completedIndices.forEach(i => completeChip(homeChips[i]));
    
-               // チE�Eタ保孁E
+               // データ保存
                const currentTotal = getTotalTasksCompleted();
                setPreviousTotalTasks(currentTotal);
                addTasksCompleted(completedTasks.length);
-                              // 最後にタスクを完亁E��たゲーム日付（朝4時基準）を保孁E
+                              // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
 
                recordTodayAchievement(completedTasks.length);
    
-               // 既存�E完亁E��みインチE��クスとマ�Eジして保孁E
+               // 既存の完了済みインデックスとマージして保存
                const existing = getCompletedToday();
                const existingIndices = existing ? existing.taskIndices : [];
                const mergedIndices = [...new Set([...existingIndices, ...completedIndices])];
@@ -391,8 +396,8 @@ if (checkbox.checked) {
                }
    
            } catch (error) {
-               console.error("完亁E�E琁E��にエラーが発生しました:", error);
-               // エラー時�Eボタンを�E度押せるように戻ぁE
+               console.error("完了処理中にエラーが発生しました:", error);
+               // エラー時はボタンを再度押せるように戻す
                isCompleting = false;
                const checkedCount = homeScreen.querySelectorAll('.chip-checkbox:checked').length;
                homeCompleteButton.disabled = (checkedCount === 0);
@@ -401,6 +406,7 @@ if (checkbox.checked) {
    
        if (profileIcon) {
            profileIcon.addEventListener('click', function() {
+               updateLastLoginDate();
                showProfileScreen();
                playProfileRewardAnimationIfNeeded();
            });
@@ -408,6 +414,7 @@ if (checkbox.checked) {
    
        if (settingsIcon) {
            settingsIcon.addEventListener('click', function() {
+               updateLastLoginDate();
                showSettingsScreen();
            });
        }
@@ -418,6 +425,7 @@ if (checkbox.checked) {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
       lineBackIcon.addEventListener('click', function() {
+    updateLastLoginDate();
     const followUp = getRecoveryFollowUp();
     const mobuVersion = getMobuVersion();
     if (followUp && !followUp.shown && mobuVersion !== 'ver1') {
@@ -434,11 +442,12 @@ if (checkbox.checked) {
     const profileBackButton = document.getElementById('profile-back-button');
     if (profileBackButton) {
         profileBackButton.addEventListener('click', function() {
+            updateLastLoginDate();
             showScreen('screen-home');
         });
     }
     
-    // D-3: スタチE��ロール画面
+    // D-3: スタッフロール画面
     const restartButton = document.getElementById('restart-button');
     if (restartButton) {
         restartButton.addEventListener('click', function() {
@@ -453,6 +462,7 @@ if (checkbox.checked) {
     const settingsBackButton = document.getElementById('settings-back-button');
     if (settingsBackButton) {
         settingsBackButton.addEventListener('click', function() {
+            updateLastLoginDate();
             showScreen('screen-home');
         });
     }
@@ -466,28 +476,28 @@ if (checkbox.checked) {
             const newNickname = settingNicknameInput.value.trim();
             if (newNickname && newNickname.length <= 10) {
                 localStorage.setItem('nickname', newNickname);
-                alert('ニックネ�Eムを保存しました�E�E);
+                alert('ニックネームを保存しました！');
             } else {
-                alert('ニックネ�Eムは1斁E��以丁E0斁E��以冁E��入力してください、E);
+                alert('ニックネームは1文字以上10文字以内で入力してください。');
             }
         });
     }
 
     if (resetTasksButton) {
         resetTasksButton.addEventListener('click', function() {
-            const isConfirmed = confirm('本当にタスクを選び直しますか�E�\nこれまでのタスク達�E回数はリセチE��されませんので、ご安忁E��ださい、E);
+            const isConfirmed = confirm('本当にタスクを選び直しますか？\nこれまでのタスク達成回数はリセットされませんので、ご安心ください。');
             if (isConfirmed) {
                 showScreen('screen-task-select');
             }
         });
     }
 
-// --- カレンダーのイベント設定（ここから！E---
+// --- カレンダーのイベント設定（ここから） ---
 const calTitleEl = document.getElementById('cal-title');
 if (calTitleEl) {
     calTitleEl.addEventListener('click', (e) => {
         if (e.detail === 3) {
-            const newVal = window.prompt('累積タスク数を�E力してね', '8');
+            const newVal = window.prompt('累積タスク数を入力してね', '8');
             if (newVal !== null) {
                 localStorage.setItem('totalTasksCompleted', newVal);
                 const today = getGameDate();
@@ -516,23 +526,23 @@ if (calNextEl) {
     });
 }
 
-// カレンダーを現在の表示月で初期匁E
+// カレンダーを現在の表示月で初期化
 renderCalendar(currentCalendarDate || new Date());
-// --- カレンダーのイベント設定（ここまで�E�E---
+// --- カレンダーのイベント設定（ここまで） ---
 
 });
 
 
 /**
- * OSネイチE��ブ通知がクリチE��されたときにフェイク通知をトリガーする
- * @param {string} notificationType - 'periodic' また�E 'onee'
- * @param {string} message - 通知の本斁E
+ * OSネイティブ通知がクリックされたときにフェイク通知をトリガーする
+ * @param {string} notificationType - 'periodic' または 'onee'
+ * @param {string} message - 通知の本文
  */
 function handleOSNotificationClick(notificationType, message) {
     const notificationMap = {
         'periodic': { type: 'periodic', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' },
         'onee': { type: 'onee', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' }, // アイコンは後で変更可能
-        'test': { type: 'test', sender: 'チE��ト君', icon: 'assets/images/mobu_icon_v1.png' }
+        'test': { type: 'test', sender: 'テスト君', icon: 'assets/images/mobu_icon_v1.png' }
     };
     
     const info = notificationMap[notificationType];
@@ -543,7 +553,7 @@ function handleOSNotificationClick(notificationType, message) {
 
 
 /**
- * アプリ起動時の通知表示を管琁E��る（通常起動時のみ�E�E
+ * アプリ起動時の通知表示を管理する（通常起動時のみ）
  */
 function handleAppLaunchNotification() {
     if (document.visibilityState !== 'visible') return;
@@ -575,7 +585,7 @@ function handleAppLaunchNotification() {
 }
 
 
-// Service Workerと通知の初期匁E
+// Service Workerと通知の初期化
 async function initializeNotificationFeatures() {
     if (!('serviceWorker' in navigator)) return;
   
@@ -591,7 +601,7 @@ async function initializeNotificationFeatures() {
     }
 }
 
-// 定時通知の予紁E��ECMト�EクンをlocalStorageに保存するだけ！E
+// 定時通知の予約（FCMトークンをlocalStorageに保存するだけ）
 function schedulePeriodicNotifications(taskIds) {
     const taskTimeMap = {
       'morning': ['task-select-1', 'task-select-3', 'task-select-10'],
@@ -610,20 +620,20 @@ function schedulePeriodicNotifications(taskIds) {
     console.log('通知スケジュールを保存しました:', schedule);
   }
 
-  // 通知許可をユーザー操作後に求めめE
+  // 通知許可をユーザー操作後に求める
 async function requestNotificationPermission() {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      console.log('通知許可が得られました、ECMト�Eクンを取得します、E);
+      console.log('通知許可が得られました。FCMトークンを取得します。');
       const { initializeFCM } = await import('./firebase-config.js');
       await initializeFCM();
     } else {
-      console.log('通知が許可されませんでした、E);
+      console.log('通知が許可されませんでした。');
     }
   }
 
   /**
- * フラチE��ュ画面�E�世界B�E�を表示し、暗転�E�瞬き音で世界Aへ遷移する
+ * フラッシュ画面（世界B）を表示し、暗転＋瞬き音で世界Aへ遷移する
  */
   function showSplashScreen() {
     const fadeOverlay = document.getElementById('fade-overlay');
@@ -638,20 +648,20 @@ async function requestNotificationPermission() {
     showScreen('screen-splash');
 
     setTimeout(() => {
-        // 1回目のパチチE��暗転開姁E
+        // 1回目のパチッ＋暗転開始
         playBlink();
         fadeOverlay.classList.add('active');
 
         setTimeout(() => {
-            // 暗転中にウェルカム画面へ刁E��替ぁE
+            // 暗転中にウェルカム画面へ切り替え
             showScreen('screen-welcome');
 
             setTimeout(() => {
-                // 2回目のパチチE
+                // 2回目のパチッ
                 playBlink();
 
                 setTimeout(() => {
-                    // パチチE�E後に暗転解除
+                    // パチッの後に暗転解除
                     fadeOverlay.classList.remove('active');
                 }, 200);
 
@@ -671,7 +681,7 @@ let currentCalendarDate = new Date();
 function renderCalendar(date) {
     const totalTasks = getTotalTasksCompleted();
 
-    // チE�Eマ設宁E
+    // テーマ設定
     const themes = [
         { color: '#F2C9DB', dark: '#c97fa0' }, // ピンク (0-9)
         { color: '#D0E0FB', dark: '#6a8fd8' }, // ブルー (10-19)
@@ -685,12 +695,12 @@ function renderCalendar(date) {
     const year = date.getFullYear();
     const month = date.getMonth();
     document.getElementById('cal-title').textContent =
-        `${year}年${month + 1}朁E;
+        `${year}年${month + 1}月`;
 
-    // 達�Eログ取征E
+    // 達成ログ取得
     const log = getAchievementLog();
 
-    // 日付セルを生戁E
+    // 日付セルを生成
     const container = document.getElementById('calendar-days');
     container.innerHTML = '';
 
@@ -717,9 +727,9 @@ function renderCalendar(date) {
         dateNum.textContent = d;
         cell.appendChild(dateNum);
 
-        // 達�E日はチューリチE�ESVGを表示
+        // 達成日はチューリップSVGを表示
         if (log[dateStr]) {
-            const count = log[dateStr]; // 1、E
+            const count = log[dateStr]; // 1〜3
             const size = count === 1 ? 12 : count === 2 ? 16 : 20;
 const svg = createTulipSVG(theme.color, theme.dark, size);
 cell.appendChild(svg);
@@ -737,7 +747,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     svg.setAttribute('height', size * 1.25);
     svg.setAttribute('class', 'cal-flower');
 
-    // 茁E
+    // 茎
     const stem = document.createElementNS(ns, 'line');
     stem.setAttribute('x1', '8'); stem.setAttribute('y1', '20');
     stem.setAttribute('x2', '8'); stem.setAttribute('y2', '11');
@@ -746,7 +756,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     stem.setAttribute('stroke-linecap', 'round');
     svg.appendChild(stem);
 
-    // 葁E
+    // 葉
     const leaf = document.createElementNS(ns, 'path');
     leaf.setAttribute('d', 'M8 15 Q5 13 4 10');
     leaf.setAttribute('stroke', stemColor);
@@ -755,7 +765,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     leaf.setAttribute('stroke-linecap', 'round');
     svg.appendChild(leaf);
 
-    // 花びら（左�E�E
+    // 花びら（左）
     const petalL = document.createElementNS(ns, 'ellipse');
     petalL.setAttribute('cx', '6'); petalL.setAttribute('cy', '8');
     petalL.setAttribute('rx', '2.5'); petalL.setAttribute('ry', '4');
@@ -763,7 +773,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     petalL.setAttribute('transform', 'rotate(-15 6 8)');
     svg.appendChild(petalL);
 
-    // 花びら（右�E�E
+    // 花びら（右）
     const petalR = document.createElementNS(ns, 'ellipse');
     petalR.setAttribute('cx', '10'); petalR.setAttribute('cy', '8');
     petalR.setAttribute('rx', '2.5'); petalR.setAttribute('ry', '4');
@@ -771,7 +781,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     petalR.setAttribute('transform', 'rotate(15 10 8)');
     svg.appendChild(petalR);
 
-    // 花びら（中央�E�E
+    // 花びら（中央）
     const petalC = document.createElementNS(ns, 'ellipse');
     petalC.setAttribute('cx', '8'); petalC.setAttribute('cy', '7');
     petalC.setAttribute('rx', '2.2'); petalC.setAttribute('ry', '4');
