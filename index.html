@@ -25,6 +25,22 @@
     </div>
     <!-- 暗転演出用オーバーレイ -->
     <div id="fade-overlay"></div>
+    <!-- IINEバナー（グローバルUIとして最前面に配置） -->
+    <div id="fake-notification-banner" class="fake-notification">
+        <div class="notification-content">
+            <div class="icon-container">
+                <img src="assets/images/mobu_icon_v1.png" alt="icon" id="notification-icon" class="profile-icon">
+                <div class="app-badge">IINE</div>
+            </div>
+            <div class="text-container">
+                <p class="sender-name" id="notification-sender">モブ君</p>
+                <p class="message-text" id="notification-message"></p>
+            </div>
+            <div class="time-stamp">
+                <p id="notification-timestamp">今</p>
+            </div>
+        </div>
+    </div>
 <!-- B-0: フラッシュ画面（世界B） -->
 <div id="screen-splash" class="screen screen-full active">
     <img src="assets/images/splash.jpg" alt="なりたい私とモブ君" class="splash-img">
