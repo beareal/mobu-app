@@ -1,10 +1,10 @@
 // ===============================================
 // Main Logic (イベントリスナーの登録)
 // ===============================================
-// ★追加: 二重押し防止フラグ
+// 追加: 二重押し防止フラグ
 let isCompleting = false;
 // ===============================================
-// STEP 4-A: タスクID → カテゴリー背景色マップ
+// STEP 4-A: タスクID と カテゴリー背景色マッチ
 // ===============================================
 const TASK_ICON_MAP = {
     'task-select-1':  'assets/images/icon_hotwater_24.svg',
@@ -58,7 +58,7 @@ function updateHomeTasks() {
         if (completed && completed.taskIndices.includes(index)) {
             chip.classList.add('completed');
             iconWrap.innerHTML = '';
-chip.classList.add('checked');
+            chip.classList.add('checked');
         } else {
             chip.classList.remove('completed', 'checked');
             iconWrap.innerHTML = '';
@@ -84,7 +84,7 @@ function createFlowerSVG() {
     svg.setAttribute('width', '40');
     svg.setAttribute('height', '40');
 
-    // 茎（チェックマーク形）
+    // 茎（チェックマーク形式）
     const check = document.createElementNS(ns, 'polyline');
     check.setAttribute('points', '8,22 16,30 32,12');
     check.setAttribute('stroke', '#7caf7c');
@@ -94,7 +94,7 @@ function createFlowerSVG() {
     check.setAttribute('stroke-linejoin', 'round');
     svg.appendChild(check);
 
-    // 花びら×5
+    // 花びら
     const petalAngles = [0, 72, 144, 216, 288];
     petalAngles.forEach(angle => {
         const ellipse = document.createElementNS(ns, 'ellipse');
@@ -127,35 +127,41 @@ function completeChip(chipEl) {
 
     chipEl.classList.add('completed');
 
-    // アイコンをお花に差し替え
+    // アイコンをお花に差し替える
     const iconWrap = chipEl.querySelector('.chip-icon-wrap');
-iconWrap.innerHTML = '';
-chipEl.classList.add('checked');
+    iconWrap.innerHTML = '';
+    chipEl.classList.add('checked');
 
     // Clear! を表示してフェードアウト
-   const clearText = chipEl.querySelector('.chip-clear-text');
-clearText.classList.add('show');
-setTimeout(() => {
-    clearText.classList.remove('show');
-}, 2000);
+    const clearText = chipEl.querySelector('.chip-clear-text');
+    clearText.classList.add('show');
+    setTimeout(() => {
+        clearText.classList.remove('show');
+    }, 2000);
 }
 // DOMが読み込まれたらアプリを初期化
 document.addEventListener('DOMContentLoaded', function() {
     generateUserId(); //
     initializeNotificationFeatures();
 
-    // サボり判定を最初に行う
+      // 1. サボり判定を実行（ここで状態が更新される）
     checkAbandonment();
-    showSlotMessage();
-    // 判定後に復帰バナー（段階2）のチェックを行う
-    showRecoveryFollowUpNotification();
- 
 
-    // ★★★ ここからが最後の仕上げ ★★★
+    // 2. 表示の振り分け
+    if (getMobuState() !== 'normal') {
+        // サボり中なら「オネェ化バナー」を最優先で表示
+        showOneeNotification();
+    } else {
+        // 通常状態なら「定時バナー」または「復帰バナー（段階2）」を表示
+        showSlotMessage();
+        showRecoveryFollowUpNotification();
+    }
+
+    // ✨✨ここからが最後の仕上げ ✨✨
     // Service Workerからメッセージを受け取るリスナー
     navigator.serviceWorker.addEventListener('message', event => {
         if (event.data && event.data.type === 'notification-clicked') {
-            console.log('アプリが開いている状態で通知クリックを検知！');
+            console.log('アプリが開いた状態で通知クリックを検知');
             handleOSNotificationClick(event.data.notificationType, event.data.message);
         }
     });
@@ -166,26 +172,26 @@ document.addEventListener('DOMContentLoaded', function() {
         const type = params.get('notificationType');
         const message = params.get('message');
         if (type && message) {
-            console.log('URLハッシュから通知クリックを検知！');
+            console.log('URLハッシュから通知クリックを検知');
             handleOSNotificationClick(type, decodeURIComponent(message));
             // 処理後にハッシュをクリアしてリロードによる再実行を防ぐ
             history.replaceState(null, null, ' ');
         }
-    // ★★★ ここまでが最後の仕上げ ★★★
+    // ✨✨ここまでが最後の仕上げ ✨✨
     }
     generateUserId();
     updateHomeTasks();
     const urlParams = new URLSearchParams(window.location.search);
-if (urlParams.get('from') === 'notification') {
-    history.replaceState(null, null, window.location.pathname);
-    const appPhase = localStorage.getItem('appPhase');
-    if (appPhase === 'main_loop') {
-        updateHomeTasks();
-        showScreen('screen-home');
-        return;
+    if (urlParams.get('from') === 'notification') {
+        history.replaceState(null, null, window.location.pathname);
+        const appPhase = localStorage.getItem('appPhase');
+        if (appPhase === 'main_loop') {
+            updateHomeTasks();
+            showScreen('screen-home');
+            return;
+        }
     }
-}
-showSplashScreen();
+    showSplashScreen();
 
     // --- 各画面のイベントリスナーを登録 ---
 
@@ -193,7 +199,6 @@ showSplashScreen();
     const welcomeScreen = document.getElementById('screen-welcome');
     if (welcomeScreen) {
         welcomeScreen.addEventListener('click', function() {
-            
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 
@@ -208,18 +213,18 @@ showSplashScreen();
                     updateHomeTasks();
                     showScreen('screen-home');
                } else {
-    const selectedTasks = localStorage.getItem('selectedTasks');
-    if (!selectedTasks) {
-        showScreen('screen-task-select');
-    } else {
-        updateHomeTasks();
-        showScreen('screen-home');
-    }
-}
+                    const selectedTasks = localStorage.getItem('selectedTasks');
+                    if (!selectedTasks) {
+                        showScreen('screen-task-select');
+                    } else {
+                        updateHomeTasks();
+                        showScreen('screen-home');
+                    }
+                }
             } else {
                 showScreen('screen-name');
             }
-            });
+        });
     }
 
     // A-2: 名前入力画面
@@ -232,7 +237,7 @@ showSplashScreen();
         if (nicknameInput && nameScreenButton) {
             nicknameInput.addEventListener('input', function() {
                 const value = this.value;
-                const invalidChars = /[#@%＃＠％]/u;
+                const invalidChars = /[#@%]/u;
                 if (invalidChars.test(value)) {
                     errorMessage.textContent = '絵文字や特殊記号は使えません';
                     nameScreenButton.disabled = true;
@@ -249,7 +254,6 @@ showSplashScreen();
 
             nameScreenButton.addEventListener('click', function() {
                 if (this.disabled) return;
-                
                 const nickname = nicknameInput.value.trim();
                 localStorage.setItem('nickname', nickname);
                 playBlinkVideo(() => {
@@ -268,7 +272,6 @@ showSplashScreen();
         if (taskCheckboxes.length > 0 && taskSelectButton) {
             taskCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
-                   
                     const checkedCount = taskSelectScreen.querySelectorAll('input[type="checkbox"]:checked').length;
                     if (checkedCount > 3) {
                         this.checked = false;
@@ -291,11 +294,10 @@ showSplashScreen();
                 updateHomeTasks();
                 
                 schedulePeriodicNotifications(selectedTaskIds);
-             
 
                 const appPhase = localStorage.getItem('appPhase');
                 if (appPhase === 'main_loop') {
-                    alert('タスクを変更しました。');
+                    alert('タスクを変更しました');
                     showScreen('screen-home');
                 } else {
                     playBlinkVideo(() => {
@@ -315,23 +317,23 @@ showSplashScreen();
        const settingsIcon = document.getElementById('nav-settings-icon');
    
    
-       // チップをタップしたらチェック状態をトグル（完了済みは無視）
+       // チップをタップしたらチェック状態をトグル（完了済みは無視！）
        homeChips.forEach((chip) => {
            chip.addEventListener('click', function() {
             
                if (this.classList.contains('completed')) return;
                const checkbox = this.querySelector('.chip-checkbox');
                checkbox.checked = !checkbox.checked;
-  const iconWrap = this.querySelector('.chip-icon-wrap');
-if (checkbox.checked) {
-    this.classList.add('checked');
-    const clearText = this.querySelector('.chip-clear-text');
-    clearText.classList.add('show');
-    setTimeout(() => clearText.classList.remove('show'), 2000);
-} else {
-    this.classList.remove('checked');
-}
-               // 完了ボタンの活性制御（二重押し中も無効化するように強化）
+               const iconWrap = this.querySelector('.chip-icon-wrap');
+               if (checkbox.checked) {
+                   this.classList.add('checked');
+                   const clearText = this.querySelector('.chip-clear-text');
+                   clearText.classList.add('show');
+                   setTimeout(() => clearText.classList.remove('show'), 2000);
+               } else {
+                   this.classList.remove('checked');
+               }
+               // 完了ボタンの活性制御（二重押し中も無効化）
                const checkedCount = homeScreen.querySelectorAll('.chip-checkbox:checked').length;
                homeCompleteButton.disabled = (checkedCount === 0 || isCompleting);
            });
@@ -344,7 +346,7 @@ if (checkbox.checked) {
            this.disabled = true;
    
            try {
-            
+   
                // 今日の上限チェック（getGameDate基準）
                const today = getGameDate();
                const log = getAchievementLog();
@@ -371,7 +373,7 @@ if (checkbox.checked) {
                const currentTotal = getTotalTasksCompleted();
                setPreviousTotalTasks(currentTotal);
                addTasksCompleted(completedTasks.length);
-                              // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
+               // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
 
                recordTodayAchievement(completedTasks.length);
@@ -395,7 +397,7 @@ if (checkbox.checked) {
    
            } catch (error) {
                console.error("完了処理中にエラーが発生しました:", error);
-               // エラー時はボタンを再度押せるように戻す
+               // エラー時のボタンを再度押せるように戻す
                isCompleting = false;
                const checkedCount = homeScreen.querySelectorAll('.chip-checkbox:checked').length;
                homeCompleteButton.disabled = (checkedCount === 0);
@@ -404,7 +406,6 @@ if (checkbox.checked) {
    
        if (profileIcon) {
            profileIcon.addEventListener('click', function() {
-               
                showProfileScreen();
                playProfileRewardAnimationIfNeeded();
            });
@@ -412,7 +413,6 @@ if (checkbox.checked) {
    
        if (settingsIcon) {
            settingsIcon.addEventListener('click', function() {
-            
                showSettingsScreen();
            });
        }
@@ -422,25 +422,23 @@ if (checkbox.checked) {
     // C-2: LINE画面
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
-      lineBackIcon.addEventListener('click', function() {
-
-    const followUp = getRecoveryFollowUp();
-    const mobuVersion = getMobuVersion();
-    if (followUp && !followUp.shown && mobuVersion !== 'ver1') {
-        const verNum = mobuVersion.replace('ver', '');
-        const levelNum = followUp.level.replace('lv', '');
-        showCinematicScene(verNum, levelNum);
-    } else {
-        showScreen('screen-home');
-    }
-});
+        lineBackIcon.addEventListener('click', function() {
+            const followUp = getRecoveryFollowUp();
+            const mobuVersion = getMobuVersion();
+            if (followUp && !followUp.shown && mobuVersion !== 'ver1') {
+                const verNum = mobuVersion.replace('ver', '');
+                const levelNum = followUp.level.replace('lv', '');
+                showCinematicScene(verNum, levelNum);
+            } else {
+                showScreen('screen-home');
+            }
+        });
     }
 
     // B-3: プロフィール画面
     const profileBackButton = document.getElementById('profile-back-button');
     if (profileBackButton) {
         profileBackButton.addEventListener('click', function() {
-            
             showScreen('screen-home');
         });
     }
@@ -460,7 +458,6 @@ if (checkbox.checked) {
     const settingsBackButton = document.getElementById('settings-back-button');
     if (settingsBackButton) {
         settingsBackButton.addEventListener('click', function() {
-        
             showScreen('screen-home');
         });
     }
@@ -474,23 +471,23 @@ if (checkbox.checked) {
             const newNickname = settingNicknameInput.value.trim();
             if (newNickname && newNickname.length <= 10) {
                 localStorage.setItem('nickname', newNickname);
-                alert('ニックネームを保存しました！');
+                alert('ニックネームを保存しました');
             } else {
-                alert('ニックネームは1文字以上10文字以内で入力してください。');
+                alert('ニックネームは1文字以上10文字以内で入力してください');
             }
         });
     }
 
     if (resetTasksButton) {
         resetTasksButton.addEventListener('click', function() {
-            const isConfirmed = confirm('本当にタスクを選び直しますか？\nこれまでのタスク達成回数はリセットされませんので、ご安心ください。');
+            const isConfirmed = confirm('本当にタスクを選び直しますか？\nこれまでのタスク達成回数はリセットされませんので、ご安心ください');
             if (isConfirmed) {
                 showScreen('screen-task-select');
             }
         });
     }
 
-// --- カレンダーのイベント設定（ここから） ---
+// --- カレンダーのイベント設定（ここから！） ---
 const calTitleEl = document.getElementById('cal-title');
 if (calTitleEl) {
     calTitleEl.addEventListener('click', (e) => {
@@ -539,7 +536,7 @@ renderCalendar(currentCalendarDate || new Date());
 function handleOSNotificationClick(notificationType, message) {
     const notificationMap = {
         'periodic': { type: 'periodic', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' },
-        'onee': { type: 'onee', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' }, // アイコンは後で変更可能
+        'onee': { type: 'onee', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' },
         'test': { type: 'test', sender: 'テスト君', icon: 'assets/images/mobu_icon_v1.png' }
     };
     
@@ -591,15 +588,15 @@ async function initializeNotificationFeatures() {
         const registration = await navigator.serviceWorker.register('/mobu-app/sw.js');
         console.log('Service Worker登録成功:', registration);
         document.addEventListener('DOMContentLoaded', async function() {
-        setupForegroundMessageHandler();
-        await requestNotificationPermission();
+            setupForegroundMessageHandler();
+            await requestNotificationPermission();
         });
     } catch (error) {
         console.error('初期化エラー:', error);
     }
 }
 
-// 定時通知の予約（FCMトークンをlocalStorageに保存するだけ）
+// 定時通知の予約（FCMトークン）をlocalStorageに保存するだけ！
 function schedulePeriodicNotifications(taskIds) {
     const taskTimeMap = {
       'morning': ['task-select-1', 'task-select-3', 'task-select-10'],
@@ -616,24 +613,24 @@ function schedulePeriodicNotifications(taskIds) {
   
     localStorage.setItem('notificationSchedule', JSON.stringify(schedule));
     console.log('通知スケジュールを保存しました:', schedule);
-  }
+}
 
-  // 通知許可をユーザー操作後に求める
+// 通知許可をユーザー操作後に求める
 async function requestNotificationPermission() {
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-      console.log('通知許可が得られました。FCMトークンを取得します。');
+      console.log('通知許可が得られました。FCMトークンを取得します');
       const { initializeFCM } = await import('./firebase-config.js');
       await initializeFCM();
     } else {
-      console.log('通知が許可されませんでした。');
+      console.log('通知が許可されませんでした');
     }
-  }
+}
 
-  /**
- * フラッシュ画面（世界B）を表示し、暗転＋瞬き音で世界Aへ遷移する
+/**
+ * フラッシュ画面（世界B）を表示し、暗転・瞬き音で世界Aへ遷移する
  */
-  function showSplashScreen() {
+function showSplashScreen() {
     const fadeOverlay = document.getElementById('fade-overlay');
 
     const playBlink = () => {
@@ -646,7 +643,7 @@ async function requestNotificationPermission() {
     showScreen('screen-splash');
 
     setTimeout(() => {
-        // 1回目のパチッ＋暗転開始
+        // 1回目の瞬き演出（暗転開始）
         playBlink();
         fadeOverlay.classList.add('active');
 
@@ -655,11 +652,11 @@ async function requestNotificationPermission() {
             showScreen('screen-welcome');
 
             setTimeout(() => {
-                // 2回目のパチッ
+                // 2回目の瞬き演出
                 playBlink();
 
                 setTimeout(() => {
-                    // パチッの後に暗転解除
+                    // 演出後に暗転解除
                     fadeOverlay.classList.remove('active');
                 }, 200);
 
@@ -727,10 +724,10 @@ function renderCalendar(date) {
 
         // 達成日はチューリップSVGを表示
         if (log[dateStr]) {
-            const count = log[dateStr]; // 1〜3
+            const count = log[dateStr]; // 1回達成
             const size = count === 1 ? 12 : count === 2 ? 16 : 20;
-const svg = createTulipSVG(theme.color, theme.dark, size);
-cell.appendChild(svg);
+            const svg = createTulipSVG(theme.color, theme.dark, size);
+            cell.appendChild(svg);
         }
 
         container.appendChild(cell);
@@ -763,7 +760,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     leaf.setAttribute('stroke-linecap', 'round');
     svg.appendChild(leaf);
 
-    // 花びら（左）
+    // 花びら（左側）
     const petalL = document.createElementNS(ns, 'ellipse');
     petalL.setAttribute('cx', '6'); petalL.setAttribute('cy', '8');
     petalL.setAttribute('rx', '2.5'); petalL.setAttribute('ry', '4');
@@ -771,7 +768,7 @@ function createTulipSVG(petalColor, stemColor, size) {
     petalL.setAttribute('transform', 'rotate(-15 6 8)');
     svg.appendChild(petalL);
 
-    // 花びら（右）
+    // 花びら（右側）
     const petalR = document.createElementNS(ns, 'ellipse');
     petalR.setAttribute('cx', '10'); petalR.setAttribute('cy', '8');
     petalR.setAttribute('rx', '2.5'); petalR.setAttribute('ry', '4');

@@ -1592,6 +1592,10 @@ function showOneeNotification() {
 function showSlotMessage() {
     if (hasShownInCurrentSlot()) return;
 
+        // オネェ状態（サボり中）なら通常メッセージは表示しない
+    if (getMobuState() !== 'normal') return;
+
+
     const result = pickDialogue();
     if (!result) return;
 

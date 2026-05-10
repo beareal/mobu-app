@@ -104,10 +104,18 @@ function checkAbandonment() {
     const lastCompDateStr = getLastCompletionGameDate();
     const totalTasks = getTotalTasksCompleted();
 
-    // 1回も完了したことがないユーザーは判定対象外
-    if (totalTasks === 0 || !lastCompDateStr) {
+      // 1回も完了したことがないユーザーは判定対象外
+    if (totalTasks === 0) {
         return;
     }
+
+    // 累計はあるが完了日データがない（古いバージョンからの移行）場合、
+    // 異常な日数を計算しないよう、今日を基準日に初期化して終了する
+    if (!lastCompDateStr) {
+        saveLastCompletionGameDate();
+        return;
+    }
+
 
     const todayStr = getGameDate();
     if (todayStr === lastCompDateStr) {
