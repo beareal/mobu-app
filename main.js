@@ -373,6 +373,9 @@ if (checkbox.checked) {
                const currentTotal = getTotalTasksCompleted();
                setPreviousTotalTasks(currentTotal);
                addTasksCompleted(completedTasks.length);
+                              // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
+               saveLastCompletionGameDate();
+
                recordTodayAchievement(completedTasks.length);
    
                // 既存の完了済みインデックスとマージして保存

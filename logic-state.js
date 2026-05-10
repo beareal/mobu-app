@@ -97,6 +97,48 @@ return localStorage.getItem('mobuState') || 'normal';
 }
 
 /**
+ * 最後に完了した日付との差分を計算し、サボり判定を行う（朝4時リセット基準）
+ * 要件：累計1回以上の完了者が対象。差分1日以上でサボり確定。
+ */
+function checkAbandonment() {
+    const lastCompDateStr = getLastCompletionGameDate();
+    const totalTasks = getTotalTasksCompleted();
+
+    // 1回も完了したことがないユーザーは判定対象外
+    if (totalTasks === 0 || !lastCompDateStr) {
+        return;
+    }
+
+    const todayStr = getGameDate();
+    if (todayStr === lastCompDateStr) {
+        return; // 今日すでに達成済み
+    }
+
+    // 文字列(YYYY-MM-DD)をDateオブジェクトに変換して差分日数を計算
+    const todayDate = new Date(todayStr);
+    const lastDate  = new Date(lastCompDateStr);
+    const diffTime  = todayDate.getTime() - lastDate.getTime();
+    // 朝4時基準の日付文字列同士の差分なので、単純な24時間割で日数が算出されます
+    const diffDays  = Math.round(diffTime / (1000 * 60 * 60 * 24));
+
+    if (diffDays >= 1) {
+        // 重要：新たなサボりが確定したため、未読の復帰メッセージフラグ（段階2）を破棄
+        setIsWaitingForRecoveryPhase2(false);
+
+        // 放置日数に直結したレベル決定（レベルスキップ対応：10日放置なら即Lv3）
+        if (diffDays >= 10) {
+            setMobuState('onee_lv3');
+        } else if (diffDays >= 4) {
+            setMobuState('onee_lv2');
+        } else {
+            setMobuState('onee_lv1');
+        }
+        console.log(`サボり確定: ${diffDays}日放置。状態: ${getMobuState()}`);
+    }
+}
+
+
+/**
  * 最終ログインからの経過日数を計算し、モブ君の状態を更新する
  */
 function checkAbandonment() {
