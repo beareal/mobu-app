@@ -193,7 +193,7 @@ showSplashScreen();
     const welcomeScreen = document.getElementById('screen-welcome');
     if (welcomeScreen) {
         welcomeScreen.addEventListener('click', function() {
-            updateLastLoginDate();
+            
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 
@@ -249,7 +249,7 @@ showSplashScreen();
 
             nameScreenButton.addEventListener('click', function() {
                 if (this.disabled) return;
-                updateLastLoginDate();
+                
                 const nickname = nicknameInput.value.trim();
                 localStorage.setItem('nickname', nickname);
                 playBlinkVideo(() => {
@@ -268,7 +268,7 @@ showSplashScreen();
         if (taskCheckboxes.length > 0 && taskSelectButton) {
             taskCheckboxes.forEach(checkbox => {
                 checkbox.addEventListener('change', function() {
-                    updateLastLoginDate();
+                   
                     const checkedCount = taskSelectScreen.querySelectorAll('input[type="checkbox"]:checked').length;
                     if (checkedCount > 3) {
                         this.checked = false;
@@ -279,7 +279,6 @@ showSplashScreen();
 
             taskSelectButton.addEventListener('click', function() {
                 if (this.disabled) return;
-                updateLastLoginDate();
 
                 const selectedTasks = [];
                 const selectedTaskIds = [];
@@ -345,8 +344,7 @@ if (checkbox.checked) {
            this.disabled = true;
    
            try {
-               updateLastLoginDate();
-   
+            
                // 今日の上限チェック（getGameDate基準）
                const today = getGameDate();
                const log = getAchievementLog();
@@ -406,7 +404,7 @@ if (checkbox.checked) {
    
        if (profileIcon) {
            profileIcon.addEventListener('click', function() {
-               updateLastLoginDate();
+               
                showProfileScreen();
                playProfileRewardAnimationIfNeeded();
            });
@@ -414,7 +412,7 @@ if (checkbox.checked) {
    
        if (settingsIcon) {
            settingsIcon.addEventListener('click', function() {
-               updateLastLoginDate();
+            
                showSettingsScreen();
            });
        }
@@ -425,7 +423,7 @@ if (checkbox.checked) {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
       lineBackIcon.addEventListener('click', function() {
-    updateLastLoginDate();
+
     const followUp = getRecoveryFollowUp();
     const mobuVersion = getMobuVersion();
     if (followUp && !followUp.shown && mobuVersion !== 'ver1') {
@@ -442,7 +440,7 @@ if (checkbox.checked) {
     const profileBackButton = document.getElementById('profile-back-button');
     if (profileBackButton) {
         profileBackButton.addEventListener('click', function() {
-            updateLastLoginDate();
+            
             showScreen('screen-home');
         });
     }
@@ -462,7 +460,7 @@ if (checkbox.checked) {
     const settingsBackButton = document.getElementById('settings-back-button');
     if (settingsBackButton) {
         settingsBackButton.addEventListener('click', function() {
-            updateLastLoginDate();
+        
             showScreen('screen-home');
         });
     }
