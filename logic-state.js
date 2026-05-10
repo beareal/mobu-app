@@ -137,48 +137,6 @@ function checkAbandonment() {
     }
 }
 
-
-/**
- * 最終ログインからの経過日数を計算し、モブ君の状態を更新する
- */
-function checkAbandonment() {
-    const lastLoginDateStr = getLastLoginDate();
-    if (!lastLoginDateStr) {
-        // ログイン履歴がなければ何もしない（初回起動時など）
-        updateLastLoginDate(); // 今日の日付を記録だけしておく
-        return;
-    }
-
-    // --- タイムゾーンの影響を受けない、より安全な日付比較 ---
-    const today = new Date();
-    // 時間を切り捨てた「今日の日付」のオブジェクトを作成
-    const today_date_only = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-
-    const lastLogin = new Date(lastLoginDateStr);
-    // 時間を切り捨てた「最後のログイン日」のオブジェクトを作成
-    const lastLogin_date_only = new Date(lastLogin.getFullYear(), lastLogin.getMonth(), lastLogin.getDate());
-    
-    const diffTime = Math.abs(today_date_only - lastLogin_date_only);
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    // --- ここまでが修正箇所 ---
-
-    // 資料7に基づき、放置日数に応じて状態を決定
-    if (diffDays >= 1 && diffDays <= 3) {
-        setMobuState('onee_lv1');
-    } else if (diffDays >= 4 && diffDays <= 9) {
-        setMobuState('onee_lv2');
-    } else if (diffDays >= 10) {
-        setMobuState('onee_lv3');
-    } else {
-        // 放置日数が0日（つまり今日ログイン済み）の場合は、通常状態に戻す
-        setMobuState('normal');
-    }
-
-    // 最後に、今日のログイン日時を更新する
-    updateLastLoginDate();
-}
-
-
 // ===============================================
 // Phase 5-1.5: プロフィール画面の演出管理
 // ===============================================
