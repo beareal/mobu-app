@@ -1509,18 +1509,29 @@ const recoveryFollowUpDialogues = {
 let isRecoveryFollowUpShowing = false;
 function showRecoveryFollowUpNotification() {
     if (isRecoveryFollowUpShowing) return;
-isRecoveryFollowUpShowing = true;
-    const followUp = getRecoveryFollowUp();
-    if (!followUp || followUp.shown) return;
+
+    // 新しい仕様のフラグをチェック (仕様書 5-1)
+    if (!getIsWaitingForRecoveryPhase2()) return;
+
+    isRecoveryFollowUpShowing = true;
+
+    // 放置日数（abandonDays）に基づいてセリフのレベルを決定 (仕様書 3-1)
+    const days = getAbandonDays();
+    let level = 'lv1';
+    if (days >= 10) level = 'lv3';
+    else if (days >= 4) level = 'lv2';
 
     const nickname = localStorage.getItem('nickname') || 'あなた';
-    const raw = recoveryFollowUpDialogues[followUp.level];
-    if (!raw) return;
+    const raw = recoveryFollowUpDialogues[level];
+    if (!raw) {
+        isRecoveryFollowUpShowing = false;
+        return;
+    }
 
     const message = raw.replace(/○○/g, nickname);
 
-    clearRecoveryFollowUp();
-setTimeout(() => { isRecoveryFollowUpShowing = false; }, 3000);
+    // バナータップまでフラグは消さない（仕様書 5-3 遵守）
+    setTimeout(() => { isRecoveryFollowUpShowing = false; }, 3000);
     showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'recovery');
 }
 // ===============================================
