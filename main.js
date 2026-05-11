@@ -158,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
         showSlotMessage();
     }
 
-    // ✨✨ここからが最後の仕上げ ✨✨
+    // ここからが最後の仕上げ 
     // Service Workerからメッセージを受け取るリスナー
     navigator.serviceWorker.addEventListener('message', event => {
         if (event.data && event.data.type === 'notification-clicked') {
