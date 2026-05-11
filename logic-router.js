@@ -1569,13 +1569,7 @@ if (cinematicBg) {
 
     cinematicScreen.addEventListener('click', handleTap);
 }
-function canShowOneeMessage() {
-    return true;
-}
 
-function getRecoveryFollowUp() {
-    return null;
-}
 function showOneeNotification() {
     const mobuState = getMobuState();
     if (mobuState === 'normal') return;
