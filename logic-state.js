@@ -86,6 +86,18 @@ function getIsWaitingForRecoveryPhase2() {
     return localStorage.getItem('isWaitingForRecoveryPhase2') === 'true';
 }
 
+/**
+ * サボり日数（abandonDays）を保存・取得する
+ * 仕様書 3-3, 7 の要件に基づき追加
+ */
+function setAbandonDays(days) {
+    localStorage.setItem('abandonDays', days.toString());
+}
+
+function getAbandonDays() {
+    return parseInt(localStorage.getItem('abandonDays') || '0', 10);
+}
+
 // モブ君の現在の状態を保存する（例：'normal', 'onee_lv1'など）
 function setMobuState(state) {
 localStorage.setItem('mobuState', state);
