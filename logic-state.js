@@ -101,48 +101,8 @@ return localStorage.getItem('mobuState') || 'normal';
  * 要件：累計1回以上の完了者が対象。差分1日以上でサボり確定。
  */
 function checkAbandonment() {
-    const lastCompDateStr = getLastCompletionGameDate();
-    const totalTasks = getTotalTasksCompleted();
-
-      // 1回も完了したことがないユーザーは判定対象外
-    if (totalTasks === 0) {
-        return;
-    }
-
-    // 累計はあるが完了日データがない（古いバージョンからの移行）場合、
-    // 異常な日数を計算しないよう、今日を基準日に初期化して終了する
-    if (!lastCompDateStr) {
-        saveLastCompletionGameDate();
-        return;
-    }
-
-
-    const todayStr = getGameDate();
-    if (todayStr === lastCompDateStr) {
-        return; // 今日すでに達成済み
-    }
-
-    // 文字列(YYYY-MM-DD)をDateオブジェクトに変換して差分日数を計算
-    const todayDate = new Date(todayStr);
-    const lastDate  = new Date(lastCompDateStr);
-    const diffTime  = todayDate.getTime() - lastDate.getTime();
-    // 朝4時基準の日付文字列同士の差分なので、単純な24時間割で日数が算出されます
-    const diffDays  = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-    if (diffDays >= 1) {
-        // 重要：新たなサボりが確定したため、未読の復帰メッセージフラグ（段階2）を破棄
-        setIsWaitingForRecoveryPhase2(false);
-
-        // 放置日数に直結したレベル決定（レベルスキップ対応：10日放置なら即Lv3）
-        if (diffDays >= 10) {
-            setMobuState('onee_lv3');
-        } else if (diffDays >= 4) {
-            setMobuState('onee_lv2');
-        } else {
-            setMobuState('onee_lv1');
-        }
-        console.log(`サボり確定: ${diffDays}日放置。状態: ${getMobuState()}`);
-    }
+    // STEP 2 で新しい判定エンジンをここに実装します。
+    // 現時点では、不具合防止のため古いロジックを物理削除しました。
 }
 
 // ===============================================
@@ -197,14 +157,6 @@ function resetAllData() {
 // カレンダー用：達成日の記録管理
 // ===============================================
 
-function recordTodayAchievement(count) {
-    const today = new Date().toISOString().split('T')[0];
-    const data = JSON.parse(localStorage.getItem('achievementLog') || '{}');
-    const existing = data[today] || 0;
-    data[today] = Math.min(existing + count, 3); // 最大3で上限を設ける
-    localStorage.setItem('achievementLog', JSON.stringify(data));
-}
-
 function getAchievementLog() {
     return JSON.parse(localStorage.getItem('achievementLog') || '{}');
 }
@@ -249,85 +201,6 @@ function saveCompletedToday(taskIndices) {
         taskIndices: taskIndices
     };
     localStorage.setItem('completedToday', JSON.stringify(data));
-}
-// ===============================================
-// 表1：オネェ化セリフ 表示済み管理
-// ===============================================
-
-function getOneeDialogueLog() {
-    return JSON.parse(localStorage.getItem('oneeDialogueLog') || '{"lv1":[],"lv2":[],"lv3":[]}');
-}
-
-function saveOneeDialogueLog(log) {
-    localStorage.setItem('oneeDialogueLog', JSON.stringify(log));
-}
-
-// ===============================================
-// 表1：オネェ化バナー 表示条件チェック
-// ===============================================
-// ===============================================
-// 表2：復帰フォローアップ状態の管理
-// ===============================================
-
-function setRecoveryFollowUp(level) {
-    const data = { level: level, shown: false };
-    localStorage.setItem('recoveryFollowUp', JSON.stringify(data));
-}
-
-function getRecoveryFollowUp() {
-    const raw = localStorage.getItem('recoveryFollowUp');
-    if (!raw) return null;
-    return JSON.parse(raw);
-}
-
-function clearRecoveryFollowUp() {
-    localStorage.removeItem('recoveryFollowUp');
-}
-
-function canShowOneeMessage() {
-    const raw = localStorage.getItem('oneeMessageShownAt');
-    const today = getGameDate();
-
-    // 条件B：今日のAM4:00以降まだ表示していないか
-    const shownDate = raw ? JSON.parse(raw).date : null;
-    if (shownDate === today) return false;
-
-    // 条件A：前回表示から12時間以上経過しているか
-    const lastTime = raw ? JSON.parse(raw).time : 0;
-    const twelveHours = 12 * 60 * 60 * 1000;
-    if (Date.now() - lastTime < twelveHours) return false;
-
-    return true;
-}
-
-function markOneeMessageShown() {
-    const data = {
-        date: getGameDate(),
-        time: Date.now()
-    };
-    localStorage.setItem('oneeMessageShownAt', JSON.stringify(data));
-}
-
-function getNextOneeDialogue(level) {
-    const log = getOneeDialogueLog();
-    const key = 'lv' + level;
-    const all = oneeNotificationDialogues['onee_' + key];
-    if (!all || all.length === 0) return null;
-
-    let shown = log[key] || [];
-    let candidates = all.filter((_, i) => !shown.includes(i));
-
-    if (candidates.length === 0) {
-        log[key] = [];
-        saveOneeDialogueLog(log);
-        candidates = all;
-        shown = [];
-    }
-
-    const chosenIndex = all.indexOf(candidates[Math.floor(Math.random() * candidates.length)]);
-    log[key].push(chosenIndex);
-    saveOneeDialogueLog(log);
-    return all[chosenIndex];
 }
 
 function getCompletedToday() {
