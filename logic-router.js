@@ -1140,7 +1140,7 @@ function showFakeNotification(sender, message, iconSrc, notificationType) {
             setIsWaitingForRecoveryPhase2(false);
         }
 
-markSlotAsShown();
+        markSlotAsShown();
         // 瞬き演出を挟んでLINE画面へ遷移
         replacedBanner.classList.remove('show');
         playBlinkVideo(() => {
