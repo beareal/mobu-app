@@ -1572,24 +1572,19 @@ if (cinematicBg) {
 
 function showOneeNotification() {
     const mobuState = getMobuState();
+    // オネェ状態（onee_lv1~3）でないなら何もしない
     if (mobuState === 'normal') return;
 
-    if (!canShowOneeMessage()) return;
+    // セリフデータを取得
+    const dialogues = oneeNotificationDialogues[mobuState];
+    if (!dialogues || dialogues.length === 0) return;
 
-    const levelMap = {
-        'onee_lv1': 1,
-        'onee_lv2': 2,
-        'onee_lv3': 3
-    };
-    const level = levelMap[mobuState];
-    if (!level) return;
-
+    // ランダムに1つ選ぶ
+    const raw = dialogues[Math.floor(Math.random() * dialogues.length)];
     const nickname = localStorage.getItem('nickname') || 'あなた';
-    const raw = getNextOneeDialogue(level);
-    if (!raw) return;
-
     const message = raw.replace(/○○/g, nickname);
 
+    // バナーを表示
     showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'onee');
 }
 
