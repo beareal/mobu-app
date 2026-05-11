@@ -113,8 +113,45 @@ return localStorage.getItem('mobuState') || 'normal';
  * 要件：累計1回以上の完了者が対象。差分1日以上でサボり確定。
  */
 function checkAbandonment() {
-    // STEP 2 で新しい判定エンジンをここに実装します。
-    // 現時点では、不具合防止のため古いロジックを物理削除しました。
+    const totalTasks = getTotalTasksCompleted();
+    // 1. 累計1回も完了していないユーザーは判定対象外 (仕様書 2-2)
+    if (totalTasks === 0) return;
+
+    const lastCompDateStr = getLastCompletionGameDate();
+    // 2. 累計はあるが完了日がない場合（移行期用）、今日を基準日として保存して終了
+    if (!lastCompDateStr) {
+        saveLastCompletionGameDate();
+        return;
+    }
+
+    const todayStr = getGameDate();
+    // 3. 今日すでに達成済みなら判定不要
+    if (todayStr === lastCompDateStr) return;
+
+    // 4. 日付文字列同士の差分を計算（仕様書 2-3：getGameDateの文字列を基準にする）
+    const todayDate = new Date(todayStr);
+    const lastDate  = new Date(lastCompDateStr);
+    const diffTime  = todayDate.getTime() - lastDate.getTime();
+    const diffDays  = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
+    // 5. 1日以上の差があればサボり確定 (仕様書 2-4)
+    if (diffDays >= 1) {
+        // 重要：新たなサボりが確定したため、未読の段階2フラグを破棄 (仕様書 6-1)
+        setIsWaitingForRecoveryPhase2(false);
+
+        // 放置日数を保存 (仕様書 3-3)
+        setAbandonDays(diffDays);
+
+        // 6. 日数に応じたレベルスキップ適用 (仕様書 3-1, 3-2)
+        if (diffDays >= 10) {
+            setMobuState('onee_lv3');
+        } else if (diffDays >= 4) {
+            setMobuState('onee_lv2');
+        } else {
+            setMobuState('onee_lv1');
+        }
+        console.log(`サボり判定確定: ${diffDays}日放置。状態: ${getMobuState()}`);
+    }
 }
 
 // ===============================================
