@@ -141,20 +141,21 @@ function completeChip(chipEl) {
 }
 // DOMが読み込まれたらアプリを初期化
 document.addEventListener('DOMContentLoaded', function() {
-    generateUserId(); //
-    initializeNotificationFeatures();
-
-      // 1. サボり判定を実行（ここで状態が更新される）
+    // 1. 基礎データとサボり判定を最優先で実行（UIのチラつき防止）
+    generateUserId();
     checkAbandonment();
 
-    // 2. 表示の振り分け
-    if (getMobuState() !== 'normal') {
-        // サボり中なら「オネェ化バナー」を最優先で表示
+    // 2. 通知・表示系の初期化
+    initializeNotificationFeatures();
+
+    // 3. 表示の振り分け（サボり判定の結果を即座に反映）
+    const mobuState = getMobuState();
+    if (mobuState !== 'normal') {
         showOneeNotification();
-    } else {
-        // 通常状態なら「定時バナー」または「復帰バナー（段階2）」を表示
-        showSlotMessage();
+    } else if (getIsWaitingForRecoveryPhase2()) {
         showRecoveryFollowUpNotification();
+    } else {
+        showSlotMessage();
     }
 
     // ✨✨ここからが最後の仕上げ ✨✨
@@ -179,7 +180,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     // ✨✨ここまでが最後の仕上げ ✨✨
     }
-    generateUserId();
     updateHomeTasks();
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('from') === 'notification') {
