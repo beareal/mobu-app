@@ -376,6 +376,9 @@ document.addEventListener('DOMContentLoaded', function() {
                // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
 
+               // サボり状態をリセット（仕様書 3-3, 7 準拠）
+               resetAbandonment();
+
                recordTodayAchievement(completedTasks.length);
    
                // 既存の完了済みインデックスとマージして保存

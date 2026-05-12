@@ -109,6 +109,24 @@ return localStorage.getItem('mobuState') || 'normal';
 }
 
 /**
+ * サボり状態をリセットする（タスク完了時に呼び出し）
+ * 仕様書 3-3, 7 準拠
+ * 注意：Phase 2フラグのセットは、LINEメッセージ表示後に行うためここでは保留（仕様書 5-1）
+ */
+function resetAbandonment() {
+    const currentState = getMobuState();
+
+    // サボり状態（onee_lv1~3）から復帰する場合のみ、元のレベルを記憶
+    if (currentState !== 'normal') {
+        localStorage.setItem('lastRecoveryLevel', currentState);
+    }
+
+    setAbandonDays(0);
+    setMobuState('normal');
+    console.log("サボり状態をリセットしました（正常復帰）");
+}
+
+/**
  * 最後に完了した日付との差分を計算し、サボり判定を行う（朝4時リセット基準）
  * 要件：累計1回以上の完了者が対象。差分1日以上でサボり確定。
  */
