@@ -148,16 +148,6 @@ document.addEventListener('DOMContentLoaded', function() {
     // 2. 通知・表示系の初期化
     initializeNotificationFeatures();
 
-    // 3. 表示の振り分け（サボり判定の結果を即座に反映）
-    const mobuState = getMobuState();
-    if (mobuState !== 'normal') {
-        showOneeNotification();
-    } else if (getIsWaitingForRecoveryPhase2()) {
-        showRecoveryFollowUpNotification();
-    } else {
-        showSlotMessage();
-    }
-
     // ここからが最後の仕上げ 
     // Service Workerからメッセージを受け取るリスナー
     navigator.serviceWorker.addEventListener('message', event => {

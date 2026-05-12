@@ -432,6 +432,19 @@ function showScreen(screenId) {
                 btn.style.cursor = 'pointer';
                 btn.onclick = null; 
             }   
+
+            // --- バナー表示の優先順位制御 (仕様書 5-2, 6-2 遵守) ---
+            const mobuState = getMobuState();
+            if (mobuState !== 'normal') {
+                // 優先度1: オネェ化バナー
+                showOneeNotification();
+            } else if (getIsWaitingForRecoveryPhase2()) {
+                // 優先度2: 復帰バナー（Phase 2）
+                showRecoveryFollowUpNotification();
+            } else {
+                // 優先度3: 通常のスロットメッセージ
+                showSlotMessage();
+            }
         }
         if (screenId === 'screen-line') {
             // --- UI要素を取得 ---
