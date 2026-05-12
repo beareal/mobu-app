@@ -530,22 +530,33 @@ newReplyStamp.addEventListener('click', function() {
                 const reportedTask = localStorage.getItem('currentReportTask');
                 let initialDelay = 500;
                 const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `${reportedTask}を完了！`;
-                
-                if (mobuState !== 'normal') {
+
+                // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
+                const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
+                if (lastRecoveryLevel) {
                     const mobuVersion = getMobuVersion();
                     const dialogueData = recoveryDialogues[mobuVersion];
-                    if (dialogueData && dialogueData[mobuState]) {
-                        const dialogue = dialogueData[mobuState];
+                    const rawDialogue = dialogueData ? dialogueData[lastRecoveryLevel] : null;
+
+                    if (rawDialogue) {
+                        const nickname = localStorage.getItem('nickname') || 'あなた';
+                        const dialogue = rawDialogue.replace(/○○/g, nickname);
                         appendLineMessage('mobu', dialogue, initialDelay);
                         initialDelay += 1500;
+
                         const reactions = userReplyDialogues.recoveryReactions;
                         const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
                         appendLineMessage('user', randomReaction, initialDelay);
                         initialDelay += 1500;
+
+                        // 全てのメッセージ表示が終わったタイミングで Phase 2 フラグを立てる (仕様書 5-1)
+                        const finalDelay = initialDelay;
+                        setTimeout(() => {
+                            setIsWaitingForRecoveryPhase2(true);
+                        }, finalDelay);
                     }
-                    const followUpLevel = mobuState.replace('onee_', '');
-setRecoveryFollowUp(followUpLevel);
-                    setMobuState('normal');
+                    // 使用済みのレベル記録を消去
+                    localStorage.removeItem('lastRecoveryLevel');
                 }
                 
                 appendLineMessage('user', userTaskReportText, initialDelay);
