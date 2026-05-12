@@ -426,11 +426,11 @@ document.addEventListener('DOMContentLoaded', function() {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
-            const followUp = getRecoveryFollowUp();
+           const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
             const mobuVersion = getMobuVersion();
-            if (followUp && !followUp.shown && mobuVersion !== 'ver1') {
+            if (lastRecoveryLevel && mobuVersion !== 'ver1') {
                 const verNum = mobuVersion.replace('ver', '');
-                const levelNum = followUp.level.replace('lv', '');
+                const levelNum = lastRecoveryLevel.replace('onee_lv', '');
                 showCinematicScene(verNum, levelNum);
             } else {
                 showScreen('screen-home');
