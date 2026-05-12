@@ -778,6 +778,10 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     align-items: center;
     z-index: 10; /* 動画より手前に表示 */
 }
+@font-face {
+    font-family: 'Nikumaru';
+    src: url('../assets/fonts/07にくまるフォント.otf') format('opentype');
+}
 
 .sound-effect-text {
     font-size: 32px;
@@ -791,6 +795,7 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
          1px  1px 0 #fff;
     margin: 0;
     /* ★★★ 修正: アニメーションの長さを3秒に変更 ★★★ */
+    font-family: 'Nikumaru', sans-serif;
     animation: popAndFade 3s ease-out forwards;
 }
 
