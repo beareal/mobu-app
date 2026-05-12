@@ -780,7 +780,7 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
 }
 @font-face {
     font-family: 'Nikumaru';
-    src: url('../assets/fonts/07にくまるフォント.otf') format('opentype');
+ src: url('assets/fonts/07にくまるフォント.otf') format('opentype');   
 }
 
 .sound-effect-text {
