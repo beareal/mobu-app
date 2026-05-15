@@ -660,11 +660,8 @@ function showSplashScreen() {
 
     }, 1000);
 }
+document.addEventListener('visibilitychange', checkAndShowHomeBanners);
 
-document.addEventListener('visibilitychange', showRecoveryFollowUpNotification);
-document.addEventListener('visibilitychange', showOneeNotification);
-
-document.addEventListener('visibilitychange', handleAppLaunchNotification);
 let currentCalendarDate = new Date();
 
 function renderCalendar(date) {
