@@ -1588,7 +1588,22 @@ if (cinematicBg) {
 
     cinematicScreen.addEventListener('click', handleTap);
 }
-
+/**
+ * ホーム画面表示時のバナー優先順位制御をまとめた関数
+ */
+function checkAndShowHomeBanners() {
+    const mobuState = getMobuState();
+    if (mobuState !== 'normal') {
+        // 優先度1: オネェ化バナー
+        handleAppLaunchNotification();
+    } else if (getIsWaitingForRecoveryPhase2()) {
+        // 優先度2: 復帰バナー（Phase 2）
+        showRecoveryFollowUpNotification();
+    } else {
+        // 優先度3: 通常のスロットメッセージ
+        showSlotMessage();
+    }
+}
 function showOneeNotification() {
     const mobuState = getMobuState();
     // オネェ状態（onee_lv1~3）でないなら何もしない
