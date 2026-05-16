@@ -562,8 +562,6 @@ newReplyStamp.addEventListener('click', function() {
                             setIsWaitingForRecoveryPhase2(true);
                         }, finalDelay);
                     }
-                    // 使用済みのレベル記録を消去
-                    localStorage.removeItem('lastRecoveryLevel');
                 }
                 
                 appendLineMessage('user', userTaskReportText, initialDelay);

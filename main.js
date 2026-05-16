@@ -421,6 +421,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (lastRecoveryLevel && mobuVersion !== 'ver1') {
                 const verNum = mobuVersion.replace('ver', '');
                 const levelNum = lastRecoveryLevel.replace('onee_lv', '');
+                localStorage.removeItem('lastRecoveryLevel');
                 showCinematicScene(verNum, levelNum);
             } else {
                 showScreen('screen-home');
