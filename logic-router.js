@@ -1592,15 +1592,14 @@ if (cinematicBg) {
  * ホーム画面表示時のバナー優先順位制御をまとめた関数
  */
 function checkAndShowHomeBanners() {
+    if (getIsWaitingForRecoveryPhase2()) {
+        showRecoveryFollowUpNotification();
+        return;
+    }
     const mobuState = getMobuState();
     if (mobuState !== 'normal') {
-        // 優先度1: オネェ化バナー
         handleAppLaunchNotification();
-    } else if (getIsWaitingForRecoveryPhase2()) {
-        // 優先度2: 復帰バナー（Phase 2）
-        showRecoveryFollowUpNotification();
     } else {
-        // 優先度3: 通常のスロットメッセージ
         showSlotMessage();
     }
 }
