@@ -224,7 +224,12 @@ function getMobuVersion() {
     if (totalTasks >= 10 && totalTasks < 20) {
         return 'ver2';
     }
-    // (今後、ver3, ver4 もここに追加していく)
+    if (totalTasks >= 20 && totalTasks < 30) {
+    return 'ver3';
+}
+if (totalTasks >= 30) {
+    return 'ver4';
+}
     
     // 上記以外はすべて ver1 とする
     return 'ver1';
