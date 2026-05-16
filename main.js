@@ -565,7 +565,9 @@ function handleAppLaunchNotification() {
     const dialogues = oneeNotificationDialogues[mobuState];
     if (!dialogues || dialogues.length === 0) return;
 
-    const message = dialogues[Math.floor(Math.random() * dialogues.length)];
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+const rawMessage = dialogues[Math.floor(Math.random() * dialogues.length)];
+const message = rawMessage.replace(/○○/g, nickname);
     iineLog.count += 1;
     iineLog.lastTime = now;
     localStorage.setItem(iineKey, JSON.stringify(iineLog));
