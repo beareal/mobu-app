@@ -5,6 +5,7 @@
   "start_url": "/mobu-app/",
   "scope": "/mobu-app/",
   "display": "standalone",
+  "launch_handler": { "client_mode": "focus-existing" },
   "theme_color": "#badac5",
   "background_color": "#f7d9d9",
   "icons": [

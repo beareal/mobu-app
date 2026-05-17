@@ -32,6 +32,10 @@ export async function initializeFCM() {
     });
 
     if (token) {
+      if (!window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('ブラウザタブで開かれているためトークン保存をスキップします');
+        return token;
+      }
       console.log('FCMトークン取得成功:', token);
       localStorage.setItem('fcmToken', token);
 

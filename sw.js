@@ -42,15 +42,14 @@ const tag = payload.data?.tag || "default";
 
 // 通知クリック時の処理
 self.addEventListener('notificationclick', (event) => {
-  console.log('通知がクリックされました', event.notification);
   event.notification.close();
-
   const targetUrl = 'https://beareal.github.io/mobu-app/?from=notification';
 
   event.waitUntil(
-    clients.matchAll({ type: 'window', includeUncontrolled: true }).then(clientList => {
+    clients.matchAll({ type: 'window', includeUncontrolled: true }).then((clientList) => {
       for (const client of clientList) {
-        if (client.url === targetUrl && 'focus' in client) {
+        if ('focus' in client) {
+          client.navigate(targetUrl);
           return client.focus();
         }
       }
