@@ -614,6 +614,7 @@ function schedulePeriodicNotifications(taskIds) {
 alert('requestNotificationPermission が呼ばれました');
 async function requestNotificationPermission() {
     alert('requestNotificationPermission が呼ばれました');
+    alert('permission の値: ' + permission);
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
       console.log('通知許可が得られました。FCMトークンを取得します');
