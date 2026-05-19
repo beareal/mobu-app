@@ -25,6 +25,7 @@ const messaging = getMessaging(app);
  */
 export async function initializeFCM() {
   try {
+    alert('initializeFCM が呼ばれました');
     const registration = await navigator.serviceWorker.ready;
     const token = await getToken(messaging, {
       vapidKey: VAPID_KEY,
