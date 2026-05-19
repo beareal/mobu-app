@@ -617,6 +617,7 @@ async function requestNotificationPermission() {
     alert('permission の値: ' + permission);
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
+        alert('permission の値: ' + permission);
       console.log('通知許可が得られました。FCMトークンを取得します');
       const { initializeFCM } = await import('./firebase-config.js');
       await initializeFCM();
