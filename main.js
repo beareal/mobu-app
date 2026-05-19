@@ -189,6 +189,9 @@ document.addEventListener('DOMContentLoaded', function() {
     const welcomeScreen = document.getElementById('screen-welcome');
     if (welcomeScreen) {
         welcomeScreen.addEventListener('click', function() {
+            // ユーザー操作のタイミングで通知許可とトークン取得を開始
+            requestNotificationPermission();
+
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 
@@ -583,8 +586,6 @@ async function initializeNotificationFeatures() {
     try {
         const registration = await navigator.serviceWorker.register('/mobu-app/sw.js');
         console.log('Service Worker登録成功:', registration);
-        setupForegroundMessageHandler();
-        await requestNotificationPermission();
     } catch (error) {
         console.error('初期化エラー:', error);
     }
