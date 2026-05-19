@@ -25,7 +25,6 @@ const messaging = getMessaging(app);
  */
 export async function initializeFCM() {
   try {
-    alert('initializeFCM が呼ばれました');
     const registration = await navigator.serviceWorker.ready;
     const token = await getToken(messaging, {
       vapidKey: VAPID_KEY,
@@ -33,7 +32,6 @@ export async function initializeFCM() {
     });
 
     if (token) {
-      alert('display-mode: ' + window.matchMedia('(display-mode: standalone)').matches);
       if (!window.matchMedia('(display-mode: standalone)').matches) {
         console.log('ブラウザタブで開かれているためトークン保存をスキップします');
         return token;

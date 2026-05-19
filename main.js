@@ -287,7 +287,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
                 const appPhase = localStorage.getItem('appPhase');
                 if (appPhase === 'main_loop') {
-                    alert('タスクを変更しました');
                     showScreen('screen-home');
                 } else {
                     playBlinkVideo(() => {
@@ -611,13 +610,9 @@ function schedulePeriodicNotifications(taskIds) {
 }
 
 // 通知許可をユーザー操作後に求める
-alert('requestNotificationPermission が呼ばれました');
 async function requestNotificationPermission() {
-    alert('requestNotificationPermission が呼ばれました');
-    alert('permission の値: ' + permission);
     const permission = await Notification.requestPermission();
     if (permission === 'granted') {
-        alert('permission の値: ' + permission);
       console.log('通知許可が得られました。FCMトークンを取得します');
       const { initializeFCM } = await import('./firebase-config.js');
       await initializeFCM();
