@@ -584,10 +584,8 @@ async function initializeNotificationFeatures() {
     try {
         const registration = await navigator.serviceWorker.register('/mobu-app/sw.js');
         console.log('Service Worker登録成功:', registration);
-        document.addEventListener('DOMContentLoaded', async function() {
-            setupForegroundMessageHandler();
-            await requestNotificationPermission();
-        });
+        setupForegroundMessageHandler();
+        await requestNotificationPermission();
     } catch (error) {
         console.error('初期化エラー:', error);
     }
