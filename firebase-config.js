@@ -33,6 +33,7 @@ export async function initializeFCM() {
     });
 
     if (token) {
+      alert('display-mode: ' + window.matchMedia('(display-mode: standalone)').matches);
       if (!window.matchMedia('(display-mode: standalone)').matches) {
         console.log('ブラウザタブで開かれているためトークン保存をスキップします');
         return token;
