@@ -9,6 +9,7 @@ const cafeImageMap = {
     'motivation_2': 'assets/images/mobu_v1_motivation_c.png',
     'report_0':     'assets/images/mobu_v1_report_a.png',
     'report_1':     'assets/images/mobu_v1_report_b.png',
+    'report_2':     'assets/images/mobu_v1_report_c.png',
 };
 // ===============================================
 // Dialogue Data (セリフデータ)
