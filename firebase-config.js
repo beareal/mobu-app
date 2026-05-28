@@ -32,10 +32,9 @@ export async function initializeFCM() {
     });
 
     if (token) {
-      alert("【デバッグ】トークン取得成功。standalone判定へ進みます。");
 
       if (!window.matchMedia('(display-mode: standalone)').matches) {
-        alert("【デバッグ：スキップ】ブラウザタブのため、Firestore保存を中断しました。");
+        
         console.log('ブラウザタブで開かれているためトークン保存をスキップします');
         return token;
       }
@@ -44,7 +43,6 @@ export async function initializeFCM() {
       localStorage.setItem('fcmToken', token);
 
       const userId = localStorage.getItem('userId');
-      alert("【デバッグ】standalone判定パス。Firestore保存開始。userId: " + userId);
 
       const schedule = JSON.parse(localStorage.getItem('notificationSchedule') || '{}');
       const db = getFirestore(app);
@@ -55,12 +53,10 @@ export async function initializeFCM() {
         updatedAt: new Date().toISOString()
       }, { merge: true });
 
-      alert("【デバッグ】Firestoreへの保存が完了しました！");
       console.log('Firestoreへの保存成功');
       return token;
     }
   } catch (error) {
-    alert("【デバッグ：エラー発生】initializeFCM内でエラー: " + error.message);
     console.error('FCMトークンの取得に失敗:', error);
     return null;
   }
