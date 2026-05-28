@@ -537,7 +537,7 @@ newReplyStamp.addEventListener('click', function() {
                 const mobuState = getMobuState();
                 const reportedTask = localStorage.getItem('currentReportTask');
                 let initialDelay = 500;
-                const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `${reportedTask}、できた♪`;
+                const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
 
                 // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
                 const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
