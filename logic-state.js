@@ -280,3 +280,15 @@ function getCompletedToday() {
     }
     return data;
 }
+
+function getMobuIconSrc() {
+    const state = getMobuState();
+    const version = getMobuVersion();
+    const verNum = version.replace('ver', '');
+
+    if (state === 'normal') {
+        return `assets/images/icons/mobu_icon_v${verNum}.png`;
+    } else {
+        return `assets/images/icons/mobu_icon_onee_v${verNum}.png`;
+    }
+}

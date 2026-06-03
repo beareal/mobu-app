@@ -531,9 +531,9 @@ renderCalendar(currentCalendarDate || new Date());
  */
 function handleOSNotificationClick(notificationType, message) {
     const notificationMap = {
-        'periodic': { type: 'periodic', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' },
-        'onee': { type: 'onee', sender: 'モブ君', icon: 'assets/images/mobu_icon_v1.png' },
-        'test': { type: 'test', sender: 'テスト君', icon: 'assets/images/mobu_icon_v1.png' }
+        'periodic': { type: 'periodic', sender: 'モブ君', icon: getMobuIconSrc() },
+        'onee': { type: 'onee', sender: 'モブ君', icon: getMobuIconSrc() },
+        'test': { type: 'test', sender: 'テスト君', icon: getMobuIconSrc() }
     };
     
     const info = notificationMap[notificationType];
@@ -575,7 +575,7 @@ const message = rawMessage.replace(/○○/g, nickname);
     iineLog.lastTime = now;
     localStorage.setItem(iineKey, JSON.stringify(iineLog));
 
-    showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'onee');
+    showFakeNotification('モブ君', message, getMobuIconSrc(), 'onee');
 }
 
 

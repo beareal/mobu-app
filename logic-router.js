@@ -1548,7 +1548,7 @@ function showRecoveryFollowUpNotification() {
 
     // バナータップまでフラグは消さない（仕様書 5-3 遵守）
     setTimeout(() => { isRecoveryFollowUpShowing = false; }, 3000);
-    showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'recovery');
+    showFakeNotification('モブ君', message, getMobuIconSrc(), 'recovery');
 }
 // ===============================================
 // 表3：シネマティック演出表示関数
@@ -1628,7 +1628,7 @@ function showSlotMessage() {
         timestampEl.textContent = result.displayTime === 'now' ? '今' : result.displayTime;
     }
 
-    showFakeNotification('モブ君', result.text, 'assets/images/mobu_icon_v1.png', 'periodic');
+    showFakeNotification('モブ君', result.text, getMobuIconSrc(), 'periodic');
 }
 function showPeriodicIineNotification() {
     const nickname = localStorage.getItem('nickname') || 'あなた';
@@ -1680,5 +1680,5 @@ function showPeriodicIineNotification() {
     if (timestampEl) timestampEl.textContent = chosen.time;
 
     // バナー表示
-    showFakeNotification('モブ君', message, 'assets/images/mobu_icon_v1.png', 'periodic');
+    showFakeNotification('モブ君', message, getMobuIconSrc(), 'periodic');
 }
