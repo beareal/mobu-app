@@ -152,23 +152,24 @@ function checkAbandonment() {
     const diffTime  = todayDate.getTime() - lastDate.getTime();
     const diffDays  = Math.floor(diffTime / (1000 * 60 * 60 * 24));
 
-    // 5. 1日以上の差があればサボり確定 (仕様書 2-4)
-    if (diffDays >= 1) {
+    // 5. 2日以上の差があればサボり確定（当日未完了はペナルティ対象外）
+    if (diffDays >= 2) {
         // 重要：新たなサボりが確定したため、未読の段階2フラグを破棄 (仕様書 6-1)
         setIsWaitingForRecoveryPhase2(false);
 
-        // 放置日数を保存 (仕様書 3-3)
-        setAbandonDays(diffDays);
+        // 放置日数を保存（diffDaysから1を引いた実サボり日数）(仕様書 3-3)
+        const abandonDays = diffDays - 1;
+        setAbandonDays(abandonDays);
 
         // 6. 日数に応じたレベルスキップ適用 (仕様書 3-1, 3-2)
-        if (diffDays >= 10) {
+        if (diffDays >= 11) {
             setMobuState('onee_lv3');
-        } else if (diffDays >= 4) {
+        } else if (diffDays >= 5) {
             setMobuState('onee_lv2');
         } else {
             setMobuState('onee_lv1');
         }
-        console.log(`サボり判定確定: ${diffDays}日放置。状態: ${getMobuState()}`);
+        console.log(`サボり判定確定: 差分${diffDays}日（サボり${abandonDays}日）。状態: ${getMobuState()}`);
     }
 }
 
