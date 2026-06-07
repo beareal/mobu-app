@@ -282,6 +282,30 @@ function getCompletedToday() {
     return data;
 }
 
+// ===============================================
+// マイルストーンイベント：招待済・視聴済フラグ管理
+// ===============================================
+
+function setIsInvited(milestone, value) {
+    const key = 'isInvited_' + milestone;
+    localStorage.setItem(key, value ? 'true' : 'false');
+}
+
+function getIsInvited(milestone) {
+    const key = 'isInvited_' + milestone;
+    return localStorage.getItem(key) === 'true';
+}
+
+function setIsWatched(milestone, value) {
+    const key = 'isWatched_' + milestone;
+    localStorage.setItem(key, value ? 'true' : 'false');
+}
+
+function getIsWatched(milestone) {
+    const key = 'isWatched_' + milestone;
+    return localStorage.getItem(key) === 'true';
+}
+
 function getMobuIconSrc() {
     const state = getMobuState();
     const version = getMobuVersion();
