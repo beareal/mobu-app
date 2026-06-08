@@ -1009,41 +1009,78 @@ function handleEndingDialogue() {
 function handleCafeEvent(milestone) {
     const cafeScreen = document.getElementById('screen-cafe');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
+    const bgImage = document.getElementById('cafe-background-image');
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+
     let dialogues = [];
+    let images = [];
+
     if (milestone === 10) {
         dialogues = [
-            "（ユーザー名）！来てくれてありがとうございます。",
-            "えーっと...髪、少し切ったんですけど...似合ってます？",
-            "いや、そんなことより！10個タスク達成、本当におめでとうございます！俺も無事に習慣が定着しました。",
-            "これは、そのお祝いといいますか...試作品のスイーツをサービスさせてもらいますね。",
-            "ふふ、店長特権です。2人だけの秘密ですよ！"
+            `${nickname}！来てくれてありがとうございます。`,
+            `えーっと...髪、少し切ったんですけど...似合ってます？`,
+            `いや、そんなことより！10個タスク達成、本当におめでとうございます！俺も無事に習慣が定着しました。`,
+            `これは、そのお祝いといいますか...試作品のスイーツをサービスさせてもらいますね。`,
+            `ふふ、店長特権です。2人だけの秘密ですよ！`
         ];
-        if (!hasProfileRewardBeenSeen(10)) {
-            dialogues.push("そういえば、10タスク完了するごとに可愛いイベント演出があるらしいですよ。もうアプリのプロフィール画面見てみました?");
-        }
+        images = [
+            'assets/images/cafe/cafe10/cafe10_1.png',
+            'assets/images/cafe/cafe10/cafe10_2.png',
+            'assets/images/cafe/cafe10/cafe10_3.png',
+            'assets/images/cafe/cafe10/cafe10_4.png',
+            'assets/images/cafe/cafe10/cafe10_5.png'
+        ];
     } else if (milestone === 20) {
-        const nickname = localStorage.getItem('nickname') || 'あなた';
         dialogues = [
-            `${nickname}、来てくれたんですね!嬉しいな。ありがとうございます！`,
+            `${nickname}、来てくれたんですね！嬉しいな。ありがとうございます！`,
             `その…メガネやめてコンタクトにしてみたんですけど…どうですか？ずっと変えたいなって思ってたんですよ。`,
             `それはそうと20回以上達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺まで力が湧いてくるんですよ！`,
             `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな。`,
-            `また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`,
+            `また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`
         ];
-        if (!hasProfileRewardBeenSeen(10)) {
-            dialogues.push("あ、そうだ。10タスクごとにプロフィール画面でかわいい演出があるらしいって話、覚えてます？俺、この前友達にその画面見せてもらったんだけど、すごくかわいかったですよ");
-        }
+        images = [
+            'assets/images/cafe/cafe20/cafe20_1.png',
+            'assets/images/cafe/cafe20/cafe20_2.png',
+            'assets/images/cafe/cafe20/cafe20_3.png',
+            'assets/images/cafe/cafe20/cafe20_4.png',
+            'assets/images/cafe/cafe20/cafe20_5.png'
+        ];
+    } else if (milestone === 30) {
+        dialogues = [
+            `${nickname}！来てくれてありがとう。`,
+            `...${nickname}、少し会わない内に印象変わったね！ちょっと緊張する。いや、もちろんいい意味で...だよ。`,
+            `俺も最近、周りから『変わった』って褒められるようになったんだ。常連さんから『恋でもしてるの？』ってからかわれたよ。俺ってそんなに分かりやすいかな？`,
+            `あ、本題を忘れた！タスク30個達成、本当にお疲れさま。俺たち、もうお互いの頑張りを無言で支え合ってる感じだね。`,
+            `今日は、これを渡したかったんだ。よかったら使ってほしい。${nickname}が、また新しい目標に向けて進むの、俺は応援したくて。その一歩を書き出すときに、このペンを使ってくれたら嬉しい。…このペンを見かけた時、${nickname}の顔が浮かんだんだ。`,
+            `今度はカフェじゃなくて別の場所でも会いたい。もしOKしてくれるなら、俺、もっと頑張れるんだ。`
+        ];
+        images = [
+            'assets/images/cafe/cafe30/cafe30_1.png',
+            'assets/images/cafe/cafe30/cafe30_2.png',
+            'assets/images/cafe/cafe30/cafe30_3.png',
+            'assets/images/cafe/cafe30/cafe30_4.png',
+            'assets/images/cafe/cafe30/cafe30_5.png',
+            'assets/images/cafe/cafe30/cafe30_6.png'
+        ];
     }
+
     let currentDialogueIndex = 0;
-    dialogueText.textContent = dialogues[currentDialogueIndex];
+    if (bgImage) bgImage.src = images[0];
+    dialogueText.textContent = dialogues[0];
+
     cafeScreen.onclick = function() {
         currentDialogueIndex++;
         if (currentDialogueIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
             dialogueText.textContent = dialogues[currentDialogueIndex];
+            if (bgImage) bgImage.src = images[currentDialogueIndex];
         } else {
             cafeScreen.onclick = null;
-            playBlinkVideo(() => showScreen('screen-home'));
+            // 帰還時：視聴済フラグをON
+            setIsWatched(milestone, true);
+            playFadeTransition(() => {
+                showScreen('screen-home');
+            });
         }
     };
 }
