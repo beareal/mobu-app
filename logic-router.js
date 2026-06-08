@@ -1072,8 +1072,18 @@ function handleCafeEvent(milestone) {
     });
 
     let currentDialogueIndex = 0;
-    if (bgImage) bgImage.src = images[0];
-    dialogueText.textContent = dialogues[0];
+
+    // 1枚目の画像ロード完了後にセリフと画像を表示する
+    if (bgImage) {
+        bgImage.style.opacity = '0';
+        bgImage.src = images[0];
+        bgImage.onload = function() {
+            bgImage.style.opacity = '1';
+            dialogueText.textContent = dialogues[0];
+        };
+    } else {
+        dialogueText.textContent = dialogues[0];
+    }
 
     cafeScreen.onclick = function() {
         currentDialogueIndex++;
