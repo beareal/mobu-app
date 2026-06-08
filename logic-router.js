@@ -1004,7 +1004,7 @@ function handleEndingDialogue() {
 
 /**
  * カフェでのイベント会話（10回、20回達成時など）を管理する
- * @param {number} milestone - 発生させるイベントの達成回数 (10 or 20)
+ * @param {number} milestone - 発生させるイベントの達成回数 (10, 20, 30)
  */
 function handleCafeEvent(milestone) {
     const cafeScreen = document.getElementById('screen-cafe');
@@ -1035,7 +1035,7 @@ function handleCafeEvent(milestone) {
             `${nickname}、来てくれたんですね！嬉しいな。ありがとうございます！`,
             `その…メガネやめてコンタクトにしてみたんですけど…どうですか？ずっと変えたいなって思ってたんですよ。`,
             `それはそうと20回以上達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺まで力が湧いてくるんですよ！`,
-            `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな。`,
+            `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな！`,
             `また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`
         ];
         images = [
@@ -1064,6 +1064,13 @@ function handleCafeEvent(milestone) {
         ];
     }
 
+    // 全画像をプリロードする
+    const preloadedImages = images.map(src => {
+        const img = new Image();
+        img.src = src;
+        return img;
+    });
+
     let currentDialogueIndex = 0;
     if (bgImage) bgImage.src = images[0];
     dialogueText.textContent = dialogues[0];
@@ -1073,10 +1080,9 @@ function handleCafeEvent(milestone) {
         if (currentDialogueIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
             dialogueText.textContent = dialogues[currentDialogueIndex];
-            if (bgImage) bgImage.src = images[currentDialogueIndex];
+            if (bgImage) bgImage.src = preloadedImages[currentDialogueIndex].src;
         } else {
             cafeScreen.onclick = null;
-            // 帰還時：視聴済フラグをON
             setIsWatched(milestone, true);
             playFadeTransition(() => {
                 showScreen('screen-home');

@@ -418,7 +418,37 @@ document.addEventListener('DOMContentLoaded', function() {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
-           const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
+
+            // 強制回収フローのチェック
+            const milestones = [10, 20, 30, 40];
+            let pendingMilestone = 0;
+            for (const m of milestones) {
+                if (getIsInvited(m) && !getIsWatched(m)) {
+                    pendingMilestone = m;
+                    break;
+                }
+            }
+
+            if (pendingMilestone > 0) {
+                // 強制回収フロー：モノローグ画面へ
+                playFadeTransition(() => {
+                    showScreen('screen-monologue');
+                    const monologueScreen = document.getElementById('screen-monologue');
+                    monologueScreen.addEventListener('click', function() {
+                        playFadeTransition(() => {
+                            if (pendingMilestone === 40) {
+                                startEndingSequence();
+                            } else {
+                                showScreen('screen-cafe');
+                            }
+                        });
+                    }, { once: true });
+                });
+                return;
+            }
+
+            // 通常の戻る処理
+            const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
             const mobuVersion = getMobuVersion();
             if (lastRecoveryLevel && mobuVersion !== 'ver1') {
                 const verNum = mobuVersion.replace('ver', '');
