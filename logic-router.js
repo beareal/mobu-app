@@ -853,7 +853,16 @@ function checkAndSetupEvent() {
     if (existingEventUI) {
         existingEventUI.remove();
     }
+
+    // イベントキュー：未視聴のマイルストーンがあれば次の検知を保留
     const milestones = [10, 20, 30, 40];
+    for (const m of milestones) {
+        if (getIsInvited(m) && !getIsWatched(m)) {
+            console.log(`マイルストーン${m}が未視聴のため、次のイベント検知を保留`);
+            return;
+        }
+    }
+
     let eventTriggeredMilestone = 0;
     for (const milestone of milestones) {
         if (previousTotal < milestone && currentTotal >= milestone) {
@@ -861,32 +870,73 @@ function checkAndSetupEvent() {
             break;
         }
     }
+
     if (eventTriggeredMilestone > 0) {
-        const eventUIContainer = document.createElement('div');
-        eventUIContainer.className = 'event-ui-container';
-        const message = document.createElement('div');
-        message.className = 'line-message mobu';
-        if (eventTriggeredMilestone === 40) {
-            message.innerHTML = `<p>とうとう40個目だね！直接伝えたいことがあるから、カフェで待ってるよ。</p>`;
-        } else {
-            message.innerHTML = `<p>ところで、累計タスクが${eventTriggeredMilestone}個を超えましたね！<br>お店でささやかなお祝いをさせてください😊</p>`;
-        }
-        const button = document.createElement('button');
-        button.textContent = 'カフェへ向かう';
-        button.className = 'btn-event';
-        button.onclick = function() {
-            if (eventTriggeredMilestone === 40) {
-                startEndingSequence();
-            } else {
-                showScreen('screen-cafe');
-            }
+        const nickname = localStorage.getItem('nickname') || 'あなた';
+
+        const milestoneMessages = {
+            10: [
+                `ところで${nickname}、今回のタスクで実は10個を超えましたね！一つの節目達成、おめでとうございます！`,
+                `${nickname}が並走してくれたから、俺も無事習慣が定着しました。\nだから、俺から送らせてもらってた一方的なメッセージは、今日で卒業しますね...。\n実は${nickname}の為に、ちょっとしたものを用意してるので、またお店に遊びに来てください😊`,
+                `それと俺、習慣を変えたら、自分の外見も変えたくなって、ちょっとだけ変えてみたんです。わざわざ伝える事でもないですけど💦\nとにかくまたお会いできるのを楽しみにしてますね！`
+            ],
+            20: [
+                `ところで${nickname}、そろそろタスクを20個を超える頃じゃないですか？\nここまで来ると、『俺たち一緒に頑張ってる仲間』って感じで嬉しい😊`,
+                `ここまで一緒に頑張ってくれた感謝の気持ちとして、${nickname}に渡したいものがあるんです。\n${nickname}がいつも頼む紅茶の傾向から見て、絶対好きだと思った珍しい茶葉なんです。\nぜひ試してみてほしいな！`,
+                `俺も習慣を変えて、少し余裕が出てきたから、見た目を少しだけ変えてみたんです。\n${nickname}に見てもらいたい。待ってます！`
+            ],
+            30: [
+                `それはそうと、${nickname}、今回のタスクで30個くらい超えてない！？\nすごい✨\nここまで来ると…自分自身でも${nickname}の変化、感じる頃じゃないですか？`,
+                `最近は特に${nickname}を応援したいって気持ちが強くなってて...\n今回は、${nickname}が次の目標を書く時に使ってほしいと思って、\n俺が選んだものがあるんです。`,
+                `${nickname}の都合がいい時、お店に来てもらえますか？楽しみにしてますね😊`
+            ],
+            40: [
+                `待って${nickname}、とうとう40個以上もタスクこなしてない？\nおめでとう✨本当にすごいよ。俺も嬉しい！`,
+                `俺は${nickname}と一緒に頑張ってきて、生き方そのものが変わった気がする。\n今すごく${nickname}に会いたい。俺のお気に入りの場所に${nickname}と一緒に行きたいんだ。`,
+                `今、時間が取れるなら、まずはカフェで待ち合わせない？そこから案内するよ。\n直接伝えたいこともあるし…カフェで待ってる。`
+            ]
         };
-        eventUIContainer.appendChild(message);
-        eventUIContainer.appendChild(button);
+
+        const messages = milestoneMessages[eventTriggeredMilestone];
+
+        // 招待済フラグをON
+        setIsInvited(eventTriggeredMilestone, true);
+
+        // 現在のinitialDelayを取得するため、チャット欄の最後のメッセージ数から推定
+        // リアクションメッセージの後に連投するため1000ms間隔で3通表示
+        const baseDelay = 1000;
+        appendLineMessage('mobu', messages[0], baseDelay);
+        appendLineMessage('mobu', messages[1], baseDelay + 1500);
+        appendLineMessage('mobu', messages[2], baseDelay + 3000);
+
+        // 「今すぐ行く」スタンプUIを最後のメッセージから1500ms後に表示
         setTimeout(() => {
-            chatArea.appendChild(eventUIContainer);
-            chatArea.scrollTop = chatArea.scrollHeight;
-        }, 500);
+            const inputBar = document.getElementById('line-input-bar');
+            const replyArea = document.getElementById('notification-reply-area');
+            const replyStamp = document.getElementById('reply-stamp-image');
+
+            inputBar.style.display = 'none';
+            replyArea.style.display = 'flex';
+            replyStamp.src = 'assets/images/stamp_now.png';
+
+            const newReplyStamp = replyStamp.cloneNode(true);
+            replyStamp.parentNode.replaceChild(newReplyStamp, replyStamp);
+
+            newReplyStamp.addEventListener('click', function() {
+                appendUserStampMessage('assets/images/stamp_now.png');
+                setTimeout(() => {
+                    playFadeTransition(() => {
+                        if (eventTriggeredMilestone === 40) {
+                            startEndingSequence();
+                        } else {
+                            showScreen('screen-cafe');
+                        }
+                    });
+                }, 500);
+            }, { once: true });
+
+        }, baseDelay + 4500);
+
     } else {
         console.log(`通常タスク報告。累計: ${currentTotal} (前回: ${previousTotal})`);
     }
@@ -962,7 +1012,8 @@ function handleCafeEvent(milestone) {
     let dialogues = [];
     if (milestone === 10) {
         dialogues = [
-            "（ユーザー名）！来てくれてありがとうございます。えーっと...髪、少し切ったんですけど...似合ってます？",
+            "（ユーザー名）！来てくれてありがとうございます。",
+            "えーっと...髪、少し切ったんですけど...似合ってます？",
             "いや、そんなことより！10個タスク達成、本当におめでとうございます！俺も無事に習慣が定着しました。",
             "これは、そのお祝いといいますか...試作品のスイーツをサービスさせてもらいますね。",
             "ふふ、店長特権です。2人だけの秘密ですよ！"
@@ -973,8 +1024,9 @@ function handleCafeEvent(milestone) {
     } else if (milestone === 20) {
         const nickname = localStorage.getItem('nickname') || 'あなた';
         dialogues = [
-            `${nickname}、来てくれたんですね!嬉しいな。ありがとうございます！その…メガネやめてコンタクトにしてみたんですけど…どうですか？ずっと変えたいなって思ってたんですよ。`,
-            `それはそうと20回達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺までなんだか力が湧いてくるんですよ。`,
+            `${nickname}、来てくれたんですね!嬉しいな。ありがとうございます！`,
+            `その…メガネやめてコンタクトにしてみたんですけど…どうですか？ずっと変えたいなって思ってたんですよ。`,
+            `それはそうと20回以上達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺まで力が湧いてくるんですよ！`,
             `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな。`,
             `また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`,
         ];
