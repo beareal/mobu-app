@@ -1009,11 +1009,10 @@ function handleEndingDialogue() {
 function handleCafeEvent(milestone) {
     const cafeScreen = document.getElementById('screen-cafe');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
-    const bgImage = document.getElementById('cafe-background-image');
     const nickname = localStorage.getItem('nickname') || 'あなた';
 
     let dialogues = [];
-    let images = [];
+    let imageIds = [];
 
     if (milestone === 10) {
         dialogues = [
@@ -1023,72 +1022,67 @@ function handleCafeEvent(milestone) {
             `これは、そのお祝いといいますか...試作品のスイーツをサービスさせてもらいますね。`,
             `ふふ、店長特権です。2人だけの秘密ですよ！`
         ];
-        images = [
-            'assets/images/cafe/cafe10/cafe10_1.png',
-            'assets/images/cafe/cafe10/cafe10_2.png',
-            'assets/images/cafe/cafe10/cafe10_3.png',
-            'assets/images/cafe/cafe10/cafe10_4.png',
-            'assets/images/cafe/cafe10/cafe10_5.png'
+        imageIds = [
+            'cafe-bg-10-1',
+            'cafe-bg-10-2',
+            'cafe-bg-10-3',
+            'cafe-bg-10-4',
+            'cafe-bg-10-5'
         ];
     } else if (milestone === 20) {
         dialogues = [
             `${nickname}、来てくれたんですね！嬉しいな。ありがとうございます！`,
             `その…メガネやめてコンタクトにしてみたんですけど…どうですか？ずっと変えたいなって思ってたんですよ。`,
             `それはそうと20回以上達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺まで力が湧いてくるんですよ！`,
-            `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな！`,
+            `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな。`,
             `また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`
         ];
-        images = [
-            'assets/images/cafe/cafe20/cafe20_1.png',
-            'assets/images/cafe/cafe20/cafe20_2.png',
-            'assets/images/cafe/cafe20/cafe20_3.png',
-            'assets/images/cafe/cafe20/cafe20_4.png',
-            'assets/images/cafe/cafe20/cafe20_5.png'
+        imageIds = [
+            'cafe-bg-20-1',
+            'cafe-bg-20-2',
+            'cafe-bg-20-3',
+            'cafe-bg-20-4',
+            'cafe-bg-20-5'
         ];
     } else if (milestone === 30) {
         dialogues = [
             `${nickname}！来てくれてありがとう。`,
             `...${nickname}、少し会わない内に印象変わったね！ちょっと緊張する。いや、もちろんいい意味で...だよ。`,
             `俺も最近、周りから『変わった』って褒められるようになったんだ。常連さんから『恋でもしてるの？』ってからかわれたよ。俺ってそんなに分かりやすいかな？`,
-            `あ、本題を忘れた！タスク30個達成、本当にお疲れさま。俺たち、もうお互いの頑張りを無言で支え合ってる感じだね。`,
+            `あ、本題を忘れてた！タスク30個達成、本当にお疲れさま。俺たち、もうお互いの頑張りを無言で支え合ってる感じだね。`,
             `今日は、これを渡したかったんだ。よかったら使ってほしい。${nickname}が、また新しい目標に向けて進むの、俺は応援したくて。その一歩を書き出すときに、このペンを使ってくれたら嬉しい。…このペンを見かけた時、${nickname}の顔が浮かんだんだ。`,
             `今度はカフェじゃなくて別の場所でも会いたい。もしOKしてくれるなら、俺、もっと頑張れるんだ。`
         ];
-        images = [
-            'assets/images/cafe/cafe30/cafe30_1.png',
-            'assets/images/cafe/cafe30/cafe30_2.png',
-            'assets/images/cafe/cafe30/cafe30_3.png',
-            'assets/images/cafe/cafe30/cafe30_4.png',
-            'assets/images/cafe/cafe30/cafe30_5.png',
-            'assets/images/cafe/cafe30/cafe30_6.png'
+        imageIds = [
+            'cafe-bg-30-1',
+            'cafe-bg-30-2',
+            'cafe-bg-30-3',
+            'cafe-bg-30-4',
+            'cafe-bg-30-5',
+            'cafe-bg-30-6'
         ];
     }
 
-    // 全画像をプリロードする
-    const preloadedImages = images.map(src => {
-        const img = new Image();
-        img.src = src;
-        return img;
+    // 全画像を非表示にしてから1枚目だけ表示する
+    document.querySelectorAll('.cafe-bg-img').forEach(img => {
+        img.style.display = 'none';
     });
+    const firstImg = document.getElementById(imageIds[0]);
+    if (firstImg) firstImg.style.display = 'block';
+    dialogueText.textContent = dialogues[0];
 
     let currentDialogueIndex = 0;
-
-    // ロード完了まではセリフを非表示にしておく
-    dialogueText.style.visibility = 'hidden';
-
-    // 1枚目の画像ロード完了後に画像とセリフを同時に表示する
-    preloadedImages[0].onload = function() {
-        if (bgImage) bgImage.src = preloadedImages[0].src;
-        dialogueText.textContent = dialogues[0];
-        dialogueText.style.visibility = 'visible';
-    };
 
     cafeScreen.onclick = function() {
         currentDialogueIndex++;
         if (currentDialogueIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
+            document.querySelectorAll('.cafe-bg-img').forEach(img => {
+                img.style.display = 'none';
+            });
+            const nextImg = document.getElementById(imageIds[currentDialogueIndex]);
+            if (nextImg) nextImg.style.display = 'block';
             dialogueText.textContent = dialogues[currentDialogueIndex];
-            if (bgImage) bgImage.src = preloadedImages[currentDialogueIndex].src;
         } else {
             cafeScreen.onclick = null;
             setIsWatched(milestone, true);
