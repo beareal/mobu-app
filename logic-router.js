@@ -1073,17 +1073,15 @@ function handleCafeEvent(milestone) {
 
     let currentDialogueIndex = 0;
 
-    // 1枚目の画像ロード完了後にセリフと画像を表示する
-    if (bgImage) {
-        bgImage.style.opacity = '0';
-        bgImage.src = images[0];
-        bgImage.onload = function() {
-            bgImage.style.opacity = '1';
-            dialogueText.textContent = dialogues[0];
-        };
-    } else {
+    // ロード完了まではセリフを非表示にしておく
+    dialogueText.style.visibility = 'hidden';
+
+    // 1枚目の画像ロード完了後に画像とセリフを同時に表示する
+    preloadedImages[0].onload = function() {
+        if (bgImage) bgImage.src = preloadedImages[0].src;
         dialogueText.textContent = dialogues[0];
-    }
+        dialogueText.style.visibility = 'visible';
+    };
 
     cafeScreen.onclick = function() {
         currentDialogueIndex++;
