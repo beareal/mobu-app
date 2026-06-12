@@ -1092,12 +1092,6 @@ function handleCafeEvent(milestone) {
         ];
     }
 
-    // 全画像を非表示にしてから1枚目だけ表示する
-    document.querySelectorAll('.cafe-bg-img').forEach(img => {
-        img.style.display = 'none';
-    });
-    const firstImg = document.getElementById(imageIds[0]);
-    if (firstImg) firstImg.style.display = 'block';
     dialogueText.textContent = dialogues[0];
 
     let currentDialogueIndex = 0;
