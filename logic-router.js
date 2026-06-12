@@ -1035,6 +1035,73 @@ function handleEndingDialogue() {
  * カフェでのイベント会話（10回、20回達成時など）を管理する
  * @param {number} milestone - 発生させるイベントの達成回数 (10, 20, 30)
  */
+function handleCafeEventWithJIT(milestone) {
+    const cafeScreen = document.getElementById('screen-cafe');
+    const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
+    const bgImage = document.getElementById('cafe-background-image');
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+
+    let dialogues = [];
+    let imagePaths = [];
+
+    if (milestone === 10) {
+        dialogues = [
+            `${nickname}！来てくれてありがとうございます。`,
+            `えーっと...髪、少し切ったんですけど...似合ってます？`,
+            `いや、そんなことより！10個タスク達成、本当におめでとうございます！俺も無事に習慣が定着しました。`,
+            `これは、そのお祝いといいますか...試作品のスイーツをサービスさせてもらいますね。`,
+            `ふふ、店長特権です。2人だけの秘密ですよ！`
+        ];
+    } else if (milestone === 20) {
+        dialogues = [
+            `${nickname}、来てくれたんですね！嬉しいな。ありがとうございます！`,
+            `その…メガネやめてコンタクトにしてみたんですけど…どうですか？ずっと変えたいなって思ってたんですよ。`,
+            `それはそうと20回以上達成、本当にお疲れさまです。${nickname}が頑張ってるのを見てると、俺まで力が湧いてくるんですよ！`,
+            `…これ、ささやかですが、感謝の気持ちです。俺がブレンドした茶葉で、${nickname}がいつも頼んでるドリンクが好きな人は、この紅茶もお好きなので。絶対気に入ってくれると思って。ぜひ試してみてほしいな。`,
+            `また、頑張った話、聞かせてくださいね。俺も、${nickname}に負けないように、次の一歩を進めるから。`
+        ];
+    } else if (milestone === 30) {
+        dialogues = [
+            `${nickname}！来てくれてありがとう。`,
+            `...${nickname}、少し会わない内に印象変わったね！ちょっと緊張する。いや、もちろんいい意味で...だよ。`,
+            `俺も最近、周りから『変わった』って褒められるようになったんだ。常連さんから『恋でもしてるの？』ってからかわれたよ。俺ってそんなに分かりやすいかな？`,
+            `あ、本題を忘れてた！タスク30個達成、本当にお疲れさま。俺たち、もうお互いの頑張りを無言で支え合ってる感じだね。`,
+            `今日は、これを渡したかったんだ。よかったら使ってほしい。${nickname}が、また新しい目標に向けて進むの、俺は応援したくて。その一歩を書き出すときに、このペンを使ってくれたら嬉しい。…このペンを見かけた時、${nickname}の顔が浮かんだんだ。`,
+            `今度はカフェじゃなくて別の場所でも会いたい。もしOKしてくれるなら、俺、もっと頑張れるんだ。`
+        ];
+    }
+
+    for (let i = 0; i < dialogues.length; i++) {
+        imagePaths.push(getCafeImagePath(milestone, i));
+    }
+
+    dialogueText.textContent = dialogues[0];
+    let currentIndex = 0;
+
+    let nextImagePromise = imagePaths.length > 1 ? preloadImage(imagePaths[1]) : null;
+
+    cafeScreen.onclick = function() {
+        currentIndex++;
+        if (currentIndex < dialogues.length) {
+            playSE('se_text_advance.mp3');
+            dialogueText.textContent = dialogues[currentIndex];
+
+            nextImagePromise && nextImagePromise.then(() => {
+                if (bgImage) bgImage.src = imagePaths[currentIndex];
+            });
+
+            nextImagePromise = currentIndex + 1 < imagePaths.length
+                ? preloadImage(imagePaths[currentIndex + 1])
+                : null;
+        } else {
+            cafeScreen.onclick = null;
+            setIsWatched(milestone, true);
+            playFadeTransition(() => {
+                showScreen('screen-home');
+            });
+        }
+    };
+}
 function handleCafeEvent(milestone) {
     const cafeScreen = document.getElementById('screen-cafe');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
