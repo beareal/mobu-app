@@ -667,7 +667,7 @@ function startCafeWithJIT(milestone) {
             if (bgImage) bgImage.src = firstImagePath;
             handleCafeEventWithJIT(milestone);
         }).catch(() => {
-            showScreen('screen-walking');
+            console.log('画像読み込み失敗（STEP2で実装予定）');
         });
     });
 }
