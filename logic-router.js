@@ -1077,11 +1077,6 @@ function handleCafeEvent(milestone) {
         currentDialogueIndex++;
         if (currentDialogueIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
-            document.querySelectorAll('.cafe-bg-img').forEach(img => {
-                img.style.display = 'none';
-            });
-            const nextImg = document.getElementById(imageIds[currentDialogueIndex]);
-            if (nextImg) nextImg.style.display = 'block';
             dialogueText.textContent = dialogues[currentDialogueIndex];
         } else {
             cafeScreen.onclick = null;
