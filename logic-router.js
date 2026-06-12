@@ -643,6 +643,35 @@ function appendLineMessage(sender, text, delay = 0) {
     }, delay);
 }
 
+function preloadImage(src) {
+    return new Promise((resolve, reject) => {
+        const img = new Image();
+        img.onload = () => resolve(img);
+        img.onerror = () => reject(new Error('画像読み込み失敗: ' + src));
+        img.src = src;
+    });
+}
+
+function getCafeImagePath(milestone, index) {
+    return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.png`;
+}
+
+function startCafeWithJIT(milestone) {
+    const firstImagePath = getCafeImagePath(milestone, 0);
+    let imageLoadPromise = preloadImage(firstImagePath);
+
+    playFadeTransition(() => {
+        imageLoadPromise.then(() => {
+            showScreen('screen-cafe');
+            const bgImage = document.getElementById('cafe-background-image');
+            if (bgImage) bgImage.src = firstImagePath;
+            handleCafeEventWithJIT(milestone);
+        }).catch(() => {
+            showScreen('screen-walking');
+        });
+    });
+}
+
 /**
  * 瞬き動画を再生し、指定のタイミングでコールバックを実行する
  * @param {function} onDarkMoment 動画が暗転したタイミングで実行する関数
@@ -925,13 +954,13 @@ function checkAndSetupEvent() {
             newReplyStamp.addEventListener('click', function() {
                 appendUserStampMessage('assets/images/stamp_now.png');
                 setTimeout(() => {
-                    playFadeTransition(() => {
-                        if (eventTriggeredMilestone === 40) {
+                    if (eventTriggeredMilestone === 40) {
+                        playFadeTransition(() => {
                             startEndingSequence();
-                        } else {
-                            showScreen('screen-cafe');
-                        }
-                    });
+                        });
+                    } else {
+                        startCafeWithJIT(eventTriggeredMilestone);
+                    }
                 }, 500);
             }, { once: true });
 
