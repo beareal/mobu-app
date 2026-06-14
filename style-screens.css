@@ -1146,3 +1146,87 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     80%  { transform: translate(-0.2px, -0.4px); }
     100% { transform: translate(0px, 0px); }
 }
+
+/* C-0a: 歩行画面 縦揺れアニメーション */
+@keyframes walking-bounce {
+    0%   { transform: translateY(0px); }
+    25%  { transform: translateY(-8px); }
+    50%  { transform: translateY(0px); }
+    75%  { transform: translateY(-4px); }
+    100% { transform: translateY(0px); }
+}
+
+#screen-walking .bg-full {
+    animation: walking-bounce 0.6s ease-in-out infinite;
+}
+
+/* C-0b: ドア画面 スピナーオーバーレイ */
+#door-spinner-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.45);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+}
+
+.door-spinner {
+    width: 48px;
+    height: 48px;
+    border: 5px solid rgba(255,255,255,0.3);
+    border-top-color: #ffffff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+.door-loading-text {
+    color: #ffffff;
+    margin-top: 12px;
+    font-size: 14px;
+    letter-spacing: 0.05em;
+}
+
+/* C-0b: ドア画面 タイムアウトポップアップ */
+#door-timeout-popup {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 20;
+}
+
+.door-timeout-popup-inner {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    text-align: center;
+    max-width: 280px;
+    width: 85%;
+}
+
+.door-timeout-popup-inner p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #333333;
+    margin-bottom: 20px;
+}
+
+#door-timeout-ok-button {
+    background: var(--color-primary, #f8a4c8);
+    color: #ffffff;
+    border: none;
+    border-radius: 24px;
+    padding: 10px 36px;
+    font-size: 15px;
+    cursor: pointer;
+}

@@ -278,6 +278,25 @@
         <div id="report-selection-area" style="display: none;"></div>
     </div>
 </div>
+<!-- C-0a: 歩行画面 -->
+<div id="screen-walking" class="screen screen-full">
+    <img id="walking-image" src="assets/images/cafe_walking.webp" alt="歩いている" class="bg-full">
+</div>
+
+<!-- C-0b: ドア画面 -->
+<div id="screen-door" class="screen screen-full">
+    <img id="door-image" src="assets/images/cafe_door.webp" alt="カフェのドア" class="bg-full">
+    <div id="door-spinner-overlay" style="display:none;">
+        <div class="door-spinner"></div>
+        <p class="door-loading-text">Loading...</p>
+    </div>
+    <div id="door-timeout-popup" style="display:none;">
+        <div class="door-timeout-popup-inner">
+            <p>通信環境が良い場所で、もう一度お試しください</p>
+            <button id="door-timeout-ok-button">OK</button>
+        </div>
+    </div>
+</div>
 <!-- C-1: カフェ画面 -->
 <div id="screen-cafe" class="screen screen-full">
     <img id="cafe-background-image" src="" alt="カフェの背景" class="bg-full">
