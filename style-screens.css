@@ -1157,7 +1157,7 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
 }
 
 #screen-walking .bg-full {
-    animation: walking-bounce 2s ease-in-out infinite;
+    animation: walking-bounce 1.8s ease-in-out infinite;
     height: 110%;
     object-fit: cover;
 }
