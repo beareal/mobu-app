@@ -658,8 +658,8 @@ function getCafeImagePaths(milestone) {
     for (let i = 0; i < total; i++) {
         paths.push(`assets/images/cafe/cafe${milestone}/cafe${milestone}_${i + 1}.webp`);
     }
-    paths.push(`assets/images/cafe_walking.webp`);
-    paths.push(`assets/images/cafe_door.webp`);
+    paths.push(`assets/images/cafe/cafe_walking.webp`);
+paths.push(`assets/images/cafe/cafe_door.webp`);
     return paths;
 }
 // マイルストーンごとのプリロード状態を管理するオブジェクト
