@@ -982,23 +982,33 @@ function checkAndSetupEvent() {
 
             inputBar.style.display = 'none';
             replyArea.style.display = 'flex';
-            replyStamp.src = 'assets/images/stamp_now.png';
+            replyStamp.src = 'assets/images/stamp_now.webp';
 
             const newReplyStamp = replyStamp.cloneNode(true);
             replyStamp.parentNode.replaceChild(newReplyStamp, replyStamp);
 
-            newReplyStamp.addEventListener('click', function() {
-                appendUserStampMessage('assets/images/stamp_now.png');
-                setTimeout(() => {
-                    if (eventTriggeredMilestone === 40) {
-                        playFadeTransition(() => {
-                            startEndingSequence();
-                        });
-                    } else {
-                        startCafeWithJIT(eventTriggeredMilestone);
-                    }
-                }, 500);
-            }, { once: true });
+           newReplyStamp.addEventListener('click', function() {
+    appendUserStampMessage('assets/images/stamp_now.webp');
+    setTimeout(() => {
+        if (eventTriggeredMilestone === 40) {
+            playFadeTransition(() => {
+                startEndingSequence();
+            });
+        } else if (isCafeImagesReady(eventTriggeredMilestone)) {
+            // 分岐A：ロード完了済み → 暗転後即カフェ画面
+            playFadeTransition(() => {
+                showScreen('screen-cafe');
+                handleCafeEventWithJIT(eventTriggeredMilestone);
+            });
+        } else {
+            // 分岐B：ロード未完了 → 暗転後歩行画面へ
+            playFadeTransition(() => {
+                showScreen('screen-walking');
+                startWalkingToDoor(eventTriggeredMilestone);
+            });
+        }
+    }, 500);
+}, { once: true });
 
         }, baseDelay + 4500);
 
