@@ -651,7 +651,43 @@ function preloadImage(src) {
         img.src = src;
     });
 }
+function getCafeImagePaths(milestone) {
+    const counts = { 10: 5, 20: 5, 30: 6 };
+    const total = counts[milestone] || 0;
+    const paths = [];
+    for (let i = 0; i < total; i++) {
+        paths.push(`assets/images/cafe/cafe${milestone}/cafe${milestone}_${i + 1}.webp`);
+    }
+    paths.push(`assets/images/cafe_walking.webp`);
+    paths.push(`assets/images/cafe_door.webp`);
+    return paths;
+}
+// マイルストーンごとのプリロード状態を管理するオブジェクト
+const cafePreloadState = {};
 
+function preloadCafeImages(milestone) {
+    if (cafePreloadState[milestone]) return; // すでに開始済みなら何もしない
+
+    const paths = getCafeImagePaths(milestone);
+    const promises = paths.map(path => preloadImage(path));
+
+    cafePreloadState[milestone] = {
+        promises: promises,
+        ready: false
+    };
+
+    Promise.all(promises).then(() => {
+        cafePreloadState[milestone].ready = true;
+        console.log(`[Preload] milestone ${milestone} の全画像ロード完了`);
+    }).catch(err => {
+        console.warn(`[Preload] milestone ${milestone} の画像ロード失敗:`, err);
+    });
+}
+
+function isCafeImagesReady(milestone) {
+    const state = cafePreloadState[milestone];
+    return state ? state.ready : false;
+}
 function getCafeImagePath(milestone, index) {
     return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.png`;
 }

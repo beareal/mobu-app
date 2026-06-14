@@ -2,6 +2,12 @@
 // Main Logic (イベントリスナーの登録)
 // ===============================================
 // 追加: 二重押し防止フラグ
+function triggerCafePreloadIfNeeded() {
+    const total = getTotalTasksCompleted();
+    if (total >= 7 && total < 10) preloadCafeImages(10);
+    else if (total >= 17 && total < 20) preloadCafeImages(20);
+    else if (total >= 27 && total < 30) preloadCafeImages(30);
+}
 let isCompleting = false;
 // ===============================================
 // STEP 4-A: タスクID と カテゴリー背景色マッチ
@@ -143,6 +149,7 @@ function completeChip(chipEl) {
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 基礎データとサボり判定を最優先で実行（UIのチラつき防止）
     generateUserId();
+    triggerCafePreloadIfNeeded();
     checkAbandonment();
 
     // 2. 通知・表示系の初期化
@@ -691,6 +698,11 @@ function showSplashScreen() {
 
     }, 1000);
 }
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'visible') {
+        triggerCafePreloadIfNeeded();
+    }
+});
 document.addEventListener('visibilitychange', checkAndShowHomeBanners);
 
 let currentCalendarDate = new Date();
