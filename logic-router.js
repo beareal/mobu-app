@@ -684,7 +684,8 @@ const promises = paths.map(path => preloadImage(path));
 }
 
 function isCafeImagesReady(milestone) {
-    return false; // テスト用：常にfalseを返す
+    const state = cafePreloadState[milestone];
+    return state ? state.ready : false;
 }
 function getCafeImagePath(milestone, index) {
 return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
