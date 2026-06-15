@@ -1062,6 +1062,7 @@ function checkAndSetupEvent() {
             playFadeTransition(() => {
                 startEndingSequence();
             });
+            console.log('[分岐確認] isCafeImagesReady:', isCafeImagesReady(eventTriggeredMilestone));
         } else if (isCafeImagesReady(eventTriggeredMilestone)) {
             // 分岐A：ロード完了済み → 暗転後即カフェ画面
             playFadeTransition(() => {
