@@ -669,7 +669,7 @@ function preloadCafeImages(milestone) {
     if (cafePreloadState[milestone]) return; // すでに開始済みなら何もしない
 
     const paths = getCafeImagePaths(milestone);
-const promises = paths.map(path => new Promise(resolve => setTimeout(() => preloadImage(path).then(resolve).catch(resolve), 3000)));
+const promises = paths.map(path => preloadImage(path));
     cafePreloadState[milestone] = {
         promises: promises,
         ready: false
@@ -684,7 +684,8 @@ const promises = paths.map(path => new Promise(resolve => setTimeout(() => prelo
 }
 
 function isCafeImagesReady(milestone) {
-    return false; // テスト用：常にfalseを返す
+    const state = cafePreloadState[milestone];
+    return state ? state.ready : false;
 }
 function getCafeImagePath(milestone, index) {
 return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
@@ -1060,7 +1061,6 @@ function checkAndSetupEvent() {
             playFadeTransition(() => {
                 startEndingSequence();
             });
-            console.log('[分岐確認] isCafeImagesReady:', isCafeImagesReady(eventTriggeredMilestone));
         } else if (isCafeImagesReady(eventTriggeredMilestone)) {
             // 分岐A：ロード完了済み → 暗転後即カフェ画面
             playFadeTransition(() => {
