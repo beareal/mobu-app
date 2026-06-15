@@ -691,7 +691,75 @@ function isCafeImagesReady(milestone) {
 function getCafeImagePath(milestone, index) {
     return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.png`;
 }
+function startWalkingToDoor(milestone) {
+    // 歩行画面を2秒表示後、自動でドア画面へ切り替え
+    setTimeout(() => {
+        showScreen('screen-door');
+        startDoorWaiting(milestone);
+    }, 2000);
+}
+function setupDoorTimeoutButton(milestone) {
+    const okButton = document.getElementById('door-timeout-ok-button');
+    if (!okButton) return;
 
+    const newOkButton = okButton.cloneNode(true);
+    okButton.parentNode.replaceChild(newOkButton, okButton);
+
+    newOkButton.addEventListener('click', function() {
+        const popupEl = document.getElementById('door-timeout-popup');
+        popupEl.style.display = 'none';
+        showScreen('screen-home');
+    }, { once: true });
+}
+function startDoorWaiting(milestone) {
+    const spinnerEl = document.getElementById('door-spinner-overlay');
+    const popupEl = document.getElementById('door-timeout-popup');
+
+    // 念のため初期化
+    spinnerEl.style.display = 'none';
+    popupEl.style.display = 'none';
+    setupDoorTimeoutButton(milestone);
+
+    const doorShowTime = Date.now();
+    let resolved = false;
+
+    // ロード完了を検知するポーリング（100ms間隔）
+    const pollInterval = setInterval(() => {
+        if (resolved) return;
+
+        const elapsed = Date.now() - doorShowTime;
+
+        if (isCafeImagesReady(milestone)) {
+            // ロード完了を検知
+            if (elapsed < 1000) {
+                // 1秒未満はまだロック中 → 何もしない（次のポーリングで再判定）
+                return;
+            }
+            // 1秒以上経過 → ロック解除してカフェ画面へ
+            resolved = true;
+            clearInterval(pollInterval);
+            clearTimeout(timeoutTimer);
+            spinnerEl.style.display = 'none';
+            showScreen('screen-cafe');
+            handleCafeEventWithJIT(milestone);
+            return;
+        }
+
+        // ロード未完了かつ2秒超えたらスピナー表示
+        if (elapsed >= 2000) {
+            spinnerEl.style.display = 'flex';
+        }
+    }, 100);
+
+    // 10秒タイムアウト
+    const timeoutTimer = setTimeout(() => {
+        if (resolved) return;
+        resolved = true;
+        clearInterval(pollInterval);
+        spinnerEl.style.display = 'none';
+        popupEl.style.display = 'flex';
+    }, 10000);
+}
 function startCafeWithJIT(milestone) {
     const firstImagePath = getCafeImagePath(milestone, 0);
     let imageLoadPromise = preloadImage(firstImagePath);
