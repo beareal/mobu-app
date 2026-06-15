@@ -669,8 +669,7 @@ function preloadCafeImages(milestone) {
     if (cafePreloadState[milestone]) return; // すでに開始済みなら何もしない
 
     const paths = getCafeImagePaths(milestone);
-    const promises = paths.map(path => preloadImage(path));
-
+const promises = paths.map(path => new Promise(resolve => setTimeout(() => preloadImage(path).then(resolve).catch(resolve), 3000)));
     cafePreloadState[milestone] = {
         promises: promises,
         ready: false
