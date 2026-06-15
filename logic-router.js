@@ -1188,7 +1188,7 @@ function handleCafeEventWithJIT(milestone) {
     for (let i = 0; i < dialogues.length; i++) {
         imagePaths.push(getCafeImagePath(milestone, i));
     }
-
+if (bgImage) bgImage.src = imagePaths[0];
     dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
 
