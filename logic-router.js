@@ -689,7 +689,7 @@ function isCafeImagesReady(milestone) {
     return state ? state.ready : false;
 }
 function getCafeImagePath(milestone, index) {
-    return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.png`;
+return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
 }
 function startWalkingToDoor(milestone) {
     // 歩行画面を2秒表示後、自動でドア画面へ切り替え
