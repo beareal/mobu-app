@@ -684,8 +684,7 @@ const promises = paths.map(path => new Promise(resolve => setTimeout(() => prelo
 }
 
 function isCafeImagesReady(milestone) {
-    const state = cafePreloadState[milestone];
-    return state ? state.ready : false;
+    return false; // テスト用：常にfalseを返す
 }
 function getCafeImagePath(milestone, index) {
 return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
