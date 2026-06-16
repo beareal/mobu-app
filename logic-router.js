@@ -690,6 +690,7 @@ function isCafeImagesReady(milestone) {
 function getCafeImagePath(milestone, index) {
 return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
 }
+
 function checkAndRestoreCafeIfNeeded() {
     const milestones = [10, 20, 30];
     const THIRTY_MINUTES = 30 * 60 * 1000;
@@ -794,7 +795,9 @@ function startDoorWaiting(milestone) {
             }
         }
         popupEl.style.display = 'flex';
-    }, 10000);
+   }, 10000);
+}
+
 function startCafeWithJIT(milestone) {
     const firstImagePath = getCafeImagePath(milestone, 0);
     let imageLoadPromise = preloadImage(firstImagePath);
