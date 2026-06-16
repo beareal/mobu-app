@@ -4,9 +4,9 @@
 // 追加: 二重押し防止フラグ
 function triggerCafePreloadIfNeeded() {
     const total = getTotalTasksCompleted();
-    if (total >= 7 && total < 10) preloadCafeImages(10);
-    else if (total >= 17 && total < 20) preloadCafeImages(20);
-    else if (total >= 27 && total < 30) preloadCafeImages(30);
+    if (total >= 7 && !getIsWatched(10)) preloadCafeImages(10);
+    else if (total >= 17 && !getIsWatched(20)) preloadCafeImages(20);
+    else if (total >= 27 && !getIsWatched(30)) preloadCafeImages(30);
 }
 let isCompleting = false;
 // ===============================================
