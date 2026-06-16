@@ -300,6 +300,26 @@ function clearCafeExitTime(milestone) {
     const key = 'cafeExitTime_' + milestone;
     localStorage.removeItem(key);
 }
+
+// ===============================================
+// 復帰バナー管理
+// ===============================================
+
+function getReturnBannerLog(milestone) {
+    const key = 'returnBannerLog_' + milestone;
+    return JSON.parse(localStorage.getItem(key) || '{"date":"","count":0,"lastTime":0,"shownIndices":[]}');
+}
+
+function saveReturnBannerLog(milestone, log) {
+    const key = 'returnBannerLog_' + milestone;
+    localStorage.setItem(key, JSON.stringify(log));
+}
+
+function resetReturnBannerLog(milestone) {
+    const key = 'returnBannerLog_' + milestone;
+    localStorage.removeItem(key);
+}
+
 function setIsInvited(milestone, value) {
     const key = 'isInvited_' + milestone;
     localStorage.setItem(key, value ? 'true' : 'false');
