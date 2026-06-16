@@ -693,7 +693,10 @@ return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
 function checkAndRestoreCafeIfNeeded() {
     const milestones = [10, 20, 30];
     const THIRTY_MINUTES = 30 * 60 * 1000;
-
+console.log('[復帰チェック] 開始');
+    for (const m of [10, 20, 30]) {
+        console.log(`[復帰チェック] milestone:${m} isInvited:${getIsInvited(m)} isWatched:${getIsWatched(m)} exitTime:${getCafeExitTime(m)}`);
+    }
     for (const m of milestones) {
         if (!getIsInvited(m) || getIsWatched(m)) continue;
 
