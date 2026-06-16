@@ -1922,7 +1922,9 @@ if (cinematicBg) {
 /**
  * ホーム画面表示時のバナー優先順位制御をまとめた関数
  */
+
 function checkAndShowHomeBanners() {
+    if (showReturnBannerIfNeeded()) return;
     if (getIsWaitingForRecoveryPhase2()) {
         showRecoveryFollowUpNotification();
         return;

@@ -319,6 +319,49 @@ function resetReturnBannerLog(milestone) {
     const key = 'returnBannerLog_' + milestone;
     localStorage.removeItem(key);
 }
+// ===============================================
+// 復帰バナー：セリフデータ
+// ===============================================
+const returnBannerDialogues = {
+    ver1: [
+        '（ユーザー名）、今どの辺りですか？気を付けてお越しくださいね！',
+        'いつもの席、空けてありますのでゆっくりお越しください😊'
+    ],
+    ver2: [
+        '（ユーザー名）、今こちらに向かってますか？道中気をつけてくださいね！',
+        '（ユーザー名）、いつものお気に入りの席、空けて待ってますね。急がなくて大丈夫です👍'
+    ],
+    ver3: [
+        '今どの辺り？急がなくて大丈夫だから、気を付けて来てね',
+        '（ユーザー名）お気に入りのカップ、今日も準備して待ってます✨'
+    ],
+    ver4: [
+        '（ユーザー名）、今向かってくれてる？つい、カフェのドアの方ばっかり見てるよ😄',
+        '（ユーザー名）、早く会いたいな。なんか急がせてるみたいだね💦ゆっくり気を付けて来てね！'
+    ]
+};
+
+function showReturnBannerIfNeeded() {
+    const milestones = [10, 20, 30];
+    for (const m of milestones) {
+        if (!shouldShowReturnBanner(m)) continue;
+
+        const nickname = localStorage.getItem('nickname') || 'あなた';
+        const ver = getMobuVersion();
+        const dialogues = returnBannerDialogues[ver];
+        if (!dialogues) continue;
+
+        const log = getReturnBannerLog(m);
+        // 1回目はindex 0、2回目はindex 1（2連続同じセリフにしない）
+        const index = log.count % 2;
+        const raw = dialogues[index];
+        const message = raw.replace(/（ユーザー名）/g, nickname);
+
+     showFakeNotification('モブ君', message, getMobuIconSrc(), 'return_banner');
+        return true;
+    }
+    return false;
+}
 function shouldShowReturnBanner(milestone) {
     if (!getIsInvited(milestone) || getIsWatched(milestone)) return false;
 
