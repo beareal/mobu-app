@@ -285,7 +285,21 @@ function getCompletedToday() {
 // ===============================================
 // マイルストーンイベント：招待済・視聴済フラグ管理
 // ===============================================
+function saveCafeExitTime(milestone) {
+    const key = 'cafeExitTime_' + milestone;
+    localStorage.setItem(key, Date.now().toString());
+}
 
+function getCafeExitTime(milestone) {
+    const key = 'cafeExitTime_' + milestone;
+    const val = localStorage.getItem(key);
+    return val ? parseInt(val, 10) : null;
+}
+
+function clearCafeExitTime(milestone) {
+    const key = 'cafeExitTime_' + milestone;
+    localStorage.removeItem(key);
+}
 function setIsInvited(milestone, value) {
     const key = 'isInvited_' + milestone;
     localStorage.setItem(key, value ? 'true' : 'false');
