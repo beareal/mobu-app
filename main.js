@@ -149,6 +149,8 @@ function completeChip(chipEl) {
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 基礎データとサボり判定を最優先で実行（UIのチラつき防止）
     generateUserId();
+
+    [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
     if (checkAndRestoreCafeIfNeeded()) return;
     triggerCafePreloadIfNeeded();
     checkAbandonment();
@@ -718,6 +720,7 @@ document.addEventListener('visibilitychange', function() {
         }
     } else if (document.visibilityState === 'visible') {
         // 復帰時：30分以内かつ未視聴ならカフェ画面へ
+        [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
         if (checkAndRestoreCafeIfNeeded()) return;
         triggerCafePreloadIfNeeded();
         checkAndShowHomeBanners();

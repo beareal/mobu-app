@@ -319,7 +319,14 @@ function resetReturnBannerLog(milestone) {
     const key = 'returnBannerLog_' + milestone;
     localStorage.removeItem(key);
 }
-
+function resetReturnBannerLogIfNeeded(milestone) {
+    const log = getReturnBannerLog(milestone);
+    const today = getGameDate();
+    if (log.date && log.date !== today) {
+        resetReturnBannerLog(milestone);
+        console.log(`[復帰バナー] milestone ${milestone} のログを朝4時基準でリセットしました`);
+    }
+}
 function setIsInvited(milestone, value) {
     const key = 'isInvited_' + milestone;
     localStorage.setItem(key, value ? 'true' : 'false');
