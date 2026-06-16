@@ -690,6 +690,32 @@ function isCafeImagesReady(milestone) {
 function getCafeImagePath(milestone, index) {
 return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
 }
+function checkAndRestoreCafeIfNeeded() {
+    const milestones = [10, 20, 30];
+    const THIRTY_MINUTES = 30 * 60 * 1000;
+
+    for (const m of milestones) {
+        if (!getIsInvited(m) || getIsWatched(m)) continue;
+
+        const exitTime = getCafeExitTime(m);
+        if (!exitTime) continue;
+
+        const elapsed = Date.now() - exitTime;
+        if (elapsed <= THIRTY_MINUTES) {
+            // 30分以内 → カフェ画面の最初へ直接遷移
+            preloadCafeImages(m);
+            const firstImagePath = getCafeImagePath(m, 0);
+            preloadImage(firstImagePath).then(() => {
+                showScreen('screen-cafe');
+                const bgImage = document.getElementById('cafe-background-image');
+                if (bgImage) bgImage.src = firstImagePath;
+                handleCafeEventWithJIT(m);
+            });
+            return true;
+        }
+    }
+    return false;
+}
 function startWalkingToDoor(milestone) {
     // 歩行画面を2秒表示後、自動でドア画面へ切り替え
     setTimeout(() => {
@@ -751,14 +777,21 @@ function startDoorWaiting(milestone) {
     }, 100);
 
     // 10秒タイムアウト
-    const timeoutTimer = setTimeout(() => {
+ const timeoutTimer = setTimeout(() => {
         if (resolved) return;
         resolved = true;
         clearInterval(pollInterval);
         spinnerEl.style.display = 'none';
+        // タイムアウト時も離脱時刻を記録
+        const milestones = [10, 20, 30];
+        for (const m of milestones) {
+            if (getIsInvited(m) && !getIsWatched(m)) {
+                saveCafeExitTime(m);
+                break;
+            }
+        }
         popupEl.style.display = 'flex';
     }, 10000);
-}
 function startCafeWithJIT(milestone) {
     const firstImagePath = getCafeImagePath(milestone, 0);
     let imageLoadPromise = preloadImage(firstImagePath);
@@ -1198,7 +1231,7 @@ cafeScreen.onclick = function() {
             dialogueText.textContent = dialogues[currentIndex];
             if (bgImage) bgImage.src = imagePaths[currentIndex];
         } else {
-            
+
             cafeScreen.onclick = null;
             setIsWatched(milestone, true);
             playFadeTransition(() => {

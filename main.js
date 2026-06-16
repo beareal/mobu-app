@@ -149,6 +149,7 @@ function completeChip(chipEl) {
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 基礎データとサボり判定を最優先で実行（UIのチラつき防止）
     generateUserId();
+    if (checkAndRestoreCafeIfNeeded()) return;
     triggerCafePreloadIfNeeded();
     checkAbandonment();
 
@@ -698,12 +699,30 @@ function showSplashScreen() {
 
     }, 1000);
 }
+
 document.addEventListener('visibilitychange', function() {
-    if (document.visibilityState === 'visible') {
+    const milestones = [10, 20, 30];
+    const currentScreen = document.querySelector('.screen.active');
+    const currentScreenId = currentScreen ? currentScreen.id : '';
+
+    if (document.visibilityState === 'hidden') {
+        // 離脱時：カフェ・歩行・ドア画面なら離脱時刻を記録
+        const cafeScreenIds = ['screen-cafe', 'screen-walking', 'screen-door'];
+        if (cafeScreenIds.includes(currentScreenId)) {
+            for (const m of milestones) {
+                if (getIsInvited(m) && !getIsWatched(m)) {
+                    saveCafeExitTime(m);
+                    break;
+                }
+            }
+        }
+    } else if (document.visibilityState === 'visible') {
+        // 復帰時：30分以内かつ未視聴ならカフェ画面へ
+        if (checkAndRestoreCafeIfNeeded()) return;
         triggerCafePreloadIfNeeded();
+        checkAndShowHomeBanners();
     }
 });
-document.addEventListener('visibilitychange', checkAndShowHomeBanners);
 
 let currentCalendarDate = new Date();
 
