@@ -1191,22 +1191,14 @@ if (bgImage) bgImage.src = imagePaths[0];
     dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
 
-    let nextImagePromise = imagePaths.length > 1 ? preloadImage(imagePaths[1]) : null;
-
-    cafeScreen.onclick = function() {
+cafeScreen.onclick = function() {
         currentIndex++;
         if (currentIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
             dialogueText.textContent = dialogues[currentIndex];
-
-            nextImagePromise && nextImagePromise.then(() => {
-                if (bgImage) bgImage.src = imagePaths[currentIndex];
-            });
-
-            nextImagePromise = currentIndex + 1 < imagePaths.length
-                ? preloadImage(imagePaths[currentIndex + 1])
-                : null;
+            if (bgImage) bgImage.src = imagePaths[currentIndex];
         } else {
+            
             cafeScreen.onclick = null;
             setIsWatched(milestone, true);
             playFadeTransition(() => {
