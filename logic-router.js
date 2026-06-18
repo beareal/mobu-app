@@ -451,8 +451,18 @@ checkAndShowHomeBanners();
             chatArea.innerHTML = ''; // まずはチャット欄を空にする
 
             // --- 通知からの遷移か、タスク報告からの遷移かを判定 ---
-            const tappedNotificationData = localStorage.getItem('tappedNotification');
-if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'recovery') {
+           const tappedNotificationData = localStorage.getItem('tappedNotification');
+if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'return_banner') {
+    const notification = JSON.parse(tappedNotificationData);
+    localStorage.removeItem('tappedNotification');
+    const milestone = notification.milestone;
+
+    playFadeTransition(() => {
+        showScreen('screen-cafe');
+        handleCafeEventWithJIT(milestone);
+    });
+
+} else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'recovery') {
     const notification = JSON.parse(tappedNotificationData);
     localStorage.removeItem('tappedNotification');
 
