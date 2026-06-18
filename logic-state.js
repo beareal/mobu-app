@@ -393,8 +393,9 @@ function shouldShowReturnBanner(milestone) {
 function markReturnBannerAsShown(milestone) {
     const log = getReturnBannerLog(milestone);
     const today = getGameDate();
+    const isSameDay = (log.date === today);
+    log.count = (isSameDay ? log.count : 0) + 1;
     log.date = today;
-    log.count = (log.date === today ? log.count : 0) + 1;
     log.lastTime = Date.now();
     saveReturnBannerLog(milestone, log);
 }
