@@ -453,6 +453,7 @@ checkAndShowHomeBanners();
             // --- 通知からの遷移か、タスク報告からの遷移かを判定 ---
            const tappedNotificationData = localStorage.getItem('tappedNotification');
 if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'return_banner') {
+    console.log('return_banner分岐に入った');
     const notification = JSON.parse(tappedNotificationData);
     localStorage.removeItem('tappedNotification');
     const milestone = notification.milestone;
