@@ -1434,8 +1434,8 @@ function showSettingsScreen() {
  * @param {string} iconSrc - プロフィールアイコンの画像パス
  * @param {string} notificationType - 通知の種類 ('periodic' or 'onee')
  */
-function showFakeNotification(sender, message, iconSrc, notificationType) {
-    const banner = document.getElementById('fake-notification-banner');
+function showFakeNotification(sender, message, iconSrc, notificationType, milestone = null) {
+const banner = document.getElementById('fake-notification-banner');
     const senderEl = document.getElementById('notification-sender');
     const messageEl = document.getElementById('notification-message');
     const iconEl = document.getElementById('notification-icon');
