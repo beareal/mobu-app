@@ -1467,13 +1467,14 @@ const banner = document.getElementById('fake-notification-banner');
     }, 50);
 
     // タップ時：バナーは消さず、LINE画面に遷移するだけ
-    replacedBanner.addEventListener('click', function() {
+   replacedBanner.addEventListener('click', function() {
         // どの通知がタップされたかを localStorage に保存
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
             sender: sender,
             message: message,
-            icon: iconSrc
+            icon: iconSrc,
+            milestone: milestone
         }));
 
         // 重要：復帰プロセス段階2のフラグ消去（バナーをタップした瞬間）
