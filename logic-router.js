@@ -1247,8 +1247,9 @@ cafeScreen.onclick = function() {
             if (bgImage) bgImage.src = imagePaths[currentIndex];
         } else {
 
-            cafeScreen.onclick = null;
+           cafeScreen.onclick = null;
             setIsWatched(milestone, true);
+            clearCafeExitTime(milestone);
             playFadeTransition(() => {
                 showScreen('screen-home');
             });
@@ -1256,6 +1257,7 @@ cafeScreen.onclick = function() {
     };
 }
 function handleCafeEvent(milestone) {
+    
     const cafeScreen = document.getElementById('screen-cafe');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const nickname = localStorage.getItem('nickname') || 'あなた';
