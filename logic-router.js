@@ -384,6 +384,7 @@ function showProfileScreen() {
  * @param {string} screenId 表示したい画面のID
  */
 function showScreen(screenId) {
+    console.log('showScreenが呼ばれた。渡されたscreenId:', screenId);
     // ★★★ 修正: 音の停止と画面非表示をここで行う ★★★
     stopAllSounds();
     document.querySelectorAll('.screen').forEach(screen => {
