@@ -384,7 +384,6 @@ function showProfileScreen() {
  * @param {string} screenId 表示したい画面のID
  */
 function showScreen(screenId) {
-    console.log('showScreenが呼ばれた。渡されたscreenId:', screenId);
     // ★★★ 修正: 音の停止と画面非表示をここで行う ★★★
     stopAllSounds();
     document.querySelectorAll('.screen').forEach(screen => {
@@ -454,8 +453,8 @@ checkAndShowHomeBanners();
             // --- 通知からの遷移か、タスク報告からの遷移かを判定 ---
            const tappedNotificationData = localStorage.getItem('tappedNotification');
 if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'return_banner') {
-    console.log('return_banner分岐に入った');
     const notification = JSON.parse(tappedNotificationData);
+
     localStorage.removeItem('tappedNotification');
     const milestone = notification.milestone;
 
@@ -1257,7 +1256,7 @@ cafeScreen.onclick = function() {
     };
 }
 function handleCafeEvent(milestone) {
-    
+
     const cafeScreen = document.getElementById('screen-cafe');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const nickname = localStorage.getItem('nickname') || 'あなた';
