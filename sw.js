@@ -35,7 +35,7 @@ const body = payload.data?.body || "";
 const tag = payload.data?.tag || "default";
 
   self.registration.showNotification(title, {
-    icon: '/mobu-app/assets/images/icons/mobu_notification_icon.png',
+    icon: '/mobu-app/assets/images/icons/mobu_notification_icon.webp',
     body: body,
     tag: tag,
   });
