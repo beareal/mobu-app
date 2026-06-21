@@ -426,7 +426,9 @@ function getIsWatched(milestone) {
     const key = 'isWatched_' + milestone;
     return localStorage.getItem(key) === 'true';
 }
-
+function isEpilogueReadyPending() {
+    return getIsInvited(40) && !getIsWatched(40);
+}
 function getMobuIconSrc() {
     const state = getMobuState();
     const version = getMobuVersion();
