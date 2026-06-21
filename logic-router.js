@@ -1965,6 +1965,7 @@ function showEpilogueReadyPopup() {
     }, { once: true });
 }
 function checkAndShowHomeBanners() {
+    if (isEpilogueReadyPending()) return;
     if (showReturnBannerIfNeeded()) return;
     if (getIsWaitingForRecoveryPhase2()) {
         showRecoveryFollowUpNotification();
