@@ -188,6 +188,7 @@ document.addEventListener('DOMContentLoaded', function() {
         if (appPhase === 'main_loop') {
             updateHomeTasks();
             showScreen('screen-home');
+            showEpilogueReadyPopup();
             return;
         }
     }
