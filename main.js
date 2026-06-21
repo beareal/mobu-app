@@ -721,6 +721,10 @@ document.addEventListener('visibilitychange', function() {
             }
         }
     } else if (document.visibilityState === 'visible') {
+        if (document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home' && isEpilogueReadyPending()) {
+            showEpilogueReadyPopup();
+            return;
+        }
         // 復帰時：30分以内かつ未視聴ならカフェ画面へ
         [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
         if (checkAndRestoreCafeIfNeeded()) return;
