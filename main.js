@@ -209,6 +209,7 @@ document.addEventListener('DOMContentLoaded', function() {
             if (appPhase === 'main_loop') {
                 updateHomeTasks();
                 showScreen('screen-home');
+                showEpilogueReadyPopup();
             } else if (nickname) {
                 if (appPhase === 'introduction_task_select') {
                     showScreen('screen-task-select');
