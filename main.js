@@ -49,7 +49,21 @@ function updateHomeTasks() {
     const tasks = JSON.parse(storedTasks);
     const chips = document.querySelectorAll('.task-chip-home');
     const completed = getCompletedToday();
-
+if (isEpilogueReadyPending()) {
+        chips.forEach((chip, index) => {
+            const label = chip.querySelector('.chip-label');
+            const iconWrap = chip.querySelector('.chip-icon-wrap');
+            if (label) label.textContent = '40タスク達成！アプリクリア';
+            const taskId = storedIds[index];
+            if (taskId && TASK_CATEGORY_MAP[taskId]) {
+                chip.style.backgroundColor = TASK_CATEGORY_MAP[taskId];
+            }
+            iconWrap.innerHTML = '';
+            chip.classList.add('completed');
+            chip.classList.add('checked');
+        });
+        return;
+    }
     chips.forEach((chip, index) => {
         const label = chip.querySelector('.chip-label');
         const iconWrap = chip.querySelector('.chip-icon-wrap');
