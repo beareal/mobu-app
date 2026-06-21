@@ -1936,7 +1936,34 @@ if (cinematicBg) {
 /**
  * ホーム画面表示時のバナー優先順位制御をまとめた関数
  */
+function showEpilogueReadyPopup() {
+    if (!isEpilogueReadyPending()) return;
 
+    const popup = document.getElementById('epilogue-ready-popup');
+    if (!popup) return;
+
+    popup.style.display = 'flex';
+
+    const continueBtn = document.getElementById('epilogue-popup-continue-button');
+    const stayBtn = document.getElementById('epilogue-popup-stay-button');
+
+    const newContinueBtn = continueBtn.cloneNode(true);
+    continueBtn.parentNode.replaceChild(newContinueBtn, continueBtn);
+
+    const newStayBtn = stayBtn.cloneNode(true);
+    stayBtn.parentNode.replaceChild(newStayBtn, stayBtn);
+
+    newContinueBtn.addEventListener('click', function() {
+        popup.style.display = 'none';
+        playFadeTransition(() => {
+            startEndingSequence();
+        });
+    }, { once: true });
+
+    newStayBtn.addEventListener('click', function() {
+        popup.style.display = 'none';
+    }, { once: true });
+}
 function checkAndShowHomeBanners() {
     if (showReturnBannerIfNeeded()) return;
     if (getIsWaitingForRecoveryPhase2()) {
