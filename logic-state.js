@@ -427,7 +427,7 @@ function getIsWatched(milestone) {
     return localStorage.getItem(key) === 'true';
 }
 function isEpilogueReadyPending() {
-    return getIsInvited(40) && !getIsWatched(40);
+    return getTotalTasksCompleted() >= 40;
 }
 function getMobuIconSrc() {
     const state = getMobuState();
