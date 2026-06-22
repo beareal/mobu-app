@@ -399,12 +399,30 @@ function showScreen(screenId) {
         // --- B-1: ホーム画面の完了ボタン制御 ---
         if (screenId === 'screen-home') {
             updateHomeTasks();
+            if (isEpilogueReadyPending()) {
+                const btn = document.querySelector('#screen-home .btn-primary');
+                btn.textContent = '物語の続きへ';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.filter = 'none';
+                btn.style.cursor = 'pointer';
+                btn.style.backgroundColor = '#f5c4a0';
+                btn.onclick = function() {
+                    playFadeTransition(() => {
+                        startEndingSequence();
+                    });
+                };
+                checkAndShowHomeBanners();
+                return;
+            }
             const today = new Date().toISOString().split('T')[0];
             const log = getAchievementLog();
             const todayCount = log[today] || 0;
             
             // IDで指定するのが一番確実です
             const btn = document.querySelector('#screen-home .btn-primary');
+            btn.textContent = '完了する';
+            btn.style.backgroundColor = '';
             const msg = document.getElementById('task-limit-message');
         
             if (todayCount >= 3) {

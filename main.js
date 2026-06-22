@@ -359,6 +359,7 @@ document.addEventListener('DOMContentLoaded', function() {
        // 完了ボタン
        homeCompleteButton.addEventListener('click', function() {
            // ★修正: 二重実行のガード
+           if (isEpilogueReadyPending()) return;
            if (this.disabled || isCompleting) return;
            isCompleting = true;
            this.disabled = true;
