@@ -398,9 +398,7 @@ function showScreen(screenId) {
         // --- 各画面表示時のユニークな処理 ---
         // --- B-1: ホーム画面の完了ボタン制御 ---
         if (screenId === 'screen-home') {
-            if (screenId === 'screen-home') {
             updateHomeTasks();
-            const today = new Date().toISOString().split('T')[0];
             const today = new Date().toISOString().split('T')[0];
             const log = getAchievementLog();
             const todayCount = log[today] || 0;
