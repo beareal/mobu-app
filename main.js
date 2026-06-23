@@ -484,6 +484,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 showCinematicScene(verNum, levelNum);
             } else {
                 showScreen('screen-home');
+                showEpilogueReadyPopup();
             }
         });
     }
