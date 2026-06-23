@@ -408,6 +408,8 @@ function showScreen(screenId) {
                 btn.style.cursor = 'pointer';
                 btn.style.backgroundColor = '#f5c4a0';
                 btn.onclick = function() {
+                    const popup = document.getElementById('epilogue-ready-popup');
+                    if (popup) popup.style.display = 'none';
                     playFadeTransition(() => {
                         startEndingSequence();
                     });
