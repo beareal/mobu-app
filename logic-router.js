@@ -1231,6 +1231,49 @@ function startEndingSequence() {
                     const beachImage = document.getElementById('epilogue-beach-image');
                     beachImage.style.opacity = '1';
                     whiteOverlay.style.opacity = '0';
+
+                    const blocker = document.getElementById('epilogue-input-blocker');
+                    blocker.style.display = 'block';
+
+                    const finText = document.getElementById('epilogue-fin-text');
+                    const creditText = document.getElementById('epilogue-credit-text');
+                    const restartImage = document.getElementById('epilogue-restart-image');
+
+                    finText.style.transition = 'opacity 2s';
+                    creditText.style.transition = 'opacity 2s';
+                    beachImage.style.transition = 'opacity 2s';
+                    restartImage.style.transition = 'opacity 2s';
+
+                    setTimeout(() => {
+                        finText.style.display = 'block';
+                        setTimeout(() => { finText.style.opacity = '1'; }, 10);
+                    }, 2000);
+
+                    setTimeout(() => {
+                        finText.style.opacity = '0';
+                    }, 5000);
+
+                    setTimeout(() => {
+                        creditText.style.display = 'block';
+                        setTimeout(() => { creditText.style.opacity = '1'; }, 10);
+                    }, 8000);
+
+                    setTimeout(() => {
+                        creditText.style.opacity = '0';
+                    }, 12000);
+
+                    setTimeout(() => {
+                        restartImage.style.display = 'block';
+                        setTimeout(() => {
+                            beachImage.style.opacity = '0';
+                            restartImage.style.opacity = '1';
+                        }, 10);
+                    }, 15000);
+
+                    setTimeout(() => {
+                        blocker.style.display = 'none';
+                    }, 17000);
+
                 }, 2000);
 
             };
