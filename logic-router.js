@@ -1159,6 +1159,20 @@ function checkAndSetupEvent() {
 /**
  * 40回達成時のカフェでの会話からエンディング画面への遷移を管理する
  */
+const endingEventData = [
+    { dialogue: "○○！来てくれてありがとう。嬉しいよ。ごめん、少し待ってて！上着取ってくるから！" },
+    { dialogue: "お待たせ。…時間、大丈夫そうだね？ちょっと歩くけど、○○と一緒に行きたい場所があるんだ。一緒に行こう。", fadeBefore: true },
+    { dialogue: "ここが俺のお気に入りの場所だよ。いつか大切な人と一緒に、ここから夕陽を見たいなってずっと思ってたんだ。" },
+    { dialogue: "本当は○○に初めて会った時から、ここに一緒に来たいと思ってた。でも自信が無くて誘えなかったんだ…。" },
+    { dialogue: "…" },
+    { dialogue: "…" },
+    { dialogue: "○○...。" },
+    { dialogue: "出会った時から好きだった。付き合ってほしい。返事はすぐじゃなくても、考えてほしい。" },
+    { dialogue: null },
+    { dialogue: null },
+    { dialogue: null },
+    { dialogue: null, whiteOutAfter: true }
+];
 function startEndingSequence() {
     showScreen('screen-cafe');
     playBGM('bgm_cafe_ambience.mp3', true);
