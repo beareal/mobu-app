@@ -1217,15 +1217,22 @@ function startEndingSequence() {
         if (endingEventData[currentIndex].whiteOutAfter) {
             cafeScreen.onclick = function() {
                 cafeScreen.onclick = null;
-                playFadeTransition(() => {
+
+                const whiteOverlay = document.getElementById('ending-whiteout-overlay');
+                whiteOverlay.style.display = 'block';
+
+                setTimeout(() => {
+                    whiteOverlay.style.opacity = '1';
+                }, 10);
+
+                setTimeout(() => {
                     showScreen('screen-epilogue');
                     playBGM('bgm_epilogue_ambience.mp3', true);
-                    playSE('voice_mobu_d2_monologue.mp3');
-                    setTimeout(() => {
-                        showScreen('screen-staff-roll');
-                        playBGM('bgm_epilogue_staffroll.mp3', true);
-                    }, 5000);
-                });
+                    const beachImage = document.getElementById('epilogue-beach-image');
+                    beachImage.style.opacity = '1';
+                    whiteOverlay.style.opacity = '0';
+                }, 2000);
+
             };
         }
     };
