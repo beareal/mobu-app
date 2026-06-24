@@ -1178,14 +1178,56 @@ function startEndingSequence() {
     playBGM('bgm_cafe_ambience.mp3', true);
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const cafeScreen = document.getElementById('screen-cafe');
-    dialogueText.textContent = "（ユーザー名）！来てくれてありがとう。嬉しいよ。...早速なんだけど、一緒に行こう。";
+    const bgImage = document.getElementById('cafe-background-image');
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+
+    let currentIndex = 0;
+
+    function renderFrame(index) {
+        const frame = endingEventData[index];
+        if (bgImage) bgImage.src = `assets/images/cafe/cafe40/cafe40_${index + 1}.webp`;
+        if (frame.dialogue) {
+            dialogueText.textContent = frame.dialogue.replace(/○○/g, nickname);
+        } else {
+            dialogueText.textContent = '';
+        }
+    }
+
+    renderFrame(currentIndex);
+
     cafeScreen.onclick = function() {
+        const nextIndex = currentIndex + 1;
+
+        if (nextIndex >= endingEventData.length) {
+            return;
+        }
+
         playSE('se_text_advance.mp3');
-        cafeScreen.onclick = null;
-        playFadeTransition(() => {
-            showScreen('screen-ending');
-            playBGM('bgm_confession.mp3', true);
-        });
+
+        if (endingEventData[nextIndex].fadeBefore) {
+            playFadeTransition(() => {
+                currentIndex = nextIndex;
+                renderFrame(currentIndex);
+            });
+        } else {
+            currentIndex = nextIndex;
+            renderFrame(currentIndex);
+        }
+
+        if (endingEventData[currentIndex].whiteOutAfter) {
+            cafeScreen.onclick = function() {
+                cafeScreen.onclick = null;
+                playFadeTransition(() => {
+                    showScreen('screen-epilogue');
+                    playBGM('bgm_epilogue_ambience.mp3', true);
+                    playSE('voice_mobu_d2_monologue.mp3');
+                    setTimeout(() => {
+                        showScreen('screen-staff-roll');
+                        playBGM('bgm_epilogue_staffroll.mp3', true);
+                    }, 5000);
+                });
+            };
+        }
     };
 }
 
