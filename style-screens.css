@@ -1194,7 +1194,19 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     font-size: 14px;
     letter-spacing: 0.05em;
 }
-
+/* 40タスク報告済み・未クリア用ポップアップ */
+#epilogue-ready-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
 /* C-0b: ドア画面 タイムアウトポップアップ */
 #door-timeout-popup {
     position: absolute;
