@@ -162,7 +162,8 @@ function completeChip(chipEl) {
 // DOMが読み込まれたらアプリを初期化
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 基礎データとサボり判定を最優先で実行（UIのチラつき防止）
-   preloadImage('assets/text/piron.webp');
+   preloadImage('assets/text/Fin.webp');
+    preloadImage('assets/text/piron.webp');
     generateUserId();
 
     [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
