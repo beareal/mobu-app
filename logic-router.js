@@ -1251,6 +1251,9 @@ function startEndingSequence() {
 
                     setTimeout(() => {
                         finText.style.opacity = '0';
+                        setTimeout(() => {
+                            finText.style.display = 'none';
+                        }, 2000);
                     }, 5000);
 
                     setTimeout(() => {
