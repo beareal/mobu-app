@@ -803,6 +803,11 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     height: 80px;
     object-fit: contain;
 }
+.fin-img {
+    width: 160px;
+    height: 94px;
+    object-fit: contain;
+}
 /* ポンッと出てきてじわっと消えるアニメーションの定義 */
 @keyframes popAndFade {
     0% {
