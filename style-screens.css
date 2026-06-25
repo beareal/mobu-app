@@ -1207,6 +1207,25 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     justify-content: center;
     z-index: 100;
 }
+#epilogue-popup-continue-button,
+#epilogue-popup-stay-button {
+    color: var(--text-dark);
+    border: none;
+    border-radius: 24px;
+    padding: 10px 36px;
+    font-size: 15px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 8px;
+}
+
+#epilogue-popup-continue-button {
+    background-color: #f5c4a0;
+}
+
+#epilogue-popup-stay-button {
+    background-color: #b9dcc6;
+}
 /* C-0b: ドア画面 タイムアウトポップアップ */
 #door-timeout-popup {
     position: absolute;
