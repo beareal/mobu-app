@@ -1272,7 +1272,16 @@ function startEndingSequence() {
                             restartImage.style.opacity = '1';
                         }, 10);
                     }, 15000);
-
+setTimeout(() => {
+                        restartImage.onclick = function() {
+                            restartImage.onclick = null;
+                            blocker.style.display = 'block';
+                            resetAllData();
+                            playBlinkVideo(() => {
+                                showScreen('screen-welcome');
+                            });
+                        };
+                    }, 17000);
                     setTimeout(() => {
                         blocker.style.display = 'none';
                     }, 17000);

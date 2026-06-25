@@ -214,11 +214,13 @@ console.log(`プロフィール演出 ${milestoneToMark}回目を「再生済み
  */
 function resetAllData() {
     console.log("全データをリセットします...");
-    // userId 以外の全てのデータを localStorage から削除
-    const userId = localStorage.getItem('userId'); // userIdだけは保持しておく
-    localStorage.clear(); // いったん全て消去
-    localStorage.setItem('userId', userId); // userIdを再設定
-    console.log("データのリセットが完了しました。");
+    // userId と loopCount 以外の全てのデータを localStorage から削除
+    const userId = localStorage.getItem('userId');
+    const loopCount = parseInt(localStorage.getItem('loopCount') || '0', 10);
+    localStorage.clear();
+    localStorage.setItem('userId', userId);
+    localStorage.setItem('loopCount', (loopCount + 1).toString());
+    console.log("データのリセットが完了しました。周回数:", loopCount + 1);
 }
 
 // ===============================================
