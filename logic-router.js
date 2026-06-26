@@ -859,10 +859,15 @@ function playBlinkVideo(onDarkMoment, showPironEffect = false) {
     }
 
     let started = false;
+    let fallbackTimer = null;
 
     function startPlayback() {
         if (started) return;
         started = true;
+
+        // 使われなかった方の待機手段を、必ずここで消す
+        video.removeEventListener('loadeddata', startPlayback);
+        clearTimeout(fallbackTimer);
 
         playSE('se_blink_start.mp3');
 
