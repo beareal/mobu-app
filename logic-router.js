@@ -914,7 +914,7 @@ function playBlinkVideo(onDarkMoment, showPironEffect = false) {
         // まだ準備できていなければ、準備完了イベントを待つ
         video.addEventListener('loadeddata', startPlayback, { once: true });
         // 1秒待っても準備できない場合は、安全のため強制的に開始する
-        setTimeout(startPlayback, 1000);
+        fallbackTimer = setTimeout(startPlayback, 1000);
     }
 }
 
