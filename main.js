@@ -151,7 +151,8 @@ function completeChip(chipEl) {
     const iconWrap = chipEl.querySelector('.chip-icon-wrap');
     iconWrap.innerHTML = '';
     chipEl.classList.add('checked');
-
+const checkbox = chipEl.querySelector('.chip-checkbox');
+    checkbox.checked = false;
     // Clear! を表示してフェードアウト
     const clearText = chipEl.querySelector('.chip-clear-text');
     clearText.classList.add('show');
