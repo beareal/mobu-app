@@ -851,53 +851,66 @@ function startCafeWithJIT(milestone) {
 function playBlinkVideo(onDarkMoment, showPironEffect = false) {
     const overlay = document.getElementById('video-overlay');
     const video = document.getElementById('blink-video');
-    const pironContainer = document.getElementById('piron-effect-container'); // ★追加
+    const pironContainer = document.getElementById('piron-effect-container');
 
     if (!overlay || !video) {
         if (onDarkMoment) onDarkMoment();
         return;
     }
 
-    playSE('se_blink_start.mp3');
+    let started = false;
 
-    // ★★★ ピロン♪演出の表示ロジックを追加 ★★★
-    if (showPironEffect && pironContainer) {
-        pironContainer.style.display = 'flex';
-        // アニメーションをリセットするためにクラスを一度削除して再追加
-        const pironText = pironContainer.querySelector('.sound-effect-text');
-        pironText.style.animation = 'none';
-        pironText.offsetHeight; // 再描画をトリガー
-        pironText.style.animation = ''; 
-        
-        playSE('se_task_complete_on.mp3');
-    }
-    // ★★★ ここまで ★★★
+    function startPlayback() {
+        if (started) return;
+        started = true;
 
-    overlay.classList.add('active');
-    video.currentTime = 0;
-    const playPromise = video.play();
+        playSE('se_blink_start.mp3');
 
-    if (playPromise !== undefined) {
-        playPromise.catch(error => {
-            console.error("動画再生エラー:", error);
-            if (onDarkMoment) onDarkMoment();
-            overlay.classList.remove('active');
-            if (pironContainer) pironContainer.style.display = 'none';
-        });
-    }
+        if (showPironEffect && pironContainer) {
+            pironContainer.style.display = 'flex';
+            const pironText = pironContainer.querySelector('.sound-effect-text');
+            pironText.style.animation = 'none';
+            pironText.offsetHeight;
+            pironText.style.animation = '';
 
-    setTimeout(() => {
-        if (onDarkMoment) onDarkMoment();
-    }, 500); // 瞬きで暗くなるタイミングで画面を切り替える
-
-    video.onended = () => {
-        playSE('se_blink_end.mp3');
-        overlay.classList.remove('active');
-        // ★★★ 演出が終わったらピロン♪を非表示に戻す ★★★
-        if (pironContainer) {
-            pironContainer.style.display = 'none';
+            playSE('se_task_complete_on.mp3');
         }
-    };
+
+        overlay.classList.add('active');
+        video.currentTime = 0;
+        const playPromise = video.play();
+
+        if (playPromise !== undefined) {
+            playPromise.catch(error => {
+                console.error("動画再生エラー:", error);
+                if (onDarkMoment) onDarkMoment();
+                overlay.classList.remove('active');
+                if (pironContainer) pironContainer.style.display = 'none';
+            });
+        }
+
+        setTimeout(() => {
+            if (onDarkMoment) onDarkMoment();
+        }, 500);
+
+        video.onended = () => {
+            playSE('se_blink_end.mp3');
+            overlay.classList.remove('active');
+            if (pironContainer) {
+                pironContainer.style.display = 'none';
+            }
+        };
+    }
+
+    // 動画の1コマ目が描画できる状態（readyState 2以上）なら即開始
+    if (video.readyState >= 2) {
+        startPlayback();
+    } else {
+        // まだ準備できていなければ、準備完了イベントを待つ
+        video.addEventListener('loadeddata', startPlayback, { once: true });
+        // 1秒待っても準備できない場合は、安全のため強制的に開始する
+        setTimeout(startPlayback, 1000);
+    }
 }
 
 /**
