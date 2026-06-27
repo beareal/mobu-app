@@ -163,6 +163,7 @@ const checkbox = chipEl.querySelector('.chip-checkbox');
 // DOMが読み込まれたらアプリを初期化
 document.addEventListener('DOMContentLoaded', function() {
     // 1. 基礎データとサボり判定を最優先で実行（UIのチラつき防止）
+    if (getTotalTasksCompleted() === 0) preloadIntroImages();
    preloadImage('assets/text/Fin.webp');
     preloadImage('assets/text/piron.webp');
     generateUserId();
