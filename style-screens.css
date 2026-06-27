@@ -1038,15 +1038,15 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
 }
 
 .cinematic-bg.ver2 {
-    background-image: url('assets/cinema/ver2cinema.png');
+    background-image: url('assets/cinema/ver2cinema.webp');
 }
 
 .cinematic-bg.ver3 {
-    background-image: url('assets/cinema/ver3cinema.png');
+    background-image: url('assets/cinema/ver3cinema.webp');
 }
 
 .cinematic-bg.ver4 {
-    background-image: url('assets/cinema/ver4cinema.png');
+    background-image: url('assets/cinema/ver4cinema.webp');
 }
 
 .cinematic-letterbox {

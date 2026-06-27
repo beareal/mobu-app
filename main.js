@@ -485,6 +485,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 const verNum = mobuVersion.replace('ver', '');
                 const levelNum = lastRecoveryLevel.replace('onee_lv', '');
                 localStorage.removeItem('lastRecoveryLevel');
+                preloadImage(`assets/cinema/ver${verNum}cinema.webp`);
+                showCinematicScene(verNum, levelNum);
+                localStorage.removeItem('lastRecoveryLevel');
                 showCinematicScene(verNum, levelNum);
             } else {
                 showScreen('screen-home');
