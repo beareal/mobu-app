@@ -2,15 +2,19 @@
 // カフェ画像設計図
 // =============================
 const cafeImageMap = {
-    'start_0':      'assets/images/mobu_v1_welcome.png',
-    'start_1':      'assets/images/mobu_v1_thinking.png',
-    'motivation_0': 'assets/images/mobu_v1_motivation_a.png',
-    'motivation_1': 'assets/images/mobu_v1_motivation_b.png',
-    'motivation_2': 'assets/images/mobu_v1_motivation_c.png',
-    'report_0':     'assets/images/mobu_v1_report_a.png',
-    'report_1':     'assets/images/mobu_v1_report_b.png',
-    'report_2':     'assets/images/mobu_v1_report_c.png',
+    'start_0':      'assets/images/mobu_v1_welcome.webp',
+    'start_1':      'assets/images/mobu_v1_thinking.webp',
+    'motivation_0': 'assets/images/mobu_v1_motivation_a.webp',
+    'motivation_1': 'assets/images/mobu_v1_motivation_b.webp',
+    'motivation_2': 'assets/images/mobu_v1_motivation_c.webp',
+    'report_0':     'assets/images/mobu_v1_report_a.webp',
+    'report_1':     'assets/images/mobu_v1_report_b.webp',
+    'report_2':     'assets/images/mobu_v1_report_c.webp',
 };
+
+function preloadIntroImages() {
+    Object.values(cafeImageMap).forEach(path => preloadImage(path));
+}
 // ===============================================
 // Dialogue Data (セリフデータ)
 // ===============================================
