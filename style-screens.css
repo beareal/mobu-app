@@ -920,6 +920,13 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     z-index: 11000;
     margin: 0;
 }
+.fake-notification.banner-hidden {
+    max-height: 0 !important;
+    opacity: 0 !important;
+    padding: 0 !important;
+    margin-bottom: 0 !important;
+    pointer-events: none !important;
+}
 
 .fake-notification.show {
     max-height: 120px;
