@@ -1655,11 +1655,9 @@ const banner = document.getElementById('fake-notification-banner');
         if (notificationType === 'recovery') {
             setIsWaitingForRecoveryPhase2(false);
         }
-const iineKey = 'iine_display_log';
-const iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
-iineLog.lastTime = Date.now();
-localStorage.setItem(iineKey, JSON.stringify(iineLog));
-        markSlotAsShown();
+if (notificationType === 'periodic') {
+            markSlotAsShown();
+        }
         // 瞬き演出を挟んでLINE画面へ遷移
         replacedBanner.classList.remove('show');
         playBlinkVideo(() => {
