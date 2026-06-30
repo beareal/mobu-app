@@ -1665,6 +1665,11 @@ const banner = document.getElementById('fake-notification-banner');
         }
 if (notificationType === 'periodic') {
             markSlotAsShown();
+        } else if (notificationType === 'onee') {
+            const iineKey = 'iine_display_log';
+            const iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
+            iineLog.count += 1;
+            localStorage.setItem(iineKey, JSON.stringify(iineLog));
         }
         // 瞬き演出を挟んでLINE画面へ遷移
         replacedBanner.classList.remove('show');
