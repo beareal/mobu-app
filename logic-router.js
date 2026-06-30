@@ -2132,6 +2132,10 @@ function showEpilogueReadyPopup() {
     }, { once: true });
 }
 function checkAndShowHomeBanners() {
+    const existingBanner = document.getElementById('fake-notification-banner');
+    if (existingBanner && existingBanner.classList.contains('show')) {
+        return;
+    }
     if (isEpilogueReadyPending()) return;
     if (showReturnBannerIfNeeded()) return;
     if (getIsWaitingForRecoveryPhase2()) {
