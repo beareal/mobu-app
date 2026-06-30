@@ -398,7 +398,15 @@ function showScreen(screenId) {
     if (targetScreen) {
         targetScreen.classList.add('active');
         window.scrollTo(0, 0);
-
+const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'];
+        const bannerEl = document.getElementById('fake-notification-banner');
+        if (bannerEl) {
+            if (bannerAllowedScreens.includes(screenId)) {
+                bannerEl.classList.remove('banner-hidden');
+            } else {
+                bannerEl.classList.add('banner-hidden');
+            }
+        }
         // --- 各画面表示時のユニークな処理 ---
         // --- B-1: ホーム画面の完了ボタン制御 ---
         if (screenId === 'screen-home') {
