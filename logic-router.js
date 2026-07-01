@@ -2140,9 +2140,17 @@ function showEpilogueReadyPopup() {
         popup.style.display = 'none';
     }, { once: true });
 }
+
 function checkAndShowHomeBanners() {
     const existingBanner = document.getElementById('fake-notification-banner');
     if (existingBanner && existingBanner.classList.contains('show')) {
+        return;
+    }
+    if (localStorage.getItem('showFirstHomeBanner') === 'true') {
+        const nickname = localStorage.getItem('nickname') || 'あなた';
+        const message = `さっきはありがとうございました😊俺、これから${nickname}と一緒に頑張れると思うとワクワクしてます！`;
+        showFakeNotification('モブ君', message, getMobuIconSrc(), 'periodic');
+        localStorage.removeItem('showFirstHomeBanner');
         return;
     }
     if (isEpilogueReadyPending()) return;
