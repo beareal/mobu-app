@@ -346,6 +346,7 @@ padding: 12px;
 border-radius: 12px;
 font-weight: var(--font-regular);
 color: var(--text-dark);
+text-align: left;
 }
 
 .line-message.mobu {
