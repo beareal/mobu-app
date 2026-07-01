@@ -67,7 +67,7 @@ const periodicNotificationDialogues = [
 
     // 🌤 昼12:30 - タスク⑤ストレッチ
     { taskId: "task-select-7", time: "12:30", text: "やっとお昼ですね。肩凝ってません？軽くストレッチして少し休憩しますか？" },
-    { taskId: "task-select-7", time: "12:30", text: "忙しい中で1分とるって、意外と難しい。でも${nickname}なら、ちゃんとやってそうだなって思います。" },
+    { taskId: "task-select-7", time: "12:30", text: "忙しい中で1分とるって、意外と難しい。でも${nickname}なら、コツコツ頑張ってそうだなって思います。" },
     { taskId: "task-select-7", time: "12:30", text: "仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！" },
 
     // 🌤 昼12:30 - タスク⑥階段
@@ -1545,6 +1545,10 @@ function handleIntroductionDialogue(type) {
             if (type === 'start') {
                 localStorage.setItem('appPhase', 'introduction_task_select');
                 playBlinkVideo(() => showScreen('screen-task-select'));
+                } else if (type === 'motivation') {
+                localStorage.setItem('appPhase', 'main_loop');
+                localStorage.setItem('showFirstHomeBanner', 'true');
+                playBlinkVideo(() => showScreen('screen-home'));
             } else if (type === 'motivation') {
                 localStorage.setItem('appPhase', 'main_loop');
                 playBlinkVideo(() => showScreen('screen-home'));
@@ -1767,7 +1771,7 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: 'やっとお昼ですね。肩凝ってません？軽くストレッチして少し休憩しますか？' },
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '今日はお昼休憩にしっかりストレッチするって決めてるんです。午前中、ずっと同じ姿勢だと身体がガチガチになっちゃいますもんね。○○も、無理しないでくださいね。' },
     { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: '今日はお昼にストレッチしたおかげで、いつもより肩が楽な気がします。やっぱりこまめに動かすのって大事ですね。○○も、今日一日お疲れ様でした。' },
-    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '忙しい中で1分とるって、意外と難しい。でも○○なら、ちゃんとやってそうだなって思います。' },
+    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '忙しい中で1分とるって、意外と難しい。でも○○なら、コツコツ頑張ってそうだなって思います。' },
     { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！' },
 
     // ⑥ 階段 task-select-8
