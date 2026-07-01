@@ -1669,6 +1669,7 @@ const banner = document.getElementById('fake-notification-banner');
         }
 if (notificationType === 'periodic') {
             markSlotAsShown();
+            localStorage.removeItem('showFirstHomeBanner');
         } else if (notificationType === 'onee') {
             const iineKey = 'iine_display_log';
             const iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
@@ -2150,7 +2151,6 @@ function checkAndShowHomeBanners() {
         const nickname = localStorage.getItem('nickname') || 'あなた';
         const message = `さっきはありがとうございました😊俺、これから${nickname}と一緒に頑張れると思うとワクワクしてます！`;
         showFakeNotification('モブ君', message, getMobuIconSrc(), 'periodic');
-        localStorage.removeItem('showFirstHomeBanner');
         return;
     }
     if (isEpilogueReadyPending()) return;
