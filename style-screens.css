@@ -338,7 +338,9 @@ flex: 1;
 padding: 20px;
 overflow-y: auto;
 }
-
+.line-message p {
+    text-align: left;
+}
 .line-message {
 max-width: 70%;
 margin-bottom: 12px;
