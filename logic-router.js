@@ -580,40 +580,59 @@ newReplyStamp.addEventListener('click', function() {
 
                 // (ここに元のタスク報告のフローが入る)
                 const mobuState = getMobuState();
-                const reportedTask = localStorage.getItem('currentReportTask');
-                let initialDelay = 500;
-                const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
+ const reportedTask = localStorage.getItem('currentReportTask');
+                 let initialDelay = 500;
+                 const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
+                 const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
+                 let oneeMessageUsed = false;
 
-                // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
-                const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
-                if (lastRecoveryLevel) {
-                    const mobuVersion = getMobuVersion();
-                    const dialogueData = recoveryDialogues[mobuVersion];
-                    const rawDialogue = dialogueData ? dialogueData[lastRecoveryLevel] : null;
+                 // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
+                 const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
+                 if (lastRecoveryLevel) {
+                     const mobuVersion = getMobuVersion();
+                     const dialogueData = recoveryDialogues[mobuVersion];
+                     const rawDialogue = dialogueData ? dialogueData[lastRecoveryLevel] : null;
 
-                    if (rawDialogue) {
-                        const nickname = localStorage.getItem('nickname') || 'あなた';
-                        const dialogue = rawDialogue.replace(/○○/g, nickname);
-                        appendLineMessage('mobu', dialogue, initialDelay);
-                        initialDelay += 1500;
+                     if (rawDialogue) {
+                         const nickname = localStorage.getItem('nickname') || 'あなた';
+                         const dialogue = rawDialogue.replace(/○○/g, nickname);
 
-                        const reactions = userReplyDialogues.recoveryReactions;
-                        const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-                        appendLineMessage('user', randomReaction, initialDelay);
-                        initialDelay += 1500;
+                         if (pendingOneeMessage) {
+                             appendLineMessage('mobu', pendingOneeMessage, initialDelay);
+                             initialDelay += 1500;
 
-                        // 全てのメッセージ表示が終わったタイミングで Phase 2 フラグを立てる (仕様書 5-1)
-                        const finalDelay = initialDelay;
-                        setTimeout(() => {
-                            setIsWaitingForRecoveryPhase2(true);
-                        }, finalDelay);
-                    }
-                }
-                
-                appendLineMessage('user', userTaskReportText, initialDelay);
-                initialDelay += 1000;
-                appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
-                initialDelay += 1000;
+                             const combinedReaction = `心配させてごめんね💦でも、今日はタスクこなしたから✌️${userTaskReportText}`;
+                             appendLineMessage('user', combinedReaction, initialDelay);
+                             initialDelay += 1500;
+
+                             appendLineMessage('mobu', dialogue, initialDelay);
+                             initialDelay += 1500;
+
+                             oneeMessageUsed = true;
+                             localStorage.removeItem('pendingOneeMessage');
+                         } else {
+                             appendLineMessage('mobu', dialogue, initialDelay);
+                             initialDelay += 1500;
+
+                             const reactions = userReplyDialogues.recoveryReactions;
+                             const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
+                             appendLineMessage('user', randomReaction, initialDelay);
+                             initialDelay += 1500;
+                         }
+
+                         const finalDelay = initialDelay;
+                         setTimeout(() => {
+                             setIsWaitingForRecoveryPhase2(true);
+                         }, finalDelay);
+                     }
+                 }
+                 
+                 if (!oneeMessageUsed) {
+                     appendLineMessage('user', userTaskReportText, initialDelay);
+                     initialDelay += 1000;
+                 }
+                 appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
+                 initialDelay += 1000;
 setTimeout(() => {
     if (Math.random() < 0.5) {
         startMoodSharing();
