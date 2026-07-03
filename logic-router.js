@@ -607,7 +607,10 @@ newReplyStamp.addEventListener('click', function() {
 
                              appendLineMessage('mobu', dialogue, initialDelay);
                              initialDelay += 1500;
-
+const fakeBanner = document.getElementById('fake-notification-banner');
+                            if (fakeBanner) {
+                                fakeBanner.classList.remove('show');
+                            }
                              oneeMessageUsed = true;
                              localStorage.removeItem('pendingOneeMessage');
                          } else {
