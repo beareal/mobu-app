@@ -638,7 +638,7 @@ const rawMessage = dialogues[Math.floor(Math.random() * dialogues.length)];
 const message = rawMessage.replace(/○○/g, nickname);
     iineLog.lastTime = now;
     localStorage.setItem(iineKey, JSON.stringify(iineLog));
-
+localStorage.setItem('pendingOneeMessage', message);
     showFakeNotification('モブ君', message, getMobuIconSrc(), 'onee');
 }
 
