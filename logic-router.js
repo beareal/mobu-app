@@ -540,7 +540,8 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
 
                // 4. 処理が終わったら、保存しておいたデータを消去（重要）
                localStorage.removeItem('tappedNotification');
-
+// pendingOneeMessageも削除（二重表示防止）
+               localStorage.removeItem('pendingOneeMessage');
                // 5. スタンプがクリックされた時の処理を登録
                let stampClicked = false;
                replyStamp.onclick = function() {
