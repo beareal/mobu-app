@@ -117,8 +117,13 @@ function resetAbandonment() {
     const currentState = getMobuState();
 
     // サボり状態（onee_lv1~3）から復帰する場合のみ、元のレベルを記憶
+    
     if (currentState !== 'normal') {
         localStorage.setItem('lastRecoveryLevel', currentState);
+    }
+    // 今回の報告でたった今復帰したかどうかの使い捨て目印（ステップ0-2）
+    if (currentState !== 'normal') {
+        localStorage.setItem('justRecoveredThisReport', 'true');
     }
 // これは復帰フォローアップバナー専用、ステップ3の値とは別物
     localStorage.setItem('lastAbandonDaysBeforeReset', getAbandonDays().toString());
