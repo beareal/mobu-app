@@ -630,7 +630,10 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                          }, finalDelay);
                      }
                  }
-                 
+                 if (justRecovered) {
+                     // 表示し終えたので使い捨て目印を消す（lastRecoveryLevel自体は回想シーンでまだ使うので残す）
+                     localStorage.removeItem('justRecoveredThisReport');
+                 }
                  if (!oneeMessageUsed) {
                      appendLineMessage('user', userTaskReportText, initialDelay);
                      initialDelay += 1000;
