@@ -120,7 +120,8 @@ function resetAbandonment() {
     if (currentState !== 'normal') {
         localStorage.setItem('lastRecoveryLevel', currentState);
     }
-
+// これは復帰フォローアップバナー専用、ステップ3の値とは別物
+    localStorage.setItem('lastAbandonDaysBeforeReset', getAbandonDays().toString());
     setAbandonDays(0);
     setMobuState('normal');
     console.log("サボり状態をリセットしました（正常復帰）");

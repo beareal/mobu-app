@@ -487,8 +487,6 @@ document.addEventListener('DOMContentLoaded', function() {
                 localStorage.removeItem('lastRecoveryLevel');
                 preloadImage(`assets/cinema/ver${verNum}cinema.webp`);
                 showCinematicScene(verNum, levelNum);
-                localStorage.removeItem('lastRecoveryLevel');
-                showCinematicScene(verNum, levelNum);
             } else {
                 showScreen('screen-home');
                 showEpilogueReadyPopup();

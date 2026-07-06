@@ -2069,7 +2069,8 @@ function showRecoveryFollowUpNotification() {
     isRecoveryFollowUpShowing = true;
 
     // 放置日数（abandonDays）に基づいてセリフのレベルを決定 (仕様書 3-1)
-    const days = getAbandonDays();
+    // これは復帰フォローアップバナー専用、ステップ3の値とは別物
+    const days = parseInt(localStorage.getItem('lastAbandonDaysBeforeReset') || '0', 10);
     let level = 'lv1';
     if (days >= 10) level = 'lv3';
     else if (days >= 4) level = 'lv2';
