@@ -588,7 +588,8 @@ newReplyStamp.addEventListener('click', function() {
 
                  // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
                  const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
-                 if (lastRecoveryLevel) {
+                 const justRecovered = localStorage.getItem('justRecoveredThisReport') === 'true';
+                 if (lastRecoveryLevel && justRecovered) {
                      const mobuVersion = getMobuVersion();
                      const dialogueData = recoveryDialogues[mobuVersion];
                      const rawDialogue = dialogueData ? dialogueData[lastRecoveryLevel] : null;
