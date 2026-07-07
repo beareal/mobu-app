@@ -113,6 +113,7 @@ return localStorage.getItem('mobuState') || 'normal';
  * 仕様書 3-3, 7 準拠
  * 注意：Phase 2フラグのセットは、LINEメッセージ表示後に行うためここでは保留（仕様書 5-1）
  */
+console.log('resetAbandonment呼び出し direkt前のmobuState:', localStorage.getItem('mobuState'));
 function resetAbandonment() {
     const currentState = getMobuState();
 
