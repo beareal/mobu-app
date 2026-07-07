@@ -555,7 +555,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                        });
                    }, 500);
                };
-console.log('通常タスク報告ルートに入った');
+
            } else {
             
 // 5. スタンプがクリックされた時の処理を登録
