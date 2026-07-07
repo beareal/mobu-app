@@ -387,6 +387,7 @@ function showProfileScreen() {
  * 指定されたIDの画面を表示する
  * @param {string} screenId 表示したい画面のID
  */
+console.log('showScreen呼び出し:', screenId);
 function showScreen(screenId) {
     // ★★★ 修正: 音の停止と画面非表示をここで行う ★★★
     stopAllSounds();
