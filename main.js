@@ -481,6 +481,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // 通常の戻る処理
             const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
             const mobuVersion = getMobuVersion();
+            if (lastRecoveryLevel) {
+                localStorage.removeItem('lastRecoveryLevel');
+            }
             if (lastRecoveryLevel && mobuVersion !== 'ver1') {
                 const verNum = mobuVersion.replace('ver', '');
                 const levelNum = lastRecoveryLevel.replace('onee_lv', '');
