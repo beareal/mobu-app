@@ -625,10 +625,7 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                              initialDelay += 1500;
                          }
 
-                         const finalDelay = initialDelay;
-                         setTimeout(() => {
-                             setIsWaitingForRecoveryPhase2(true);
-                         }, finalDelay);
+                         setIsWaitingForRecoveryPhase2(true);
                      }
                  }
                  if (justRecovered) {
