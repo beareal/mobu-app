@@ -126,6 +126,9 @@ function resetAbandonment() {
     if (currentState !== 'normal') {
         localStorage.setItem('justRecoveredThisReport', 'true');
     }
+    if (currentState !== 'normal') {
+        localStorage.setItem('followUpAbandonDays', getAbandonDays().toString());
+    }
 // これは復帰フォローアップバナー専用、ステップ3の値とは別物
 localStorage.setItem('followUpAbandonDays', getAbandonDays().toString());
     localStorage.setItem('lastAbandonDaysBeforeReset', getAbandonDays().toString());
