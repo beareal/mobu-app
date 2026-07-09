@@ -632,6 +632,28 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                      // 表示し終えたので使い捨て目印を消す（lastRecoveryLevel自体は回想シーンでまだ使うので残す）
                      localStorage.removeItem('justRecoveredThisReport');
                  }
+                 if (!justRecovered && getIsWaitingForRecoveryPhase2()) {
+                     const followUpDays = parseInt(localStorage.getItem('followUpAbandonDays') || '0', 10);
+                     let followUpLevel = 'lv1';
+                     if (followUpDays >= 10) followUpLevel = 'lv3';
+                     else if (followUpDays >= 4) followUpLevel = 'lv2';
+
+                     const followUpNickname = localStorage.getItem('nickname') || 'あなた';
+                     const followUpMobuLine = recoveryFollowUpDialogues[followUpLevel].replace(/○○/g, followUpNickname);
+                     appendLineMessage('mobu', followUpMobuLine, initialDelay);
+                     initialDelay += 1500;
+
+                     const followUpUserReactions = {
+                         lv1: `そうですね、いつものモブ君に戻って安心しました😊これからはお互い無理せず、私たちのペースで進めていきましょう！あ、そういえば、${userTaskReportText}`,
+                         lv2: `確かに最近のモブ君ちょっと面白かった😂でもやっぱりいつもの感じが一番落ち着きますね。また一緒にゆるく頑張ろ！それはそうと、${userTaskReportText}`,
+                         lv3: `こちらこそ、そう言ってもらえて嬉しいです。また一緒に少しずつ積み重ねていこうね✨あ、ちなみにね、${userTaskReportText}`
+                     };
+                     appendLineMessage('user', followUpUserReactions[followUpLevel], initialDelay);
+                     initialDelay += 1500;
+
+                     setIsWaitingForRecoveryPhase2(false);
+                     oneeMessageUsed = true;
+                 }
                  if (!oneeMessageUsed) {
                      appendLineMessage('user', userTaskReportText, initialDelay);
                      initialDelay += 1000;
