@@ -363,6 +363,7 @@ document.addEventListener('DOMContentLoaded', function() {
        // 完了ボタン
        homeCompleteButton.addEventListener('click', function() {
            // ★修正: 二重実行のガード
+           console.log('【診断】完了ボタンのクリック処理が呼ばれました:', Date.now());
            if (isEpilogueReadyPending()) return;
            if (this.disabled || isCompleting) return;
            isCompleting = true;
