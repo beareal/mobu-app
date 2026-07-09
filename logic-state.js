@@ -130,7 +130,7 @@ function resetAbandonment() {
         localStorage.setItem('followUpAbandonDays', getAbandonDays().toString());
     }
 // これは復帰フォローアップバナー専用、ステップ3の値とは別物
-localStorage.setItem('followUpAbandonDays', getAbandonDays().toString());
+
     localStorage.setItem('lastAbandonDaysBeforeReset', getAbandonDays().toString());
     setAbandonDays(0);
     setMobuState('normal');
