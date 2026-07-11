@@ -628,10 +628,10 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                          setIsWaitingForRecoveryPhase2(true);
                      }
                  }
-                 if (justRecovered) {
-                     // 表示し終えたので使い捨て目印を消す（lastRecoveryLevel自体は回想シーンでまだ使うので残す）
-                     localStorage.removeItem('justRecoveredThisReport');
-                 }
+                 if (lastRecoveryLevel && !justRecovered) {
+                    // ステップ4: 古い記録が残っていたら、表示せず静かに片付ける（安全策）
+                    localStorage.removeItem('lastRecoveryLevel');
+                }
                  if (!justRecovered && getIsWaitingForRecoveryPhase2()) {
                      const followUpDays = parseInt(localStorage.getItem('followUpAbandonDays') || '0', 10);
                      let followUpLevel = 'lv1';
