@@ -61,7 +61,29 @@ export async function initializeFCM() {
     return null;
   }
 }
+/**
+ * クリア日（40タスク達成した日）をFirestoreに保存する
+ */
+export async function saveClearDateToFirestore() {
+  if (!window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('ブラウザタブで開かれているためクリア日保存をスキップします');
+    return;
+  }
 
+  try {
+    const userId = localStorage.getItem('userId');
+    const db = getFirestore(app);
+    const clearDate = new Date().toISOString().split('T')[0];
+
+    await setDoc(doc(db, 'users', userId), {
+      clearDate: clearDate
+    }, { merge: true });
+
+    console.log('クリア日をFirestoreに保存しました:', clearDate);
+  } catch (error) {
+    console.error('クリア日の保存に失敗:', error);
+  }
+}
 /**
  * フォアグラウンド時（アプリを開いている時）にメッセージを受信する
  */
