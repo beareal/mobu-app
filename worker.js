@@ -154,21 +154,7 @@ async function sendFCM(env, accessToken, token, title, body) {
 
 async function sendNotifications(env) {
   const accessToken = await getAccessToken(env);
-
-  const lastIndex = await getLastIndex(env, accessToken);
-
-  let newIndex;
-  do {
-    newIndex = Math.floor(Math.random() * MESSAGES.length);
-  } while (newIndex === Number(lastIndex));
-
-  await saveLastIndex(env, accessToken, newIndex);
-
-  const title = "BEAREAL";
-  const body = MESSAGES[newIndex];
-
-  const tokens = await getTokensFromFirestore(env, accessToken);
-  for (const token of tokens) {
-    await sendFCM(env, accessToken, token, title, body);
-  }
+  const testUsers = await getUsersFromFirestore(env, accessToken);
+  console.log('TEST_STEP3_RESULT:', JSON.stringify(testUsers));
+  return;
 }
