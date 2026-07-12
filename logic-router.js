@@ -1147,7 +1147,11 @@ function checkAndSetupEvent() {
             break;
         }
     }
-
+if (eventTriggeredMilestone === 40) {
+        import('./firebase-config.js').then(({ saveClearDateToFirestore }) => {
+            saveClearDateToFirestore();
+        });
+    }
     if (eventTriggeredMilestone > 0) {
         const nickname = localStorage.getItem('nickname') || 'あなた';
 
