@@ -71,6 +71,20 @@ async function getAccessToken(env) {
   const data = await res.json();
   return data.access_token;
 }
+async function getUsersFromFirestore(env, accessToken) {
+  const url = `https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents/${env.FIRESTORE_COLLECTION}`;
+  const res = await fetch(url, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const data = await res.json();
+  if (!data.documents) return [];
+  return data.documents
+    .map((doc) => ({
+      token: doc.fields?.fcmToken?.stringValue,
+      clearDate: doc.fields?.clearDate?.stringValue || null,
+    }))
+    .filter((user) => Boolean(user.token));
+}
 
 async function getTokensFromFirestore(env, accessToken) {
   const url = `https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents/${env.FIRESTORE_COLLECTION}`;
