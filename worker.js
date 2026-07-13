@@ -164,10 +164,6 @@ async function sendFCM(env, accessToken, token, title, body) {
 async function sendNotifications(env) {
   const accessToken = await getAccessToken(env);
   const testUsers = await getUsersFromFirestore(env, accessToken);
-  const testResults = testUsers.map((user) => ({
-    clearDate: user.clearDate,
-    elapsedDays: getElapsedDaysSinceClear(user.clearDate),
-  }));
-  console.log('TEST_STEP4_RESULT:', JSON.stringify(testResults));
+  console.log('TEST_STEP3_RESULT:', JSON.stringify(testUsers));
   return;
 }
