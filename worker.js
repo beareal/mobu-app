@@ -85,7 +85,16 @@ async function getUsersFromFirestore(env, accessToken) {
     }))
     .filter((user) => Boolean(user.token));
 }
-
+function getElapsedDaysSinceClear(clearDate) {
+  if (!clearDate) return null;
+  const clearDateObj = new Date(clearDate);
+  const todayObj = new Date();
+  const clearDateUTC = Date.UTC(clearDateObj.getFullYear(), clearDateObj.getMonth(), clearDateObj.getDate());
+  const todayUTC = Date.UTC(todayObj.getFullYear(), todayObj.getMonth(), todayObj.getDate());
+  const diffTime = todayUTC - clearDateUTC;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays;
+}
 async function getTokensFromFirestore(env, accessToken) {
   const url = `https://firestore.googleapis.com/v1/projects/${env.PROJECT_ID}/databases/(default)/documents/${env.FIRESTORE_COLLECTION}`;
   const res = await fetch(url, {
@@ -155,6 +164,10 @@ async function sendFCM(env, accessToken, token, title, body) {
 async function sendNotifications(env) {
   const accessToken = await getAccessToken(env);
   const testUsers = await getUsersFromFirestore(env, accessToken);
-  console.log('TEST_STEP3_RESULT:', JSON.stringify(testUsers));
+  const testResults = testUsers.map((user) => ({
+    clearDate: user.clearDate,
+    elapsedDays: getElapsedDaysSinceClear(user.clearDate),
+  }));
+  console.log('TEST_STEP4_RESULT:', JSON.stringify(testResults));
   return;
 }
