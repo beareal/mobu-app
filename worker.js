@@ -163,11 +163,25 @@ async function sendFCM(env, accessToken, token, title, body) {
 
 async function sendNotifications(env) {
   const accessToken = await getAccessToken(env);
-  const testUsers = await getUsersFromFirestore(env, accessToken);
-  const testResults = testUsers.map((user) => ({
-    clearDate: user.clearDate,
-    elapsedDays: getElapsedDaysSinceClear(user.clearDate),
-  }));
-  console.log('TEST_STEP4_RESULT:', JSON.stringify(testResults));
-  return;
+  const users = await getUsersFromFirestore(env, accessToken);
+
+  const normalUsers = users.filter(user => !user.clearDate);
+  const clearedUsers = users.filter(user => user.clearDate);
+
+  if (normalUsers.length > 0) {
+    let lastIndex = await getLastIndex(env, accessToken);
+    lastIndex = parseInt(lastIndex, 10);
+    const nextIndex = (lastIndex + 1) % MESSAGES.length;
+    const message = MESSAGES[nextIndex];
+
+    for (const user of normalUsers) {
+      await sendFCM(env, accessToken, user.token, "モブ君", message);
+    }
+    await saveLastIndex(env, accessToken, nextIndex);
+  }
+
+  for (const user of clearedUsers) {
+    const elapsedDays = getElapsedDaysSinceClear(user.clearDate);
+    console.log('CLEARED_USER_ELAPSED:', user.token, elapsedDays);
+  }
 }
