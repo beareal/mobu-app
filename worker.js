@@ -170,7 +170,9 @@ async function sendFCM(env, accessToken, token, title, body) {
 async function sendNotifications(env) {
   const accessToken = await getAccessToken(env);
   const users = await getUsersFromFirestore(env, accessToken);
-
+users.forEach(user => {
+    console.log('DEBUG_USER_CHECK:', user.token.slice(0, 10), 'clearDate=', user.clearDate, 'type=', typeof user.clearDate);
+  });
   const normalUsers = users.filter(user => !user.clearDate);
   const clearedUsers = users.filter(user => user.clearDate);
 
