@@ -183,7 +183,7 @@ users.forEach(user => {
     const message = MESSAGES[nextIndex];
 
     for (const user of normalUsers) {
-      await sendFCM(env, accessToken, user.token, "モブ君", message);
+      await sendFCM(env, accessToken, user.token, "BEAREAL", message);
     }
     await saveLastIndex(env, accessToken, nextIndex);
   }
