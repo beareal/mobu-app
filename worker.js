@@ -183,6 +183,7 @@ users.forEach(user => {
     const message = MESSAGES[nextIndex];
 
     for (const user of normalUsers) {
+      console.log('SEND_NORMAL:', user.token.slice(0, 10), message);
       await sendFCM(env, accessToken, user.token, "BEAREAL", message);
     }
     await saveLastIndex(env, accessToken, nextIndex);
@@ -190,9 +191,10 @@ users.forEach(user => {
 
   for (const user of clearedUsers) {
     const elapsedDays = getElapsedDaysSinceClear(user.clearDate);
-    const message = CLEARED_MESSAGES[elapsedDays];
+const message = CLEARED_MESSAGES[elapsedDays];
     if (message) {
-      await sendFCM(env, accessToken, user.token, "ベア", message);
+      console.log('SEND_CLEARED:', user.token.slice(0, 10), 'elapsedDays=', elapsedDays, message);
+      await sendFCM(env, accessToken, user.token, "BEAREAL", message);
     }
   }
 }
