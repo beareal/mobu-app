@@ -188,6 +188,9 @@ async function sendNotifications(env) {
 
   for (const user of clearedUsers) {
     const elapsedDays = getElapsedDaysSinceClear(user.clearDate);
-    console.log('CLEARED_USER_ELAPSED:', user.token, elapsedDays);
+    const message = CLEARED_MESSAGES[elapsedDays];
+    if (message) {
+      await sendFCM(env, accessToken, user.token, "ベア", message);
+    }
   }
 }
