@@ -192,7 +192,7 @@ async function sendNotifications(env) {
     const elapsedDays = getElapsedDaysSinceClear(user.clearDate);
 const message = CLEARED_MESSAGES[elapsedDays];
     if (message) {
-      console.log('SEND_CLEARED:', user.token.slice(0, 10), 'elapsedDays=', elapsedDays, message);
+      
       await sendFCM(env, accessToken, user.token, "BEAREAL", message);
     }
   }
