@@ -83,7 +83,7 @@ async function getUsersFromFirestore(env, accessToken) {
     headers: { Authorization: `Bearer ${accessToken}` },
   });
   const data = await res.json();
-  console.log('DEBUG_TOTAL_DOCS:', data.documents ? data.documents.length : 0, 'hasNextPage:', Boolean(data.nextPageToken));
+
   if (!data.documents) return [];
   return data.documents
     .map((doc) => ({
