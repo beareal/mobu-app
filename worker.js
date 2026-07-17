@@ -182,7 +182,7 @@ async function sendNotifications(env) {
     const message = MESSAGES[nextIndex];
 
     for (const user of normalUsers) {
-      console.log('SEND_NORMAL:', user.token.slice(0, 10), message);
+      
       await sendFCM(env, accessToken, user.token, "BEAREAL", message);
     }
     await saveLastIndex(env, accessToken, nextIndex);
