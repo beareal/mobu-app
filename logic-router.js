@@ -674,13 +674,9 @@ setTimeout(() => {
             playBGM('bgm_cafe_ambience.mp3', true);
             const totalTasks = getTotalTasksCompleted();
             const appPhase = localStorage.getItem('appPhase');
-            const isFirstReport = localStorage.getItem('isFirstReport');
 
             // --- 進行状況に応じて、カフェでのイベントを分岐 ---
-            if (isFirstReport === 'true') {
-                // [最優先] 初回タスク報告の特別イベント
-                handleFirstReportDialogue();
-            } else if (appPhase === 'introduction_task_select') {
+            if (appPhase === 'introduction_task_select') {
                 // ★★★ 抜け落ちていた分岐を追加 ★★★
                 // [導入フロー2] タスク選択後の動機付けセリフ
                 handleIntroductionDialogue('motivation');
