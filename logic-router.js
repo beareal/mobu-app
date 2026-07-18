@@ -1587,6 +1587,28 @@ function handleIntroductionDialogue(type) {
             dialogueText.textContent = dialogues[currentDialogueIndex];
             // ★追加：画像を切り替え
             if (bgImage) bgImage.src = cafeImageMap[`${type}_${currentDialogueIndex}`] || '';
+        } else if (type === 'motivation' && currentDialogueIndex === 3) {
+            playSE('se_text_advance.mp3');
+            dialogueText.textContent = '……';
+            if (bgImage) bgImage.src = 'assets/images/mobu_v1_motivation_wait.webp';
+            cafeScreen.onclick = function() {
+                playSE('se_text_advance.mp3');
+                dialogueText.textContent = `……あ、いいですか？やった！ありがとうございます！……あ、そうだ。それで俺、自分磨きを始めようと思って気づいたんですけど、`;
+                if (bgImage) bgImage.src = 'assets/images/mobu_v1_motivation_glad.webp';
+                cafeScreen.onclick = null;
+                localStorage.setItem('appPhase', 'main_loop');
+                localStorage.setItem('showFirstHomeBanner', 'true');
+                setTimeout(() => {
+                    cafeScreen.onclick = function() {
+                        playBlinkVideo(() => showScreen('screen-home'));
+                        cafeScreen.onclick = null;
+                    };
+                }, 100);
+            };
+        } else {
+            cafeScreen.onclick = null;
+            if (type === 'start') {
+            if (bgImage) bgImage.src = cafeImageMap[`${type}_${currentDialogueIndex}`] || '';
         } else {
             cafeScreen.onclick = null;
             if (type === 'start') {
