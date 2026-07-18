@@ -414,13 +414,7 @@ document.addEventListener('DOMContentLoaded', function() {
                renderCalendar(currentCalendarDate);
                
                // 画面遷移
-               if (currentTotal === 0) {
-                   localStorage.setItem('isFirstReport', 'true');
-                   localStorage.setItem('tempCompletedTasks', JSON.stringify(completedTasks));
-                   playBlinkVideo(() => { showScreen('screen-cafe'); });
-               } else {
-                   playBlinkVideo(() => { setupReportScreen(completedTasks); });
-               }
+               playBlinkVideo(() => { setupReportScreen(completedTasks); });
    
            } catch (error) {
                console.error("完了処理中にエラーが発生しました:", error);
