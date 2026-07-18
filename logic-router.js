@@ -1604,42 +1604,6 @@ function handleIntroductionDialogue(type) {
     };
 }
 
-/**
- * 初回タスク報告時の、特別な動機付けイベントを管理する
- */
-function handleFirstReportDialogue() {
-    const cafeScreen = document.getElementById('screen-cafe');
-    const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
-    const bgImage = document.getElementById('cafe-background-image'); // ★追加
-    const nickname = localStorage.getItem('nickname') || 'あなた';
-
-    const dialogues = [
-        `${nickname}、お疲れ様。そのスマホかわいいですね。あ、もしかして今、この前話してたアプリやってます...？俺、自分磨きの習慣スタートして思い始めたんだけど...自分磨きって、達成してもなかなか誰かに褒めてもらえないじゃないですか？それで、結果もなかなか目に見えなかったらモチベ落ちていきません？`,
-        `だから...タスクが終わって達成感を誰かに伝えたい時は、俺を頼ってほしい。いつでも俺に報告してください。一番に応援するから。自分磨きっていう共通の事で、俺も${nickname}の役に立てたらなって！`,
-        `あ、俺用事あるの忘れてた！じゃあ、また！`
-    ];
-
-    let currentDialogueIndex = 0;
-    dialogueText.textContent = dialogues[currentDialogueIndex];
-
-    // ★追加：最初の画像を表示
-    if (bgImage) bgImage.src = cafeImageMap[`report_0`] || '';
-
-    cafeScreen.onclick = function() {
-        currentDialogueIndex++;
-        if (currentDialogueIndex < dialogues.length) {
-            playSE('se_text_advance.mp3');
-            dialogueText.textContent = dialogues[currentDialogueIndex];
-            // ★追加：画像を切り替え
-            if (bgImage) bgImage.src = cafeImageMap[`report_${currentDialogueIndex}`] || '';
-        } else {
-            cafeScreen.onclick = null;
-            localStorage.removeItem('isFirstReport');
-            const tasksFromStorage = JSON.parse(localStorage.getItem('tempCompletedTasks') || '[]');
-            setupReportScreen(tasksFromStorage);
-        }
-    };
-}
 
 /**
  * 設定画面の表示とデータ更新を行う
