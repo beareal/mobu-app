@@ -1624,7 +1624,11 @@ function handleIntroductionDialogue(type) {
             }
         }
     };
-}
+        } else if (type === 'motivation') {
+            localStorage.setItem('appPhase', 'main_loop');
+            playBlinkVideo(() => showScreen('screen-home'));
+        }
+    }
 
 
 /**
