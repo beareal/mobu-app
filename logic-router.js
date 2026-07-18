@@ -1555,7 +1555,7 @@ function handleCafeEvent(milestone) {
 function handleIntroductionDialogue(type) {
     const cafeScreen = document.getElementById('screen-cafe');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
-    const bgImage = document.getElementById('cafe-background-image'); // ★追加
+    const bgImage = document.getElementById('cafe-background-image');
     const nickname = localStorage.getItem('nickname') || 'あなた';
 
     let dialogues = [];
@@ -1577,58 +1577,73 @@ function handleIntroductionDialogue(type) {
     let currentDialogueIndex = 0;
     dialogueText.textContent = dialogues[currentDialogueIndex];
 
-    // ★追加：最初の画像を表示
-    if (bgImage) bgImage.src = cafeImageMap[`${type}_0`] || '';
+    // 最初の画像
+    if (bgImage) {
+        bgImage.src = cafeImageMap[`${type}_0`] || '';
+    }
 
-    cafeScreen.onclick = function() {
+    cafeScreen.onclick = function () {
         currentDialogueIndex++;
+
         if (currentDialogueIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
             dialogueText.textContent = dialogues[currentDialogueIndex];
-            // ★追加：画像を切り替え
-            if (bgImage) bgImage.src = cafeImageMap[`${type}_${currentDialogueIndex}`] || '';
-        } else if (type === 'motivation' && currentDialogueIndex === 3) {
+
+            if (bgImage) {
+                bgImage.src = cafeImageMap[`${type}_${currentDialogueIndex}`] || '';
+            }
+
+            return;
+        }
+
+        // motivation専用の「……」演出
+        if (type === 'motivation' && currentDialogueIndex === 3) {
             playSE('se_text_advance.mp3');
             dialogueText.textContent = '……';
-            if (bgImage) bgImage.src = 'assets/images/mobu_v1_motivation_wait.webp';
-            cafeScreen.onclick = function() {
+
+            if (bgImage) {
+                bgImage.src = 'assets/images/mobu_v1_motivation_wait.webp';
+            }
+
+            cafeScreen.onclick = function () {
                 playSE('se_text_advance.mp3');
-                dialogueText.textContent = `……あ、いいですか？やった！ありがとうございます！……あ、そうだ。それで俺、自分磨きを始めようと思って気づいたんですけど、`;
-                if (bgImage) bgImage.src = 'assets/images/mobu_v1_motivation_glad.webp';
+
+                dialogueText.textContent =
+                    `……あ、いいですか？やった！ありがとうございます！……あ、そうだ。それで俺、自分磨きを始めようと思って気づいたんですけど、`;
+
+                if (bgImage) {
+                    bgImage.src = 'assets/images/mobu_v1_motivation_glad.webp';
+                }
+
                 cafeScreen.onclick = null;
+
                 localStorage.setItem('appPhase', 'main_loop');
                 localStorage.setItem('showFirstHomeBanner', 'true');
+
                 setTimeout(() => {
-                    cafeScreen.onclick = function() {
+                    cafeScreen.onclick = function () {
                         playBlinkVideo(() => showScreen('screen-home'));
                         cafeScreen.onclick = null;
                     };
                 }, 100);
             };
-        } else {
-            cafeScreen.onclick = null;
-            if (type === 'start') {
-            if (bgImage) bgImage.src = cafeImageMap[`${type}_${currentDialogueIndex}`] || '';
-        } else {
-            cafeScreen.onclick = null;
-            if (type === 'start') {
-                localStorage.setItem('appPhase', 'introduction_task_select');
-                playBlinkVideo(() => showScreen('screen-task-select'));
-                } else if (type === 'motivation') {
-                localStorage.setItem('appPhase', 'main_loop');
-                localStorage.setItem('showFirstHomeBanner', 'true');
-                playBlinkVideo(() => showScreen('screen-home'));
-            } else if (type === 'motivation') {
-                localStorage.setItem('appPhase', 'main_loop');
-                playBlinkVideo(() => showScreen('screen-home'));
-            }
+
+            return;
         }
-    };
+
+        // 通常終了
+        cafeScreen.onclick = null;
+
+        if (type === 'start') {
+            localStorage.setItem('appPhase', 'introduction_task_select');
+            playBlinkVideo(() => showScreen('screen-task-select'));
         } else if (type === 'motivation') {
             localStorage.setItem('appPhase', 'main_loop');
+            localStorage.setItem('showFirstHomeBanner', 'true');
             playBlinkVideo(() => showScreen('screen-home'));
         }
-    }
+    };
+}
 
 
 /**
