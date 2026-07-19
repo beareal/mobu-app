@@ -1620,10 +1620,34 @@ function handleIntroductionDialogue(type) {
                 localStorage.setItem('appPhase', 'main_loop');
                 localStorage.setItem('showFirstHomeBanner', 'true');
 
+                const reportDialogues = [
+                    `自分磨きって、達成してもなかなか誰かに褒めてもらえないじゃないですか？それで、結果もなかなか目に見えなかったらモチベ落ちていきません？`,
+                    `だから...タスクが終わって達成感を誰かに伝えたい時は、俺を頼ってほしい。いつでも俺に報告してください。一番に応援するから。自分磨きっていう共通の事で、俺も${nickname}の役に立てたらなって！`,
+                    `あ、俺用事あるの忘れてた！じゃあ、また！`
+                ];
+                let reportIndex = -1;
+
                 setTimeout(() => {
                     cafeScreen.onclick = function () {
-                        playBlinkVideo(() => showScreen('screen-home'));
-                        cafeScreen.onclick = null;
+                        reportIndex++;
+
+                        if (reportIndex < reportDialogues.length) {
+                            playSE('se_text_advance.mp3');
+                            dialogueText.textContent = reportDialogues[reportIndex];
+
+                            if (bgImage) {
+                                bgImage.src = cafeImageMap[`report_${reportIndex}`] || '';
+                            }
+
+                            if (reportIndex === reportDialogues.length - 1) {
+                                cafeScreen.onclick = function () {
+                                    cafeScreen.onclick = null;
+                                    playBlinkVideo(() => showScreen('screen-home'));
+                                };
+                            }
+
+                            return;
+                        }
                     };
                 }, 100);
             };
