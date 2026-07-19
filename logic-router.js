@@ -1661,12 +1661,12 @@ function handleIntroductionDialogue(type) {
         // 通常終了
         cafeScreen.onclick = null;
 
-        if (type === 'start') {
+ if (type === 'start') {
             localStorage.setItem('appPhase', 'introduction_task_select');
             playBlinkVideo(() => showScreen('screen-task-select'));
+        }
     };
 }
-
 
 /**
  * 設定画面の表示とデータ更新を行う
