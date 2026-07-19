@@ -1619,8 +1619,11 @@ function handleIntroductionDialogue(type) {
 
                 localStorage.setItem('appPhase', 'main_loop');
                 localStorage.setItem('showFirstHomeBanner', 'true');
+                localStorage.setItem('isBannerRead', 'false');
 
                 const reportDialogues = [
+                    
+                    
                     `自分磨きって、達成してもなかなか誰かに褒めてもらえないじゃないですか？それで、結果もなかなか目に見えなかったらモチベ落ちていきません？`,
                     `だから...タスクが終わって達成感を誰かに伝えたい時は、俺を頼ってほしい。いつでも俺に報告してください。一番に応援するから。自分磨きっていう共通の事で、俺も${nickname}の役に立てたらなって！`,
                     `あ、俺用事あるの忘れてた！じゃあ、また！`
@@ -1664,6 +1667,7 @@ function handleIntroductionDialogue(type) {
         } else if (type === 'motivation') {
             localStorage.setItem('appPhase', 'main_loop');
             localStorage.setItem('showFirstHomeBanner', 'true');
+                localStorage.setItem('isBannerRead', 'false');
             playBlinkVideo(() => showScreen('screen-home'));
         }
     };
@@ -2230,7 +2234,7 @@ function checkAndShowHomeBanners() {
     if (localStorage.getItem('showFirstHomeBanner') === 'true') {
         const nickname = localStorage.getItem('nickname') || 'あなた';
         const message = `さっきはありがとうございました😊俺、これから${nickname}と一緒に頑張れると思うとワクワクしてます！`;
-        showFakeNotification('モブ君', message, getMobuIconSrc(), 'periodic');
+        showFakeNotification('モブ君', message, getMobuIconSrc(), 'first_home');
         return;
     }
     if (isEpilogueReadyPending()) return;
