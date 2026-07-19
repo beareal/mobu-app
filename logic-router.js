@@ -1751,6 +1751,9 @@ if (notificationType === 'periodic') {
             const iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
             iineLog.count += 1;
             localStorage.setItem(iineKey, JSON.stringify(iineLog));
+        } else if (notificationType === 'first_home') {
+            localStorage.removeItem('showFirstHomeBanner');
+            localStorage.setItem('isBannerRead', 'true');
         }
         // 瞬き演出を挟んでLINE画面へ遷移
         replacedBanner.classList.remove('show');
