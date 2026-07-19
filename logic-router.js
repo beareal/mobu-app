@@ -1664,12 +1664,6 @@ function handleIntroductionDialogue(type) {
         if (type === 'start') {
             localStorage.setItem('appPhase', 'introduction_task_select');
             playBlinkVideo(() => showScreen('screen-task-select'));
-        } else if (type === 'motivation') {
-            localStorage.setItem('appPhase', 'main_loop');
-            localStorage.setItem('showFirstHomeBanner', 'true');
-                localStorage.setItem('isBannerRead', 'false');
-            playBlinkVideo(() => showScreen('screen-home'));
-        }
     };
 }
 
