@@ -474,6 +474,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
 
             // 通常の戻る処理
+            localStorage.removeItem('isBannerRead');
             const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
             const mobuVersion = getMobuVersion();
             if (lastRecoveryLevel) {
