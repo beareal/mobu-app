@@ -2292,6 +2292,8 @@ function showSlotMessage() {
         saveFixedSlotDialogue(result.text, result.displayTime);
     }
 
+    markSlotAsViewed(getCurrentTimeOfDay(), getGameDate());
+
     const timestampEl = document.getElementById('notification-timestamp');
     if (timestampEl) {
         timestampEl.textContent = result.displayTime === 'now' ? '今' : result.displayTime;
