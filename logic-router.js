@@ -2343,6 +2343,7 @@ function showEpilogueReadyPopup() {
 }
 
 function checkAndShowHomeBanners() {
+    renderPendingBannerStack();
     const existingBanner = document.getElementById('fake-notification-banner');
     if (existingBanner && existingBanner.classList.contains('show')) {
         return;
