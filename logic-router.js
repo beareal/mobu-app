@@ -1824,6 +1824,20 @@ function getFixedSlotDialogue() {
     if (data.date !== getGameDate() || data.slot !== getCurrentTimeOfDay()) return null;
     return data;
 }
+function markSlotAsViewed(slot, gameDate) {
+    const key = 'viewedSlot_' + gameDate + '_' + slot;
+    localStorage.setItem(key, 'true');
+}
+
+function getIsSlotViewed(slot, gameDate) {
+    const key = 'viewedSlot_' + gameDate + '_' + slot;
+    return localStorage.getItem(key) === 'true';
+}
+
+function clearSlotViewed(slot, gameDate) {
+    const key = 'viewedSlot_' + gameDate + '_' + slot;
+    localStorage.removeItem(key);
+}
 // ===============================================
 // メッセージ表示：CSVセリフデータ
 // ===============================================
