@@ -1808,21 +1808,25 @@ function markSlotAsShown() {
 }
 
 function saveFixedSlotDialogue(text, displayTime) {
+    const gameDate = getGameDate();
+    const slot = getCurrentTimeOfDay();
     const data = {
-        date: getGameDate(),
-        slot: getCurrentTimeOfDay(),
+        date: gameDate,
+        slot: slot,
         text: text,
         displayTime: displayTime
     };
-    localStorage.setItem('fixedSlotDialogue', JSON.stringify(data));
+    const key = 'fixedSlotDialogue_' + gameDate + '_' + slot;
+    localStorage.setItem(key, JSON.stringify(data));
 }
 
 function getFixedSlotDialogue() {
-    const raw = localStorage.getItem('fixedSlotDialogue');
+    const gameDate = getGameDate();
+    const slot = getCurrentTimeOfDay();
+    const key = 'fixedSlotDialogue_' + gameDate + '_' + slot;
+    const raw = localStorage.getItem(key);
     if (!raw) return null;
-    const data = JSON.parse(raw);
-    if (data.date !== getGameDate() || data.slot !== getCurrentTimeOfDay()) return null;
-    return data;
+    return JSON.parse(raw);
 }
 function markSlotAsViewed(slot, gameDate) {
     const key = 'viewedSlot_' + gameDate + '_' + slot;
