@@ -1878,6 +1878,56 @@ function getPendingBanners() {
 
     return pending;
 }
+function renderPendingBannerStack() {
+    const container = document.getElementById('pending-banner-stack');
+    if (!container) return;
+
+    const pending = getPendingBanners();
+    container.innerHTML = '';
+
+    pending.forEach(banner => {
+        const bannerEl = document.createElement('div');
+        bannerEl.className = 'fake-notification stacked-banner';
+
+        const iconContainer = document.createElement('div');
+        iconContainer.className = 'icon-container';
+        const iconImg = document.createElement('img');
+        iconImg.src = getMobuIconSrc();
+        iconImg.alt = 'icon';
+        iconImg.className = 'profile-icon';
+        const appBadge = document.createElement('div');
+        appBadge.className = 'app-badge';
+        appBadge.textContent = 'IINE';
+        iconContainer.appendChild(iconImg);
+        iconContainer.appendChild(appBadge);
+
+        const textContainer = document.createElement('div');
+        textContainer.className = 'text-container';
+        const senderP = document.createElement('p');
+        senderP.className = 'sender-name';
+        senderP.textContent = 'モブ君';
+        const messageP = document.createElement('p');
+        messageP.className = 'message-text';
+        messageP.textContent = banner.text;
+        textContainer.appendChild(senderP);
+        textContainer.appendChild(messageP);
+
+        const timeStamp = document.createElement('div');
+        timeStamp.className = 'time-stamp';
+        const timeP = document.createElement('p');
+        timeP.textContent = banner.displayTime === 'now' ? '今' : banner.displayTime;
+        timeStamp.appendChild(timeP);
+
+        const content = document.createElement('div');
+        content.className = 'notification-content';
+        content.appendChild(iconContainer);
+        content.appendChild(textContainer);
+        content.appendChild(timeStamp);
+
+        bannerEl.appendChild(content);
+        container.appendChild(bannerEl);
+    });
+}
 // ===============================================
 // メッセージ表示：CSVセリフデータ
 // ===============================================
