@@ -2271,10 +2271,12 @@ function showSlotMessage() {
     if (getMobuState() !== 'normal') return;
 
 
-    const result = pickDialogue();
-    if (!result) return;
-
-    saveFixedSlotDialogue(result.text, result.displayTime);
+    let result = getFixedSlotDialogue();
+    if (!result) {
+        result = pickDialogue();
+        if (!result) return;
+        saveFixedSlotDialogue(result.text, result.displayTime);
+    }
 
     const timestampEl = document.getElementById('notification-timestamp');
     if (timestampEl) {
