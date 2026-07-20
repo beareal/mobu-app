@@ -952,6 +952,9 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
     cursor: pointer;
     padding: 12px;
     margin-bottom: 12px;
+    max-height: none;
+    opacity: 1;
+    overflow: visible;
 }
 
 #pending-banner-stack.banner-hidden {
