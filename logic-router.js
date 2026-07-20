@@ -408,6 +408,14 @@ const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'
                 bannerEl.classList.add('banner-hidden');
             }
         }
+        const stackEl = document.getElementById('pending-banner-stack');
+        if (stackEl) {
+            if (bannerAllowedScreens.includes(screenId)) {
+                stackEl.classList.remove('banner-hidden');
+            } else {
+                stackEl.classList.add('banner-hidden');
+            }
+        }
         // --- 各画面表示時のユニークな処理 ---
         // --- B-1: ホーム画面の完了ボタン制御 ---
         if (screenId === 'screen-home') {
