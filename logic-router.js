@@ -1842,6 +1842,42 @@ function clearSlotViewed(slot, gameDate) {
     const key = 'viewedSlot_' + gameDate + '_' + slot;
     localStorage.removeItem(key);
 }
+function markSlotAsTapped(slot, gameDate) {
+    const key = 'tappedSlot_' + gameDate + '_' + slot;
+    localStorage.setItem(key, 'true');
+}
+
+function getIsSlotTapped(slot, gameDate) {
+    const key = 'tappedSlot_' + gameDate + '_' + slot;
+    return localStorage.getItem(key) === 'true';
+}
+function getPendingBanners() {
+    const viewedKeys = Object.keys(localStorage).filter(k => k.startsWith('viewedSlot_'));
+    const pending = [];
+
+    viewedKeys.forEach(viewedKey => {
+        const withoutPrefix = viewedKey.replace('viewedSlot_', '');
+        const lastUnderscoreIndex = withoutPrefix.lastIndexOf('_');
+        const date = withoutPrefix.substring(0, lastUnderscoreIndex);
+        const slot = withoutPrefix.substring(lastUnderscoreIndex + 1);
+
+        if (getIsSlotTapped(slot, date)) return;
+
+        const dialogueKey = 'fixedSlotDialogue_' + date + '_' + slot;
+        const raw = localStorage.getItem(dialogueKey);
+        if (!raw) return;
+
+        pending.push(JSON.parse(raw));
+    });
+
+    pending.sort((a, b) => {
+        if (a.date !== b.date) return a.date < b.date ? -1 : 1;
+        const order = { morning: 0, afternoon: 1, night: 2 };
+        return order[a.slot] - order[b.slot];
+    });
+
+    return pending;
+}
 // ===============================================
 // メッセージ表示：CSVセリフデータ
 // ===============================================
