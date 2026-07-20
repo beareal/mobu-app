@@ -1860,6 +1860,8 @@ function getIsSlotTapped(slot, gameDate) {
     return localStorage.getItem(key) === 'true';
 }
 function getPendingBanners() {
+    const currentSlot = getCurrentTimeOfDay();
+    const currentDate = getGameDate();
     const viewedKeys = Object.keys(localStorage).filter(k => k.startsWith('viewedSlot_'));
     const pending = [];
 
@@ -1868,6 +1870,8 @@ function getPendingBanners() {
         const lastUnderscoreIndex = withoutPrefix.lastIndexOf('_');
         const date = withoutPrefix.substring(0, lastUnderscoreIndex);
         const slot = withoutPrefix.substring(lastUnderscoreIndex + 1);
+
+        if (date === currentDate && slot === currentSlot) return;
 
         if (getIsSlotTapped(slot, date)) return;
 
