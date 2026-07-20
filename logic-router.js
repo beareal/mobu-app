@@ -2274,6 +2274,8 @@ function showSlotMessage() {
     const result = pickDialogue();
     if (!result) return;
 
+    saveFixedSlotDialogue(result.text, result.displayTime);
+
     const timestampEl = document.getElementById('notification-timestamp');
     if (timestampEl) {
         timestampEl.textContent = result.displayTime === 'now' ? '今' : result.displayTime;
