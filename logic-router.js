@@ -1806,6 +1806,24 @@ function markSlotAsShown() {
 
     saveMessageDisplayLog(log);
 }
+
+function saveFixedSlotDialogue(text, displayTime) {
+    const data = {
+        date: getGameDate(),
+        slot: getCurrentTimeOfDay(),
+        text: text,
+        displayTime: displayTime
+    };
+    localStorage.setItem('fixedSlotDialogue', JSON.stringify(data));
+}
+
+function getFixedSlotDialogue() {
+    const raw = localStorage.getItem('fixedSlotDialogue');
+    if (!raw) return null;
+    const data = JSON.parse(raw);
+    if (data.date !== getGameDate() || data.slot !== getCurrentTimeOfDay()) return null;
+    return data;
+}
 // ===============================================
 // メッセージ表示：CSVセリフデータ
 // ===============================================
