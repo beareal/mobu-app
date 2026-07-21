@@ -2383,7 +2383,9 @@ function checkAndShowHomeBanners() {
 
 function showSlotMessage() {
     if (hasShownInCurrentSlot()) return;
-
+// 未読の保留バナーがあれば、新しいセリフの抽選を止める
+    if (getPendingBanners().length > 0) return;
+    
         // オネェ状態（サボり中）なら通常メッセージは表示しない
     if (getMobuState() !== 'normal') return;
 
