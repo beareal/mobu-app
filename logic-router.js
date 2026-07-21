@@ -2373,6 +2373,13 @@ function checkAndShowHomeBanners() {
         showRecoveryFollowUpNotification();
         return;
     }
+
+    const pendingBannersList = getPendingBanners();
+    if (pendingBannersList.length > 0) {
+        const nextPending = pendingBannersList[0];
+        showFakeNotification('モブ君', nextPending.text, getMobuIconSrc(), 'periodic');
+        return;
+    }
     const mobuState = getMobuState();
     if (mobuState !== 'normal') {
         handleAppLaunchNotification();
