@@ -563,7 +563,47 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                        });
                    }, 500);
                };
+} else if (getPendingBanners().length > 0) {
+                const firstPendingBanner = getPendingBanners()[0];
 
+                inputBar.style.display = 'none';
+                moodSelector.style.display = 'none';
+                replyArea.style.display = 'none';
+
+                appendLineMessage('mobu', firstPendingBanner.text, 500);
+
+                setTimeout(() => {
+                    moodSelector.style.display = 'grid';
+                    const genericStampSrcs = [
+                        'assets/stamps/stamp_reply_positive.webp',
+                        'assets/stamps/stamp_reply_emotion.webp',
+                        'assets/stamps/stamp_reply_confused.webp'
+                    ];
+                    const stampEls = moodSelector.querySelectorAll('.mood-stamp');
+                    stampEls.forEach((el, idx) => {
+                        if (idx < genericStampSrcs.length) {
+                            el.style.display = 'block';
+                            el.src = genericStampSrcs[idx];
+                        } else {
+                            el.style.display = 'none';
+                        }
+                    });
+
+                    const activeStamps = moodSelector.querySelectorAll('.mood-stamp');
+                    activeStamps.forEach(stamp => {
+                        const clonedStamp = stamp.cloneNode(true);
+                        stamp.parentNode.replaceChild(clonedStamp, stamp);
+                        clonedStamp.addEventListener('click', function() {
+                            appendUserStampMessage(clonedStamp.src);
+                            markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
+                            renderPendingBannerStack();
+                            moodSelector.style.display = 'none';
+                            setTimeout(() => {
+                                showScreen('screen-line');
+                            }, 800);
+                        }, { once: true });
+                    });
+                }, 1500);
            } else {
             
 // 5. スタンプがクリックされた時の処理を登録
