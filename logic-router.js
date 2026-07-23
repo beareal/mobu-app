@@ -595,7 +595,23 @@ markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
                         stamp.parentNode.replaceChild(clonedStamp, stamp);
                         clonedStamp.addEventListener('click', function() {
                             appendUserStampMessage(clonedStamp.src);
-                            
+                            const reportedTask = localStorage.getItem('currentReportTask');
+                            const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
+                            let initialDelay = 500;
+
+                            appendLineMessage('user', userTaskReportText, initialDelay);
+                            initialDelay += 1000;
+
+                            appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
+                            initialDelay += 1000;
+
+                            setTimeout(() => {
+                                if (Math.random() < 0.5) {
+                                    startMoodSharing();
+                                } else {
+                                    checkAndSetupEvent();
+                                }
+                            }, initialDelay + 1000);
                         }, { once: true });
                     });
                 }, 1500);
