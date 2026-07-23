@@ -565,7 +565,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                };
 } else if (getPendingBanners().length > 0) {
                 const firstPendingBanner = getPendingBanners()[0];
-
+markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
                 inputBar.style.display = 'none';
                 moodSelector.style.display = 'none';
                 replyArea.style.display = 'none';
