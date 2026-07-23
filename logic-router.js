@@ -595,12 +595,7 @@ markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
                         stamp.parentNode.replaceChild(clonedStamp, stamp);
                         clonedStamp.addEventListener('click', function() {
                             appendUserStampMessage(clonedStamp.src);
-                            markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
-                            renderPendingBannerStack();
-                            moodSelector.style.display = 'none';
-                            setTimeout(() => {
-                                showScreen('screen-line');
-                            }, 800);
+                            
                         }, { once: true });
                     });
                 }, 1500);
