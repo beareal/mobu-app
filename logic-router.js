@@ -570,6 +570,7 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                 if (mainBannerEl) {
                     mainBannerEl.classList.remove('show');
                 }
+                renderPendingBannerStack();
                 inputBar.style.display = 'none';
                 moodSelector.style.display = 'none';
                 replyArea.style.display = 'none';
