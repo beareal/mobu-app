@@ -1803,6 +1803,9 @@ const banner = document.getElementById('fake-notification-banner');
             icon: iconSrc,
             milestone: milestone
         }));
+        if (slotInfo) {
+            markSlotAsTapped(slotInfo.slot, slotInfo.date);
+        }
 
         // 重要：復帰プロセス段階2のフラグ消去（バナーをタップした瞬間）
         if (notificationType === 'recovery') {
