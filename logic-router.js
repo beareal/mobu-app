@@ -509,24 +509,16 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
     const notification = JSON.parse(tappedNotificationData);
     localStorage.removeItem('tappedNotification');
 
-    inputBar.style.display = 'none';
-    moodSelector.style.display = 'none';
-    replyArea.style.display = 'flex';
-    replyStamp.src = 'assets/images/stamp_normal.png';
-
     appendLineMessage('mobu', notification.message, 100);
 
-    let stampClicked = false;
-    replyStamp.onclick = function() {
-        if (stampClicked) return;
-        stampClicked = true;
-        appendUserStampMessage(replyStamp.src);
+    showGenericStampReplySelector(function(stampSrc) {
+        appendUserStampMessage(stampSrc);
         setTimeout(() => {
             playBlinkVideo(() => {
                 showScreen('screen-home');
             });
         }, 500);
-    };
+    });
 
             } else if (tappedNotificationData) {
                 // [A] 通知をタップして遷移してきた場合
@@ -2241,6 +2233,47 @@ function appendUserStampMessage(stampSrc) {
     // アニメーションが終わったらクラスを削除
     messageDiv.addEventListener('animationend', () => {
         messageDiv.classList.remove('new');
+    });
+}
+
+/**
+ * 気分共有以外の場面共通の「5種類スタンプ選択」を表示する
+ * @param {function} onStampSelected 選ばれたスタンプのsrcを受け取って実行する処理
+ */
+function showGenericStampReplySelector(onStampSelected) {
+    const inputBar = document.getElementById('line-input-bar');
+    const replyArea = document.getElementById('notification-reply-area');
+    const moodSelector = document.getElementById('mood-stamp-selector');
+    const genericStampSrcs = [
+        'assets/stamps/stamp_reply_positive.webp',
+        'assets/stamps/stamp_reply_emotion.webp',
+        'assets/stamps/stamp_reply_confused.webp',
+        'assets/images/stamp_onee.webp',
+        'assets/images/stamp_normal.webp'
+    ];
+
+    inputBar.style.display = 'none';
+    replyArea.style.display = 'none';
+    moodSelector.style.display = 'grid';
+
+    const stampEls = moodSelector.querySelectorAll('.mood-stamp');
+    stampEls.forEach((el, idx) => {
+        if (idx < genericStampSrcs.length) {
+            el.style.display = 'block';
+            el.src = genericStampSrcs[idx];
+        } else {
+            el.style.display = 'none';
+        }
+    });
+
+    const activeStamps = moodSelector.querySelectorAll('.mood-stamp');
+    activeStamps.forEach(stamp => {
+        const clonedStamp = stamp.cloneNode(true);
+        stamp.parentNode.replaceChild(clonedStamp, stamp);
+        clonedStamp.addEventListener('click', function() {
+            moodSelector.style.display = 'none';
+            onStampSelected(clonedStamp.src);
+        }, { once: true });
     });
 }
 
