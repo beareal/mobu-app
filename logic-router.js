@@ -1812,7 +1812,9 @@ const banner = document.getElementById('fake-notification-banner');
             setIsWaitingForRecoveryPhase2(false);
         }
 if (notificationType === 'periodic') {
-            markSlotAsShown();
+            if (!slotInfo) {
+                markSlotAsShown();
+            }
             localStorage.removeItem('showFirstHomeBanner');
         } else if (notificationType === 'onee') {
             const iineKey = 'iine_display_log';
