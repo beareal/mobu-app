@@ -1795,6 +1795,7 @@ const banner = document.getElementById('fake-notification-banner');
    replacedBanner.addEventListener('click', function() {
         // どの通知がタップされたかを localStorage に保存
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
+        localStorage.setItem('lastBannerReadTime', Date.now().toString());
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
             sender: sender,
