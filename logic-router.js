@@ -2211,35 +2211,18 @@ function appendUserStampMessage(stampSrc) {
 function showGenericStampReplySelector(onStampSelected) {
     const inputBar = document.getElementById('line-input-bar');
     const replyArea = document.getElementById('notification-reply-area');
-    const moodSelector = document.getElementById('mood-stamp-selector');
-    const genericStampSrcs = [
-        'assets/stamps/stamp_reply_positive.webp',
-        'assets/stamps/stamp_reply_emotion.webp',
-        'assets/stamps/stamp_reply_confused.webp',
-        'assets/images/stamp_onee.webp',
-        'assets/images/stamp_normal.webp'
-    ];
+    const genericSelector = document.getElementById('generic-stamp-selector');
 
     inputBar.style.display = 'none';
     replyArea.style.display = 'none';
-    moodSelector.style.display = 'grid';
+    genericSelector.style.display = 'grid';
 
-    const stampEls = moodSelector.querySelectorAll('.mood-stamp');
-    stampEls.forEach((el, idx) => {
-        if (idx < genericStampSrcs.length) {
-            el.style.display = 'block';
-            el.src = genericStampSrcs[idx];
-        } else {
-            el.style.display = 'none';
-        }
-    });
-
-    const activeStamps = moodSelector.querySelectorAll('.mood-stamp');
+    const activeStamps = genericSelector.querySelectorAll('.generic-stamp');
     activeStamps.forEach(stamp => {
         const clonedStamp = stamp.cloneNode(true);
         stamp.parentNode.replaceChild(clonedStamp, stamp);
         clonedStamp.addEventListener('click', function() {
-            moodSelector.style.display = 'none';
+            genericSelector.style.display = 'none';
             onStampSelected(clonedStamp.src);
         }, { once: true });
     });
