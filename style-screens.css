@@ -550,6 +550,27 @@ background-color: var(--color-white); / 資料通り白背景 */
     transform: scale(0.9);
 }
 
+#generic-stamp-selector {
+display: grid;
+grid-template-columns: repeat(3, 1fr);
+gap: 8px;
+padding: 16px;
+background-color: var(--color-white);
+}
+
+.generic-stamp {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: transform 0.1s ease;
+}
+
+.generic-stamp:active {
+    transform: scale(0.9);
+}
+
 /* =========================================
 Phase 5-1: エンディング & エピローグ画面
 ========================================= */
