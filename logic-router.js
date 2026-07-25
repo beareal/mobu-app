@@ -2414,7 +2414,8 @@ function showEpilogueReadyPopup() {
 }
 
 function checkAndShowHomeBanners() {
-    
+    const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
+    if (Date.now() - lastReadTime < 30 * 60 * 1000) return;
     const existingBanner = document.getElementById('fake-notification-banner');
     if (existingBanner && existingBanner.classList.contains('show')) {
         return;
