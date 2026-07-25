@@ -528,33 +528,22 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                 inputBar.style.display = 'none';
                 moodSelector.style.display = 'none';
                 replyArea.style.display = 'flex';
-
-                // 2. モブ君の状態に応じて返信スタンプ画像を設定
-                if (notification.type === 'onee') {
-                    replyStamp.src = 'assets/images/stamp_onee.png'; // 汗をかいてるマスコット (仮パス)
-                } else { // 'periodic'
-                    replyStamp.src = 'assets/images/stamp_normal.png'; // 親指を立ててるマスコット (仮パス)
-                }
                 
-                // 3. チャット欄に通知の全文を表示
                 appendLineMessage('mobu', notification.message, 100);
 
                // 4. 処理が終わったら、保存しておいたデータを消去（重要）
    localStorage.removeItem('tappedNotification');
 // pendingOneeMessageも削除（二重表示防止）
                localStorage.removeItem('pendingOneeMessage');
-               // 5. スタンプがクリックされた時の処理を登録
-               let stampClicked = false;
-               replyStamp.onclick = function() {
-                   if (stampClicked) return;
-                   stampClicked = true;
-                   appendUserStampMessage(replyStamp.src);
+               // 5. スタンプが選ばれた時の処理を登録
+               showGenericStampReplySelector(function(stampSrc) {
+                   appendUserStampMessage(stampSrc);
                    setTimeout(() => {
                        playBlinkVideo(() => {
                            showScreen('screen-home');
                        });
                    }, 500);
-               };
+               });
 } else if (getPendingBanners().length > 0) {
                 const firstPendingBanner = getPendingBanners()[0];
 markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
