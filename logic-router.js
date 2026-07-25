@@ -1794,6 +1794,7 @@ const banner = document.getElementById('fake-notification-banner');
     // タップ時：バナーは消さず、LINE画面に遷移するだけ
    replacedBanner.addEventListener('click', function() {
         // どの通知がタップされたかを localStorage に保存
+        localStorage.setItem('lastBannerReadTime', Date.now().toString());
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
             sender: sender,
