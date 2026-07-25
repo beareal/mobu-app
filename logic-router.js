@@ -559,46 +559,25 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                 appendLineMessage('mobu', firstPendingBanner.text, 500);
 
                 setTimeout(() => {
-                    moodSelector.style.display = 'grid';
-                    const genericStampSrcs = [
-                        'assets/stamps/stamp_reply_positive.webp',
-                        'assets/stamps/stamp_reply_emotion.webp',
-                        'assets/stamps/stamp_reply_confused.webp'
-                    ];
-                    const stampEls = moodSelector.querySelectorAll('.mood-stamp');
-                    stampEls.forEach((el, idx) => {
-                        if (idx < genericStampSrcs.length) {
-                            el.style.display = 'block';
-                            el.src = genericStampSrcs[idx];
-                        } else {
-                            el.style.display = 'none';
-                        }
-                    });
+                    showGenericStampReplySelector(function(stampSrc) {
+                        appendUserStampMessage(stampSrc);
+                        const reportedTask = localStorage.getItem('currentReportTask');
+                        const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
+                        let initialDelay = 500;
 
-                    const activeStamps = moodSelector.querySelectorAll('.mood-stamp');
-                    activeStamps.forEach(stamp => {
-                        const clonedStamp = stamp.cloneNode(true);
-                        stamp.parentNode.replaceChild(clonedStamp, stamp);
-                        clonedStamp.addEventListener('click', function() {
-                            appendUserStampMessage(clonedStamp.src);
-                            const reportedTask = localStorage.getItem('currentReportTask');
-                            const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
-                            let initialDelay = 500;
+                        appendLineMessage('user', userTaskReportText, initialDelay);
+                        initialDelay += 1000;
 
-                            appendLineMessage('user', userTaskReportText, initialDelay);
-                            initialDelay += 1000;
+                        appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
+                        initialDelay += 1000;
 
-                            appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
-                            initialDelay += 1000;
-
-                            setTimeout(() => {
-                                if (Math.random() < 0.5) {
-                                    startMoodSharing();
-                                } else {
-                                    checkAndSetupEvent();
-                                }
-                            }, initialDelay + 1000);
-                        }, { once: true });
+                        setTimeout(() => {
+                            if (Math.random() < 0.5) {
+                                startMoodSharing();
+                            } else {
+                                checkAndSetupEvent();
+                            }
+                        }, initialDelay + 1000);
                     });
                 }, 1500);
            } else {
