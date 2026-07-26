@@ -610,7 +610,14 @@ newReplyStamp.addEventListener('click', function() {
                  const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
                  const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
                  let oneeMessageUsed = false;
-
+if (localStorage.getItem('showFirstHomeBanner') === 'true') {
+                     const firstHomeNickname = localStorage.getItem('nickname') || 'あなた';
+                     appendLineMessage('mobu', `さっきはありがとうございました😊俺、これから${firstHomeNickname}と一緒に頑張れると思うとワクワクしてます！`, initialDelay);
+                     initialDelay += 1500;
+                     appendLineMessage('user', '私もこれからが楽しみです！よろしくね✨さっそく', initialDelay);
+                     initialDelay += 1500;
+                     localStorage.removeItem('showFirstHomeBanner');
+                 }
                  // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
                  const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
                  const justRecovered = localStorage.getItem('justRecoveredThisReport') === 'true';
