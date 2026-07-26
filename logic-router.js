@@ -547,6 +547,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
 } else if (getPendingBanners().length > 0) {
                 const firstPendingBanner = getPendingBanners()[0];
 markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
+localStorage.setItem('lastBannerReadTime', Date.now().toString());
 const mainBannerEl = document.getElementById('fake-notification-banner');
                 if (mainBannerEl) {
                     mainBannerEl.classList.remove('show');
