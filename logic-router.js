@@ -1069,6 +1069,7 @@ function setupReportScreen(completedTasks) {
             btn.style.cursor = 'pointer';
             btn.onclick = function(e) {
                 e.stopPropagation();
+                localStorage.setItem('lastBannerReadTime', Date.now().toString());
                 localStorage.setItem('currentReportTask', task);
                 showScreen('screen-line');
             };
