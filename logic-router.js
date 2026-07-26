@@ -1046,6 +1046,7 @@ function setupReportScreen(completedTasks) {
     if (completedTasks.length === 1) {
         currentThoughtText.textContent = 'よし、完了！モブ君に報告しよっと♪';
         currentScreen.onclick = function() {
+            localStorage.setItem('lastBannerReadTime', Date.now().toString());
             localStorage.setItem('currentReportTask', completedTasks[0]);
             showScreen('screen-line');
         };
@@ -1069,6 +1070,7 @@ function setupReportScreen(completedTasks) {
             btn.style.cursor = 'pointer';
             btn.onclick = function(e) {
                 e.stopPropagation();
+                localStorage.setItem('lastBannerReadTime', Date.now().toString());
                 localStorage.setItem('currentReportTask', task);
                 showScreen('screen-line');
             };
