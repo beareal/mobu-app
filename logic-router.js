@@ -617,6 +617,10 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                      appendLineMessage('user', '私もこれからが楽しみです！よろしくね✨さっそく', initialDelay);
                      initialDelay += 1500;
                      localStorage.removeItem('showFirstHomeBanner');
+                     const firstHomeBannerEl = document.getElementById('fake-notification-banner');
+                     if (firstHomeBannerEl) {
+                         firstHomeBannerEl.classList.remove('show');
+                     }
                  }
                  // 復帰プロセス Phase 1: LINE画面での復帰セリフ表示 (仕様書 4-1)
                  const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
