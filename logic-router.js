@@ -616,6 +616,7 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                      initialDelay += 1500;
                      appendLineMessage('user', '私もこれからが楽しみです！よろしくね✨さっそく', initialDelay);
                      initialDelay += 1500;
+                     localStorage.setItem('lastBannerReadTime', Date.now().toString());
                      localStorage.removeItem('showFirstHomeBanner');
                      const firstHomeBannerEl = document.getElementById('fake-notification-banner');
                      if (firstHomeBannerEl) {
