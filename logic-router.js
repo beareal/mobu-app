@@ -2097,7 +2097,13 @@ function getSaboriLog() {
 function saveSaboriLog(log) {
     localStorage.setItem('saboriDialogueLog', JSON.stringify(log));
 }
+function getSlotDialogueLog() {
+    return JSON.parse(localStorage.getItem('slotDialogueLog') || '{"shown":[]}');
+}
 
+function saveSlotDialogueLog(log) {
+    localStorage.setItem('slotDialogueLog', JSON.stringify(log));
+}
 // 次に表示すべきサボり検知セリフを1つ返す
 function getNextSaboriDialogue() {
     const log = getSaboriLog();
