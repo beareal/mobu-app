@@ -2151,8 +2151,16 @@ function pickDialogue() {
         return false;
     });
 
+    // 既出セリフを除外し、全部出た場合は既出リストをリセットする
+    const slotLog = getSlotDialogueLog();
+    let availablePool = pool.filter(d => !slotLog.shown.includes(d.text));
+    if (availablePool.length === 0) {
+        slotLog.shown = [];
+        availablePool = pool;
+    }
+
     // 夜スロット＋その日の完了0件ならサボり検知セリフを均等確率で合算
-    let finalPool = [...pool];
+    let finalPool = [...availablePool];
     if (slot === 'night') {
         const completed = getCompletedToday();
         const isZero = !completed || completed.taskIndices.length === 0;
@@ -2173,6 +2181,13 @@ function pickDialogue() {
 
     // ランダムで1つ抽選
     const chosen = finalPool[Math.floor(Math.random() * finalPool.length)];
+
+    // 選ばれたセリフ（サボり検知セリフ以外）を既出として記録する
+    if (chosen.type !== 'sabori') {
+        slotLog.shown.push(chosen.text);
+        saveSlotDialogueLog(slotLog);
+    }
+
     return {
         text: chosen.text.replace(/○○/g, nickname),
         displayTime: chosen.displayTime
