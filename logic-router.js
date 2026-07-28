@@ -2467,6 +2467,7 @@ function checkAndShowHomeBanners() {
 
     const mobuState = getMobuState();
     if (mobuState !== 'normal') {
+        discardPendingBanners();
         handleAppLaunchNotification();
         return;
     }
