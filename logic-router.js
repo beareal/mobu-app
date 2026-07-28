@@ -1928,6 +1928,14 @@ function getPendingBanners() {
 
     return pending;
 }
+
+function discardPendingBanners() {
+    const pendingBannersList = getPendingBanners();
+    pendingBannersList.forEach(banner => {
+        const key = 'fixedSlotDialogue_' + banner.date + '_' + banner.slot;
+        localStorage.removeItem(key);
+    });
+}
 function renderPendingBannerStack() {
     const container = document.getElementById('pending-banner-stack');
     if (!container) return;
