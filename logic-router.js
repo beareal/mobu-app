@@ -2457,18 +2457,20 @@ function checkAndShowHomeBanners() {
         return;
     }
 
+    const mobuState = getMobuState();
+    if (mobuState !== 'normal') {
+        handleAppLaunchNotification();
+        return;
+    }
+
     const pendingBannersList = getPendingBanners();
     if (pendingBannersList.length > 0) {
         const nextPending = pendingBannersList[0];
         showFakeNotification('モブ君', nextPending.text, getMobuIconSrc(), 'periodic', null, { slot: nextPending.slot, date: nextPending.date });
         return;
     }
-    const mobuState = getMobuState();
-    if (mobuState !== 'normal') {
-        handleAppLaunchNotification();
-    } else {
-        showSlotMessage();
-    }
+
+    showSlotMessage();
 }
 
 
