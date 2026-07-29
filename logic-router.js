@@ -2560,6 +2560,10 @@ function isBannerCurrentlyShown() {
     const banner = document.getElementById('fake-notification-banner');
     return banner ? banner.classList.contains('show') : false;
 }
+function getCurrentBannerText() {
+    const messageEl = document.getElementById('notification-message');
+    return messageEl ? messageEl.textContent : '';
+}
 function showSlotMessage() {
     if (hasShownInCurrentSlot()) return;
 // 未読の保留バナーがあれば、新しいセリフの抽選を止める
