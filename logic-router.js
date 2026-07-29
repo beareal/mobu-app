@@ -2556,7 +2556,10 @@ function checkAndShowHomeBanners() {
     showSlotMessage();
 }
 
-
+function isBannerCurrentlyShown() {
+    const banner = document.getElementById('fake-notification-banner');
+    return banner ? banner.classList.contains('show') : false;
+}
 function showSlotMessage() {
     if (hasShownInCurrentSlot()) return;
 // 未読の保留バナーがあれば、新しいセリフの抽選を止める
