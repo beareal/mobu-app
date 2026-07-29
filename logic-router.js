@@ -2153,6 +2153,24 @@ function getTaskReactionCandidates(reportedTask) {
 
     return candidates;
 }
+
+function pickTaskReactionDialogue(reportedTask) {
+    const candidates = getTaskReactionCandidates(reportedTask);
+    const log = getTaskReactionDialogueLog();
+
+    let available = candidates.filter(text => !log.shown.includes(text));
+
+    if (available.length === 0) {
+        log.shown = log.shown.filter(text => !candidates.includes(text));
+        available = candidates;
+    }
+
+    const chosen = available[Math.floor(Math.random() * available.length)];
+    log.shown.push(chosen);
+    saveTaskReactionDialogueLog(log);
+
+    return chosen;
+}
 // 次に表示すべきサボり検知セリフを1つ返す
 function getNextSaboriDialogue() {
     const log = getSaboriLog();
