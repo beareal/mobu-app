@@ -692,20 +692,24 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                      setIsWaitingForRecoveryPhase2(false);
                      oneeMessageUsed = true;
                  }
-                 if (!oneeMessageUsed) {
-                     appendLineMessage('user', userTaskReportText, initialDelay);
+                 if (!oneeMessageUsed && isBannerCurrentlyShown()) {
+                     handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay);
+                 } else {
+                     if (!oneeMessageUsed) {
+                         appendLineMessage('user', userTaskReportText, initialDelay);
+                         initialDelay += 1000;
+                     }
+                     const taskReactionText = pickTaskReactionDialogue(reportedTask);
+                     appendLineMessage('mobu', taskReactionText, initialDelay);
                      initialDelay += 1000;
+                     setTimeout(() => {
+                         if (Math.random() < 0.5) {
+                             startMoodSharing();
+                         } else {
+                             checkAndSetupEvent();
+                         }
+                     }, initialDelay + 1000);
                  }
-                 const taskReactionText = pickTaskReactionDialogue(reportedTask);
-                 appendLineMessage('mobu', taskReactionText, initialDelay);
-                 initialDelay += 1000;
-setTimeout(() => {
-    if (Math.random() < 0.5) {
-        startMoodSharing();
-    } else {
-        checkAndSetupEvent();
-    }
-}, initialDelay + 1000);
             }
 
         } else if (screenId === 'screen-cafe') {
@@ -2175,6 +2179,41 @@ function pickTaskReactionDialogue(reportedTask) {
     saveTaskReactionDialogueLog(log);
 
     return chosen;
+}
+function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay) {
+    const bannerText = getCurrentBannerText();
+    appendLineMessage('mobu', bannerText, initialDelay);
+    initialDelay += 1500;
+
+    showGenericStampReplySelector(function(stampSrc) {
+        appendUserStampMessage(stampSrc);
+
+        const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
+        if (slotInfoRaw) {
+            const slotInfo = JSON.parse(slotInfoRaw);
+            markSlotAsTapped(slotInfo.slot, slotInfo.date);
+        }
+        const bannerEl = document.getElementById('fake-notification-banner');
+        if (bannerEl) {
+            bannerEl.classList.remove('show');
+        }
+
+        let delay = 500;
+        appendLineMessage('user', userTaskReportText, delay);
+        delay += 1000;
+
+        const taskReactionText = pickTaskReactionDialogue(reportedTask);
+        appendLineMessage('mobu', taskReactionText, delay);
+        delay += 1000;
+
+        setTimeout(() => {
+            if (Math.random() < 0.5) {
+                startMoodSharing();
+            } else {
+                checkAndSetupEvent();
+            }
+        }, delay + 1000);
+    });
 }
 // 次に表示すべきサボり検知セリフを1つ返す
 function getNextSaboriDialogue() {
