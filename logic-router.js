@@ -569,7 +569,8 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                         appendLineMessage('user', userTaskReportText, initialDelay);
                         initialDelay += 1000;
 
-                        appendLineMessage('mobu', `お疲れ様です！「${reportedTask}」を達成したんですね、すごいです！`, initialDelay);
+                        const taskReactionText = pickTaskReactionDialogue(reportedTask);
+                        appendLineMessage('mobu', taskReactionText, initialDelay);
                         initialDelay += 1000;
 
                         setTimeout(() => {
