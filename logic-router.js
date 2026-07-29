@@ -2139,6 +2139,20 @@ function getTaskReactionDialogueLog() {
 function saveTaskReactionDialogueLog(log) {
     localStorage.setItem('taskReactionDialogueLog', JSON.stringify(log));
 }
+function getTaskReactionCandidates(reportedTask) {
+    const category = TASK_CATEGORY_MAP[reportedTask];
+    const candidates = [];
+
+    const individualText = TASK_REACTION_DIALOGUES_DUMMY.individual[reportedTask];
+    if (individualText) candidates.push(individualText);
+
+    const categoryTexts = TASK_REACTION_DIALOGUES_DUMMY.categoryGeneric[category] || [];
+    candidates.push(...categoryTexts);
+
+    candidates.push(...TASK_REACTION_DIALOGUES_DUMMY.superGeneric);
+
+    return candidates;
+}
 // 次に表示すべきサボり検知セリフを1つ返す
 function getNextSaboriDialogue() {
     const log = getSaboriLog();
