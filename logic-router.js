@@ -1762,6 +1762,9 @@ const banner = document.getElementById('fake-notification-banner');
     replacedIconEl.src = iconSrc;
     playSE('se_line_receive.mp3');
 
+    const currentBannerSlotInfo = slotInfo || { slot: getCurrentTimeOfDay(), date: getGameDate() };
+    localStorage.setItem('currentBannerSlotInfo', JSON.stringify(currentBannerSlotInfo));
+
     // 50ms遅らせてshowを付ける（スライドイン演出）
     setTimeout(() => {
         replacedBanner.classList.add('show');
