@@ -2141,7 +2141,7 @@ function saveTaskReactionDialogueLog(log) {
     localStorage.setItem('taskReactionDialogueLog', JSON.stringify(log));
 }
 function getTaskReactionCandidates(reportedTask) {
-    const category = TASK_CATEGORY_MAP[reportedTask];
+    const category = TASK_REACTION_CATEGORY_MAP[reportedTask];
     const candidates = [];
 
     const individualText = TASK_REACTION_DIALOGUES_DUMMY.individual[reportedTask];
@@ -2197,7 +2197,7 @@ function getNextSaboriDialogue() {
     saveSaboriLog(log);
     return chosen;
 }
-const TASK_CATEGORY_MAP = {
+const TASK_REACTION_CATEGORY_MAP = {
     'task-select-1': 'care',
     'task-select-2': 'care',
     'task-select-3': 'care',
