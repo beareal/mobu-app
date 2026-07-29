@@ -2199,6 +2199,8 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         }
 
         let delay = 500;
+        appendLineMessage('user', 'ところで', delay);
+        delay += 1000;
         appendLineMessage('user', userTaskReportText, delay);
         delay += 1000;
 
