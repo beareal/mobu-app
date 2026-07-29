@@ -2115,6 +2115,9 @@ function saveSlotDialogueLog(log) {
 function getTaskReactionDialogueLog() {
     return JSON.parse(localStorage.getItem('taskReactionDialogueLog') || '{"shown":[]}');
 }
+function saveTaskReactionDialogueLog(log) {
+    localStorage.setItem('taskReactionDialogueLog', JSON.stringify(log));
+}
 // 次に表示すべきサボり検知セリフを1つ返す
 function getNextSaboriDialogue() {
     const log = getSaboriLog();
