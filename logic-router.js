@@ -2143,7 +2143,20 @@ function getNextSaboriDialogue() {
     saveSaboriLog(log);
     return chosen;
 }
-
+const TASK_CATEGORY_MAP = {
+    'task-select-1': 'care',
+    'task-select-2': 'care',
+    'task-select-3': 'care',
+    'task-select-4': 'care',
+    'task-select-5': 'active',
+    'task-select-6': 'care',
+    'task-select-7': 'active',
+    'task-select-8': 'active',
+    'task-select-9': 'active',
+    'task-select-10': 'care',
+    'task-select-11': 'care',
+    'task-select-12': 'care'
+};
 // ===============================================
 // メッセージ表示：セリフプール構築＋抽選
 // ===============================================
