@@ -2094,27 +2094,45 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '忙しい時ほど、呼吸が浅くなりません？深呼吸だけでも少しリフレッシュできますね！' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '俺は最近、余裕が無い時程、深呼吸するようになりました。なんか冷静になれるんですよね。' },
 ];
-const TASK_REACTION_DIALOGUES_DUMMY = {
-    individual: {
-        'task-select-1': 'ダミー：白湯タスク個別セリフ',
-        'task-select-2': 'ダミー：間食タスク個別セリフ',
-        'task-select-3': 'ダミー：フルーツタスク個別セリフ',
-        'task-select-4': 'ダミー：スマホタスク個別セリフ',
-        'task-select-5': 'ダミー：片づけタスク個別セリフ',
-        'task-select-6': 'ダミー：ありがとうタスク個別セリフ',
-        'task-select-7': 'ダミー：ストレッチタスク個別セリフ',
-        'task-select-8': 'ダミー：階段タスク個別セリフ',
-        'task-select-9': 'ダミー：背筋タスク個別セリフ',
-        'task-select-10': 'ダミー：スキンケアタスク個別セリフ',
-        'task-select-11': 'ダミー：リップタスク個別セリフ',
-        'task-select-12': 'ダミー：深呼吸タスク個別セリフ'
+const TASK_REACTION_DIALOGUES = {
+    ver1: {
+        individual: {
+            'task-select-1': '朝の白湯、体が温まって良さそうですね。俺も真似してみたら、なんだかホッとしました。素敵な習慣ですね😊',
+            'task-select-2': '間食をグッと我慢したんですね。俺なら誘惑に負けそう💦○○の意志の強さ、見習いたいです。',
+            'task-select-3': '偉い！有言実行ですね😊朝食にフルーツを添えるの、俺も始めました！\nお互い続けていきましょうね！',
+            'task-select-4': '寝る前のスマホを控える時間、静かでいいですね。俺も画面を閉じて、○○と今日話したこととか思い出してました😊',
+            'task-select-5': 'さすがです👍俺は、今○○に連絡が、一カ所片づけるきっかけになりました！一カ所でも気分がいいです！',
+            'task-select-6': '感謝を思い返すの、あたたかい気持ちになりますね。そういうの大切にしてる○○は、優しい人ですね😌',
+            'task-select-7': '１分間でも体がほぐれて気持ちいいですよね👍\n気づいたらそれがきっかけで、ちょっと運動始めてることありません？',
+            'task-select-8': '健康を意識されていて凄いです。疲れてると地味にきついんですよね💦\nでも階段選んで後悔する事って意外とないかも😊',
+            'task-select-9': 'いいですね👍背筋を伸ばすと、いつも着ている服がもっと素敵に見える気がしません？',
+            'task-select-10': '自分を大切にされていて素敵です。○○が、報告してくれるから、俺も少しは肌を労ろうかなって、気持ちになれました😊',
+            'task-select-11': 'そういう所まで気を配れるの、憧れます！\n俺もハンドクリームくらいは、つけるようになりました🙂',
+            'task-select-12': '張り詰めた心が緩みますね。俺も今、深呼吸みました…。隣にいるみたいで、落ち着きます😌'
+        },
+        categoryGeneric: {
+            care: [
+                '自分を優しく労わる時間、とても大切ですね。\n○○がそういう時間を過ごしてるって教えてくれて、うれしいです😊',
+                '身体を労う選択ができる人って、『大人』って感じがしますね。\n俺も○○を見習って、もっと自分を大切にしようって思えました👌'
+            ],
+            active: [
+                '体を動かして努力する姿、すごく眩しいです。\n俺も最近、簡単な筋トレ始めました！\n○○のやる気が俺にうつったかも😄',
+                'コツコツと行動を起こせるの、流石ですね。\n○○から報告もらえると、やる気スイッチ入るんですよね✨いつもありがとうございます！'
+            ]
+        },
+        superGeneric: [
+            '今日も目標を達成されたんですね！頑張る○○を見てると、俺も、もっと頑張ろうって思えます…！',
+            '報告ありがとうございます。無事にやり遂げて、本当に凄いな…。俺まで嬉しくなりました😊'
+        ]
     },
-    categoryGeneric: {
-        care: ['ダミー：ケア系汎用セリフ1', 'ダミー：ケア系汎用セリフ2'],
-        active: ['ダミー：アクティブ系汎用セリフ1', 'ダミー：アクティブ系汎用セリフ2']
-    },
-    superGeneric: ['ダミー：超汎用セリフ1', 'ダミー：超汎用セリフ2']
-};
+    ver2: {
+        individual: {
+            'task-select-1': 'ダミー：白湯タスク個別セリフ',
+            'task-select-2': 'ダミー：間食タスク個別セリフ',
+            'task-select-3': 'ダミー：フルーツタスク個別セリフ',
+            'task-select-4': 'ダミー：スマホタスク個別セリフ',
+            'task-select-5': 'ダミー：片づけタスク個別セリフ',
+            'task-select-6': 'ダミー：ありがとうタスク個別セリフ',
 // ===============================================
 // メッセージ表示：サボり検知セリフ
 // ===============================================
@@ -2150,15 +2168,17 @@ function saveTaskReactionDialogueLog(log) {
 }
 function getTaskReactionCandidates(reportedTask) {
     const category = TASK_REACTION_CATEGORY_MAP[reportedTask];
+    const version = getMobuVersion();
+    const dialogueSet = TASK_REACTION_DIALOGUES[version];
     const candidates = [];
 
-    const individualText = TASK_REACTION_DIALOGUES_DUMMY.individual[reportedTask];
+    const individualText = dialogueSet.individual[reportedTask];
     if (individualText) candidates.push(individualText);
 
-    const categoryTexts = TASK_REACTION_DIALOGUES_DUMMY.categoryGeneric[category] || [];
+    const categoryTexts = dialogueSet.categoryGeneric[category] || [];
     candidates.push(...categoryTexts);
 
-    candidates.push(...TASK_REACTION_DIALOGUES_DUMMY.superGeneric);
+    candidates.push(...dialogueSet.superGeneric);
 
     return candidates;
 }
