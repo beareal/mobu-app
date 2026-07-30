@@ -2238,7 +2238,8 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         appendLineMessage('user', userTaskReportText, delay);
         delay += 1000;
 
-        const taskReactionText = pickTaskReactionDialogue(reportedTask);
+        const nickname = localStorage.getItem('nickname') || 'あなた';
+        const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
         appendLineMessage('mobu', taskReactionText, delay);
         delay += 1000;
 
