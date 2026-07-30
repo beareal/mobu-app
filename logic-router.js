@@ -569,7 +569,8 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                         appendLineMessage('user', userTaskReportText, initialDelay);
                         initialDelay += 1000;
 
-                        const taskReactionText = pickTaskReactionDialogue(reportedTask);
+                        const nickname = localStorage.getItem('nickname') || 'あなた';
+                        const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
                         appendLineMessage('mobu', taskReactionText, initialDelay);
                         initialDelay += 1000;
 
