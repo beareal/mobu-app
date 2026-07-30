@@ -2185,6 +2185,13 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     appendLineMessage('mobu', bannerText, initialDelay);
     initialDelay += 1500;
 
+    const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
+    if (slotInfoRaw) {
+        const slotInfo = JSON.parse(slotInfoRaw);
+        markSlotAsTapped(slotInfo.slot, slotInfo.date);
+    }
+    localStorage.setItem('lastBannerReadTime', Date.now().toString());
+
     showGenericStampReplySelector(function(stampSrc) {
         appendUserStampMessage(stampSrc);
 
