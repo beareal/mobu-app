@@ -2301,11 +2301,6 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     showGenericStampReplySelector(function(stampSrc) {
         appendUserStampMessage(stampSrc);
 
-        const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
-        if (slotInfoRaw) {
-            const slotInfo = JSON.parse(slotInfoRaw);
-            markSlotAsTapped(slotInfo.slot, slotInfo.date);
-        }
         const bannerEl = document.getElementById('fake-notification-banner');
         if (bannerEl) {
             bannerEl.classList.remove('show');
