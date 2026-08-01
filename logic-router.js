@@ -2724,7 +2724,7 @@ function showSlotMessage() {
     
         // オネェ状態（サボり中）なら通常メッセージは表示しない
     if (getMobuState() !== 'normal') return;
-
+if (getMobuVersion() !== 'ver1') return;
 
     let result = getFixedSlotDialogue();
     if (!result) {
