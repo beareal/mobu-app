@@ -2318,7 +2318,7 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
 
         setTimeout(() => {
-            if (Math.random() < 0.5) {
+            if (Math.random() < 0.3) {
                 startMoodSharing();
             } else {
                 checkAndSetupEvent();
