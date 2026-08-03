@@ -2390,7 +2390,7 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
 
         setTimeout(() => {
-            if (Math.random() < 0.3) {
+            if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
                 startMoodSharing();
             } else {
                 checkAndSetupEvent();
