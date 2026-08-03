@@ -2268,7 +2268,13 @@ function getTaskReactionCandidates(reportedTask) {
 
     return candidates;
 }
-
+function getMoodTimeSlot() {
+    const hour = new Date().getHours();
+    if (hour >= 5 && hour < 11) return 'morning';
+    if (hour >= 11 && hour < 19) return 'afternoon';
+    if (hour >= 19 || hour < 2) return 'night';
+    return 'midnight';
+}
 function pickTaskReactionDialogue(reportedTask) {
     const candidates = getTaskReactionCandidates(reportedTask);
     const log = getTaskReactionDialogueLog();
