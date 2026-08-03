@@ -705,7 +705,7 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                      appendLineMessage('mobu', taskReactionText, initialDelay);
                      initialDelay += 1000;
                      setTimeout(() => {
-                         if (Math.random() < 0.3) {
+                         if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
                              startMoodSharing();
                          } else {
                              checkAndSetupEvent();
