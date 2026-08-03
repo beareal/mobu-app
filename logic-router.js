@@ -1100,7 +1100,14 @@ function startMoodSharing() {
     const inputBar = document.getElementById('line-input-bar');
     const stampSelector = document.getElementById('mood-stamp-selector');
     const stamps = document.querySelectorAll('.mood-stamp');
-    const question = "ところで、今日の気分はどうですか？";
+    const version = getMobuVersion();
+    const timeSlot = getMoodTimeSlot();
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+    let question = "ところで、今日の気分はどうですか？";
+    if (timeSlot !== 'midnight' && moodQuestionDialogues[version] && moodQuestionDialogues[version][timeSlot]) {
+        const candidates = moodQuestionDialogues[version][timeSlot];
+        question = candidates[Math.floor(Math.random() * candidates.length)].replace(/○○/g, nickname);
+    }
 
     appendLineMessage('mobu', question, 1000);
 
