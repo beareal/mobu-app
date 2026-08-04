@@ -1230,7 +1230,14 @@ function startMoodSharing() {
     let question = "ところで、今日の気分はどうですか？";
     if (timeSlot !== 'midnight' && moodQuestionDialogues[version] && moodQuestionDialogues[version][timeSlot]) {
         const candidates = moodQuestionDialogues[version][timeSlot];
-        question = candidates[Math.floor(Math.random() * candidates.length)].replace(/○○/g, nickname);
+        const lastShown = localStorage.getItem('moodQuestionDialogueLog');
+        let available = candidates.filter(text => text !== lastShown);
+        if (available.length === 0) {
+            available = candidates;
+        }
+        const chosen = available[Math.floor(Math.random() * available.length)];
+        localStorage.setItem('moodQuestionDialogueLog', chosen);
+        question = chosen.replace(/○○/g, nickname);
     }
 
     appendLineMessage('mobu', question, 1000);
