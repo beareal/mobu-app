@@ -274,6 +274,12 @@ const moodStampReplyData = {
         '嬉しい': ['「嬉しそうな顔、ずっと見てたい。なんだろうな……この気持ち。\nただ見てるだけで幸せになるって、こういうことかも。」', 'V4嬉しいダミー']
     }
 };
+
+const moodStampReplyImages = {
+    positive: 'assets/stamps/stamp_mobureply_positive.webp',
+    negative: 'assets/stamps/stamp_mobureply_negative.webp',
+    neutral: 'assets/stamps/stamp_mobureply_neutral.webp'
+};
 // ===============================================
 // Audio Control (音響演出)
 // ===============================================
