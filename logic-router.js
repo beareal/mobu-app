@@ -287,6 +287,43 @@ function getMoodStampReplyLog() {
 function saveMoodStampReplyLog(log) {
     localStorage.setItem('moodStampReplyLog', JSON.stringify(log));
 }
+
+const moodGroupMap = {
+    '元気': 'positive',
+    '頑張った': 'positive',
+    '嬉しい': 'positive',
+    'しんどい': 'negative',
+    '不安': 'negative',
+    '静か': 'neutral'
+};
+
+function pickMoodStampReply(mood) {
+    const version = getMobuVersion();
+    const group = moodGroupMap[mood];
+    const texts = moodStampReplyData[version][mood];
+
+    const pool = [
+        { type: 'text', content: texts[0] },
+        { type: 'text', content: texts[1] },
+        { type: 'stamp', content: moodStampReplyImages[group] }
+    ];
+
+    const log = getMoodStampReplyLog();
+    const recentContents = log[mood] || [];
+
+    let available = pool.filter(item => !recentContents.includes(item.content));
+    if (available.length === 0) {
+        available = pool;
+    }
+
+    const chosen = available[Math.floor(Math.random() * available.length)];
+
+    const updatedRecent = [chosen.content, ...recentContents].slice(0, 2);
+    log[mood] = updatedRecent;
+    saveMoodStampReplyLog(log);
+
+    return chosen;
+}
 // ===============================================
 // Audio Control (音響演出)
 // ===============================================
