@@ -1267,19 +1267,7 @@ function handleMoodStampClick(mood, stampSrc) {
     // ★変更: テキストではなく、スタンプ画像を送信する関数を呼び出す
     appendUserStampMessage(stampSrc);
 
-    let reply = "";
-    switch (mood) {
-        case '元気':
-            reply = "元気なんですね！よかったです！";
-            break;
-        case '嬉しい':
-            reply = "何か嬉しいことがあったんですね！";
-            break;
-        default:
-            reply = `${mood}、なんですね。教えてくれてありがとうございます。`;
-            break;
-    }
-    appendLineMessage('mobu', reply, 1000); // 少し応答を早くする
+    displayMoodStampReply(mood, 1000); // 少し応答を早くする
 
     setTimeout(() => {
         stampSelector.style.display = 'none';
