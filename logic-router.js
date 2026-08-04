@@ -324,6 +324,45 @@ function pickMoodStampReply(mood) {
 
     return chosen;
 }
+function appendMobuStampMessage(stampSrc) {
+    const chatArea = document.querySelector('#screen-line .line-chat');
+    if (!chatArea) return;
+
+    playSE('se_line_receive.mp3');
+
+    const messageDiv = document.createElement('div');
+    messageDiv.className = 'line-message mobu new';
+    messageDiv.style.padding = '0';
+    messageDiv.style.backgroundColor = 'transparent';
+    messageDiv.style.width = 'fit-content';
+
+    const stampImg = document.createElement('img');
+    stampImg.src = stampSrc;
+    stampImg.style.width = '100px';
+    stampImg.style.height = '100px';
+
+    messageDiv.appendChild(stampImg);
+    chatArea.appendChild(messageDiv);
+
+    chatArea.scrollTop = chatArea.scrollHeight;
+
+    messageDiv.addEventListener('animationend', () => {
+        messageDiv.classList.remove('new');
+    });
+}
+
+function displayMoodStampReply(mood, delay = 1000) {
+    const chosen = pickMoodStampReply(mood);
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+
+    if (chosen.type === 'text') {
+        appendLineMessage('mobu', chosen.content.replace(/○○/g, nickname), delay);
+    } else {
+        setTimeout(() => {
+            appendMobuStampMessage(chosen.content);
+        }, delay);
+    }
+}
 // ===============================================
 // Audio Control (音響演出)
 // ===============================================
