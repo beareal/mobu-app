@@ -280,6 +280,13 @@ const moodStampReplyImages = {
     negative: 'assets/stamps/stamp_mobureply_negative.webp',
     neutral: 'assets/stamps/stamp_mobureply_neutral.webp'
 };
+
+function getMoodStampReplyLog() {
+    return JSON.parse(localStorage.getItem('moodStampReplyLog') || '{}');
+}
+function saveMoodStampReplyLog(log) {
+    localStorage.setItem('moodStampReplyLog', JSON.stringify(log));
+}
 // ===============================================
 // Audio Control (音響演出)
 // ===============================================
