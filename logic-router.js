@@ -853,10 +853,10 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                 handleIntroductionDialogue('motivation');
             } else if (totalTasks >= 10 && totalTasks < 20) {
                 // [通常フロー] 10回達成イベント
-                handleCafeEvent(10);
+                handleCafeEventWithJIT(10);
             } else if (totalTasks >= 20 && totalTasks < 30) {
                 // [通常フロー] 20回達成イベント
-                handleCafeEvent(20);
+                handleCafeEventWithJIT(20);
             } else {
                 // [導入フロー1] 上記のどれにも当てはまらない場合、最初の導入フェーズと判断
                 handleIntroductionDialogue('start');
