@@ -857,6 +857,10 @@ const fakeBanner = document.getElementById('fake-notification-banner');
             } else if (totalTasks >= 20 && totalTasks < 30) {
                 // [通常フロー] 20回達成イベント
                 handleCafeEventWithJIT(20);
+            } else if (totalTasks >= 30) {
+                // [通常フロー] 30回達成イベント
+                handleCafeEventWithJIT(30);
+            
             } else {
                 // [導入フロー1] 上記のどれにも当てはまらない場合、最初の導入フェーズと判断
                 handleIntroductionDialogue('start');
