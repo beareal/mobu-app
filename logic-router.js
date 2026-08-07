@@ -93,7 +93,6 @@ const periodicNotificationDialogues = [
     { taskId: "task-select-5", time: "12:30", text: "俺、最近、休憩と片づけがセットになってます。${nickname}は順調ですか？" },
 
     // 🌙 夜22:30 - タスク⑩スマホ休憩
-    { taskId: "task-select-4", time: "22:30", text: "もう夜ですね。スマホ、楽しいですけど、そろそろ目を休めましょうか。" },
     { taskId: "task-select-4", time: "22:30", text: "スマホを置いて、静かな時間を作るのって贅沢ですよね。ホットアイマスクもあれば最高です。" },
     { taskId: "task-select-4", time: "22:30", text: "${nickname}に送るこのメッセージを最後に、俺はスマホ置きます。${nickname}と同じ時間に休むって思うと、なんか嬉しいです。" },
 
@@ -2135,7 +2134,7 @@ const SLOT_DIALOGUES = [
     // ① 白湯 task-select-1
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯、ちゃんと飲んでます？身体のためにも水分補給していきましょうね。' },
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯ってSNS映えするような華やかさは無いですけど、地味だから続けやすいですよね。' },
-    { taskId: 'task-select-1', type: 'morning', displayTime: '7:30', text: '俺も今、白湯飲みながらメッセージ打ってます。……ちょっと一緒に頑張ってる気がしますね。' },
+    { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '俺も今、白湯飲みながらメッセージ打ってます。……ちょっと一緒に頑張ってる気がしますね。' },
     { taskId: 'task-select-1', type: 'afternoon', displayTime: 'now', text: '朝、白湯飲むの忘れても、お昼休みに温かいもの飲むとホッとしますね。胃が温まると午後も動けそうな気がして。○○もお昼、ちゃんとホッとできる時間とれてますか？' },
     { taskId: 'task-select-1', type: 'night', displayTime: 'now', text: '明日の朝、寝起きに白湯を飲もうと思って今から準備してます。俺は朝が苦手なので…ちょっとオシャレなやかん買って気合い入れました！' },
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '飲み忘れたら今でも遅くないですよ。体がぽかぽかしてくるの、気持ちいいですよね。' },
@@ -2206,11 +2205,11 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、メッセージを送ったあとにすぐスマホを置いたんですけど、なんだか安心してぐっすり眠れました。○○もよく眠れたかなって、ちょっと気になってます。' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '昨日は寝る直前までスマホを見てしまいました。…なので、戒めに昼休憩はスマホなしで外の景色見ながらランチしてみました。○○に連絡するって考えると、夜できなくても「違う時間で工夫しなきゃ」って思えて、完璧じゃなくてもなんとか続いてます！' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '最近、寝る前のスマホ時間を減らそうと格闘中です。とりあえず、スマホのアラームで起きるのを止めて、目覚まし時計で起きるようにしてみました！' },
-    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: 'もう夜ですね。スマホ、楽しいですけど、そろそろ目を休めましょうか' },
-    { taskId: 'task-select-4', type: 'night', displayTime: '22:30', text: '○○に送るこのメッセージを最後に、俺はスマホ置きます。○○と同じ時間に休むって思うと、なんか嬉しいです。' },
+    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです💦だからこのメッセージ送ったら、3時間はスマホ見ないって決めました！${nickname}も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
+    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '○○に送るこのメッセージを最後に、俺はスマホ置きます。○○と同じ時間に休むって思うと、なんか嬉しいです。' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: 'スマホを置いて、静かな時間を作るのって贅沢ですよね。ホットアイマスクもあれば最高です。' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のスマホタイムが無いのは無理！って前は思ってましたけど、慣れると無い方が快適かも...。○○はどうですか？' },
-    { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のプチデジタルデトックス、順調ですか？俺は、オススメに上がてきた猫動画見たら寝る！って決めてます😺' },
+    { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のプチデジタルデトックス、順調ですか？俺は、オススメに上がってきた猫動画見たら寝る！って決めてます😺' },
 
     // ⑪ ありがとう task-select-6
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '疲れてる日は【"ありがとう"を思い出す】のも大変ですよね。そんな時俺は、毎日動いてくれる自分の体にありがとうって言ってます' },
