@@ -2165,6 +2165,8 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '「今日はいいかな」って思う日もありますよね。お互い励ましあいながら頑張りましょう！' },
     { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '間食を我慢すると、ごはんがすごくおいしく感じる事に気づきました😊' },
     { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '甘い誘惑、来ました？俺もさっき危なかったです。お互いセーフでしたね…！' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: 'さっきインスタでおしゃれなカフェのおいしそうなスイーツが流れてきて危なかったです！でも、ご褒美でならいいですかね...？○○といつか行きたいです😄' },
+
 
     // ⑤ ストレッチ task-select-7
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: 'ちょっと一息つく時間、取れてますか？🙂もし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね。' },
