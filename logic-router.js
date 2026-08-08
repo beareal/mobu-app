@@ -37,7 +37,7 @@ const oneeNotificationDialogues = {
         "ねぇ聞いて‼️○○がサボるたびにアタシ、○○の代わりにどんどん美容に目覚めて美しくなっていくの。ねぇ、そろそろ追いかけてきて？😉"
     ]
 };
-// 資料13より: タスクに応じた定時通知メッセージ
+/* 資料13より: タスクに応じた定時通知メッセージ（未使用のため一時的にコメントアウト）
 // キーは index.html のタスク選択チェックボックスのIDに対応
 const periodicNotificationDialogues = [
     // 🌞 朝7:30 - タスク①白湯
@@ -113,6 +113,7 @@ const periodicNotificationDialogues = [
     { taskId: "task-select-10", time: "22:30", text: "夜のスキンケアって、癒しの時間ですよね。${nickname}の肌が、ゆっくり休めますように。" },
     { taskId: "task-select-10", time: "22:30", text: "疲れた顔も、優しく触れるだけで少し元気になる気がしますね。${nickname}も、頑張った自分をちゃんと労ってください。" },
 ];
+*/
 
 // 資料7を基にした、サボりからの復帰時のセリフ集
 const recoveryDialogues = {
@@ -2937,7 +2938,7 @@ if (getMobuVersion() !== 'ver1') return;
 
     showFakeNotification('モブ君', result.text, getMobuIconSrc(), 'periodic');
 }
-function showPeriodicIineNotification() {
+/*function showPeriodicIineNotification() {
     const nickname = localStorage.getItem('nickname') || 'あなた';
 
     // ユーザーが選択中のタスクIDを取得
@@ -2988,4 +2989,4 @@ function showPeriodicIineNotification() {
 
     // バナー表示
     showFakeNotification('モブ君', message, getMobuIconSrc(), 'periodic');
-}
+}*/
