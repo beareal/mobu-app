@@ -2385,7 +2385,11 @@ function saveTaskReactionDialogueLog(log) {
     localStorage.setItem('taskReactionDialogueLog', JSON.stringify(log));
 }
 function getTaskReactionCandidates(reportedTask) {
-    const category = TASK_REACTION_CATEGORY_MAP[reportedTask];
+    const selectedTasks = JSON.parse(localStorage.getItem('selectedTasks') || '[]');
+    const selectedTaskIds = JSON.parse(localStorage.getItem('selectedTaskIds') || '[]');
+    const taskIndex = selectedTasks.indexOf(reportedTask);
+    const taskId = taskIndex !== -1 ? selectedTaskIds[taskIndex] : null;
+    const category = TASK_REACTION_CATEGORY_MAP[taskId];
     const version = getMobuVersion();
     const dialogueSet = TASK_REACTION_DIALOGUES[version];
     const candidates = [];
