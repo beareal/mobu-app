@@ -2232,7 +2232,7 @@ const TASK_REACTION_DIALOGUES = {
     ver1: {
         individual: {
             'task-select-1': '朝の白湯、体が温まって良さそうですね。俺も真似してみたら、なんだかホッとしました。素敵な習慣ですね😊',
-            'task-select-2': '間食をグッと我慢したんですね。俺なら誘惑に負けそう💦○○の意志の強さ、見習いたいです。',
+            'task-select-2': '間食をグッと我慢したんですね。俺なら誘惑に負けそう😂○○の意志の強さ、見習いたいです。',
             'task-select-3': '偉い！有言実行ですね😊朝食にフルーツを添えるの、俺も始めました！\nお互い続けていきましょうね！',
             'task-select-4': '寝る前のスマホを控える時間、静かでいいですね。俺も画面を閉じて、○○と今日話したこととか思い出してました😊',
             'task-select-5': 'さすがです👍俺は、今○○に連絡が、一カ所片づけるきっかけになりました！一カ所でも気分がいいです！',
@@ -2474,8 +2474,9 @@ function pickTaskReactionDialogue(reportedTask) {
     let available = candidates.filter(text => !log.shown.includes(text));
 
     if (available.length === 0) {
+        const lastShown = log.shown[log.shown.length - 1];
         log.shown = log.shown.filter(text => !candidates.includes(text));
-        available = candidates;
+        available = candidates.length <= 1 ? candidates : candidates.filter(text => text !== lastShown);
     }
 
     const chosen = available[Math.floor(Math.random() * available.length)];
