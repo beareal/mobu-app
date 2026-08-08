@@ -66,7 +66,7 @@ const periodicNotificationDialogues = [
     { taskId: "task-select-2", time: "12:30", text: "甘い誘惑、来ました？俺もさっき危なかったです。お互いセーフでしたね…！" },
 
     // 🌤 昼12:30 - タスク⑤ストレッチ
-    { taskId: "task-select-7", time: "12:30", text: "ちょっと一息つく時間、取れてますか？🙂もし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね。" },
+    { taskId: "task-select-7", time: "12:30", text: "ちょっと一息つく時間、取れてますか？もし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね！" },
     { taskId: "task-select-7", time: "12:30", text: "忙しい中で1分とるって、意外と難しい。でも${nickname}なら、コツコツ頑張ってそうだなって思います。" },
     { taskId: "task-select-7", time: "12:30", text: "仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！" },
 
@@ -2208,11 +2208,11 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、メッセージを送ったあとにすぐスマホを置いたんですけど、なんだか安心してぐっすり眠れました。○○もよく眠れたかなって、ちょっと気になってます。' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '昨日は寝る直前までスマホを見てしまいました。…なので、戒めに昼休憩はスマホなしで外の景色見ながらランチしてみました。○○に連絡するって考えると、夜できなくても「違う時間で工夫しなきゃ」って思えて、完璧じゃなくてもなんとか続いてます！' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '最近、寝る前のスマホ時間を減らそうと格闘中です。とりあえず、スマホのアラームで起きるのを止めて、目覚まし時計で起きるようにしてみました！' },
-    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです💦だからこのメッセージ送ったら、3時間はスマホ見ないって決めました！${nickname}も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
+    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです...。だからこのメッセージ送ったら、3時間はスマホ見ないって決めました！${nickname}も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
     { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '○○に送るこのメッセージを最後に、俺はスマホ置きます。離れていても、それぞれの場所で、ゆっくりひと息つけたら嬉しいです😌' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: 'スマホを置いて、静かな時間を作るのって贅沢ですよね。ホットアイマスクもあれば最高です。' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のスマホタイムが無いのは無理！って前は思ってましたけど、慣れると無い方が快適かも...。○○はどうですか？' },
-    { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のプチデジタルデトックス、順調ですか？俺は、オススメに上がってきた猫動画見たら寝る！って決めてます😺' },
+    { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のプチデジタルデトックス、順調ですか？俺は、オススメに上がってきた猫動画見たら寝る！って決めてます！' },
 
     // ⑪ ありがとう task-select-6
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '疲れてる日は【"ありがとう"を思い出す】のも大変ですよね。そんな時俺は、毎日動いてくれる自分の体にありがとうって言ってます' },
