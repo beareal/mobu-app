@@ -801,8 +801,23 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                      if (followUpDays >= 10) followUpLevel = 'lv3';
                      else if (followUpDays >= 4) followUpLevel = 'lv2';
 
+                     const followUpVersion = getMobuVersion();
+                     const followUpPool = recoveryFollowUpDialogues[followUpVersion] && recoveryFollowUpDialogues[followUpVersion][followUpLevel];
                      const followUpNickname = localStorage.getItem('nickname') || 'あなた';
-                     const followUpMobuLine = recoveryFollowUpDialogues[followUpLevel].replace(/○○/g, followUpNickname);
+                     let followUpMobuLine = '';
+                     if (followUpPool) {
+                         const followUpLog = getRecoveryFollowUpLog(followUpVersion, followUpLevel);
+                         let followUpAvailable = followUpPool.filter(text => !followUpLog.shown.includes(text));
+                         if (followUpAvailable.length === 0) {
+                             const followUpLastShown = followUpLog.shown[followUpLog.shown.length - 1];
+                             followUpLog.shown = followUpLog.shown.filter(text => !followUpPool.includes(text));
+                             followUpAvailable = followUpPool.length <= 1 ? followUpPool : followUpPool.filter(text => text !== followUpLastShown);
+                         }
+                         const followUpRaw = followUpAvailable[Math.floor(Math.random() * followUpAvailable.length)];
+                         followUpLog.shown.push(followUpRaw);
+                         saveRecoveryFollowUpLog(followUpVersion, followUpLevel, followUpLog);
+                         followUpMobuLine = followUpRaw.replace(/○○/g, followUpNickname);
+                     }
                      appendLineMessage('mobu', followUpMobuLine, initialDelay);
                      initialDelay += 1500;
 
