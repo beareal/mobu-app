@@ -2873,11 +2873,21 @@ function showRecoveryFollowUpNotification() {
     else if (days >= 4) level = 'lv2';
 
     const nickname = localStorage.getItem('nickname') || 'あなた';
-    const raw = recoveryFollowUpDialogues[level];
-    if (!raw) {
+    const pool = recoveryFollowUpDialogues[version] && recoveryFollowUpDialogues[version][level];
+    if (!pool) {
         isRecoveryFollowUpShowing = false;
         return;
     }
+    const log = getRecoveryFollowUpLog(version, level);
+    let available = pool.filter(text => !log.shown.includes(text));
+    if (available.length === 0) {
+        const lastShown = log.shown[log.shown.length - 1];
+        log.shown = log.shown.filter(text => !pool.includes(text));
+        available = pool.length <= 1 ? pool : pool.filter(text => text !== lastShown);
+    }
+    const raw = available[Math.floor(Math.random() * available.length)];
+    log.shown.push(raw);
+    saveRecoveryFollowUpLog(version, level, log);
 
     const message = raw.replace(/○○/g, nickname);
 
