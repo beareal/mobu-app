@@ -2846,6 +2846,16 @@ const recoveryFollowUpDialogues = {
     }
 };
 let isRecoveryFollowUpShowing = false;
+function getRecoveryFollowUpLog(version, level) {
+    const key = `recoveryFollowUpLog_${version}_${level}`;
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : { shown: [] };
+}
+
+function saveRecoveryFollowUpLog(version, level, log) {
+    const key = `recoveryFollowUpLog_${version}_${level}`;
+    localStorage.setItem(key, JSON.stringify(log));
+}
 function showRecoveryFollowUpNotification() {
     if (isRecoveryFollowUpShowing) return;
 
