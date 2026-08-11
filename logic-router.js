@@ -791,6 +791,9 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                          setIsWaitingForRecoveryPhase2(true);
                      }
                  }
+                 localStorage.setItem('pendingCinemaLevel', lastRecoveryLevel);
+localStorage.removeItem('justRecoveredThisReport');
+localStorage.removeItem('lastRecoveryLevel');
                  if (lastRecoveryLevel && !justRecovered) {
                     // ステップ4: 古い記録が残っていたら、表示せず静かに片付ける（安全策）
                     localStorage.removeItem('lastRecoveryLevel');
