@@ -475,15 +475,15 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // 通常の戻る処理
             localStorage.removeItem('isBannerRead');
-            const lastRecoveryLevel = localStorage.getItem('lastRecoveryLevel');
+            const lastRecoveryLevel = localStorage.getItem('pendingCinemaLevel');
             const mobuVersion = getMobuVersion();
             if (lastRecoveryLevel) {
-                localStorage.removeItem('lastRecoveryLevel');
+                localStorage.removeItem('pendingCinemaLevel');
             }
             if (lastRecoveryLevel && mobuVersion !== 'ver1') {
                 const verNum = mobuVersion.replace('ver', '');
                 const levelNum = lastRecoveryLevel.replace('onee_lv', '');
-                localStorage.removeItem('lastRecoveryLevel');
+                localStorage.removeItem('pendingCinemaLevel');
                 preloadImage(`assets/cinema/ver${verNum}cinema.webp`);
                 showCinematicScene(verNum, levelNum);
             } else {
