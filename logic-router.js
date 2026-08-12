@@ -1225,11 +1225,9 @@ function setupReportScreen(completedTasks) {
             btn.style.cursor = 'pointer';
             btn.onclick = function(e) {
                 e.stopPropagation();
-
-                checkPendingCinemaAndRoute(task, function() {
-                    localStorage.setItem('currentReportTask', task);
-                    showScreen('screen-line');
-                });
+                
+                localStorage.setItem('currentReportTask', task);
+                showScreen('screen-line');
             };
             currentSelectionArea.appendChild(btn);
         });
