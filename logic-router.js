@@ -792,7 +792,6 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                      }
                  }
                  localStorage.setItem('pendingCinemaLevel', lastRecoveryLevel);
-                 localStorage.setItem('pendingCinemaLevelTime', Date.now().toString());
 localStorage.removeItem('justRecoveredThisReport');
 localStorage.removeItem('lastRecoveryLevel');
                  if (lastRecoveryLevel && !justRecovered) {
