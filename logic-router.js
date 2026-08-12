@@ -1183,43 +1183,6 @@ function playFadeTransition(onDarkMoment) {
     }, 500);
 }
 
-function checkPendingCinemaAndRoute(task, nextActionCallback) {
-    const pendingLevel = localStorage.getItem('pendingCinemaLevel');
-    const pendingTime = localStorage.getItem('pendingCinemaLevelTime');
-
-    if (!pendingLevel || !pendingTime) {
-        nextActionCallback();
-        return;
-    }
-
-    const mobuVersion = getMobuVersion();
-    if (mobuVersion === 'ver1') {
-        nextActionCallback();
-        return;
-    }
-
-    const elapsedHours = (Date.now() - parseInt(pendingTime, 10)) / (1000 * 60 * 60);
-    const verNum = mobuVersion.replace('ver', '');
-    const levelNum = pendingLevel.replace('onee_lv', '');
-
-    if (elapsedHours <= 48) {
-        localStorage.removeItem('pendingCinemaLevel');
-        localStorage.removeItem('pendingCinemaLevelTime');
-        localStorage.setItem('currentReportTask', task);
-        preloadImage(`assets/cinema/ver${verNum}cinema.webp`);
-        showCinematicScene(verNum, levelNum);
-    } else if (elapsedHours <= 168) {
-        localStorage.removeItem('pendingCinemaLevel');
-        localStorage.removeItem('pendingCinemaLevelTime');
-        localStorage.setItem('currentReportTask', task);
-        preloadImage(`assets/cinema/ver${verNum}cinema.webp`);
-        showRecollectionCardThenCinema(verNum, levelNum);
-    } else {
-        localStorage.removeItem('pendingCinemaLevel');
-        localStorage.removeItem('pendingCinemaLevelTime');
-        nextActionCallback();
-    }
-}
 /**
  * 完了したタスクの数に応じて、タスク報告画面の内容を動的に設定する
  * @param {string[]} completedTasks 完了したタスク名の配列
