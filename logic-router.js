@@ -1240,8 +1240,10 @@ function setupReportScreen(completedTasks) {
     if (completedTasks.length === 1) {
         currentThoughtText.textContent = 'よし、完了！モブ君に報告しよっと♪';
         currentScreen.onclick = function() {
-            localStorage.setItem('currentReportTask', completedTasks[0]);
-            showScreen('screen-line');
+            checkPendingCinemaAndRoute(completedTasks[0], function() {
+                localStorage.setItem('currentReportTask', completedTasks[0]);
+                showScreen('screen-line');
+            });
         };
     } else {
         currentThoughtText.textContent = '今日は色々頑張ったけど、特に頑張った一つをモブ君に報告しよう。';
