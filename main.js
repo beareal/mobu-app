@@ -480,7 +480,6 @@ document.addEventListener('DOMContentLoaded', function() {
             if (lastRecoveryLevel) {
                 localStorage.removeItem('pendingCinemaLevel');
             }
-            localStorage.removeItem('pendingCinemaLevelTime');
             if (lastRecoveryLevel && mobuVersion !== 'ver1') {
                 const verNum = mobuVersion.replace('ver', '');
                 const levelNum = lastRecoveryLevel.replace('onee_lv', '');
