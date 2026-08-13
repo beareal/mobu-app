@@ -837,8 +837,8 @@ localStorage.removeItem('showBackButtonGlow');
                      setIsWaitingForRecoveryPhase2(false);
                      oneeMessageUsed = true;
                  }
-                 if (!oneeMessageUsed && isBannerCurrentlyShown()) {
-                     handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay);
+                if (!oneeMessageUsed && isBannerCurrentlyShown()) {
+                    handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton);
                  } else {
                      if (!oneeMessageUsed) {
                          appendLineMessage('user', userTaskReportText, initialDelay);
