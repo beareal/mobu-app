@@ -477,10 +477,10 @@ function showProfileScreen() {
         progressTextEl.textContent = '全てのブーケを受け取りました！';
     } else if (totalTasks < 10) {
         const remaining = 10 - totalTasks;
-        progressTextEl.textContent = `次のブーケまで あと ${remaining} 回`;
+        progressTextEl.textContent = `次のブーケまで あと ${remaining} タスク`;
     } else {
         const remaining = nextMilestone - totalTasks;
-        progressTextEl.textContent = `次のブーケまで あと ${remaining} 回`;
+        progressTextEl.textContent = `次のブーケまで あと ${remaining} タスク`;
     }
 
     const teddyBears = document.querySelectorAll('.teddy-bear-placeholder');
