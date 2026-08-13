@@ -327,7 +327,30 @@ padding: 12px 16px;
 background-color: var(--color-white);
 border-bottom: 1px solid var(--text-light);
 }
+.line-header img.glow-active {
+    position: relative;
+}
 
+.line-header img.glow-active::after {
+    content: "✨";
+    position: absolute;
+    top: -6px;
+    right: -8px;
+    font-size: 10px;
+    color: #d4af37;
+    opacity: 0;
+    animation: glow-strong 2.5s ease-in-out 3, glow-soft 4s ease-in-out infinite 7.5s;
+}
+
+@keyframes glow-strong {
+    0%, 100% { opacity: 0; transform: scale(0.8); }
+    50% { opacity: 0.9; transform: scale(1.1); }
+}
+
+@keyframes glow-soft {
+    0%, 100% { opacity: 0; }
+    50% { opacity: 0.4; }
+}
 .line-header span {
 font-weight: var(--font-semibold);
 color: var(--text-dark);
