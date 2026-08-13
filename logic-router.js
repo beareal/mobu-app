@@ -2539,10 +2539,12 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
 
         const nickname = localStorage.getItem('nickname') || 'あなた';
+        if (shouldGlowBackButton) {
+    localStorage.setItem('lastLineMessageLength', taskReactionText.length.toString());
+}
         const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
         appendLineMessage('mobu', taskReactionText, delay);
         delay += 1000;
-
         setTimeout(() => {
             if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
                 startMoodSharing();
