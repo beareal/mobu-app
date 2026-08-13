@@ -327,7 +327,7 @@ padding: 12px 16px;
 background-color: var(--color-white);
 border-bottom: 1px solid var(--text-light);
 }
-.line-header img.glow-active {
+.line-header.glow-active {
     position: relative;
 }
 
