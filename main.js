@@ -446,7 +446,7 @@ document.addEventListener('DOMContentLoaded', function() {
     setTimeout(() => {
         const lineBackIcon = document.querySelector('#screen-line .line-header img');
         if (!lineBackIcon) return;
-        lineBackIcon.parentElement.classList.add('glow-active');
+        lineBackIcon.closest('.line-back-wrap').classList.add('glow-active');
     }, seconds * 1000);
 }
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
