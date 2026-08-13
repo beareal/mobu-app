@@ -851,6 +851,9 @@ localStorage.removeItem('showBackButtonGlow');
                      const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
                      appendLineMessage('mobu', taskReactionText, initialDelay);
                      initialDelay += 1000;
+                     if (shouldGlowBackButton) {
+    startBackButtonGlowTimer(taskReactionText.length);
+}
                      setTimeout(() => {
                          if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
                              startMoodSharing();
@@ -2546,6 +2549,9 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         appendLineMessage('mobu', taskReactionText, delay);
         delay += 1000;
         setTimeout(() => {
+            if (shouldGlowBackButton) {
+    startBackButtonGlowTimer(taskReactionText.length);
+}
             if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
                 startMoodSharing();
             } else {
