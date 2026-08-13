@@ -441,7 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // C-2: LINE画面
-    function startBackButtonGlowTimer(charCount) {
+    window.startBackButtonGlowTimer = function(charCount) {
     const seconds = Math.max(charCount / 12, 3);
     setTimeout(() => {
         const lineBackIcon = document.querySelector('#screen-line .line-header img');
