@@ -335,7 +335,7 @@ border-bottom: 1px solid var(--text-light);
     content: "✨";
     position: absolute;
     top: -6px;
-    right: -8px;
+    left: -8px;
     font-size: 10px;
     color: #d4af37;
     opacity: 0;
