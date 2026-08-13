@@ -844,6 +844,9 @@ localStorage.removeItem('showBackButtonGlow');
                          appendLineMessage('user', userTaskReportText, initialDelay);
                          initialDelay += 1000;
                      }
+                     if (shouldGlowBackButton) {
+    localStorage.setItem('lastLineMessageLength', taskReactionText.length.toString());
+}
                      const nickname = localStorage.getItem('nickname') || 'あなた';
                      const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
                      appendLineMessage('mobu', taskReactionText, initialDelay);
