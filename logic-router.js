@@ -761,7 +761,7 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                      if (rawDialogue) {
                          const nickname = localStorage.getItem('nickname') || 'あなた';
                          const dialogue = rawDialogue.replace(/○○/g, nickname);
-
+localStorage.setItem('showBackButtonGlow', 'true');
                          if (pendingOneeMessage) {
                              appendLineMessage('mobu', pendingOneeMessage, initialDelay);
                              initialDelay += 1500;
