@@ -837,7 +837,7 @@ let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true'
                      oneeMessageUsed = true;
                  }
                 if (!oneeMessageUsed && isBannerCurrentlyShown()) {
-                    handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay);
+                    handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton);
                  } else {
                      if (!oneeMessageUsed) {
                          appendLineMessage('user', userTaskReportText, initialDelay);
