@@ -439,15 +439,16 @@ document.addEventListener('DOMContentLoaded', function() {
        }
    }
 
-window.startBackButtonGlowTimer = function(charCount) {
-        const seconds = Math.max(charCount / 12, 3);
-        console.log('[glowTest] charCount=' + charCount + ' seconds=' + seconds);
+window.startBackButtonGlowTimer = function(charCount, elapsedMs = 0) {
+        const totalWaitMs = Math.max(charCount / 12 * 1000, 3000);
+        const remainingMs = Math.max(totalWaitMs - elapsedMs, 0);
+        console.log('[glowTest] charCount=' + charCount + ' remainingMs=' + remainingMs);
         setTimeout(() => {
             const targetIcon = document.querySelector('#screen-line .line-header img');
             if (!targetIcon) return;
             console.log('[glowTest] is-sparkling クラスを付与しました');
             targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
-        }, seconds * 1000);
+        }, remainingMs);
     };
     // C-2: LINE画面
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
