@@ -439,9 +439,15 @@ document.addEventListener('DOMContentLoaded', function() {
        }
    }
 
-
+window.startBackButtonGlowTimer = function(charCount) {
+        const seconds = Math.max(charCount / 12, 3);
+        setTimeout(() => {
+            const targetIcon = document.querySelector('#screen-line .line-header img');
+            if (!targetIcon) return;
+            targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
+        }, seconds * 1000);
+    };
     // C-2: LINE画面
-
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
