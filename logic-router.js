@@ -2512,7 +2512,7 @@ function pickTaskReactionDialogue(reportedTask) {
 
     return chosen;
 }
-function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton) {
+function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay) {
     const bannerText = getCurrentBannerText();
     appendLineMessage('mobu', bannerText, initialDelay);
     initialDelay += 1500;
