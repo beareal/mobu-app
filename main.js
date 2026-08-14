@@ -441,9 +441,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 window.startBackButtonGlowTimer = function(charCount) {
         const seconds = Math.max(charCount / 12, 3);
+        console.log('[glowTest] charCount=' + charCount + ' seconds=' + seconds);
         setTimeout(() => {
             const targetIcon = document.querySelector('#screen-line .line-header img');
             if (!targetIcon) return;
+            console.log('[glowTest] is-sparkling クラスを付与しました');
             targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
         }, seconds * 1000);
     };
