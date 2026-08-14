@@ -441,14 +441,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     // C-2: LINE画面
-    window.startBackButtonGlowTimer = function(charCount) {
-    const seconds = Math.max(charCount / 12, 3);
-    setTimeout(() => {
-        const lineBackIcon = document.querySelector('#screen-line .line-header img');
-        if (!lineBackIcon) return;
-        lineBackIcon.closest('.line-back-wrap').classList.add('glow-active');
-    }, seconds * 1000);
-}
+
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
