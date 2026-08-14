@@ -847,13 +847,13 @@ let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true'
                      const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
                      appendLineMessage('mobu', taskReactionText, initialDelay);
         initialDelay += 1000;
-        if (shouldGlowBackButton) {
-                         window.startBackButtonGlowTimer(taskReactionText.length);
-                     }
                      setTimeout(() => {
                          if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
-                             startMoodSharing();
+                             startMoodSharing(shouldGlowBackButton);
                          } else {
+                             if (shouldGlowBackButton) {
+                                 window.startBackButtonGlowTimer(taskReactionText.length, 1000);
+                             }
                              checkAndSetupEvent();
                          }
                      }, initialDelay + 1000);
