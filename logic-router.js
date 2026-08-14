@@ -1246,7 +1246,7 @@ function setupReportScreen(completedTasks) {
 /**
  * 気分共有イベントを開始する
  */
-function startMoodSharing() {
+function startMoodSharing(shouldGlowBackButton = false) {
     const inputBar = document.getElementById('line-input-bar');
     const stampSelector = document.getElementById('mood-stamp-selector');
     const stamps = document.querySelectorAll('.mood-stamp');
@@ -1267,6 +1267,9 @@ function startMoodSharing() {
     }
 
     appendLineMessage('mobu', question, 1000);
+    if (shouldGlowBackButton) {
+        window.startBackButtonGlowTimer(question.length, -1000);
+    }
 
     setTimeout(() => {
         inputBar.style.display = 'none';
@@ -2511,7 +2514,7 @@ function pickTaskReactionDialogue(reportedTask) {
 
     return chosen;
 }
-function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay) {
+function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton) {
     const bannerText = getCurrentBannerText();
     appendLineMessage('mobu', bannerText, initialDelay);
     initialDelay += 1500;
@@ -2543,8 +2546,11 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
         setTimeout(() => {
             if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
-                startMoodSharing();
+                startMoodSharing(shouldGlowBackButton);
             } else {
+                if (shouldGlowBackButton) {
+                    window.startBackButtonGlowTimer(taskReactionText.length, 1000);
+                }
                 checkAndSetupEvent();
             }
         }, delay + 1000);
