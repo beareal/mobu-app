@@ -1661,7 +1661,20 @@ if (bgImage) bgImage.src = imagePaths[0];
     let waitingForHideTap = false;
 
 cafeScreen.onclick = function() {
+        if (waitingForHideTap) {
+            if (dialogueContainer) dialogueContainer.style.display = 'none';
+            waitingForHideTap = false;
+            return;
+        }
+
         currentIndex++;
+
+        if (dialogueContainer) dialogueContainer.style.display = '';
+
+        if ((milestone === 20 && currentIndex === 3) ||
+            (milestone === 30 && currentIndex === 4)) {
+            waitingForHideTap = true;
+        }
         if (currentIndex < dialogues.length) {
             playSE('se_text_advance.mp3');
             dialogueText.textContent = dialogues[currentIndex];
