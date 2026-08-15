@@ -1357,8 +1357,8 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
   opacity: 0;
   pointer-events: none;
   /* 全体を一括で左上に引っ張り、アイコン中心に凝縮させる調整 */
-  margin-top: -5px;
-  margin-left: -20px;
+  margin-top: 0px;
+  margin-left: -5px;
 }
 
 /* is-sparklingクラスが付与された時のみ点滅アニメーションを実行 */
