@@ -761,6 +761,9 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                      if (rawDialogue) {
                          const nickname = localStorage.getItem('nickname') || 'あなた';
                          const dialogue = rawDialogue.replace(/○○/g, nickname);
+                         if (mobuVersion !== 'ver1') {
+                             localStorage.setItem('showBackButtonGlow', 'true');
+                         }
                          if (pendingOneeMessage) {
                              appendLineMessage('mobu', pendingOneeMessage, initialDelay);
                              initialDelay += 1500;
@@ -782,7 +785,6 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                              initialDelay += 1500;
 
                              const reactions = userReplyDialogues.recoveryReactions;
-                             localStorage.setItem('showBackButtonGlow', 'true');
                              const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
                              appendLineMessage('user', randomReaction, initialDelay);
                              initialDelay += 1500;
