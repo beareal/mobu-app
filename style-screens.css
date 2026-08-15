@@ -1350,15 +1350,15 @@ object-fit: contain; / 待機中のクマは、見切れないように「収め
 /* --- キラキラ演出（シャンパンゴールド） --- */
 .line-back-wrap .css-sparkle {
   position: absolute;
-  background: #EEDC9A; /* シャンパンゴールド */
+  background: #f6c102; /* シャンパンゴールド */
   width: 10px;
   height: 10px;
   clip-path: polygon(50% 0%, 55% 45%, 100% 50%, 55% 55%, 50% 100%, 45% 55%, 0% 50%, 45% 45%);
   opacity: 0;
   pointer-events: none;
   /* 全体を一括で左上に引っ張り、アイコン中心に凝縮させる調整 */
-  margin-top: -10px;
-  margin-left: -25px;
+  margin-top: -5px;
+  margin-left: -20px;
 }
 
 /* is-sparklingクラスが付与された時のみ点滅アニメーションを実行 */
