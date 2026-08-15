@@ -1620,7 +1620,8 @@ function handleCafeEventWithJIT(milestone) {
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const bgImage = document.getElementById('cafe-background-image');
     const nickname = localStorage.getItem('nickname') || 'あなた';
-
+    const dialogueContainer = document.querySelector('#screen-cafe .dialogue-container');
+    if (dialogueContainer) dialogueContainer.style.display = '';
     let dialogues = [];
     let imagePaths = [];
 
@@ -1657,6 +1658,7 @@ function handleCafeEventWithJIT(milestone) {
 if (bgImage) bgImage.src = imagePaths[0];
     dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
+    let waitingForHideTap = false;
 
 cafeScreen.onclick = function() {
         currentIndex++;
