@@ -1314,14 +1314,14 @@ function startMoodSharing(shouldGlowBackButton = false) {
  * @param {string} mood 選択された気分のテキスト (data-mood属性の値)
  * @param {string} stampSrc クリックされたスタンプ画像のパス (src属性の値)
  */
-function handleMoodStampClick(mood, stampSrc) {
+function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
     const inputBar = document.getElementById('line-input-bar');
     const stampSelector = document.getElementById('mood-stamp-selector');
     
     // ★変更: テキストではなく、スタンプ画像を送信する関数を呼び出す
     appendUserStampMessage(stampSrc);
 
-    displayMoodStampReply(mood, 1000); // 少し応答を早くする
+    displayMoodStampReply(mood, 1000, shouldGlowBackButton); // 少し応答を早くする
 
     setTimeout(() => {
         stampSelector.style.display = 'none';
