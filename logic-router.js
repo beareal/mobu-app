@@ -2972,9 +2972,22 @@ function showCinematicScene(ver, level) {
     const verKey = 'ver' + ver;
     const levelKey = 'onee_lv' + level;
 
-    const rawLines = cinematicDialogues[verKey] && cinematicDialogues[verKey][levelKey];
-    if (!rawLines || rawLines.length === 0) return;
-
+   const rawSets = cinematicDialogues[verKey] && cinematicDialogues[verKey][levelKey];
+    if (!rawSets || rawSets.length === 0) return;
+    const patternKey = verKey + '_' + levelKey;
+    const indexes = rawSets.map((set, i) => i);
+    const log = getCinematicDialogueLog();
+    log[patternKey] = log[patternKey] || [];
+    let available = indexes.filter(i => !log[patternKey].includes(i));
+    if (available.length === 0) {
+        const lastShown = log[patternKey][log[patternKey].length - 1];
+        log[patternKey] = log[patternKey].filter(i => !indexes.includes(i));
+        available = indexes.length <= 1 ? indexes : indexes.filter(i => i !== lastShown);
+    }
+    const chosenIndex = available[Math.floor(Math.random() * available.length)];
+    log[patternKey].push(chosenIndex);
+    saveCinematicDialogueLog(log);
+    const rawLines = rawSets[chosenIndex];
     const lines = rawLines.map(line => line.replace(/○○/g, nickname));
 
     showScreen('screen-cinematic');
