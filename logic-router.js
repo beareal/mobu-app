@@ -1288,9 +1288,6 @@ function startMoodSharing(shouldGlowBackButton = false) {
     }
 
     appendLineMessage('mobu', question, 1000);
-    if (shouldGlowBackButton) {
-        window.startBackButtonGlowTimer(question.length, -1000);
-    }
 
     setTimeout(() => {
         inputBar.style.display = 'none';
