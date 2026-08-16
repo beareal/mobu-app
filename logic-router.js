@@ -1304,7 +1304,7 @@ function startMoodSharing(shouldGlowBackButton = false) {
             // data-mood属性から気分テキストを、src属性から画像パスを取得
             const mood = newStamp.dataset.mood;
             const stampSrc = newStamp.src;
-            handleMoodStampClick(mood, stampSrc);
+            handleMoodStampClick(mood, stampSrc, shouldGlowBackButton);
         }, { once: true }); // 一度クリックされたらイベントを解除
     });
 }
