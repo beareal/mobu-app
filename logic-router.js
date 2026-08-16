@@ -370,16 +370,23 @@ function appendMobuStampMessage(stampSrc) {
     });
 }
 
-function displayMoodStampReply(mood, delay = 1000) {
+function displayMoodStampReply(mood, delay = 1000, shouldGlowBackButton = false) {
     const chosen = pickMoodStampReply(mood);
     const nickname = localStorage.getItem('nickname') || 'あなた';
 
     if (chosen.type === 'text') {
-        appendLineMessage('mobu', chosen.content.replace(/○○/g, nickname), delay);
+        const replyText = chosen.content.replace(/○○/g, nickname);
+        appendLineMessage('mobu', replyText, delay);
+        if (shouldGlowBackButton) {
+            window.startBackButtonGlowTimer(replyText.length, -delay);
+        }
     } else {
         setTimeout(() => {
             appendMobuStampMessage(chosen.content);
         }, delay);
+        if (shouldGlowBackButton) {
+            window.startBackButtonGlowFixed(-delay);
+        }
     }
 }
 // ===============================================
