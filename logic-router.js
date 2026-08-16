@@ -2961,7 +2961,12 @@ function showRecoveryFollowUpNotification() {
 // ===============================================
 // 表3：シネマティック演出表示関数
 // ===============================================
-
+function getCinematicDialogueLog() {
+    return JSON.parse(localStorage.getItem('cinematicDialogueLog') || '{}');
+}
+function saveCinematicDialogueLog(log) {
+    localStorage.setItem('cinematicDialogueLog', JSON.stringify(log));
+}
 function showCinematicScene(ver, level) {
     const nickname = localStorage.getItem('nickname') || 'あなた';
     const verKey = 'ver' + ver;
