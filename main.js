@@ -450,6 +450,17 @@ window.startBackButtonGlowTimer = function(charCount, elapsedMs = 0) {
             targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
         }, remainingMs);
     };
+window.startBackButtonGlowFixed = function(elapsedMs = 0) {
+        const remainingMs = Math.max(1000 - elapsedMs, 0);
+        console.log('[glowTest] スタンプ返信のため固定1秒 remainingMs=' + remainingMs);
+        setTimeout(() => {
+            const targetIcon = document.querySelector('#screen-line .line-header img');
+            if (!targetIcon) return;
+            console.log('[glowTest] is-sparkling クラスを付与しました');
+            targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
+        }, remainingMs);
+    };
+    // C-2: LINE画面
     // C-2: LINE画面
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
