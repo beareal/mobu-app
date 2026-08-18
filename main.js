@@ -662,6 +662,7 @@ const randomIndex = pickFrom[Math.floor(Math.random() * pickFrom.length)];
 const rawMessage = dialogues[randomIndex];
 const message = rawMessage.replace(/○○/g, nickname);
     iineLog.lastTime = now;
+    iineLog.count += 1;
     localStorage.setItem(iineKey, JSON.stringify(iineLog));
     historyLog[mobuState].push(randomIndex);
     if (historyLog[mobuState].length > 7) historyLog[mobuState].shift();
