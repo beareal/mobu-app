@@ -652,7 +652,8 @@ function handleAppLaunchNotification() {
     if (!dialogues || dialogues.length === 0) return;
 
     const nickname = localStorage.getItem('nickname') || 'あなた';
-const rawMessage = dialogues[Math.floor(Math.random() * dialogues.length)];
+const randomIndex = Math.floor(Math.random() * dialogues.length);
+const rawMessage = dialogues[randomIndex];
 const message = rawMessage.replace(/○○/g, nickname);
     iineLog.lastTime = now;
     localStorage.setItem(iineKey, JSON.stringify(iineLog));
