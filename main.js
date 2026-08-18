@@ -657,6 +657,12 @@ const rawMessage = dialogues[randomIndex];
 const message = rawMessage.replace(/○○/g, nickname);
     iineLog.lastTime = now;
     localStorage.setItem(iineKey, JSON.stringify(iineLog));
+        const historyKey = 'oneeDialogueHistory';
+    let historyLog = JSON.parse(localStorage.getItem(historyKey) || '{}');
+    if (!historyLog[mobuState]) historyLog[mobuState] = [];
+    historyLog[mobuState].push(randomIndex);
+    if (historyLog[mobuState].length > 7) historyLog[mobuState].shift();
+    localStorage.setItem(historyKey, JSON.stringify(historyLog));
 localStorage.setItem('pendingOneeMessage', message);
     showFakeNotification('モブ君', message, getMobuIconSrc(), 'onee');
 }
