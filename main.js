@@ -652,7 +652,13 @@ function handleAppLaunchNotification() {
     if (!dialogues || dialogues.length === 0) return;
 
     const nickname = localStorage.getItem('nickname') || 'あなた';
-const randomIndex = Math.floor(Math.random() * dialogues.length);
+const historyKey = 'oneeDialogueHistory';
+let historyLog = JSON.parse(localStorage.getItem(historyKey) || '{}');
+if (!historyLog[mobuState]) historyLog[mobuState] = [];
+const recentIndexes = historyLog[mobuState];
+const candidateIndexes = dialogues.map((_, i) => i).filter(i => !recentIndexes.includes(i));
+const pickFrom = candidateIndexes.length > 0 ? candidateIndexes : dialogues.map((_, i) => i);
+const randomIndex = pickFrom[Math.floor(Math.random() * pickFrom.length)];
 const rawMessage = dialogues[randomIndex];
 const message = rawMessage.replace(/○○/g, nickname);
     iineLog.lastTime = now;
