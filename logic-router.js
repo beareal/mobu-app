@@ -2014,12 +2014,6 @@ if (notificationType === 'periodic') {
                 markSlotAsShown();
             }
             localStorage.removeItem('showFirstHomeBanner');
-        } else if (notificationType === 'onee') {
-            const iineKey = 'iine_display_log';
-            const iineLog = JSON.parse(localStorage.getItem(iineKey) || '{"date":"","count":0,"lastTime":0}');
-            iineLog.count += 1;
-            localStorage.setItem(iineKey, JSON.stringify(iineLog));
-        } else if (notificationType === 'first_home') {
             localStorage.removeItem('showFirstHomeBanner');
             localStorage.setItem('isBannerRead', 'true');
         }
