@@ -479,13 +479,14 @@ box-sizing: border-box;
 }
 
 .dialogue-text {
-font-family: 'M PLUS Rounded 1c', sans-serif;
-font-weight: var(--font-regular);
-color: var(--color-white);
-font-size: 16px;
-line-height: 1.6;
-text-align: left;
-margin: 0;
+    font-family: 'M PLUS Rounded 1c', sans-serif;
+    font-weight: var(--font-regular);
+    color: var(--color-white);
+    font-size: 16px;
+    line-height: 1.6;
+    text-align: left;
+    margin: 0;
+    white-space: pre-line;
 }
 
 /* =========================================
