@@ -2216,13 +2216,13 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-1', type: 'afternoon', displayTime: 'now', text: '朝、白湯飲むの忘れても、お昼休みに温かいもの飲むとホッとしますね。胃が温まると午後も動けそうな気がして。○○もお昼、ちゃんとホッとできる時間とれてますか？' },
     { taskId: 'task-select-1', type: 'night', displayTime: 'now', text: '朝、寝起きに白湯を飲もうと思って今から準備してます。俺は朝が苦手なので…ちょっとオシャレなやかん買って気合い入れました！' },
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '飲み忘れたら今でも遅くないですよ。体がぽかぽかしてくるの、気持ちいいですよね。' },
-    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯、飲みました？　体の中から少しずつ目を覚ましましょうね。' },
+    { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '白湯、飲みました？　体の中から少しずつ目を覚ましましょうね。' },
 
     // ② フルーツ task-select-3
     { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？朝ごはんにフルーツがあるだけでちょっと嬉しいですよね' },
     { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: 'ビタミン摂るのってサプリの方が効率がいいんでしょうけど...\n果物の方がやっぱりテンションあがりますね！' },
     { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '朝、奮発してたくさん果物食べたんですけど、なんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
-    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、起きるのがちょっと楽しみになりません？' },
+    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、起きるのがちょっと楽しみになりません？\nタスクそのものがご褒美みたいだと続けやすいですよね！' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '切ったり、洗ったりさえ面倒な時ありません？俺は今日カットフルーツにしました。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '最近はフルーツがあるから、という理由で朝が好きになってきました。○○はどうですか？' },
 
@@ -2250,7 +2250,7 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '今日はお昼休憩にしっかりストレッチするって決めてるんです。午前中、ずっと同じ姿勢だと身体がガチガチになっちゃいますもんね。○○も、無理しないでくださいね。' },
     { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: 'お昼にストレッチしたおかげで、いつもより肩が楽な気がします。やっぱりこまめに動かすのって大事ですね！' },
     { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '1分のストレッチでも時間が惜しいって感じるくらい余裕ない時ってありますよね。でも○○なら、コツコツ頑張ってそうだなって思います。' },
-    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！' },
+    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！' },
 
     // ⑥ 階段 task-select-8
     { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '今日も階段、選びました？その小さな選択、大きな一歩だと思います。' },
@@ -2287,7 +2287,7 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '最近、寝る前のスマホ時間を減らそうと格闘中です。とりあえず、スマホのアラームで起きるのを止めて、目覚まし時計で起きるようにしてみました！' },
     { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです...。だからこのメッセージ送ったら、しばらくスマホ見ないって決めました！○○も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
     { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '○○に送るこのメッセージを最後に、俺はスマホ置きます。離れていても、それぞれの場所で、ゆっくりひと息つけたら嬉しいです😌' },
-    { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: 'スマホを置いて、静かな時間を作るのって贅沢ですよね。ホットアイマスクもあれば最高です。' },
+    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: 'スマホを置いて、静かな時間を作るのって贅沢ですよね。ホットアイマスクもあれば最高です。' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のスマホタイムが無いのは無理！って前は思ってましたけど、慣れると無い方が快適かも...。○○はどうですか？' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のプチデジタルデトックス、順調ですか？俺は、オススメに上がってきた猫動画見たら寝る！って決めてます！' },
 
@@ -2296,11 +2296,11 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '「今日の"ありがとう"をひとつ思い出す」って、いい習慣ですよね！\n俺は今、一緒に頑張ってくれる○○に「ありがとう」\nって言いたい気分です。' },
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '誰かに感謝できる日って、それだけで幸せですよね。' },
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '○○が今日「ありがとう」って思った相手、きっと笑顔になってますよ。' },
-    { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: 'ありがとうを思い出せたら、きっと幸せな気持ちで眠れますね。' },
+    { taskId: 'task-select-6', type: 'night', displayTime: 'now', text: 'ありがとうを思い出せたら、きっと幸せな気持ちで眠れますね。' },
 
     // ⑫ 深呼吸 task-select-12
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '疲れてても深呼吸だけしてみますか？ふぅ～。ちょっと力抜けますね！' },
-    { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '意識してゆっくり息を吐くだけで、今日の疲れが少し抜けますね。\n○○も一息付けてますか？' },
+    { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '意識してゆっくり息を吐くだけで、疲れが少し抜けますね。\n○○も一息付けてますか？' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: 'ため息をつくと幸せが逃げる、なんて言いますけど、深呼吸ならセーフです！今、少し試してみません？' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '忙しい時ほど、呼吸が浅くなりません？深呼吸だけでも少しリフレッシュできますね！' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '俺は最近、余裕が無い時程、深呼吸するようになりました。なんか冷静になれるんですよね。' },
