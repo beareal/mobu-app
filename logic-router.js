@@ -2220,8 +2220,8 @@ const SLOT_DIALOGUES = [
 
     // ② フルーツ task-select-3
     { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？朝ごはんにフルーツがあるだけでちょっと嬉しいですよね' },
-    { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: '今日の朝、奮発してフルーツ食べたんですけど、なんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
-    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '明日の朝用に、さっきフルーツを買ってきました。これがあると思うと、明日起きるのがちょっとだけ楽しみになります。○○は明日、朝ごはん食べられそうですか？' },
+    { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: 'ビタミン摂るのってサプリの方が効率がいいんでしょうけど...\n果物の方がやっぱりテンションあがりますね！' },
+    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '今日の朝、奮発してたくさん果物食べたんですけど、なんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、起きるのがちょっと楽しみになりません？' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '切ったり、洗ったりさえ面倒な時ありません？俺は今日カットフルーツにしました。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '最近はフルーツがあるから、という理由で朝が好きになってきました。○○はどうですか？' },
@@ -2249,7 +2249,7 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: 'ちょっと一息つく時間、取れてますか？🙂もし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね。' },
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '今日はお昼休憩にしっかりストレッチするって決めてるんです。午前中、ずっと同じ姿勢だと身体がガチガチになっちゃいますもんね。○○も、無理しないでくださいね。' },
     { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: '今日はお昼にストレッチしたおかげで、いつもより肩が楽な気がします。やっぱりこまめに動かすのって大事ですね。○○も、今日一日お疲れ様でした。' },
-    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '忙しい中で1分とるって、意外と難しい。でも○○なら、コツコツ頑張ってそうだなって思います。' },
+    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '1分のストレッチでも時間が惜しいって感じるくらい余裕ない時ってありますよね。でも○○なら、コツコツ頑張ってそうだなって思います。' },
     { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！' },
 
     // ⑥ 階段 task-select-8
@@ -2260,7 +2260,7 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '階段を上る時の足の重さ、頑張ってる証拠ですよね。俺も負けないように、一段ずつ上ります！' },
 
     // ⑦ 背筋 task-select-9
-    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背中、気づいたら丸まってません？（俺の事なんですけど😅）ちょっと伸ばして、ついでに深呼吸しましょうか？' },
+    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背中、気づいたら丸まってません？（俺の事なんですけど🫠）ちょっと伸ばして、ついでに深呼吸しましょうか？' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: 'ハッ！俺また猫背になってました。○○はどうですか？' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '俺、集中しすぎると、猫背になるみたい…。○○は大丈夫ですか？' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋が伸びている人って、それだけで格好よく見えますよね。○○のシャキッとした姿、想像してます。' },
