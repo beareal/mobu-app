@@ -2293,14 +2293,14 @@ const SLOT_DIALOGUES = [
 
     // ⑪ ありがとう task-select-6
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '疲れてる日は【"ありがとう"を思い出す】のも大変ですよね。そんな時俺は、毎日動いてくれる自分の体にありがとうって言ってます' },
-    { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '俺は今、一緒に頑張ってくれる○○に「ありがとう」って言いたい気分です。' },
+    { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '「今日の"ありがとう"をひとつ思い出す」って、いい習慣ですよね！\n俺は今、一緒に頑張ってくれる○○に「ありがとう」\nって言いたい気分です。' },
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '誰かに感謝できる日って、それだけで幸せですよね。' },
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: '○○が今日「ありがとう」って思った相手、きっと笑顔になってますよ。' },
     { taskId: 'task-select-6', type: 'all', displayTime: 'now', text: 'ありがとうを思い出せたら、きっと幸せな気持ちで眠れますね。' },
 
     // ⑫ 深呼吸 task-select-12
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '疲れてても深呼吸だけしてみますか？ふぅ～。ちょっと力抜けますね！' },
-    { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '意識してゆっくり息を吐くだけで、今日の疲れが少し抜けますね。○○も一緒にどうですか？' },
+    { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '意識してゆっくり息を吐くだけで、今日の疲れが少し抜けますね。\n○○も一息付けてますか？' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: 'ため息をつくと幸せが逃げる、なんて言いますけど、深呼吸ならセーフです！今、少し試してみません？' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '忙しい時ほど、呼吸が浅くなりません？深呼吸だけでも少しリフレッシュできますね！' },
     { taskId: 'task-select-12', type: 'all', displayTime: 'now', text: '俺は最近、余裕が無い時程、深呼吸するようになりました。なんか冷静になれるんですよね。' },
