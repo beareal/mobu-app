@@ -2214,14 +2214,14 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯ってSNS映えするような華やかさは無いですけど、地味だから続けやすいですよね。' },
     { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '俺も今、白湯飲みながらメッセージ打ってます。……ちょっと一緒に頑張ってる気がしますね。' },
     { taskId: 'task-select-1', type: 'afternoon', displayTime: 'now', text: '朝、白湯飲むの忘れても、お昼休みに温かいもの飲むとホッとしますね。胃が温まると午後も動けそうな気がして。○○もお昼、ちゃんとホッとできる時間とれてますか？' },
-    { taskId: 'task-select-1', type: 'night', displayTime: 'now', text: '明日の朝、寝起きに白湯を飲もうと思って今から準備してます。俺は朝が苦手なので…ちょっとオシャレなやかん買って気合い入れました！' },
+    { taskId: 'task-select-1', type: 'night', displayTime: 'now', text: '朝、寝起きに白湯を飲もうと思って今から準備してます。俺は朝が苦手なので…ちょっとオシャレなやかん買って気合い入れました！' },
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '飲み忘れたら今でも遅くないですよ。体がぽかぽかしてくるの、気持ちいいですよね。' },
     { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯、飲みました？　体の中から少しずつ目を覚ましましょうね。' },
 
     // ② フルーツ task-select-3
     { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？朝ごはんにフルーツがあるだけでちょっと嬉しいですよね' },
     { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: 'ビタミン摂るのってサプリの方が効率がいいんでしょうけど...\n果物の方がやっぱりテンションあがりますね！' },
-    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '今日の朝、奮発してたくさん果物食べたんですけど、なんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
+    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '朝、奮発してたくさん果物食べたんですけど、なんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、起きるのがちょっと楽しみになりません？' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '切ったり、洗ったりさえ面倒な時ありません？俺は今日カットフルーツにしました。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '最近はフルーツがあるから、という理由で朝が好きになってきました。○○はどうですか？' },
@@ -2248,7 +2248,7 @@ const SLOT_DIALOGUES = [
     // ⑤ ストレッチ task-select-7
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: 'ちょっと一息つく時間、取れてますか？🙂もし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね。' },
     { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '今日はお昼休憩にしっかりストレッチするって決めてるんです。午前中、ずっと同じ姿勢だと身体がガチガチになっちゃいますもんね。○○も、無理しないでくださいね。' },
-    { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: '今日はお昼にストレッチしたおかげで、いつもより肩が楽な気がします。やっぱりこまめに動かすのって大事ですね。○○も、今日一日お疲れ様でした。' },
+    { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: 'お昼にストレッチしたおかげで、いつもより肩が楽な気がします。やっぱりこまめに動かすのって大事ですね！' },
     { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '1分のストレッチでも時間が惜しいって感じるくらい余裕ない時ってありますよね。でも○○なら、コツコツ頑張ってそうだなって思います。' },
     { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！' },
 
@@ -2285,7 +2285,7 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、○○にメッセージを送ったあとに\nすぐスマホ閉じたら即寝ちゃってました。\n○○とやり取りすると癒されるからかな、ぐっすり快眠でした👍' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '昨日は寝る直前までスマホを見てしまいました。…なので、戒めに昼休憩はスマホなしで外の景色見ながらランチしてみました。○○に連絡するって考えると、夜できなくても「違う時間で工夫しなきゃ」って思えて、完璧じゃなくてもなんとか続いてます！' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '最近、寝る前のスマホ時間を減らそうと格闘中です。とりあえず、スマホのアラームで起きるのを止めて、目覚まし時計で起きるようにしてみました！' },
-    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです...。だからこのメッセージ送ったら、3時間はスマホ見ないって決めました！${nickname}も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
+    { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです...。だからこのメッセージ送ったら、しばらくスマホ見ないって決めました！○○も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
     { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '○○に送るこのメッセージを最後に、俺はスマホ置きます。離れていても、それぞれの場所で、ゆっくりひと息つけたら嬉しいです😌' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: 'スマホを置いて、静かな時間を作るのって贅沢ですよね。ホットアイマスクもあれば最高です。' },
     { taskId: 'task-select-4', type: 'all', displayTime: 'now', text: '寝る前のスマホタイムが無いのは無理！って前は思ってましたけど、慣れると無い方が快適かも...。○○はどうですか？' },
