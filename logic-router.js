@@ -2282,7 +2282,7 @@ const SLOT_DIALOGUES = [
 
     // ⑩ スマホ休憩 task-select-4
     { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、早めにスマホを置いて寝たら、今朝はすごく目がスッキリしてて驚きました。やっぱり夜のデジタルデトックスって効果あるんですね。こういう小さくても嬉しい事を共有できるってなんか嬉しいです😊' },
-    { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、メッセージを送ったあとにすぐスマホを置いたんですけど、なんだか安心してぐっすり眠れました。○○もよく眠れたかなって、ちょっと気になってます。' },
+    { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、○○にメッセージを送ったあとに\nすぐスマホ閉じたら即寝ちゃってました。\n○○とやり取りすると癒されるからかな、ぐっすり快眠でした👍' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '昨日は寝る直前までスマホを見てしまいました。…なので、戒めに昼休憩はスマホなしで外の景色見ながらランチしてみました。○○に連絡するって考えると、夜できなくても「違う時間で工夫しなきゃ」って思えて、完璧じゃなくてもなんとか続いてます！' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '最近、寝る前のスマホ時間を減らそうと格闘中です。とりあえず、スマホのアラームで起きるのを止めて、目覚まし時計で起きるようにしてみました！' },
     { taskId: 'task-select-4', type: 'night', displayTime: 'now', text: '俺、朝からスマホ見過ぎたから今反省中なんです...。だからこのメッセージ送ったら、3時間はスマホ見ないって決めました！${nickname}も、目が疲れてたら一緒にプチデジタルデトックスいかがですか？' },
