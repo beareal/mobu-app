@@ -648,7 +648,7 @@ const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'
                 btn.style.cursor = 'pointer';
                 btn.onclick = null; 
             }   
-checkAndShowHomeBanners();
+checkAndShowSaboriBanner();
             
         }
         if (screenId === 'screen-line') {
