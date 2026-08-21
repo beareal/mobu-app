@@ -2634,6 +2634,10 @@ function getNextSaboriDialogue() {
     return chosen;
 }
 function checkAndShowSaboriBanner() {
+    if (getMobuState() !== 'normal') {
+        checkAndShowHomeBanners();
+        return;
+    }
 }
 const TASK_REACTION_CATEGORY_MAP = {
     'task-select-1': 'care',
