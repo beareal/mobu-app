@@ -2709,22 +2709,7 @@ function pickDialogue() {
     }
 
     // 夜スロット＋その日の完了0件ならサボり検知セリフを均等確率で合算
-    let finalPool = [...availablePool];
-    if (slot === 'night') {
-        const completed = getCompletedToday();
-        const isZero = !completed || completed.taskIndices.length === 0;
-        if (isZero) {
-            const saboriDialogue = getNextSaboriDialogue();
-            if (saboriDialogue) {
-                finalPool.push({
-                    taskId: null,
-                    type: 'sabori',
-                    displayTime: 'now',
-                    text: saboriDialogue.text
-                });
-            }
-        }
-    }
+
 
     if (finalPool.length === 0) return null;
 
