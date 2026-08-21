@@ -2633,6 +2633,8 @@ function getNextSaboriDialogue() {
     saveSaboriLog(log);
     return chosen;
 }
+function checkAndShowSaboriBanner() {
+}
 const TASK_REACTION_CATEGORY_MAP = {
     'task-select-1': 'care',
     'task-select-2': 'care',
