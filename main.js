@@ -780,7 +780,7 @@ document.addEventListener('visibilitychange', function() {
         [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
         if (checkAndRestoreCafeIfNeeded()) return;
         triggerCafePreloadIfNeeded();
-        checkAndShowHomeBanners();
+        checkAndShowSaboriBanner();
     }
 });
 
