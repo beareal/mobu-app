@@ -2648,6 +2648,22 @@ function checkAndShowSaboriBanner() {
         }
         localStorage.removeItem('saboriPendingDialogue');
     }
+    const currentHour = new Date().getHours();
+    const isSaboriTimeWindow = currentHour >= 21 && currentHour < 24;
+    const completed = getCompletedToday();
+    const isZero = !completed || completed.taskIndices.length === 0;
+    if (isSaboriTimeWindow && isZero && getMobuVersion() === 'ver1') {
+        const saboriDialogue = getNextSaboriDialogue();
+        if (saboriDialogue) {
+            const nickname = localStorage.getItem('nickname') || 'あなた';
+            const text = saboriDialogue.text.replace(/○○/g, nickname);
+            const today = getGameDate();
+            showFakeNotification('モブ君', text, getMobuIconSrc(), 'periodic', null, { slot: 'sabori', date: today });
+            localStorage.setItem('saboriPendingDialogue', JSON.stringify({ date: today, text: text }));
+            return;
+        }
+    }
+    checkAndShowHomeBanners();
 }
 const TASK_REACTION_CATEGORY_MAP = {
     'task-select-1': 'care',
