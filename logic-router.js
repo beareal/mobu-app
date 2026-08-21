@@ -2638,6 +2638,16 @@ function checkAndShowSaboriBanner() {
         checkAndShowHomeBanners();
         return;
     }
+    const pendingRaw = localStorage.getItem('saboriPendingDialogue');
+    if (pendingRaw) {
+        const pending = JSON.parse(pendingRaw);
+        const isRead = localStorage.getItem('tappedSlot_' + pending.date + '_sabori') === 'true';
+        if (!isRead) {
+            showFakeNotification('モブ君', pending.text, getMobuIconSrc(), 'periodic', null, { slot: 'sabori', date: pending.date });
+            return;
+        }
+        localStorage.removeItem('saboriPendingDialogue');
+    }
 }
 const TASK_REACTION_CATEGORY_MAP = {
     'task-select-1': 'care',
