@@ -2567,11 +2567,16 @@ function pickTaskReactionDialogue(reportedTask) {
     return chosen;
 }
 function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton) {
-    const bannerText = getCurrentBannerText();
+    const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
+    let bannerText;
+    if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
+        const saboriPending = JSON.parse(localStorage.getItem('saboriPendingDialogue') || 'null');
+        bannerText = saboriPending ? saboriPending.text : getCurrentBannerText();
+    } else {
+        bannerText = getCurrentBannerText();
+    }
     appendLineMessage('mobu', bannerText, initialDelay);
     initialDelay += 1500;
-
-    const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
     if (slotInfoRaw) {
         const slotInfo = JSON.parse(slotInfoRaw);
         markSlotAsTapped(slotInfo.slot, slotInfo.date);
