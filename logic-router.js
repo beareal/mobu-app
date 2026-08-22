@@ -2711,10 +2711,10 @@ function pickDialogue() {
     // 夜スロット＋その日の完了0件ならサボり検知セリフを均等確率で合算
 
 
-    if (finalPool.length === 0) return null;
+    if (availablePool.length === 0) return null;
 
     // ランダムで1つ抽選
-    const chosen = finalPool[Math.floor(Math.random() * finalPool.length)];
+    const chosen = availablePool[Math.floor(Math.random() * availablePool.length)];
 
     // 選ばれたセリフ（サボり検知セリフ以外）を既出として記録する
     if (chosen.type !== 'sabori') {
