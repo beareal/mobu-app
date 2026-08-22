@@ -2652,7 +2652,7 @@ function checkAndShowSaboriBanner() {
     const isSaboriTimeWindow = currentHour >= 21 && currentHour < 24;
     const completed = getCompletedToday();
     const isZero = !completed || completed.taskIndices.length === 0;
-    if (isSaboriTimeWindow && isZero && getMobuVersion() === 'ver1') {
+    if (isSaboriTimeWindow && isZero && getMobuVersion() === 'ver1' && localStorage.getItem('saboriShownDate') !== getGameDate()) {
         const saboriDialogue = getNextSaboriDialogue();
         if (saboriDialogue) {
             const nickname = localStorage.getItem('nickname') || 'あなた';
@@ -2660,6 +2660,7 @@ function checkAndShowSaboriBanner() {
             const today = getGameDate();
             showFakeNotification('モブ君', text, getMobuIconSrc(), 'periodic', null, { slot: 'sabori', date: today });
             localStorage.setItem('saboriPendingDialogue', JSON.stringify({ date: today, text: text }));
+                        localStorage.setItem('saboriShownDate', today);
             return;
         }
     }
