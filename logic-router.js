@@ -2729,11 +2729,6 @@ function pickDialogue() {
     // ランダムで1つ抽選
     const chosen = availablePool[Math.floor(Math.random() * availablePool.length)];
 
-    // 選ばれたセリフ（サボり検知セリフ以外）を既出として記録する
-    if (chosen.type !== 'sabori') {
-        slotLog.shown.push(chosen.text);
-        saveSlotDialogueLog(slotLog);
-    }
 
     return {
         text: chosen.text.replace(/○○/g, nickname),
