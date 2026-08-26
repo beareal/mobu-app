@@ -2688,7 +2688,14 @@ const TASK_REACTION_CATEGORY_MAP = {
 // ===============================================
 // メッセージ表示：セリフプール構築＋抽選
 // ===============================================
-
+function addToSlotDialogueHistory(text) {
+    const slotLog = getSlotDialogueLog();
+    slotLog.shown.push(text);
+    if (slotLog.shown.length > 7) {
+        slotLog.shown.shift();
+    }
+    saveSlotDialogueLog(slotLog);
+}
 function pickDialogue() {
     const nickname = localStorage.getItem('nickname') || 'あなた';
     const selectedTaskIds = JSON.parse(localStorage.getItem('selectedTaskIds') || '[]');
