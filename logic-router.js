@@ -2009,9 +2009,10 @@ const banner = document.getElementById('fake-notification-banner');
         if (notificationType === 'recovery') {
             setIsWaitingForRecoveryPhase2(false);
         }
-if (notificationType === 'periodic') {
+        if (notificationType === 'periodic') {
             if (!slotInfo) {
                 markSlotAsShown();
+                addToSlotDialogueHistory(message);
             }
             localStorage.removeItem('showFirstHomeBanner');
             localStorage.removeItem('showFirstHomeBanner');
