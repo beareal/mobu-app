@@ -1399,7 +1399,7 @@ if (eventTriggeredMilestone === 40) {
             10: [
                 `ところで${nickname}、今回のタスクで実は10個を超えましたね！一つの節目達成、おめでとうございます！`,
                 `${nickname}が並走してくれたから、俺も無事習慣が定着しました。\nだから、俺から送らせてもらってた一方的なメッセージは、今日で卒業しますね...。\n実は${nickname}の為に、ちょっとしたものを用意してるので、またお店に遊びに来てください😊`,
-                `それと俺、習慣を変えたら、自分の外見も変えたくなって、ちょっとだけ変えてみたんです。わざわざ伝える事でもないですけど💦\nとにかくまたお会いできるのを楽しみにしてますね！`
+                `それと俺、習慣を変えたら、自分の外見も変えたくなって、ちょっとだけ変えてみたんです。\nわざわざ伝える事でもないですけど💦\nとにかくまたお会いできるのを楽しみにしてますね！`
             ],
             20: [
                 `ところで${nickname}、そろそろタスクを20個を超える頃じゃないですか？\nここまで来ると、俺たち『一緒に頑張ってる仲間』って感じで嬉しい😊`,
@@ -2573,10 +2573,8 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
         const saboriPending = JSON.parse(localStorage.getItem('saboriPendingDialogue') || 'null');
         bannerText = saboriPending ? saboriPending.text : getCurrentBannerText();
-            if (localStorage.getItem('currentBannerIsPeriodic') === 'true') {
-        markSlotAsViewed(getCurrentTimeOfDay(), getGameDate());
-    }
     } else if (localStorage.getItem('currentBannerIsPeriodic') === 'true') {
+        markSlotAsViewed(getCurrentTimeOfDay(), getGameDate());
         const fixedResult = getFixedSlotDialogue();
         bannerText = fixedResult ? fixedResult.text : getCurrentBannerText();
     } else {
