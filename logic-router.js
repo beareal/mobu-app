@@ -2573,6 +2573,9 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
         const saboriPending = JSON.parse(localStorage.getItem('saboriPendingDialogue') || 'null');
         bannerText = saboriPending ? saboriPending.text : getCurrentBannerText();
+    } else if (localStorage.getItem('currentBannerIsPeriodic') === 'true') {
+        const fixedResult = getFixedSlotDialogue();
+        bannerText = fixedResult ? fixedResult.text : getCurrentBannerText();
     } else {
         bannerText = getCurrentBannerText();
     }
