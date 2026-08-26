@@ -874,7 +874,7 @@ let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true'
                      const followUpUserReactions = {
                          lv1: `そうですね、いつものモブ君に戻って安心しました😊これからはお互い無理せず、私たちのペースで進めていきましょう！あ、そういえば、${userTaskReportText}`,
                          lv2: `確かに最近のモブ君ちょっと面白かった😂でもやっぱりいつもの感じが一番落ち着きますね。また一緒にゆるく頑張ろ！それはそうと、${userTaskReportText}`,
-                         lv3: `こちらこそ、そう言ってもらえて嬉しいです。また一緒に少しずつ積み重ねていこうね✨あ、ちなみにね、${userTaskReportText}`
+                         lv3: `こちらこそ、そう言ってもらえて嬉しいです‼️また一緒に少しずつ積み重ねていこうね✨あ、ちなみにね、${userTaskReportText}`
                      };
                      appendLineMessage('user', followUpUserReactions[followUpLevel], initialDelay);
                      initialDelay += 1500;
@@ -1983,7 +1983,7 @@ const banner = document.getElementById('fake-notification-banner');
 
     const currentBannerSlotInfo = slotInfo || { slot: getCurrentTimeOfDay(), date: getGameDate() };
     localStorage.setItem('currentBannerSlotInfo', JSON.stringify(currentBannerSlotInfo));
-
+    localStorage.setItem('currentBannerIsPeriodic', notificationType === 'periodic' ? 'true' : 'false');
     // 50ms遅らせてshowを付ける（スライドイン演出）
     setTimeout(() => {
         replacedBanner.classList.add('show');
