@@ -2579,6 +2579,9 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     } else if (localStorage.getItem('currentBannerIsPeriodic') === 'true') {
         const fixedResult = getFixedSlotDialogue();
         bannerText = fixedResult ? fixedResult.text : getCurrentBannerText();
+        if (fixedResult) {
+            addToSlotDialogueHistory(fixedResult.text);
+        }
     } else {
         bannerText = getCurrentBannerText();
     }
