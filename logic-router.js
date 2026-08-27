@@ -1984,6 +1984,9 @@ const banner = document.getElementById('fake-notification-banner');
     const currentBannerSlotInfo = slotInfo || { slot: getCurrentTimeOfDay(), date: getGameDate() };
     localStorage.setItem('currentBannerSlotInfo', JSON.stringify(currentBannerSlotInfo));
     localStorage.setItem('currentBannerIsPeriodic', notificationType === 'periodic' ? 'true' : 'false');
+        if (notificationType === 'periodic') {
+        saveFixedSlotDialogue(message, currentBannerSlotInfo.displayTime || 'now');
+    }
     // 50ms遅らせてshowを付ける（スライドイン演出）
     setTimeout(() => {
         replacedBanner.classList.add('show');
