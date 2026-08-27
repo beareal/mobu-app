@@ -2012,8 +2012,8 @@ const banner = document.getElementById('fake-notification-banner');
         if (notificationType === 'periodic') {
             if (!slotInfo) {
                 markSlotAsShown();
-                addToSlotDialogueHistory(message);
             }
+            addToSlotDialogueHistory(message);
             localStorage.removeItem('showFirstHomeBanner');
             localStorage.removeItem('showFirstHomeBanner');
             localStorage.setItem('isBannerRead', 'true');
