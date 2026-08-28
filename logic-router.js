@@ -874,8 +874,7 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                  const justRecovered = localStorage.getItem('justRecoveredThisReport') === 'true';
                  if (lastRecoveryLevel && justRecovered) {
                      const mobuVersion = getMobuVersion();
-                     const dialogueData = recoveryDialogues[mobuVersion];
-                     const rawDialogue = dialogueData ? dialogueData[lastRecoveryLevel] : null;
+                     const rawDialogue = pickRecoveryDialogue(mobuVersion, lastRecoveryLevel);
 
                      if (rawDialogue) {
                          const nickname = localStorage.getItem('nickname') || 'あなた';
