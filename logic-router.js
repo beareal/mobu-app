@@ -2642,9 +2642,25 @@ function pickTaskReactionDialogue(reportedTask) {
     const chosen = available[Math.floor(Math.random() * available.length)];
     log.shown.push(chosen);
     saveTaskReactionDialogueLog(log);
-
     return chosen;
 }
+function pickRecoveryDialogue(version, level) {
+    const dialogueData = recoveryDialogues[version];
+    const candidates = dialogueData ? dialogueData[level] : null;
+    if (!candidates || candidates.length === 0) return null;
+    const logKey = `recoveryDialogueLog_${version}_${level}`;
+    let shown = JSON.parse(localStorage.getItem(logKey) || '[]');
+    let available = candidates.filter(text => !shown.includes(text));
+    if (available.length === 0) {
+        shown = [];
+        available = candidates;
+    }
+    const chosen = available[Math.floor(Math.random() * available.length)];
+    shown.push(chosen);
+    localStorage.setItem(logKey, JSON.stringify(shown));
+    return chosen;
+}
+
 function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton) {
     const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
     let bannerText;
