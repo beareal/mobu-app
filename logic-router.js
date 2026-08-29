@@ -1044,7 +1044,15 @@ function appendLineMessage(sender, text, delay = 0) {
         });
     }, delay);
 }
-
+function appendRecoveryDialogueMessage(sender, text, delay = 0) {
+    if (text.includes('@@')) {
+        const parts = text.split('@@');
+        appendLineMessage(sender, parts[0], delay);
+        appendLineMessage(sender, parts.slice(1).join('@@'), delay + 1000);
+    } else {
+        appendLineMessage(sender, text, delay);
+    }
+}
 function preloadImage(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
