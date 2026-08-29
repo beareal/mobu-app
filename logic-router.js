@@ -890,7 +890,7 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                              appendLineMessage('user', combinedReaction, initialDelay);
                              initialDelay += 1500;
 
-                             appendLineMessage('mobu', dialogue, initialDelay);
+                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
                              initialDelay += 1500;
 const fakeBanner = document.getElementById('fake-notification-banner');
                             if (fakeBanner) {
