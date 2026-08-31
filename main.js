@@ -53,7 +53,7 @@ if (isEpilogueReadyPending()) {
         chips.forEach((chip, index) => {
             const label = chip.querySelector('.chip-label');
             const iconWrap = chip.querySelector('.chip-icon-wrap');
-            if (label) label.textContent = '40タスク達成！アプリクリア';
+            if (label) label.textContent = 'アプリクリア！';
             const taskId = storedIds[index];
             if (taskId && TASK_CATEGORY_MAP[taskId]) {
                 chip.style.backgroundColor = TASK_CATEGORY_MAP[taskId];
