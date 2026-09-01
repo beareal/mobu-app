@@ -430,7 +430,11 @@ document.addEventListener('DOMContentLoaded', function() {
                       showProfileScreen();
            });
        }
-   
+       document.querySelectorAll('.teddy-bear-placeholder').forEach(function(bear) {
+        bear.addEventListener('click', function() {
+            const milestone = parseInt(bear.dataset.milestone, 10);
+        });
+    });
        if (settingsIcon) {
            settingsIcon.addEventListener('click', function() {
                showSettingsScreen();
