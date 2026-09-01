@@ -575,15 +575,15 @@ function showProfileScreen() {
     const hasUnreceivedBear = [10, 20, 30, 40].some(m => totalTasks >= m && !hasProfileRewardBeenSeen(m));
     const nextMilestone = (Math.floor(totalTasks / 10) + 1) * 10;
     if (hasUnreceivedBear) {
-        progressTextEl.textContent = 'ベアからのブーケを受け取ってね♪';
+        progressTextEl.textContent = '💐ベアからのブーケを受け取ってね💐';
     } else if (totalTasks >= 40) {
-        progressTextEl.textContent = '全てのブーケを受け取りました！';
+        progressTextEl.textContent = '全てのブーケを受け取りました🎉';
     } else if (totalTasks < 10) {
         const remaining = 10 - totalTasks;
-        progressTextEl.textContent = `次のブーケまで あと ${remaining} タスク`;
+        progressTextEl.textContent = `次のブーケまで あと ${remaining} タスク🌼`;
     } else {
         const remaining = nextMilestone - totalTasks;
-        progressTextEl.textContent = `次のブーケまで あと ${remaining} タスク`;
+        progressTextEl.textContent = `次のブーケまで あと ${remaining} タスク🌼`;
     }
 
     const teddyBears = document.querySelectorAll('.teddy-bear-placeholder');
