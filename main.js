@@ -433,6 +433,9 @@ document.addEventListener('DOMContentLoaded', function() {
        document.querySelectorAll('.teddy-bear-placeholder').forEach(function(bear) {
         bear.addEventListener('click', function() {
             const milestone = parseInt(bear.dataset.milestone, 10);
+            if (!hasProfileRewardBeenSeen(milestone)) {
+                // 受け取り処理は次のステップで実装
+            }
         });
     });
        if (settingsIcon) {
