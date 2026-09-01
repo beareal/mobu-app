@@ -427,8 +427,7 @@ document.addEventListener('DOMContentLoaded', function() {
    
        if (profileIcon) {
            profileIcon.addEventListener('click', function() {
-               showProfileScreen();
-               playProfileRewardAnimationIfNeeded();
+                      showProfileScreen();
            });
        }
    
