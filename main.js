@@ -433,7 +433,7 @@ document.addEventListener('DOMContentLoaded', function() {
        document.querySelectorAll('.teddy-bear-placeholder').forEach(function(bear) {
         bear.addEventListener('click', function() {
             const milestone = parseInt(bear.dataset.milestone, 10);
-            if (!hasProfileRewardBeenSeen(milestone)) {
+            if (getTotalTasksCompleted() >= milestone && !hasProfileRewardBeenSeen(milestone)) {
                 playProfileRewardAnimationIfNeeded(milestone);
             }
         });
