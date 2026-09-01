@@ -517,42 +517,24 @@ function stopAllSounds() {
 /**
  * 未再生のプロフィール演出があれば再生する【完成版】
  */
-function playProfileRewardAnimationIfNeeded() {
-    const totalTasks = getTotalTasksCompleted();
+function playProfileRewardAnimationIfNeeded(milestoneToPlay) {
     const modal = document.getElementById('reward-modal');
     const teddyImage = document.getElementById('reward-teddy-image');
     if (!modal || !teddyImage) return;
-
-    let milestoneToPlay = 0;
-
-    if (totalTasks >= 10 && !hasProfileRewardBeenSeen(10)) {
-        milestoneToPlay = 10;
-    } else if (totalTasks >= 20 && !hasProfileRewardBeenSeen(20)) {
-        milestoneToPlay = 20;
-    } else if (totalTasks >= 30 && !hasProfileRewardBeenSeen(30)) {
-        milestoneToPlay = 30;
-    } else if (totalTasks >= 40 && !hasProfileRewardBeenSeen(40)) {
-        milestoneToPlay = 40;
-    }
-
     if (milestoneToPlay > 0) {
         const targetBearBox = document.querySelector(`.teddy-bear-placeholder[data-milestone="${milestoneToPlay}"]`);
         if (targetBearBox) {
             targetBearBox.classList.add('hide-for-animation');
         }
-
         const theme = `t${milestoneToPlay / 10}`;
         const imageName = `ui_teddy_${theme}_give.png`;
         const imagePath = `assets/images/${imageName}`;
         teddyImage.src = imagePath;
-
         modal.classList.add('active');
         setTimeout(() => {
             teddyImage.classList.add('animate');
         }, 100);
-
         markProfileRewardAsSeen(milestoneToPlay);
-
         setTimeout(() => {
             if (targetBearBox) {
                 targetBearBox.classList.remove('hide-for-animation');
