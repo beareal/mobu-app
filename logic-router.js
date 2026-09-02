@@ -574,6 +574,7 @@ function showProfileScreen() {
     totalTasksEl.textContent = totalTasks;
     totalDaysEl.textContent = 0;
     const hasUnreceivedBear = [10, 20, 30, 40].some(m => totalTasks >= m && !hasProfileRewardBeenSeen(m));
+    const shakeTargetMilestone = [10, 20, 30, 40].find(m => totalTasks >= m && !hasProfileRewardBeenSeen(m));
     const nextMilestone = (Math.floor(totalTasks / 10) + 1) * 10;
     if (hasUnreceivedBear) {
         progressTextEl.textContent = '💐ベアからのブーケを受け取ってね💐';
