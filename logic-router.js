@@ -598,11 +598,7 @@ function showProfileScreen() {
         if (hasProfileRewardBeenSeen(milestone)) {
             imageName = `ui_teddy_${theme}_done.png`;
             bear.classList.add('achieved');
-                        if (milestone === shakeTargetMilestone) {
-                bear.classList.add('shake-target');
-            } else {
-                bear.classList.remove('shake-target');
-            }
+            bear.classList.remove('shake-target');
         } else {
             imageName = `ui_teddy_${theme}_wait.png`;
             bear.classList.remove('achieved');
