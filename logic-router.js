@@ -959,7 +959,7 @@ let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true'
                      appendLineMessage('mobu', taskReactionText, initialDelay);
         initialDelay += 1000;
                      setTimeout(() => {
-                         if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
+                         if (getMoodTimeSlot() !== 'midnight' && getTotalTasksCompleted() < 40 && Math.random() < 0.3) {
                              startMoodSharing(shouldGlowBackButton);
                          } else {
                              if (shouldGlowBackButton) {
