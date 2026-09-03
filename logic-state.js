@@ -213,7 +213,13 @@ localStorage.setItem('profileRewardsSeen', JSON.stringify(seenRewards));
 console.log(`プロフィール演出 ${milestoneToMark}回目を「再生済み」として記録しました。`);
 }
 }
+function getIsEpilogueBouquetWatched() {
+    return localStorage.getItem('epilogueBouquetWatched') === 'true';
+}
 
+function setIsEpilogueBouquetWatched(value) {
+    localStorage.setItem('epilogueBouquetWatched', value ? 'true' : 'false');
+}
 // ===============================================
 // Phase 5-3: 2周目ループ処理
 // ===============================================
