@@ -535,6 +535,9 @@ function playProfileRewardAnimationIfNeeded(milestoneToPlay) {
         setTimeout(() => {
             teddyImage.classList.add('animate');
         }, 100);
+                if (milestoneToPlay === 40) {
+            setIsEpilogueBouquetWatched(true);
+        }
         markProfileRewardAsSeen(milestoneToPlay);
         setTimeout(() => {
             if (targetBearBox) {
