@@ -2704,16 +2704,16 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         appendLineMessage('mobu', taskReactionText, delay);
         delay += 1000;
         setTimeout(() => {
-            if (getMoodTimeSlot() !== 'midnight' && Math.random() < 0.3) {
-                startMoodSharing(shouldGlowBackButton);
-            } else {
-                if (shouldGlowBackButton) {
-                    window.startBackButtonGlowTimer(taskReactionText.length, 1000);
-                }
-                checkAndSetupEvent();
+        if (getMoodTimeSlot() !== 'midnight' && getTotalTasksCompleted() < 40 && Math.random() < 0.3) {
+            startMoodSharing(shouldGlowBackButton);
+        } else {
+            if (shouldGlowBackButton) {
+                window.startBackButtonGlowTimer(taskReactionText.length, 1000);
             }
-        }, delay + 1000);
-    });
+            checkAndSetupEvent();
+        }
+    }, delay + 1000);
+});
 }
 // 次に表示すべきサボり検知セリフを1つ返す
 function getNextSaboriDialogue() {
