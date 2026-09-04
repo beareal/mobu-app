@@ -441,6 +441,11 @@ function isEpilogueReadyPending() {
     const milestones = [10, 20, 30, 40];
     return milestones.some(m => !hasProfileRewardBeenSeen(m));
 }
+function isEndingFullyCleared() {
+    if (getTotalTasksCompleted() < 40) return false;
+    const milestones = [10, 20, 30, 40];
+    return milestones.every(m => hasProfileRewardBeenSeen(m));
+}
 function getMobuIconSrc() {
     const state = getMobuState();
     const version = getMobuVersion();
