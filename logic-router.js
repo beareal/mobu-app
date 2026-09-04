@@ -655,6 +655,20 @@ const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'
         // --- B-1: ホーム画面の完了ボタン制御 ---
         if (screenId === 'screen-home') {
             updateHomeTasks();
+            if (isEndingFullyCleared()) {
+                const btn = document.querySelector('#screen-home .btn-primary');
+                btn.textContent = '次の物語を始める（記録をリセット）';
+                btn.disabled = false;
+                btn.style.opacity = '1';
+                btn.style.filter = 'none';
+                btn.style.cursor = 'pointer';
+                btn.style.backgroundColor = '#f5c4a0';
+                btn.onclick = function() {
+                    // ステップ6で最終確認ポップアップの処理に差し替え予定
+                };
+                checkAndShowHomeBanners();
+                return;
+            }
             if (isEpilogueReadyPending()) {
                 const btn = document.querySelector('#screen-home .btn-primary');
                 btn.textContent = '物語の続きへ';
