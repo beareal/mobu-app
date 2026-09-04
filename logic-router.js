@@ -1659,20 +1659,12 @@ function startEndingSequence() {
                         creditText.style.opacity = '0';
                     }, 12000);
 
-                    setTimeout(() => {
-                        restartImage.style.display = 'block';
-                        setTimeout(() => {
-                            beachImage.style.opacity = '0';
-                            restartImage.style.opacity = '1';
-                        }, 10);
-                    }, 15000);
 setTimeout(() => {
-                        restartImage.onclick = function() {
-                            restartImage.onclick = null;
+                        beachImage.onclick = function() {
+                            beachImage.onclick = null;
                             blocker.style.display = 'block';
-                            resetAllData();
                             playBlinkVideo(() => {
-                                showScreen('screen-welcome');
+                                showScreen('screen-home');
                             });
                         };
                     }, 17000);
