@@ -49,7 +49,7 @@ function updateHomeTasks() {
     const tasks = JSON.parse(storedTasks);
     const chips = document.querySelectorAll('.task-chip-home');
     const completed = getCompletedToday();
-if (isEpilogueReadyPending()) {
+if (isEpilogueReadyPending() || isEndingFullyCleared()) {
         chips.forEach((chip, index) => {
             const label = chip.querySelector('.chip-label');
             const iconWrap = chip.querySelector('.chip-icon-wrap');
