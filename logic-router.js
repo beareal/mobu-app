@@ -1635,13 +1635,9 @@ function startEndingSequence() {
 
                     const finText = document.getElementById('epilogue-fin-text');
                     const creditText = document.getElementById('epilogue-credit-text');
-                    const restartImage = document.getElementById('epilogue-restart-image');
-
                     finText.style.transition = 'opacity 2s';
                     creditText.style.transition = 'opacity 2s';
                     beachImage.style.transition = 'opacity 2s';
-                    restartImage.style.transition = 'opacity 2s';
-
                     setTimeout(() => {
                         finText.style.display = 'block';
                         setTimeout(() => { finText.style.opacity = '1'; }, 10);
