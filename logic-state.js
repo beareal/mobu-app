@@ -444,7 +444,9 @@ function getIsWatched(milestone) {
     return localStorage.getItem(key) === 'true';
 }
 function isEpilogueReadyPending() {
-    return getTotalTasksCompleted() >= 40 && !getIsEpilogueBouquetWatched();
+    if (getTotalTasksCompleted() < 40) return false;
+    const milestones = [10, 20, 30, 40];
+    return milestones.some(m => !hasProfileRewardBeenSeen(m));
 }
 function getMobuIconSrc() {
     const state = getMobuState();
