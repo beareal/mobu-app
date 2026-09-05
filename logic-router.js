@@ -664,7 +664,7 @@ const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'
                 btn.style.cursor = 'pointer';
                 btn.style.backgroundColor = '#f5c4a0';
                 btn.onclick = function() {
-                    // ステップ6で最終確認ポップアップの処理に差し替え予定
+                    showRestartConfirmPopup();
                 };
                 checkAndShowHomeBanners();
                 return;
