@@ -3181,8 +3181,13 @@ function showRestartConfirmPopup() {
     const newCancelBtn = cancelBtn.cloneNode(true);
     cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
     newConfirmBtn.addEventListener('click', function() {
-        // ステップ7で本処理に差し替え予定
         popup.style.display = 'none';
+        const blocker = document.getElementById('epilogue-input-blocker');
+        blocker.style.display = 'block';
+        resetAllData();
+        playBlinkVideo(() => {
+            showScreen('screen-welcome');
+        });
     }, { once: true });
     newCancelBtn.addEventListener('click', function() {
         popup.style.display = 'none';
