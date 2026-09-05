@@ -198,9 +198,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     // ✨✨ここまでが最後の仕上げ ✨✨
     }
-    updateHomeTasks();
-        showEpilogueReadyPopup();
-    const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('from') === 'notification') {
         history.replaceState(null, null, window.location.pathname);
         const appPhase = localStorage.getItem('appPhase');
