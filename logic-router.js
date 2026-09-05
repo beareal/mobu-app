@@ -3170,6 +3170,24 @@ if (cinematicBg) {
 /**
  * ホーム画面表示時のバナー優先順位制御をまとめた関数
  */
+function showRestartConfirmPopup() {
+    const popup = document.getElementById('restart-confirm-popup');
+    if (!popup) return;
+    popup.style.display = 'flex';
+    const confirmBtn = document.getElementById('restart-popup-confirm-button');
+    const cancelBtn = document.getElementById('restart-popup-cancel-button');
+    const newConfirmBtn = confirmBtn.cloneNode(true);
+    confirmBtn.parentNode.replaceChild(newConfirmBtn, confirmBtn);
+    const newCancelBtn = cancelBtn.cloneNode(true);
+    cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+    newConfirmBtn.addEventListener('click', function() {
+        // ステップ7で本処理に差し替え予定
+        popup.style.display = 'none';
+    }, { once: true });
+    newCancelBtn.addEventListener('click', function() {
+        popup.style.display = 'none';
+    }, { once: true });
+}
 function showEpilogueReadyPopup() {
     if (!isEpilogueReadyPending()) return;
 
