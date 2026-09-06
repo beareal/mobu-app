@@ -1449,6 +1449,22 @@ function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
 /**
  * イベント発生条件をチェックし、必要ならLINE画面にボタンなどを追加する
  */
+function willCafeEventTriggerNow() {
+    const milestones = [10, 20, 30, 40];
+    for (const m of milestones) {
+        if (getIsInvited(m) && !getIsWatched(m)) {
+            return false;
+        }
+    }
+    const previousTotal = getPreviousTotalTasks();
+    const currentTotal = getTotalTasksCompleted();
+    for (const milestone of milestones) {
+        if (previousTotal < milestone && currentTotal >= milestone) {
+            return true;
+        }
+    }
+    return false;
+}
 function checkAndSetupEvent() {
     const previousTotal = getPreviousTotalTasks();
     const currentTotal = getTotalTasksCompleted();
