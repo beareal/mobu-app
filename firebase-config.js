@@ -4,8 +4,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-messaging.js";
-import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
-
+import { getFirestore, doc, setDoc, deleteField } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 const firebaseConfig = {
   apiKey: "AIzaSyCEUuLlNQ3Y9R4kF0wSb0KvsBbrs9MK5Ns",
   authDomain: "mobu-app-a08e5.firebaseapp.com",
@@ -82,6 +81,28 @@ export async function saveClearDateToFirestore() {
     console.log('クリア日をFirestoreに保存しました:', clearDate);
   } catch (error) {
     console.error('クリア日の保存に失敗:', error);
+  }
+}
+/**
+ * クリア日（clearDate）をFirestoreから削除する
+ */
+export async function deleteClearDateFromFirestore() {
+  if (!window.matchMedia('(display-mode: standalone)').matches) {
+    console.log('ブラウザタブで開かれているためクリア日削除をスキップします');
+    return;
+  }
+
+  try {
+    const userId = localStorage.getItem('userId');
+    const db = getFirestore(app);
+
+    await setDoc(doc(db, 'users', userId), {
+      clearDate: deleteField()
+    }, { merge: true });
+
+    console.log('クリア日をFirestoreから削除しました');
+  } catch (error) {
+    console.error('クリア日の削除に失敗:', error);
   }
 }
 /**
