@@ -229,6 +229,9 @@ function resetAllData() {
     const loopCount = parseInt(localStorage.getItem('loopCount') || '0', 10);
     localStorage.clear();
     localStorage.setItem('userId', userId);
+        import('./firebase-config.js').then(({ deleteClearDateFromFirestore }) => {
+        deleteClearDateFromFirestore();
+    });
     localStorage.setItem('loopCount', (loopCount + 1).toString());
     console.log("データのリセットが完了しました。周回数:", loopCount + 1);
 }
