@@ -740,7 +740,7 @@ checkAndShowSaboriBanner();
             const replyArea = document.getElementById('notification-reply-area');
             const replyStamp = document.getElementById('reply-stamp-image');
             chatArea.innerHTML = ''; // まずはチャット欄を空にする
-
+document.querySelector('#screen-line .line-header img').closest('.line-back-wrap').classList.remove('is-sparkling');
             // --- 通知からの遷移か、タスク報告からの遷移かを判定 ---
            const tappedNotificationData = localStorage.getItem('tappedNotification');
 if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'return_banner') {
