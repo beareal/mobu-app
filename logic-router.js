@@ -1623,6 +1623,9 @@ function startEndingSequence() {
 
                 setTimeout(() => {
                     whiteOverlay.style.opacity = '1';
+                                        import('./firebase-config.js').then(({ saveClearDateToFirestore }) => {
+                        saveClearDateToFirestore();
+                    });
                 }, 10);
 
                 setTimeout(() => {
