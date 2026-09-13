@@ -1667,7 +1667,8 @@ function startEndingSequence() {
 setTimeout(() => {
                         beachImage.onclick = function() {
                             beachImage.onclick = null;
-                            blocker.style.display = 'block';
+                                                       blocker.style.display = 'block';
+                            localStorage.setItem('isEndingViewed', 'true');
                             playBlinkVideo(() => {
                                 showScreen('screen-home');
                             });
