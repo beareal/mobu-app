@@ -3199,7 +3199,7 @@ function showRestartConfirmPopup() {
     }, { once: true });
 }
 function showEpilogueReadyPopup() {
-    if (!isEpilogueReadyPending()) return;
+        if (!isEpilogueReadyPending() || localStorage.getItem('isEndingViewed') === 'true') return;
 
     const popup = document.getElementById('epilogue-ready-popup');
     if (!popup) return;
