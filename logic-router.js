@@ -655,7 +655,7 @@ const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'
         // --- B-1: ホーム画面の完了ボタン制御 ---
         if (screenId === 'screen-home') {
             updateHomeTasks();
-            if (isEndingFullyCleared()) {
+                        if (isEndingFullyCleared() || localStorage.getItem('isEndingViewed') === 'true') {
                 const btn = document.querySelector('#screen-home .btn-primary');
                 btn.textContent = '次の物語を始める（記録をリセット）';
                 btn.disabled = false;
