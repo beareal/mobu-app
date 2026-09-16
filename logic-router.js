@@ -2091,7 +2091,9 @@ const banner = document.getElementById('fake-notification-banner');
         if (slotInfo) {
             markSlotAsTapped(slotInfo.slot, slotInfo.date);
         }
-
+        if (notificationType === 'onee') {
+            localStorage.removeItem('oneeBannerPersistFlag');
+        }
         // 重要：復帰プロセス段階2のフラグ消去（バナーをタップした瞬間）
         if (notificationType === 'recovery') {
             setIsWaitingForRecoveryPhase2(false);
