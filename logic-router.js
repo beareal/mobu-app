@@ -2689,6 +2689,9 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     }
     appendLineMessage('mobu', bannerText, initialDelay);
     initialDelay += 1500;
+        if (localStorage.getItem('oneeBannerPersistFlag') === 'true') {
+        localStorage.removeItem('oneeBannerPersistFlag');
+    }
     if (slotInfoRaw) {
         const slotInfo = JSON.parse(slotInfoRaw);
         markSlotAsTapped(slotInfo.slot, slotInfo.date);
