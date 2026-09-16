@@ -2067,6 +2067,7 @@ const banner = document.getElementById('fake-notification-banner');
     const currentBannerSlotInfo = slotInfo || { slot: getCurrentTimeOfDay(), date: getGameDate() };
     localStorage.setItem('currentBannerSlotInfo', JSON.stringify(currentBannerSlotInfo));
     localStorage.setItem('currentBannerIsPeriodic', notificationType === 'periodic' ? 'true' : 'false');
+        localStorage.setItem('oneeBannerPersistFlag', notificationType === 'onee' ? 'true' : 'false');
         if (notificationType === 'periodic') {
         saveFixedSlotDialogue(message, currentBannerSlotInfo.displayTime || 'now');
     }
@@ -2306,9 +2307,9 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '白湯、飲みました？\n体の中から少しずつ目を覚ましましょうね。' },
 
     // ② フルーツ task-select-3
-    { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？朝ごはんにフルーツがあるだけでちょっと嬉しいですよね' },
-    { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: 'ビタミン摂るのってサプリの方が効率がいいんでしょうけど...\n果物の方がやっぱりテンションあがりますね！' },
-    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '朝、奮発してたくさん果物食べたんですけど、なんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
+    { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？\n朝ごはんにフルーツがあるだけで\nちょっと嬉しいですよね！' },
+    { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: 'ビタミン摂るのって\nサプリの方が効率がいいんでしょうけど...\n果物の方がやっぱり\nテンションあがりますね！' },
+    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '朝、奮発してたくさん果物食べたんですけど、\nなんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、起きるのがちょっと楽しみになりません？\nタスクそのものがご褒美みたいだと続けやすいですよね！' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '切ったり、洗ったりさえ面倒な時ありません？俺は今日カットフルーツにしました。' },
     { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '最近はフルーツがあるから、という理由で朝が好きになってきました。○○はどうですか？' },
