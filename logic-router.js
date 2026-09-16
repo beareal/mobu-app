@@ -3247,7 +3247,13 @@ function checkAndShowHomeBanners() {
         showRecoveryFollowUpNotification();
         return;
     }
-
+    if (localStorage.getItem('oneeBannerPersistFlag') === 'true') {
+        const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
+        if (pendingOneeMessage) {
+            showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
+            return;
+        }
+    }
     const mobuState = getMobuState();
     if (mobuState !== 'normal') {
         discardPendingBanners();
