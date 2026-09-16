@@ -2297,13 +2297,13 @@ function renderPendingBannerStack() {
 
 const SLOT_DIALOGUES = [
     // ① 白湯 task-select-1
-    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯、ちゃんと飲んでます？身体のためにも水分補給していきましょうね。' },
-    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯ってSNS映えするような華やかさは無いですけど、地味だから続けやすいですよね。' },
-    { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '俺も今、白湯飲みながらメッセージ打ってます。……ちょっと一緒に頑張ってる気がしますね。' },
-    { taskId: 'task-select-1', type: 'afternoon', displayTime: 'now', text: '朝、白湯飲むの忘れても、お昼休みに温かいもの飲むとホッとしますね。胃が温まると午後も動けそうな気がして。○○もお昼、ちゃんとホッとできる時間とれてますか？' },
-    { taskId: 'task-select-1', type: 'night', displayTime: 'now', text: '朝、寝起きに白湯を飲もうと思って今から準備してます。俺は朝が苦手なので…ちょっとオシャレなやかん買って気合い入れました！' },
-    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '飲み忘れたら今でも遅くないですよ。体がぽかぽかしてくるの、気持ちいいですよね。' },
-    { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '白湯、飲みました？　体の中から少しずつ目を覚ましましょうね。' },
+    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯、ちゃんと飲んでます？\n身体のためにも水分補給していきましょうね。' },
+    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '白湯ってSNS映えするような華やかさは無いですけど、\n地味だから続けやすいですよね。' },
+    { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '俺も今、白湯飲みながらメッセージ打ってます。\n……ちょっと一緒に頑張ってる気がしますね。' },
+    { taskId: 'task-select-1', type: 'afternoon', displayTime: 'now', text: '朝、白湯飲むの忘れても、\nお昼休みに温かいもの飲むとホッとしますね。\n胃が温まると午後も動けそうな気がして。○○もお昼、ちゃんとホッとできる時間とれてますか？' },
+    { taskId: 'task-select-1', type: 'night', displayTime: 'now', text: '朝、寝起きに白湯を飲もうと思って\n今から準備してます。\n俺は朝が苦手なので…\nちょっとオシャレなやかん買って気合い入れました！' },
+    { taskId: 'task-select-1', type: 'all', displayTime: 'now', text: '俺、朝に白湯飲み忘れたら\n時間関係なく飲んじゃってます。\n完璧に出来なくても\nとりあえず続けるって大事ですよね！' },
+    { taskId: 'task-select-1', type: 'morning', displayTime: 'now', text: '白湯、飲みました？\n体の中から少しずつ目を覚ましましょうね。' },
 
     // ② フルーツ task-select-3
     { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？朝ごはんにフルーツがあるだけでちょっと嬉しいですよね' },
