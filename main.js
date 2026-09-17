@@ -647,7 +647,7 @@ function handleAppLaunchNotification() {
 
     if (now - iineLog.lastTime < 30 * 60 * 1000) return;
     if (iineLog.count >= 1) return;
-
+    if (localStorage.getItem('oneeBannerPersistFlag') === 'true') return;
     const dialogues = oneeNotificationDialogues[mobuState];
     if (!dialogues || dialogues.length === 0) return;
 
