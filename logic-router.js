@@ -2357,10 +2357,10 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋を伸ばすだけで雰囲気変わるんでしょうか？姿勢を意識してるだけなのに、最近「雰囲気違うね」ってよく言われるようになりました✌️' },
 
     // ⑧ ハンドケア task-select-11
-    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '手って、一番働き者なのにケアを後回しにしちゃいますよね。ハンドクリーム、塗ってあげてくださいね。' },
-    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '好きな香りのハンドクリームだと、塗るだけでちょっとリフレッシュしますよね！' },
-    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '手のケアってつい面倒でサボっちゃいません？俺は最近やっと皿洗いの時、ゴム手袋付けるようになりました' },
-    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: 'また、ササクレ出来てた…。つい、剝いてしまって地味に痛くて後悔するんですよね。○○は俺みたいにならないようにクリーム塗ってるといいんですけど…。' },
+    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '手って、一番働き者なのにケアを後回しにしちゃいますよね。\nハンドクリーム、塗ってあげてくださいね。' },
+    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '好きな香りのハンドクリームだと、\n塗るだけでちょっとリフレッシュしますよね！' },
+    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '手のケアってつい面倒でサボっちゃいません？\n俺は最近やっと皿洗いの時、ゴム手袋付けるようになりました' },
+    { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: 'また、ササクレ出来てた…。\nつい、剝いてしまって地味に痛くて後悔するんですよね。\n○○は俺みたいにならないようにクリーム塗ってるといいんですけど…。' },
     { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '「ただリップを塗る」だけだと忘れがちなので、\n眠気覚ましにもなるメントール入りを買ってみました。\n○○はどんな風に続ける工夫をしてますか？\n今度教えてくださいね！' },
 
     // ⑨ 片づけ task-select-5
