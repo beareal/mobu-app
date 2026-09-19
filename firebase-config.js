@@ -5,6 +5,24 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getMessaging, getToken, onMessage } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-messaging.js";
 import { getFirestore, doc, setDoc, deleteField, getDoc } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+if (!window.__debugLoggerInstalled) {
+  window.__debugLoggerInstalled = true;
+  const logDiv = document.createElement('div');
+  logDiv.style.cssText = 'position:fixed;bottom:0;left:0;right:0;max-height:200px;overflow-y:auto;background:rgba(0,0,0,0.85);color:#0f0;font-size:12px;padding:10px;z-index:99999;font-family:monospace;white-space:pre-wrap;';
+  document.body.appendChild(logDiv);
+  const originalLog = console.log;
+  const originalError = console.error;
+  console.log = (...args) => {
+    originalLog(...args);
+    logDiv.innerHTML += '<div>[LOG] ' + args.join(' ') + '</div>';
+    logDiv.scrollTop = logDiv.scrollHeight;
+  };
+  console.error = (...args) => {
+    originalError(...args);
+    logDiv.innerHTML += '<div style="color:red">[ERROR] ' + args.join(' ') + '</div>';
+    logDiv.scrollTop = logDiv.scrollHeight;
+  };
+}
 const firebaseConfig = {
   apiKey: "AIzaSyCEUuLlNQ3Y9R4kF0wSb0KvsBbrs9MK5Ns",
   authDomain: "mobu-app-a08e5.firebaseapp.com",
