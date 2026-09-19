@@ -119,6 +119,17 @@ export async function deleteClearDateFromFirestore() {
     }, { merge: true });
 
     console.log('クリア日をFirestoreから削除しました');
+    try {
+  const checkSnap = await getDoc(doc(db, 'users', userId));
+  const stillHasClearDate = checkSnap.exists() && ('clearDate' in checkSnap.data());
+  if (stillHasClearDate) {
+    console.error('確認結果：clearDateがまだ残っています（削除失敗）');
+  } else {
+    console.log('確認結果：clearDateは存在しません（削除成功）');
+  }
+} catch (verifyError) {
+  console.error('確認処理自体が失敗しました:', verifyError);
+}
   } catch (error) {
     console.error('クリア日の削除に失敗:', error);
   }
