@@ -2759,6 +2759,7 @@ function checkAndShowSaboriBanner() {
         return;
     }
         if (localStorage.getItem('showFirstHomeBanner') === 'true') {
+        checkAndShowHomeBanners();
         return;
     }
     const pendingRaw = localStorage.getItem('saboriPendingDialogue');
