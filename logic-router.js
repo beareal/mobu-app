@@ -2311,50 +2311,50 @@ const SLOT_DIALOGUES = [
     // ② フルーツ task-select-3
     { taskId: 'task-select-3', type: 'morning', displayTime: 'now', text: '朝のフルーツ、何入れてます？\n朝ごはんにフルーツがあるだけで\nちょっと嬉しいですよね！' },
     { taskId: 'task-select-3', type: 'afternoon', displayTime: 'now', text: 'ビタミン摂るのって\nサプリの方が効率がいいんでしょうけど...\n果物の方がやっぱり\nテンションあがりますね！' },
-    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '朝、奮発してたくさん果物食べたんですけど、\nなんだか午前中ずっと機嫌よくいられた気がします。やっぱり甘いものって大事ですね。' },
-    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、起きるのがちょっと楽しみになりません？\nタスクそのものがご褒美みたいだと続けやすいですよね！' },
-    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '切ったり、洗ったりさえ面倒な時ありません？俺は今日カットフルーツにしました。' },
-    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '最近はフルーツがあるから、という理由で朝が好きになってきました。○○はどうですか？' },
+    { taskId: 'task-select-3', type: 'night', displayTime: 'now', text: '朝、奮発してたくさん果物食べたんですけど、\nなんだか午前中ずっと機嫌よくいられた気がします。\nやっぱり甘いものって大事ですね😊' },
+    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '朝に好きなフルーツがあるだけで、\n起きるのがちょっと楽しみになりません？\nタスクそのものがご褒美みたいだと続けやすいですよね！' },
+    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '切ったり、洗ったりさえ面倒な時ありません？\n俺は今日カットフルーツにしました。' },
+    { taskId: 'task-select-3', type: 'all', displayTime: 'now', text: '最近はフルーツがあるから、\nという理由で朝が好きになってきました。\n○○はどうですか？' },
 
     // ③⑬ スキンケア task-select-10（朝版・夜版・汎用）
-    { taskId: 'task-select-10', type: 'morning', displayTime: 'now', text: 'よく眠れました？○○の肌も労わってあげてくださいね' },
-    { taskId: 'task-select-10', type: 'morning', displayTime: 'now', text: '朝のスキンケア、急いでるとつい雑になっちゃうんですよね。今日はゆっくり、ちょっとだけ丁寧にしてみます？' },
-    { taskId: 'task-select-10', type: 'afternoon', displayTime: 'now', text: 'さっき鏡を見て、朝のスキンケアを適当に済ませたのを後悔しました…。やっぱり朝の保湿って大事ですね。夜はしっかり、自分の肌を労わってあげようと思います。' },
-    { taskId: 'task-select-10', type: 'afternoon', displayTime: 'now', text: '今日の夜は、撮り溜めしてたドラマ見ながらスキンケアがんばる予定です。楽しい事とセットにするとセルフケアも楽しいですね👍○○も何か好きな事とセットにしてますか？' },
-    { taskId: 'task-select-10', type: 'night', displayTime: 'now', text: 'お疲れ様です。夜のスキンケア、頑張れそうですか？無理のない範囲で続けましょうね' },
-    { taskId: 'task-select-10', type: 'night', displayTime: 'now', text: '夜のスキンケアって、癒しの時間ですよね。○○の肌が、ゆっくり休めますように。' },
-    { taskId: 'task-select-10', type: 'all', displayTime: 'now', text: '良い香りの化粧水ってありますよね。好きな香りと一緒なら、楽しくケアできそうだと思いません？' },
-    { taskId: 'task-select-10', type: 'all', displayTime: 'now', text: '疲れた顔も、優しく触れるだけで少し元気になる気がしますね。○○も、頑張った自分をちゃんと労ってください。' },
+    { taskId: 'task-select-10', type: 'morning', displayTime: 'now', text: 'よく眠れました？\n○○の肌も労わってあげてくださいね' },
+    { taskId: 'task-select-10', type: 'morning', displayTime: 'now', text: '朝のスキンケア、急いでるとつい雑になっちゃうんですよね。\n今日はゆっくり、ちょっとだけ丁寧にしてみます？' },
+    { taskId: 'task-select-10', type: 'afternoon', displayTime: 'now', text: 'さっき鏡を見て、朝のスキンケアを適当に済ませたのを後悔しました…。\nやっぱり朝の保湿って大事ですね。\n夜はしっかり、自分の肌を労わってあげようと思います。' },
+    { taskId: 'task-select-10', type: 'afternoon', displayTime: 'now', text: '今日の夜は、撮り溜めしてたドラマ見ながらスキンケアがんばる予定です。\n楽しい事とセットにするとセルフケアも楽しいですね👍\n○○も何か好きな事とセットにしてますか？' },
+    { taskId: 'task-select-10', type: 'night', displayTime: 'now', text: 'お疲れ様です。\n夜のスキンケア、頑張れそうですか？\n無理のない範囲で続けましょうね' },
+    { taskId: 'task-select-10', type: 'night', displayTime: 'now', text: '夜のスキンケアって、癒しの時間ですよね。\n○○の肌が、ゆっくり休めますように。' },
+    { taskId: 'task-select-10', type: 'all', displayTime: 'now', text: '良い香りの化粧水ってありますよね。\n好きな香りと一緒なら、楽しくケアできそうだと思いません？' },
+    { taskId: 'task-select-10', type: 'all', displayTime: 'now', text: '疲れた顔も、優しく触れるだけで少し元気になる気がしますね。\n○○も、頑張った自分をちゃんと労ってください。' },
 
     // ④ 間食 task-select-2
-    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '間食、我慢できてます？俺は我慢してるけど、昨日夢の中でケーキ食べちゃった…' },
-    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '今朝、無意識にスイーツ特集見てました…。キツいのはきっと最初だけですよね！' },
-    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '「今日はいいかな」って思う日もありますよね。お互い励ましあいながら頑張りましょう！' },
-    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '間食を我慢すると、ごはんがすごくおいしく感じる事に気づきました😊' },
-    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '甘い誘惑、来ました？俺もさっき危なかったです。お互いセーフでしたね…！' },
-    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: 'さっきインスタでおしゃれなカフェのおいしそうなスイーツが流れてきて危なかったです！でも、ご褒美でならいいですかね...？○○といつか行きたいです😄' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '間食、我慢できてます？\n俺は我慢してるけど、昨日夢の中でケーキ食べてしまいました…🫠' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '今朝、無意識にスイーツ特集見てました…。\nキツいのはきっと最初だけですよね！' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '「今日はいいかな」って思う日もありますよね。\nお互い励ましあいながら頑張りましょう！' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '間食を我慢すると、\nごはんがすごくおいしく感じる事に気づきました😊' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: '甘い誘惑、来ました？俺もさっき危なかったです。\nお互いセーフでしたね…！' },
+    { taskId: 'task-select-2', type: 'all', displayTime: 'now', text: 'さっきインスタで\nおしゃれなカフェのおいしそうなスイーツが流れてきて危なかったです！\nでも、ご褒美でならいいですかね...？○○といつか行きたいです😄' },
 
 
     // ⑤ ストレッチ task-select-7
-    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: 'ちょっと一息つく時間、取れてますか？🙂もし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね。' },
-    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '今日はお昼休憩にしっかりストレッチするって決めてるんです。午前中、ずっと同じ姿勢だと身体がガチガチになっちゃいますもんね。○○も、無理しないでくださいね。' },
-    { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: 'お昼にストレッチしたおかげで、いつもより肩が楽な気がします。やっぱりこまめに動かすのって大事ですね！' },
-    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '1分のストレッチでも時間が惜しいって感じるくらい余裕ない時ってありますよね。でも○○なら、コツコツ頑張ってそうだなって思います。' },
-    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。もうひと頑張りしましょうか！' },
+    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: 'ちょっと一息つく時間、取れてますか？🙂\nもし肩とか凝ってたら、軽くストレッチして少しだけ体をほぐしてみてくださいね。' },
+    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '今日はお昼休憩にしっかりストレッチするって決めてるんです。\n午前中、ずっと同じ姿勢だと身体がガチガチになっちゃいますもんね。○○も、無理しないでくださいね。' },
+    { taskId: 'task-select-7', type: 'night', displayTime: 'now', text: 'お昼にストレッチしたおかげで、いつもより肩が楽な気がします。\nやっぱりこまめに動かすのって大事ですね！' },
+    { taskId: 'task-select-7', type: 'all', displayTime: 'now', text: '1分のストレッチでも時間が惜しいって感じるくらい余裕ない時ってありますよね。\nでも○○なら、コツコツ頑張ってそうだなって思います。' },
+    { taskId: 'task-select-7', type: 'afternoon', displayTime: 'now', text: '仕事の合間にぐーっと伸びるだけで、少し目が覚めるんですよね。\nもうひと頑張りしましょうか！' },
 
     // ⑥ 階段 task-select-8
-    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '今日も階段、選びました？その小さな選択、大きな一歩だと思います。' },
-    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '階段を上るっていうだけでもちょっとした眠気ざましになりますね！' },
-    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '俺はジム通いって続かなくて…階段使う位なら、続いてます。○○はどうですか？' },
-    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: 'エレベーター待ってる時間って地味に長く感じませんか？俺ならその時間で階段上っちゃうかも。……なんて、○○ならもう実践してそうですね。' },
-    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '階段を上る時の足の重さ、頑張ってる証拠ですよね。俺も負けないように、一段ずつ上ります！' },
+    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '今日も階段、選びました？\nその小さな選択、大きな一歩だと思います👍' },
+    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '階段を上るっていうだけでも\nちょっとした眠気ざましになりますね！' },
+    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '俺はジム通いって続かなくて…\n階段使う位なら、続いてます！\n○○はどうですか？' },
+    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: 'エレベーター待ってる時間って地味に長く感じませんか？\n俺ならその時間で階段上っちゃうかも。……なんて、○○ならもう実践してそうですね。' },
+    { taskId: 'task-select-8', type: 'all', displayTime: 'now', text: '階段を上る時の足の重さ、頑張ってる証拠ですよね。\n俺も負けないように、一段ずつ上ります！' },
 
     // ⑦ 背筋 task-select-9
-    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背中、気づいたら丸まってません？（俺の事なんですけど🫠）ちょっと伸ばして、ついでに深呼吸しましょうか？' },
+    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背中、気づいたら丸まってません？（俺の事なんですけど🫠）\nちょっと伸ばして、ついでに深呼吸しましょうか？' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: 'ハッ！俺また猫背になってました。○○はどうですか？' },
-    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '俺、集中しすぎると、猫背になるみたい…。○○は大丈夫ですか？' },
-    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋が伸びている人って、それだけで格好よく見えますよね。○○のシャキッとした姿、想像してます。' },
-    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋を伸ばすだけで雰囲気変わるんでしょうか？姿勢を意識してるだけなのに、最近「雰囲気違うね」ってよく言われるようになりました✌️' },
+    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '俺、集中しすぎると、猫背になるみたいです…。\n○○は大丈夫ですか？' },
+    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋が伸びている人って、それだけで格好よく見えますよね。\n○○のシャキッとした姿、想像してます。' },
+    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋を伸ばすだけで雰囲気変わるんでしょうか？\n姿勢を意識してるだけなのに、\n最近「雰囲気違うね」ってよく言われるようになりました✌️' },
 
     // ⑧ ハンドケア task-select-11
     { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '手って、一番働き者なのにケアを後回しにしちゃいますよね。\nハンドクリーム、塗ってあげてくださいね。' },
@@ -2364,14 +2364,14 @@ const SLOT_DIALOGUES = [
     { taskId: 'task-select-11', type: 'all', displayTime: 'now', text: '「ただリップを塗る」だけだと忘れがちなので、\n眠気覚ましにもなるメントール入りを買ってみました。\n○○はどんな風に続ける工夫をしてますか？\n今度教えてくださいね！' },
 
     // ⑨ 片づけ task-select-5
-    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '部屋の片づけ、目の前のもの5つ片づけるだけでも、スッキリするんですよね' },
-    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '「1カ所だけ」って、いいルールですよね。完璧じゃなくていいのが続けやすいです。' },
-    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '頭使う作業してると、片付けっていう単純作業が気分転換になりますね！' },
-    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '片づけてるうちに、頭空っぽになる瞬間ありません？俺、あの時間好きなんです。' },
-    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '俺、最近、休憩と片づけがセットになってます。○○は順調ですか？' },
+    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '部屋の片づけ、\n目の前のもの5つ片づけるだけでも、スッキリするんですよね' },
+    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '「1カ所だけ」って、いいルールですよね。\n完璧じゃなくていいのが続けやすいです。' },
+    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '頭使う作業してると、\n片付けっていう単純作業が気分転換になりますね！' },
+    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '片づけてるうちに、頭空っぽになる瞬間ありません？\n俺、あの時間好きなんです。' },
+    { taskId: 'task-select-5', type: 'all', displayTime: 'now', text: '俺、最近、休憩と片づけがセットになってます。\n○○は順調ですか？' },
 
     // ⑩ スマホ休憩 task-select-4
-    { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、早めにスマホを置いて寝たら、今朝はすごく目がスッキリしてて驚きました。やっぱり夜のデジタルデトックスって効果あるんですね。こういう小さくても嬉しい事を共有できるってなんか嬉しいです😊' },
+    { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: 'お疲れ様です！\n昨日の夜、早めにスマホを置いて寝たら、\n今朝はすごく目がスッキリしてて驚きました。\nやっぱり夜のデジタルデトックスって効果あるんですね。こういう小さくても嬉しい事を共有できるってなんか嬉しいです😊' },
     { taskId: 'task-select-4', type: 'morning', displayTime: 'now', text: '昨日の夜、○○にメッセージを送ったあとに\nすぐスマホ閉じたら即寝ちゃってました。\n○○とやり取りすると癒されるからかな、ぐっすり快眠でした👍' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '昨日は寝る直前までスマホを見てしまいました。…なので、戒めに昼休憩はスマホなしで外の景色見ながらランチしてみました。○○に連絡するって考えると、夜できなくても「違う時間で工夫しなきゃ」って思えて、完璧じゃなくてもなんとか続いてます！' },
     { taskId: 'task-select-4', type: 'afternoon', displayTime: 'now', text: '最近、寝る前のスマホ時間を減らそうと格闘中です。とりあえず、スマホのアラームで起きるのを止めて、目覚まし時計で起きるようにしてみました！' },
