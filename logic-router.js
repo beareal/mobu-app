@@ -2098,6 +2098,9 @@ const banner = document.getElementById('fake-notification-banner');
         if (notificationType === 'recovery') {
             setIsWaitingForRecoveryPhase2(false);
         }
+                if (notificationType === 'first_home') {
+            localStorage.removeItem('showFirstHomeBanner');
+        }
         if (notificationType === 'periodic') {
             if (!slotInfo) {
                 markSlotAsShown();
