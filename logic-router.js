@@ -3253,25 +3253,23 @@ function checkAndShowHomeBanners() {
         return;
     }
     if (isEpilogueReadyPending()) return;
-    if (showReturnBannerIfNeeded()) return;
-    if (getIsWaitingForRecoveryPhase2()) {
-        showRecoveryFollowUpNotification();
-        return;
-    }
-    if (localStorage.getItem('currentBannerType') === 'onee') {
+        if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
             showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
             return;
         }
     }
-    const mobuState = getMobuState();
-    if (mobuState !== 'normal') {
+    if (getMobuState() !== 'normal') {
         discardPendingBanners();
         handleAppLaunchNotification();
         return;
     }
-
+    if (showReturnBannerIfNeeded()) return;
+    if (getIsWaitingForRecoveryPhase2()) {
+        showRecoveryFollowUpNotification();
+        return;
+    }
     const pendingBannersList = getPendingBanners();
     if (pendingBannersList.length > 0) {
         const nextPending = pendingBannersList[0];
