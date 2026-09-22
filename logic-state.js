@@ -366,10 +366,7 @@ function showReturnBannerIfNeeded() {
         const dialogues = returnBannerDialogues[ver];
         if (!dialogues) continue;
 
-        const log = getReturnBannerLog(m);
-        // 1回目はindex 0、2回目はindex 1（2連続同じセリフにしない）
-        const index = log.count % 2;
-        const raw = dialogues[index];
+              const raw = dialogues[0];
         const message = raw.replace(/（ユーザー名）/g, nickname);
 markReturnBannerAsShown(m);
   showFakeNotification('モブ君', message, getMobuIconSrc(), 'return_banner', m);
