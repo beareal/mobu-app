@@ -2066,8 +2066,7 @@ const banner = document.getElementById('fake-notification-banner');
 
     const currentBannerSlotInfo = slotInfo || { slot: getCurrentTimeOfDay(), date: getGameDate() };
     localStorage.setItem('currentBannerSlotInfo', JSON.stringify(currentBannerSlotInfo));
-    localStorage.setItem('currentBannerIsPeriodic', notificationType === 'periodic' ? 'true' : 'false');
-        localStorage.setItem('oneeBannerPersistFlag', notificationType === 'onee' ? 'true' : 'false');
+    localStorage.setItem('currentBannerType', notificationType);
         if (notificationType === 'periodic') {
         saveFixedSlotDialogue(message, currentBannerSlotInfo.displayTime || 'now');
     }
@@ -2091,8 +2090,8 @@ const banner = document.getElementById('fake-notification-banner');
         if (slotInfo) {
             markSlotAsTapped(slotInfo.slot, slotInfo.date);
         }
-        if (notificationType === 'onee') {
-            localStorage.removeItem('oneeBannerPersistFlag');
+               if (notificationType === 'onee') {
+            localStorage.removeItem('currentBannerType');
         }
         // 重要：復帰プロセス段階2のフラグ消去（バナーをタップした瞬間）
         if (notificationType === 'recovery') {
@@ -2681,8 +2680,8 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
         const saboriPending = JSON.parse(localStorage.getItem('saboriPendingDialogue') || 'null');
         bannerText = saboriPending ? saboriPending.text : getCurrentBannerText();
-    } else if (localStorage.getItem('currentBannerIsPeriodic') === 'true') {
-        const fixedResult = getFixedSlotDialogue();
+    } else if (localStorage.getItem('currentBannerType') === 'periodic') {
+                const fixedResult = getFixedSlotDialogue();
         bannerText = fixedResult ? fixedResult.text : getCurrentBannerText();
         if (fixedResult) {
             addToSlotDialogueHistory(fixedResult.text);
@@ -2692,8 +2691,8 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     }
     appendLineMessage('mobu', bannerText, initialDelay);
     initialDelay += 1500;
-        if (localStorage.getItem('oneeBannerPersistFlag') === 'true') {
-        localStorage.removeItem('oneeBannerPersistFlag');
+            if (localStorage.getItem('currentBannerType') === 'onee') {
+        localStorage.removeItem('currentBannerType');
     }
     if (slotInfoRaw) {
         const slotInfo = JSON.parse(slotInfoRaw);
@@ -3259,7 +3258,7 @@ function checkAndShowHomeBanners() {
         showRecoveryFollowUpNotification();
         return;
     }
-    if (localStorage.getItem('oneeBannerPersistFlag') === 'true') {
+    if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
             showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
