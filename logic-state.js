@@ -368,7 +368,6 @@ function showReturnBannerIfNeeded() {
 
               const raw = dialogues[0];
         const message = raw.replace(/（ユーザー名）/g, nickname);
-markReturnBannerAsShown(m);
   showFakeNotification('モブ君', message, getMobuIconSrc(), 'return_banner', m);
         return true;
     }
