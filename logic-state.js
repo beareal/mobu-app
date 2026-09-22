@@ -390,18 +390,6 @@ function shouldShowReturnBanner(milestone) {
     // 30分未満はカフェ復元対象なのでバナー不要
     if (elapsed < THIRTY_MINUTES) return false;
 
-    const log = getReturnBannerLog(milestone);
-    const today = getGameDate();
-
-    // 翌朝4時を超えていたらバナー不要
-    if (log.date && log.date !== today) return false;
-
-    // 最大2回
-    if (log.count >= 2) return false;
-
-    // 2時間インターバル
-    if (log.lastTime && Date.now() - log.lastTime < TWO_HOURS) return false;
-
     return true;
 }
 
