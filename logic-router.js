@@ -2353,7 +2353,7 @@ const SLOT_DIALOGUES = [
 
     // ⑦ 背筋 task-select-9
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背中、気づいたら丸まってません？（俺の事なんですけど🫠）\nちょっと伸ばして、ついでに深呼吸しましょうか？' },
-    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: 'ハッ！俺また猫背になってました。○○はどうですか？' },
+    { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: 'お疲れ様です！俺また猫背になってました。\n戒めとして？連絡しました笑○○はどうですか？' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '俺、集中しすぎると、猫背になるみたいです…。\n○○は大丈夫ですか？' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋が伸びている人って、それだけで格好よく見えますよね。\n○○のシャキッとした姿、想像してます。' },
     { taskId: 'task-select-9', type: 'all', displayTime: 'now', text: '背筋を伸ばすだけで雰囲気変わるんでしょうか？\n姿勢を意識してるだけなのに、\n最近「雰囲気違うね」ってよく言われるようになりました✌️' },
