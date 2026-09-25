@@ -2675,6 +2675,7 @@ function pickRecoveryDialogue(version, level) {
 }
 
 function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton) {
+   const currentBannerType = localStorage.getItem('currentBannerType');
     const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
     let bannerText;
     if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
