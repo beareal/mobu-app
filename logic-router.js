@@ -2710,7 +2710,11 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         }
 
         let delay = 500;
-        appendLineMessage('user', 'ところで', delay);
+        if (currentBannerType === 'return_banner') {
+    appendLineMessage('user', 'タスクやってて遅くなっちゃった!今から向かうね。でも先に報告だけさせて笑', delay);
+} else {
+    appendLineMessage('user', 'ところで', delay);
+}
         delay += 1000;
         appendLineMessage('user', userTaskReportText, delay);
         delay += 1000;
