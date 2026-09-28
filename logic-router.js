@@ -3263,7 +3263,7 @@ function checkAndShowHomeBanners() {
         if (pendingOneeMessage) {
             showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
             return;
-                        localStorage.setItem('lineBackShouldGoHome', 'true');
+    
         }
     }
     if (getMobuState() !== 'normal') {

@@ -455,7 +455,8 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
             if (!targetIcon) return;
             console.log('[glowTest] is-sparkling クラスを付与しました');
             targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
-        }, remainingMs);
+        }, remainingMs);            showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
+            return;
     };
     // C-2: LINE画面
     // C-2: LINE画面
