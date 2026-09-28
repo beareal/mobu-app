@@ -3261,6 +3261,7 @@ function checkAndShowHomeBanners() {
         if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
+            if (shouldShowReturnBanner(10) || shouldShowReturnBanner(20) || shouldShowReturnBanner(30)) { localStorage.setItem('returnBannerWonOnee', 'true'); }
             showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
             return;
     
