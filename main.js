@@ -668,7 +668,6 @@ const message = rawMessage.replace(/○○/g, nickname);
     historyLog[mobuState].push(randomIndex);
     if (historyLog[mobuState].length > 7) historyLog[mobuState].shift();
     localStorage.setItem(historyKey, JSON.stringify(historyLog));
-    if (shouldShowReturnBanner(10) || shouldShowReturnBanner(20) || shouldShowReturnBanner(30)) { localStorage.setItem('returnBannerWonOnee', 'true'); }
 localStorage.setItem('pendingOneeMessage', message);
     showFakeNotification('モブ君', message, getMobuIconSrc(), 'onee');
 }
