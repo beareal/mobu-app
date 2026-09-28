@@ -463,11 +463,7 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
-            if (localStorage.getItem('lineBackShouldGoHome') === 'true') {
-                localStorage.removeItem('lineBackShouldGoHome');
-                showScreen('screen-home');
-                return;
-            }
+      
             // 強制回収フローのチェック
             const milestones = [10, 20, 30, 40];
             let pendingMilestone = 0;
