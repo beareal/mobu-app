@@ -2110,6 +2110,9 @@ const banner = document.getElementById('fake-notification-banner');
             localStorage.setItem('isBannerRead', 'true');
         }
         // 瞬き演出を挟んでLINE画面へ遷移
+        if (notificationType === 'onee' && (shouldShowReturnBanner(10) || shouldShowReturnBanner(20) || shouldShowReturnBanner(30))) {
+            localStorage.setItem('returnBannerWonOnee', 'true');
+        }
         replacedBanner.classList.remove('show');
         playBlinkVideo(() => {
             showScreen('screen-line');

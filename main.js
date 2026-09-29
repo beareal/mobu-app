@@ -463,7 +463,13 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
-      
+                  if (localStorage.getItem('returnBannerWonOnee') === 'true') {
+                localStorage.removeItem('returnBannerWonOnee');
+                playBlinkVideo(() => {
+                    showScreen('screen-home');
+                });
+                return;
+            }
             // 強制回収フローのチェック
             const milestones = [10, 20, 30, 40];
             let pendingMilestone = 0;
@@ -755,7 +761,11 @@ function showSplashScreen() {
 
     }, 1000);
 }
-
+document.addEventListener('visibilitychange', function() {
+    if (document.visibilityState === 'hidden') {
+        localStorage.removeItem('returnBannerWonOnee');
+    }
+});
 document.addEventListener('visibilitychange', function() {
     const milestones = [10, 20, 30];
     const currentScreen = document.querySelector('.screen.active');
