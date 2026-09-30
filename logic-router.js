@@ -2721,7 +2721,12 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
         appendLineMessage('user', userTaskReportText, delay);
         delay += 1000;
-
+             if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
+            const cushionNickname = localStorage.getItem('nickname') || 'あなた';
+            const cushionText = '俺がへこんでる間に、○○はちゃんと達成してたんですね…！さすがです👍'.replace(/○○/g, cushionNickname);
+            appendLineMessage('mobu', cushionText, delay);
+            delay += 1000;
+        }  
         const nickname = localStorage.getItem('nickname') || 'あなた';
         const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
         appendLineMessage('mobu', taskReactionText, delay);
