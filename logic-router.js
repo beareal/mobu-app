@@ -2660,6 +2660,21 @@ function pickTaskReactionDialogue(reportedTask) {
     saveTaskReactionDialogueLog(log);
     return chosen;
 }
+function pickCushionDialogue() {
+    const CUSHION_DIALOGUES = [
+        '俺がへこんでる間に、○○はちゃんと達成してたんですね…！さすがです👍',
+        'やっぱり○○の連絡して良かったです！○○の報告でやる気になりました！',
+        '俺がサボってる間にも、○○は前進してたんですね。見習わないと🫠',
+        '落ち込んでたけど、○○の報告を聞いたらちょっとやる気出ました😊'
+    ];
+    const history = JSON.parse(localStorage.getItem('cushionDialogueLog') || '[]');
+    const excluded = history.slice(-2);
+    const candidates = CUSHION_DIALOGUES.filter(text => !excluded.includes(text));
+    const chosen = candidates[Math.floor(Math.random() * candidates.length)];
+    history.push(chosen);
+    localStorage.setItem('cushionDialogueLog', JSON.stringify(history.slice(-2)));
+    return chosen;
+}
 function pickRecoveryDialogue(version, level) {
     const dialogueData = recoveryDialogues[version];
     const candidates = dialogueData ? dialogueData[level] : null;
@@ -2723,7 +2738,7 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
              if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
             const cushionNickname = localStorage.getItem('nickname') || 'あなた';
-            const cushionText = '俺がへこんでる間に、○○はちゃんと達成してたんですね…！さすがです👍'.replace(/○○/g, cushionNickname);
+const cushionText = pickCushionDialogue().replace(/○○/g, cushionNickname);
             appendLineMessage('mobu', cushionText, delay);
             delay += 1000;
         }  
