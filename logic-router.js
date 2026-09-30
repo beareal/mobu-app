@@ -2662,10 +2662,10 @@ function pickTaskReactionDialogue(reportedTask) {
 }
 function pickCushionDialogue() {
     const CUSHION_DIALOGUES = [
-        '俺がへこんでる間に、○○はちゃんと達成してたんですね…！さすがです👍',
-        'やっぱり○○の連絡して良かったです！○○の報告でやる気になりました！',
-        '俺がサボってる間にも、○○は前進してたんですね。見習わないと🫠',
-        '落ち込んでたけど、○○の報告を聞いたらちょっとやる気出ました😊'
+        '俺がへこんでる間に、○○はちゃんと達成してたんですね！さすがです👍',
+        'やっぱり○○に連絡して良かったです！○○の報告でやる気になりました！',
+        '俺がサボってる間にも、○○は前進してたんですね！見習わないと🫠',
+        '落ち込んでたけど、○○から報告もらって\n気合入りました😊'
     ];
     const history = JSON.parse(localStorage.getItem('cushionDialogueLog') || '[]');
     const excluded = history.slice(-2);
