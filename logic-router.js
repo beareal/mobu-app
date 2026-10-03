@@ -785,6 +785,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                     appendUserStampMessage(stampSrc);
                 });
 } else if (getPendingBanners().length > 0) {
+    window.isBackButtonBlocked = willCafeEventTriggerNow();
                 const firstPendingBanner = getPendingBanners()[0];
 markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
 localStorage.setItem('lastBannerReadTime', Date.now().toString());
