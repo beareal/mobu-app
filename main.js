@@ -463,6 +463,9 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
         lineBackIcon.addEventListener('click', function() {
+            if (window.isBackButtonBlocked) {
+    return;
+}
                   if (localStorage.getItem('returnBannerWonOnee') === 'true') {
                 localStorage.removeItem('returnBannerWonOnee');
                 playBlinkVideo(() => {
