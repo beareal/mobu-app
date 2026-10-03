@@ -1518,7 +1518,7 @@ function checkAndSetupEvent() {
             inputBar.style.display = 'none';
             replyArea.style.display = 'flex';
             replyStamp.src = 'assets/images/stamp_now.webp';
-
+window.isBackButtonBlocked = false;
             const newReplyStamp = replyStamp.cloneNode(true);
             replyStamp.parentNode.replaceChild(newReplyStamp, replyStamp);
 
