@@ -838,7 +838,7 @@ newReplyStamp.addEventListener('click', function() {
                 inputBar.style.display = 'block';
                 moodSelector.style.display = 'none';
                 replyArea.style.display = 'none';
-
+window.isBackButtonBlocked = willCafeEventTriggerNow();
                 // (ここに元のタスク報告のフローが入る)
                 const mobuState = getMobuState();
  const reportedTask = localStorage.getItem('currentReportTask');
