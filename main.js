@@ -196,7 +196,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // 処理後にハッシュをクリアしてリロードによる再実行を防ぐ
             history.replaceState(null, null, ' ');
         }
-    // ✨✨ここまでが最後の仕上げ ✨✨
+    // ここまでが最後の仕上げ
     }
         updateHomeTasks();
     const urlParams = new URLSearchParams(window.location.search);
@@ -205,9 +205,13 @@ document.addEventListener('DOMContentLoaded', function() {
         const appPhase = localStorage.getItem('appPhase');
         if (appPhase === 'main_loop') {
             updateHomeTasks();
-            showScreen('screen-home');
-            showEpilogueReadyPopup();
+                   if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+            showScreen('screen-line');
             return;
+        }
+        showScreen('screen-home');
+        showEpilogueReadyPopup();
+        return;
         }
     }
     showSplashScreen();
@@ -224,7 +228,9 @@ document.addEventListener('DOMContentLoaded', function() {
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 
-            if (appPhase === 'main_loop') {
+          if (appPhase === 'main_loop' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+                showScreen('screen-line');
+            } else if (appPhase === 'main_loop') {
                 updateHomeTasks();
                 showScreen('screen-home');
                 showEpilogueReadyPopup();
@@ -390,8 +396,9 @@ document.addEventListener('DOMContentLoaded', function() {
                addTasksCompleted(completedTasks.length);
                // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
-
-               // サボり状態をリセット（仕様書 3-3, 7 準拠）
+localStorage.setItem('lastCompletionTimestamp', Date.now().toString());
+localStorage.removeItem('closedOnTalkBeforeEvent');               
+// サボり状態をリセット（仕様書 3-3, 7 準拠）
                resetAbandonment();
 
                recordTodayAchievement(completedTasks.length);
@@ -785,9 +792,23 @@ document.addEventListener('visibilitychange', function() {
                 }
             }
         }
+                if (currentScreenId === 'screen-line') {
+            const prevTotal = getPreviousTotalTasks();
+            const currTotal = getTotalTasksCompleted();
+            for (const m of [10, 20, 30, 40]) {
+                if (prevTotal < m && currTotal >= m && !getIsWatched(m)) {
+                    localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+                    break;
+                }
+            }
+        }
     } else if (document.visibilityState === 'visible') {
         if (document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home' && isEpilogueReadyPending()) {
             showEpilogueReadyPopup();
+            return;
+        }
+                if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+            showScreen('screen-line');
             return;
         }
         // 復帰時：30分以内かつ未視聴ならカフェ画面へ

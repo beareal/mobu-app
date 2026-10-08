@@ -634,6 +634,9 @@ function showScreen(screenId) {
     if (targetScreen) {
         targetScreen.classList.add('active');
         window.scrollTo(0, 0);
+                if (screenId === 'screen-cafe' || screenId === 'screen-walking') {
+            localStorage.removeItem('closedOnTalkBeforeEvent');
+        }
 const bannerAllowedScreens = ['screen-home', 'screen-profile', 'screen-settings'];
         const bannerEl = document.getElementById('fake-notification-banner');
         if (bannerEl) {
@@ -1455,7 +1458,7 @@ function checkAndSetupEvent() {
     // イベントキュー：未視聴のマイルストーンがあれば次の検知を保留
     const milestones = [10, 20, 30, 40];
     for (const m of milestones) {
-        if (getIsInvited(m) && !getIsWatched(m)) {
+                if (localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && getIsInvited(m) && !getIsWatched(m)) {
             console.log(`マイルストーン${m}が未視聴のため、次のイベント検知を保留`);
             return;
         }
@@ -1467,6 +1470,11 @@ function checkAndSetupEvent() {
             eventTriggeredMilestone = milestone;
             break;
         }
+    }
+        if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && localStorage.getItem('savedEventMilestone')) {
+        eventTriggeredMilestone = parseInt(localStorage.getItem('savedEventMilestone'), 10);
+    } else if (eventTriggeredMilestone > 0) {
+        localStorage.setItem('savedEventMilestone', String(eventTriggeredMilestone));
     }
         if (eventTriggeredMilestone > 0) {
         setIsWaitingForRecoveryPhase2(false);
@@ -2659,6 +2667,7 @@ function pickTaskReactionDialogue(reportedTask) {
 
     const chosen = available[Math.floor(Math.random() * available.length)];
     log.shown.push(chosen);
+    localStorage.setItem('savedTaskReactionText', chosen);
     saveTaskReactionDialogueLog(log);
     return chosen;
 }
