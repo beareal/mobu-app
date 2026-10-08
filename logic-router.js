@@ -787,8 +787,26 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                            showGenericStampReplySelector(function(stampSrc) {
                     appendUserStampMessage(stampSrc);
                 });
-} else if (getPendingBanners().length > 0) {
+} else if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') {
+    inputBar.style.display = 'block';
+    moodSelector.style.display = 'none';
+    replyArea.style.display = 'none';
     window.isBackButtonBlocked = willCafeEventTriggerNow();
+    const redisplayTask = localStorage.getItem('currentReportTask');
+    const redisplayNickname = localStorage.getItem('nickname') || 'あなた';
+    let redisplayDelay = 500;
+    appendLineMessage('user', userReplyDialogues.taskReports[redisplayTask] || `【${redisplayTask}】、できた♪`, redisplayDelay);
+    redisplayDelay += 1000;
+    const savedReaction = localStorage.getItem('savedTaskReactionText');
+    if (savedReaction) {
+        appendLineMessage('mobu', savedReaction.replace(/○○/g, redisplayNickname), redisplayDelay);
+        redisplayDelay += 1000;
+    }
+    setTimeout(() => {
+        checkAndSetupEvent();
+    }, redisplayDelay + 1000);
+} else if (getPendingBanners().length > 0) {
+                window.isBackButtonBlocked = willCafeEventTriggerNow();
                 const firstPendingBanner = getPendingBanners()[0];
 markSlotAsTapped(firstPendingBanner.slot, firstPendingBanner.date);
 localStorage.setItem('lastBannerReadTime', Date.now().toString());
