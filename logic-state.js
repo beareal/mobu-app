@@ -143,7 +143,8 @@ function checkAbandonment() {
     const totalTasks = getTotalTasksCompleted();
     // 1. 累計1回も完了していないユーザーは判定対象外 (仕様書 2-2)
     if (totalTasks === 0) return;
-
+    const talkAbandonPendingMilestone = parseInt(localStorage.getItem('talkAbandonRescuePending') || '0', 10);
+    if (talkAbandonPendingMilestone && localStorage.getItem('talkAbandonRescueBannerClosed_' + talkAbandonPendingMilestone) !== 'true') return;
     const lastCompDateStr = getLastCompletionGameDate();
     // 2. 累計はあるが完了日がない場合（移行期用）、今日を基準日として保存して終了
     if (!lastCompDateStr) {

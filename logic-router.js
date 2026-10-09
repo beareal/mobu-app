@@ -767,7 +767,44 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
     showGenericStampReplySelector(function(stampSrc) {
         appendUserStampMessage(stampSrc);
     });
-
+} else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'talk_abandon_rescue') {
+                const notification = JSON.parse(tappedNotificationData);
+                inputBar.style.display = 'none';
+                moodSelector.style.display = 'none';
+                replyArea.style.display = 'flex';
+                          const rescueMilestone = notification.milestone;
+                const rescuePartsCount = notification.message.split('@@').length;
+                appendSplitDialogueMessage('mobu', notification.message, 100);
+                                setIsInvited(rescueMilestone, true);
+                localStorage.removeItem('tappedNotification');
+                setTimeout(() => {
+                    const rescueReplyStamp = document.getElementById('reply-stamp-image');
+                    inputBar.style.display = 'none';
+                    replyArea.style.display = 'flex';
+                    rescueReplyStamp.src = 'assets/images/stamp_now.webp';
+                    const newRescueStamp = rescueReplyStamp.cloneNode(true);
+                    rescueReplyStamp.parentNode.replaceChild(newRescueStamp, rescueReplyStamp);
+                    newRescueStamp.addEventListener('click', function() {
+                        appendUserStampMessage('assets/images/stamp_now.webp');
+                        setTimeout(() => {
+                            if (rescueMilestone === 40) {
+                                playFadeTransition(() => {
+                                    startEndingSequence();
+                                });
+                            } else if (isCafeImagesReady(rescueMilestone)) {
+                                playFadeTransition(() => {
+                                    showScreen('screen-cafe');
+                                    handleCafeEventWithJIT(rescueMilestone);
+                                });
+                            } else {
+                                playFadeTransition(() => {
+                                    showScreen('screen-walking');
+                                    startWalkingToDoor(rescueMilestone);
+                                });
+                            }
+                        }, 500);
+                    }, { once: true });
+                }, 100 + (rescuePartsCount - 1) * 1000 + 1500);
             } else if (tappedNotificationData) {
                 // [A] 通知をタップして遷移してきた場合
                 const notification = JSON.parse(tappedNotificationData);
@@ -787,6 +824,27 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
                            showGenericStampReplySelector(function(stampSrc) {
                     appendUserStampMessage(stampSrc);
                 });
+                } else if ([10, 20, 30, 40].includes(parseInt(localStorage.getItem('talkAbandonRescueReportMilestone') || '0', 10))) {
+    const rescueReportMilestone = parseInt(localStorage.getItem('talkAbandonRescueReportMilestone'), 10);
+    localStorage.removeItem('talkAbandonRescueReportMilestone');
+    inputBar.style.display = 'block';
+    moodSelector.style.display = 'none';
+    replyArea.style.display = 'none';
+    const rescueReportNickname = localStorage.getItem('nickname') || 'あなた';
+    const rescueReportTask = localStorage.getItem('currentReportTask');
+    const rescueBannerText = talkAbandonRescueBannerDialogues[rescueReportMilestone](rescueReportNickname);
+    let rescueReportDelay = 500;
+    appendSplitDialogueMessage('mobu', rescueBannerText, rescueReportDelay);
+        setIsInvited(rescueReportMilestone, true);
+    rescueReportDelay += rescueBannerText.split('@@').length * 1000;
+    appendLineMessage('user', 'うれし～！ありがとう🫶気づかなくて、そのまま今日もタスク報告してた😂今から向かいます！でもせっかくだから先に報告だけさせて笑', rescueReportDelay);
+    rescueReportDelay += 1000;
+    appendLineMessage('user', userReplyDialogues.taskReports[rescueReportTask] || `【${rescueReportTask}】、できた♪`, rescueReportDelay);
+    rescueReportDelay += 1000;
+    const rescueReactionText = pickTaskReactionDialogue(rescueReportTask).replace(/○○/g, rescueReportNickname);
+    appendLineMessage('mobu', rescueReactionText, rescueReportDelay);
+    rescueReportDelay += 1000;
+    appendLineMessage('mobu', 'それじゃあ、待ってますね👋', rescueReportDelay);
 } else if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') {
     inputBar.style.display = 'block';
     moodSelector.style.display = 'none';
@@ -1610,6 +1668,7 @@ const endingEventData = [
 function startEndingSequence() {
     showScreen('screen-cafe');
     playBGM('bgm_cafe_ambience.mp3', true);
+        localStorage.setItem('talkAbandonRescueBannerClosed_40', 'true');
     const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const cafeScreen = document.getElementById('screen-cafe');
     const bgImage = document.getElementById('cafe-background-image');
@@ -1801,6 +1860,7 @@ function handleCafeEventWithJIT(milestone) {
         imagePaths.push(getCafeImagePath(milestone, i));
     }
 if (bgImage) bgImage.src = imagePaths[0];
+    localStorage.setItem('talkAbandonRescueBannerClosed_' + milestone, 'true');
     dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
     let waitingForHideTap = false;
@@ -2094,7 +2154,7 @@ const banner = document.getElementById('fake-notification-banner');
     
     // 内容を設定
     replacedSenderEl.textContent = sender;
-    replacedMessageEl.textContent = message;
+    replacedMessageEl.textContent = (notificationType === 'talk_abandon_rescue') ? message.split('@@')[0] : message;
     replacedIconEl.src = iconSrc;
     playSE('se_line_receive.mp3');
 
@@ -3303,8 +3363,8 @@ function showEpilogueReadyPopup() {
 }
 
 function checkAndShowHomeBanners() {
-    const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
-    if (Date.now() - lastReadTime < 30 * 60 * 1000) return;
+        const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
+        if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending')) return;
     const existingBanner = document.getElementById('fake-notification-banner');
     if (existingBanner && existingBanner.classList.contains('show')) {
         return;
@@ -3330,6 +3390,7 @@ function checkAndShowHomeBanners() {
         return;
     }
     if (showReturnBannerIfNeeded()) return;
+        if (showTalkAbandonRescueBannerIfNeeded()) return;
     if (getIsWaitingForRecoveryPhase2()) {
         showRecoveryFollowUpNotification();
         return;
@@ -3343,7 +3404,23 @@ function checkAndShowHomeBanners() {
 
     showSlotMessage();
 }
-
+const talkAbandonRescueBannerDialogues = {
+    10: (nickname) => `お疲れ様です！そういえば${nickname}、今回のタスクで実は10個を超えましたんですよ！俺、${nickname}から報告もらうたびに自分で決めたタスクやってて、数えてたんです！\n一つの節目達成、おめでとうございます！@@${nickname}が並走してくれたから、俺も無事習慣が定着しました。\nだから、俺から送らせてもらってた一方的なメッセージは、今日で卒業しますね...。\n実は${nickname}の為に、ちょっとしたものを用意してるので、またお店に遊びに来てください😊@@それと俺、習慣を変えたら、自分の外見も変えたくなって、ちょっとだけ変えてみたんです。\nわざわざ伝える事でもないですけど🫠\nとにかくまたお会いできるのを楽しみにしてますね！`,
+    20: (nickname) => `${nickname}に渡したいものがあって連絡しました！@@そろそろタスクを20個を超える頃じゃないですか？\nここまで来ると、俺たち『一緒に頑張ってる仲間』って感じで嬉しい😊@@さっきも伝えたけどここまで一緒に頑張ってくれた感謝の気持ちとして、${nickname}に渡したいものがあるんです。\n${nickname}がいつも頼む紅茶の傾向から見て、絶対好きだと思った珍しい茶葉なんですよ。\nぜひ試してみてほしいな！@@それと、俺も習慣を変えて、少し余裕が出てきたから、見た目を少しだけ変えてみたんです。\n${nickname}に見てもらいたい。待ってます！`,
+    30: (nickname) => `今、自分のタスク数えてて気づいたんだけど\n${nickname}の累計タスク、30個くらい超えてない！？@@思わずテンション上がって気づいたら連絡てた😂\nここまで来ると自分自身の変化がはっきりわかるんじゃないですか？@@最近は${nickname}を応援したいって気持ちがますます強くなってて笑\n今回は、${nickname}が次の目標を書く時に使ってほしいと思って、\n俺が選んだものがあるんです。\nそれをプレゼントしたいから${nickname}の都合がいい時、お店に来てもらえますか？\n楽しみにしてますね👋`,
+    40: (nickname) => `急で申し訳ないんだけど、${nickname}、今って少し時間あるかな？@@ごめん、その前に伝える事があるんだった！\nとうとう40個以上タスクこなしてるの気づいてた？！\n本当にすごいよ！俺もめちゃくちゃ嬉しい👍@@俺は${nickname}と一緒に頑張ってきて、生き方そのものが変わった気がする。\n今すごく${nickname}に会いたい。\n俺のお気に入りの場所に${nickname}と一緒に行きたいんだ。@@だから、もし今時間が取れるなら、まずはカフェで待ち合わせない？\nそこから案内するよ。直接伝えたいこともあるし。`
+};
+function showTalkAbandonRescueBannerIfNeeded() {
+       const savedMilestone = parseInt(localStorage.getItem('talkAbandonRescuePending') || '0', 10);
+    if (!savedMilestone) return false;
+    if (Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) return false;
+    if (![10, 20, 30, 40].includes(savedMilestone)) return false;
+        if (localStorage.getItem('talkAbandonRescueBannerClosed_' + savedMilestone) === 'true') return false;
+    const nickname = localStorage.getItem('nickname') || 'あなた';
+    const message = talkAbandonRescueBannerDialogues[savedMilestone](nickname);
+    showFakeNotification('モブ君', message, getMobuIconSrc(), 'talk_abandon_rescue', savedMilestone);
+    return true;
+}
 function isBannerCurrentlyShown() {
     const banner = document.getElementById('fake-notification-banner');
     return banner ? banner.classList.contains('show') : false;
