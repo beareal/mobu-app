@@ -1057,6 +1057,12 @@ function appendRecoveryDialogueMessage(sender, text, delay = 0) {
         appendLineMessage(sender, text, delay);
     }
 }
+function appendSplitDialogueMessage(sender, text, delay = 0) {
+    const parts = text.split('@@');
+    parts.forEach((part, i) => {
+        appendLineMessage(sender, part, delay + i * 1000);
+    });
+}
 function preloadImage(src) {
     return new Promise((resolve, reject) => {
         const img = new Image();
