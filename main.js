@@ -396,14 +396,15 @@ document.addEventListener('DOMContentLoaded', function() {
                addTasksCompleted(completedTasks.length);
                // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
-               if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) > 24 * 60 * 60 * 1000) {
-    localStorage.setItem('talkAbandonRescueReportMilestone', localStorage.getItem('savedEventMilestone') || '');
+if (getMobuState() === 'normal' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) > 24 * 60 * 60 * 1000) {
+               localStorage.setItem('talkAbandonRescueReportMilestone', localStorage.getItem('savedEventMilestone') || '');
 } else {
     localStorage.removeItem('talkAbandonRescueReportMilestone');
 }
 localStorage.setItem('lastCompletionTimestamp', Date.now().toString());
 localStorage.removeItem('closedOnTalkBeforeEvent');               
 // サボり状態をリセット（仕様書 3-3, 7 準拠）
+localStorage.setItem('talkAbandonPrevNormal', getMobuState() === 'normal' ? 'true' : 'false');
                resetAbandonment();
 
                recordTodayAchievement(completedTasks.length);
@@ -803,7 +804,7 @@ document.addEventListener('visibilitychange', function() {
             for (const m of [10, 20, 30, 40]) {
                 if (prevTotal < m && currTotal >= m && !getIsWatched(m)) {
                     localStorage.setItem('closedOnTalkBeforeEvent', 'true');
-                                        localStorage.setItem('talkAbandonRescuePending', String(m));
+if (localStorage.getItem('talkAbandonPrevNormal') === 'true') localStorage.setItem('talkAbandonRescuePending', String(m));
                     break;
                 }
             }
