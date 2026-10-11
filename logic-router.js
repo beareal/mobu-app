@@ -1669,7 +1669,8 @@ function startEndingSequence() {
     showScreen('screen-cafe');
     playBGM('bgm_cafe_ambience.mp3', true);
         localStorage.setItem('talkAbandonRescueBannerClosed_40', 'true');
-    const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
+       if (localStorage.getItem('talkAbandonRescuePending') === '40') saveLastCompletionGameDate();
+        const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const cafeScreen = document.getElementById('screen-cafe');
     const bgImage = document.getElementById('cafe-background-image');
     const nickname = localStorage.getItem('nickname') || 'あなた';
@@ -1861,6 +1862,7 @@ function handleCafeEventWithJIT(milestone) {
     }
 if (bgImage) bgImage.src = imagePaths[0];
     localStorage.setItem('talkAbandonRescueBannerClosed_' + milestone, 'true');
+       if (localStorage.getItem('talkAbandonRescuePending') === String(milestone)) saveLastCompletionGameDate();
     dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
     let waitingForHideTap = false;
