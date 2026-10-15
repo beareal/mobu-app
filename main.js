@@ -803,13 +803,17 @@ document.addEventListener('visibilitychange', function() {
             const currTotal = getTotalTasksCompleted();
             for (const m of [10, 20, 30, 40]) {
                 if (prevTotal < m && currTotal >= m && !getIsWatched(m)) {
-                    localStorage.setItem('closedOnTalkBeforeEvent', 'true');
-if (localStorage.getItem('talkAbandonPrevNormal') === 'true') localStorage.setItem('talkAbandonRescuePending', String(m));
+if (!localStorage.getItem('oneeResumeMilestone')) { localStorage.setItem('closedOnTalkBeforeEvent', 'true'); }
+                    if (localStorage.getItem('talkAbandonPrevNormal') === 'true') localStorage.setItem('talkAbandonRescuePending', String(m));
                     break;
                 }
             }
         }
     } else if (document.visibilityState === 'visible') {
+        if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-home' && !isEpilogueReadyPending()) {
+    showScreen('screen-home');
+    return;
+}
         if (document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home' && isEpilogueReadyPending()) {
             showEpilogueReadyPopup();
             return;

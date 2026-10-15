@@ -818,6 +818,31 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
 
                // 4. 処理が終わったら、保存しておいたデータを消去（重要）
    localStorage.removeItem('tappedNotification');
+   if (localStorage.getItem('oneeResumeMilestone') && JSON.parse(tappedNotificationData).type === 'onee') {
+    const oneeResumeNickname = localStorage.getItem('nickname') || 'あなた';
+    const oneeResumeTask = localStorage.getItem('currentReportTask');
+    const oneeResumeTaskText = userReplyDialogues.taskReports[oneeResumeTask] || `【${oneeResumeTask}】、できた♪`;
+    const oneeResumeRecovery = localStorage.getItem('oneeResumeRecovery');
+    const oneeResumeReaction = localStorage.getItem('savedTaskReactionText');
+    let oneeResumeDelay = 1600;
+    appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${oneeResumeTaskText}`, oneeResumeDelay);
+    oneeResumeDelay += 1500;
+    if (oneeResumeRecovery) {
+        appendRecoveryDialogueMessage('mobu', oneeResumeRecovery.replace(/○○/g, oneeResumeNickname), oneeResumeDelay);
+        oneeResumeDelay += 1500;
+    }
+    if (oneeResumeReaction) {
+        appendLineMessage('mobu', oneeResumeReaction.replace(/○○/g, oneeResumeNickname), oneeResumeDelay);
+        oneeResumeDelay += 1500;
+    }
+    window.isBackButtonBlocked = willCafeEventTriggerNow();
+    localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
+    setTimeout(() => {
+        localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+        checkAndSetupEvent();
+        localStorage.removeItem('closedOnTalkBeforeEvent');
+    }, oneeResumeDelay + 1000);
+}
 // pendingOneeMessageも削除（二重表示防止）
                localStorage.removeItem('pendingOneeMessage');
                // 5. スタンプが選ばれた時の処理を登録
@@ -978,6 +1003,24 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                          }
 
                          setIsWaitingForRecoveryPhase2(true);
+                         const oneeResumePrevTotal = getPreviousTotalTasks();
+const oneeResumeCurrentTotal = getTotalTasksCompleted();
+let oneeResumeMilestone = 0;
+for (const m of [10, 20, 30, 40]) {
+    if (oneeResumePrevTotal < m && oneeResumeCurrentTotal >= m) {
+        oneeResumeMilestone = m;
+        break;
+    }
+}
+if (oneeResumeMilestone > 0) {
+    localStorage.setItem('oneeResumeBanner', pendingOneeMessage || '');
+    localStorage.setItem('oneeResumeLevel', lastRecoveryLevel);
+    localStorage.setItem('oneeResumeRecovery', rawDialogue);
+    if (pendingOneeMessage) {
+        pickTaskReactionDialogue(reportedTask);
+    }
+    localStorage.setItem('oneeResumeMilestone', String(oneeResumeMilestone));
+}
                      }
                  }
                  localStorage.setItem('pendingCinemaLevel', lastRecoveryLevel);
@@ -1170,6 +1213,7 @@ return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
 }
 
 function checkAndRestoreCafeIfNeeded() {
+    if (localStorage.getItem('oneeResumeMilestone')) return false;
     const milestones = [10, 20, 30];
     const THIRTY_MINUTES = 30 * 60 * 1000;
 
@@ -1669,6 +1713,12 @@ function startEndingSequence() {
     showScreen('screen-cafe');
     playBGM('bgm_cafe_ambience.mp3', true);
         localStorage.setItem('talkAbandonRescueBannerClosed_40', 'true');
+        localStorage.removeItem('oneeResumeBanner');
+localStorage.removeItem('oneeResumeLevel');
+localStorage.removeItem('oneeResumeRecovery');
+localStorage.removeItem('oneeResumeMilestone');
+localStorage.removeItem('pendingOneeMessage');
+localStorage.removeItem('currentBannerType');
        if (localStorage.getItem('talkAbandonRescuePending') === '40') saveLastCompletionGameDate();
         const dialogueText = document.querySelector('#screen-cafe .dialogue-text');
     const cafeScreen = document.getElementById('screen-cafe');
@@ -1862,6 +1912,12 @@ function handleCafeEventWithJIT(milestone) {
     }
 if (bgImage) bgImage.src = imagePaths[0];
     localStorage.setItem('talkAbandonRescueBannerClosed_' + milestone, 'true');
+    localStorage.removeItem('oneeResumeBanner');
+localStorage.removeItem('oneeResumeLevel');
+localStorage.removeItem('oneeResumeRecovery');
+localStorage.removeItem('oneeResumeMilestone');
+localStorage.removeItem('pendingOneeMessage');
+localStorage.removeItem('currentBannerType');
        if (localStorage.getItem('talkAbandonRescuePending') === String(milestone)) saveLastCompletionGameDate();
     dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
@@ -3365,6 +3421,10 @@ function showEpilogueReadyPopup() {
 }
 
 function checkAndShowHomeBanners() {
+    if (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeBanner')) {
+    localStorage.setItem('currentBannerType', 'onee');
+    localStorage.setItem('pendingOneeMessage', localStorage.getItem('oneeResumeBanner'));
+}
         const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
         if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending')) return;
     const existingBanner = document.getElementById('fake-notification-banner');
