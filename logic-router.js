@@ -225,10 +225,10 @@ const recoveryDialogues = {
             "再開お疲れ様！\n○○がまた動き出してくれて、俺もウキウキだよ笑\nやっぱり1人で頑張るより、\n○○も一緒に頑張ってるんだって実感できると、\nすごく元気出るんだ\n○○の影響力が高すぎて、\n一人で勝手に空回って\n謎のキャラ変をしてたくらいだしね🤣@@それはそうと"
         ],
         onee_lv2: [
-            "一人で頑張ってた時は正直少し寂しかったけど、\n戻ってきてくれて本当に嬉しい！\nでも…また一人にされると\nオネェ様になるかも?？笑@@なんて茶番はここまでにしておいて😂",
-            "V4_oneeLv2_②仮セリフ",
-            "V4_oneeLv2_③仮セリフ",
-            "V4_oneeLv2_④仮セリフ"
+            "一人で頑張ってた時は正直少し寂しかったけど、\n戻ってきてくれて本当に嬉しい😄\nでも…また一人にされると\nオネェ様になるかも？@@まぁ茶番はここまでにしておいて笑",
+            "実は最近ずっと○○のこと気にかかってた🫠\n2人で始めたこの習慣、もしかして○○の負担になってないかなって。\n俺の方は最近「美」が使命！みたいな勢いで美容にのめり込んでキャラまで変わってたけど😂\n俺の暴走はさておき笑\n○○は○○のペースでね😊",
+            "一人で続けてるとやっぱりどこか味気なかったから、\nまた報告してくれてすごくホッとしてる。\nあんまりサボるとオネェ様がまた降臨するからね?笑@@…なんて、ちょっとふざけすぎた😂",
+            "○○がまた報告してくれて嬉しい！\nオネェ化して美に目覚めてた最近気づいたんだけど、\nお客さんに自分の変化を褒めてもらった時、必ず○○のこと思い出してたんだ。\nだから俺の変化を見てほしい一番の相手は○○なんだって気づいたよ。"
         ],
         onee_lv3: [
             "カワイイ不良娘のカムバックね～❣️\nこれはブチ上がるわね⤴️⤴️@@ごめん！ブチ上がり過ぎてオネェ様のテンションで返信してた笑\nそれはさておき\n俺、○○がタスクやったよって報告してくれる瞬間が好きなんだ。\nどんなに間が空いても、また一緒に頑張れるのが嬉しい。",
@@ -3426,8 +3426,8 @@ function checkAndShowHomeBanners() {
     localStorage.setItem('pendingOneeMessage', localStorage.getItem('oneeResumeBanner'));
 }
         const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
-        if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending')) return;
-    const existingBanner = document.getElementById('fake-notification-banner');
+if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending') && !localStorage.getItem('oneeResumeMilestone')) return;
+        const existingBanner = document.getElementById('fake-notification-banner');
     if (existingBanner && existingBanner.classList.contains('show')) {
         return;
     }
