@@ -1716,6 +1716,7 @@ function startEndingSequence() {
     showScreen('screen-cafe');
     playBGM('bgm_cafe_ambience.mp3', true);
         localStorage.setItem('talkAbandonRescueBannerClosed_40', 'true');
+      localStorage.removeItem('oneeResumeIcon');
         localStorage.removeItem('oneeResumeBanner');
 localStorage.removeItem('oneeResumeLevel');
 localStorage.removeItem('oneeResumeRecovery');
@@ -1915,6 +1916,7 @@ function handleCafeEventWithJIT(milestone) {
     }
 if (bgImage) bgImage.src = imagePaths[0];
     localStorage.setItem('talkAbandonRescueBannerClosed_' + milestone, 'true');
+   localStorage.removeItem('oneeResumeIcon');
     localStorage.removeItem('oneeResumeBanner');
 localStorage.removeItem('oneeResumeLevel');
 localStorage.removeItem('oneeResumeRecovery');
@@ -3449,7 +3451,7 @@ if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAba
         if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
-            showFakeNotification('モブ君', pendingOneeMessage, getMobuIconSrc(), 'onee');
+showFakeNotification('モブ君', pendingOneeMessage, (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeIcon')) || getMobuIconSrc(), 'onee');
             return;
     
         }

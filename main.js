@@ -393,6 +393,9 @@ document.addEventListener('DOMContentLoaded', function() {
                // データ保存
                const currentTotal = getTotalTasksCompleted();
                setPreviousTotalTasks(currentTotal);
+               if (getMobuState() !== 'normal') {
+    localStorage.setItem('oneeResumeIcon', getMobuIconSrc());
+}
                addTasksCompleted(completedTasks.length);
                // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
