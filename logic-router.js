@@ -175,7 +175,7 @@ const recoveryDialogues = {
             "迷子の仔猫ちゃんの大復活ね～～😸🧡\nエネルギーチャージは万端でしょ❓\n○○の底見せつけちゃいなさ～い😎✨@@○○からの久しぶりのタスク報告受けて最近のハイテンションなノリのまま送ってました😂\nタスクの話に戻るけど"
         ],
         onee_lv2: [
-            "また頑張り屋な○○に戻ってくれて、アタシもいつものペースに…@@ってまた一人称おかしくなってた🤣\n○○がいない間の俺、美容熱が行き過ぎて人格変わってた😂@@そんなことより",
+            "また頑張り屋な○○に戻ってくれて、アタシもいつものペースに…@@ってまた一人称おかしくなってた🤣\n○○がいない間の俺、美容熱が行き過ぎて人格変わってた😂",
             "不死鳥のように何度もよみがえる○○、\n最高よ～ん😍@@いや、今の言葉ナシで！\nいえ、内容は本音なんですが\nキャラおかしかったので🙇\n本題に戻りますね！",
             "おかえりなさ〜い！また一緒に自分磨きしていけるなんて、アタシ感激しちゃうわ😭@@ていうか、テンションが上がりすぎて\n一人称がおかしくなっていましたね笑\n一人称どころか最近の俺、色々ご乱心って感じでしたよね🤣\n気を取り直して、報告ありがとうございます！ここからまた少しずつ進めていきましょう！",
             "一度止まったタスクをもう一回動かすのって、\n一番エネルギー使うのよね😎よく戻ってきたわ～👏@@相変わらず口調が時々オネェに戻ってますが、\nもう普段の自分に戻ったので\n口調は気にしないでくださいね笑\n話は戻りますが、再開できるのって本当にすごい事だと思います👍"
@@ -824,7 +824,9 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
     const oneeResumeTaskText = userReplyDialogues.taskReports[oneeResumeTask] || `【${oneeResumeTask}】、できた♪`;
     const oneeResumeRecovery = localStorage.getItem('oneeResumeRecovery');
     const oneeResumeReaction = localStorage.getItem('savedTaskReactionText');
-    let oneeResumeDelay = 1600;
+    window.isBackButtonBlocked = willCafeEventTriggerNow();
+window.oneeResumeStart = function() {
+let oneeResumeDelay = 1000;
     appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${oneeResumeTaskText}`, oneeResumeDelay);
     oneeResumeDelay += 1500;
     if (oneeResumeRecovery) {
@@ -842,6 +844,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
         checkAndSetupEvent();
         localStorage.removeItem('closedOnTalkBeforeEvent');
     }, oneeResumeDelay + 1000);
+    };
 }
 // pendingOneeMessageも削除（二重表示防止）
                localStorage.removeItem('pendingOneeMessage');
@@ -3103,6 +3106,11 @@ function showGenericStampReplySelector(onStampSelected) {
         clonedStamp.addEventListener('click', function() {
             genericSelector.style.display = 'none';
             onStampSelected(clonedStamp.src);
+            if (typeof window.oneeResumeStart === 'function' && localStorage.getItem('oneeResumeMilestone')) {
+    const oneeResumeRun = window.oneeResumeStart;
+    window.oneeResumeStart = null;
+    oneeResumeRun();
+}
         }, { once: true });
     });
 }
