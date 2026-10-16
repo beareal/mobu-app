@@ -3402,8 +3402,7 @@ function showRestartConfirmPopup() {
     }, { once: true });
 }
 function showEpilogueReadyPopup() {
-        if (!isEpilogueReadyPending() || localStorage.getItem('isEndingViewed') === 'true') return;
-
+if (!isEpilogueReadyPending() || localStorage.getItem('isEndingViewed') === 'true' || localStorage.getItem('oneeResumeMilestone')) return;
     const popup = document.getElementById('epilogue-ready-popup');
     if (!popup) return;
 
@@ -3447,7 +3446,7 @@ if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAba
         showFakeNotification('モブ君', message, getMobuIconSrc(), 'first_home');
         return;
     }
-    if (isEpilogueReadyPending()) return;
+    if (isEpilogueReadyPending() && !localStorage.getItem('oneeResumeMilestone')) return;
         if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
