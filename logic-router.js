@@ -2901,6 +2901,11 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         delay += 1000;
         appendLineMessage('user', userTaskReportText, delay);
         delay += 1000;
+                if (currentBannerType === 'onee' && localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeRecovery')) {
+            const resumeNickname = localStorage.getItem('nickname') || 'あなた';
+            appendRecoveryDialogueMessage('mobu', localStorage.getItem('oneeResumeRecovery').replace(/○○/g, resumeNickname), delay);
+            delay += 1000;
+        }
              if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
             const cushionNickname = localStorage.getItem('nickname') || 'あなた';
 const cushionText = pickCushionDialogue().replace(/○○/g, cushionNickname);
