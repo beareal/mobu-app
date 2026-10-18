@@ -1034,8 +1034,8 @@ let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true'
                     // ステップ4: 古い記録が残っていたら、表示せず静かに片付ける（安全策）
                     localStorage.removeItem('lastRecoveryLevel');
                 }
-                 if (!justRecovered && getIsWaitingForRecoveryPhase2()) {
-                     const followUpDays = parseInt(localStorage.getItem('followUpAbandonDays') || '0', 10);
+if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('oneeResumeMilestone')) {
+                const followUpDays = parseInt(localStorage.getItem('followUpAbandonDays') || '0', 10);
                      let followUpLevel = 'lv1';
                      if (followUpDays >= 10) followUpLevel = 'lv3';
                      else if (followUpDays >= 4) followUpLevel = 'lv2';
@@ -1546,9 +1546,16 @@ function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
     displayMoodStampReply(mood, 1000, shouldGlowBackButton); // 少し応答を早くする
 
     setTimeout(() => {
-        stampSelector.style.display = 'none';
+             stampSelector.style.display = 'none';
         inputBar.style.display = 'block';
-        checkAndSetupEvent();
+        if (localStorage.getItem('oneeResumeMilestone')) {
+            localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
+            localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+            checkAndSetupEvent();
+            localStorage.removeItem('closedOnTalkBeforeEvent');
+        } else {
+            checkAndSetupEvent();
+        }
     }, 1500); // 全体の流れを少し早める
 }
 
@@ -2911,7 +2918,14 @@ const cushionText = pickCushionDialogue().replace(/○○/g, cushionNickname);
             if (shouldGlowBackButton) {
                 window.startBackButtonGlowTimer(taskReactionText.length, 1000);
             }
-            checkAndSetupEvent();
+             if (localStorage.getItem('oneeResumeMilestone')) {
+                localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
+                localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+                checkAndSetupEvent();
+                localStorage.removeItem('closedOnTalkBeforeEvent');
+            } else {
+                checkAndSetupEvent();
+            }
         }
     }, delay + 1000);
 });
