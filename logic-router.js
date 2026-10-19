@@ -1090,6 +1090,9 @@ if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('
                                  window.startBackButtonGlowTimer(taskReactionText.length, 1000);
                              }
                              checkAndSetupEvent();
+                                     showGenericStampReplySelector(function (stampSrc) {
+            appendUserStampMessage(stampSrc);
+        });
                          }
                      }, initialDelay + 1000);
                  }
