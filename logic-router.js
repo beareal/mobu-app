@@ -1549,16 +1549,18 @@ function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
     displayMoodStampReply(mood, 1000, shouldGlowBackButton); // 少し応答を早くする
 
     setTimeout(() => {
-             stampSelector.style.display = 'none';
-        inputBar.style.display = 'block';
-        if (localStorage.getItem('oneeResumeMilestone')) {
-            localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
-            localStorage.setItem('closedOnTalkBeforeEvent', 'true');
-            checkAndSetupEvent();
-            localStorage.removeItem('closedOnTalkBeforeEvent');
-        } else {
-            checkAndSetupEvent();
-        }
+        stampSelector.style.display = 'none';
+        showGenericStampReplySelector(function (stampSrc) {
+            appendUserStampMessage(stampSrc);
+            if (localStorage.getItem('oneeResumeMilestone')) {
+                localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
+                localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+                checkAndSetupEvent();
+                localStorage.removeItem('closedOnTalkBeforeEvent');
+            } else {
+                checkAndSetupEvent();
+            }
+        });
     }, 1500); // 全体の流れを少し早める
 }
 
