@@ -875,7 +875,7 @@ let oneeResumeDelay = 1000;
     const rescueReactionText = pickTaskReactionDialogue(rescueReportTask).replace(/○○/g, rescueReportNickname);
     appendLineMessage('mobu', rescueReactionText, rescueReportDelay);
     rescueReportDelay += 1000;
-    appendLineMessage('mobu', 'それじゃあ、待ってますね👋', rescueReportDelay);} else if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') {
+  appendLineMessage('mobu', 'それじゃあ、待ってますね👋', rescueReportDelay);
     } else if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') {
     const resumeNickname = localStorage.getItem('nickname') || 'あなた';
     const resumeDataRaw = localStorage.getItem('talkResumeData');
@@ -898,6 +898,30 @@ if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem
         setTimeout(() => {
             showGenericStampReplySelector(function(stampSrc) {
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
+                appendUserStampMessage(stampSrc);
+                checkAndSetupEvent();
+            });
+        }, 2500);
+    }
+} else if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') {
+    const resumeNickname = localStorage.getItem('nickname') || 'あなた';
+    const resumeDataRaw = localStorage.getItem('talkResumeData');
+    if (resumeDataRaw) {
+        const resumeData = JSON.parse(resumeDataRaw);
+        appendLineMessage('mobu', resumeData.message, 500);
+        setTimeout(() => {
+            showGenericStampReplySelector(function(stampSrc) {
+                appendUserStampMessage(stampSrc);
+            });
+        }, 1500);
+    } else {
+        const resumeTask = localStorage.getItem('currentReportTask');
+        const resumeReport = userReplyDialogues.taskReports[resumeTask] || `【${resumeTask}】、できた♪`;
+        const resumeReaction = (localStorage.getItem('savedTaskReactionText') || '').replace(/○○/g, resumeNickname);
+        appendLineMessage('user', resumeReport, 500);
+        appendLineMessage('mobu', resumeReaction, 1500);
+        setTimeout(() => {
+            showGenericStampReplySelector(function(stampSrc) {
                 appendUserStampMessage(stampSrc);
                 checkAndSetupEvent();
             });
