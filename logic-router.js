@@ -852,7 +852,8 @@ let oneeResumeDelay = 1000;
                // 5. スタンプが選ばれた時の処理を登録
                            showGenericStampReplySelector(function(stampSrc) {
                     appendUserStampMessage(stampSrc);
-              localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
+              if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
+                    localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
                 });
                 } else if ([10, 20, 30, 40].includes(parseInt(localStorage.getItem('talkAbandonRescueReportMilestone') || '0', 10))) {
     const rescueReportMilestone = parseInt(localStorage.getItem('talkAbandonRescueReportMilestone'), 10);
@@ -884,7 +885,8 @@ let oneeResumeDelay = 1000;
         setTimeout(() => {
             showGenericStampReplySelector(function(stampSrc) {
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-                appendUserStampMessage(stampSrc);
+if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
+ appendUserStampMessage(stampSrc);
             });
         }, 1500);
     } else {
@@ -1582,7 +1584,8 @@ function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
         stampSelector.style.display = 'none';
         showGenericStampReplySelector(function (stampSrc) {
            localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-            appendUserStampMessage(stampSrc);
+           if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
+           appendUserStampMessage(stampSrc);
             if (localStorage.getItem('oneeResumeMilestone')) {
                 localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
                 localStorage.setItem('closedOnTalkBeforeEvent', 'true');
@@ -2311,6 +2314,7 @@ const banner = document.getElementById('fake-notification-banner');
             localStorage.setItem('isBannerRead', 'true');
         }
         if (notificationType === 'talk_abandon_rescue') { localStorage.removeItem('talkResumeData'); } else { localStorage.setItem('talkResumeData', JSON.stringify({ type: notificationType, sender: sender, message: message, icon: iconSrc, milestone: milestone })); }
+        if (notificationType === 'onee') { localStorage.setItem('talkResumeOnee', 'true'); } else { localStorage.removeItem('talkResumeOnee'); }
         // 瞬き演出を挟んでLINE画面へ遷移
 if (notificationType === 'onee' && !localStorage.getItem('oneeResumeMilestone') && (shouldShowReturnBanner(10) || shouldShowReturnBanner(20) || shouldShowReturnBanner(30))) {
         localStorage.setItem('returnBannerWonOnee', 'true');
@@ -2961,6 +2965,7 @@ const cushionText = pickCushionDialogue().replace(/○○/g, cushionNickname);
             if (shouldGlowBackButton) {
                 window.startBackButtonGlowTimer(taskReactionText.length, 1000);
             }
+            if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');            
             if (localStorage.getItem('oneeResumeMilestone')) {
                 localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));

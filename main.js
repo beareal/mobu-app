@@ -485,7 +485,8 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
     return;
 }
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-                  if (localStorage.getItem('returnBannerWonOnee') === 'true') {
+          if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }        
+if (localStorage.getItem('returnBannerWonOnee') === 'true') {
                 localStorage.removeItem('returnBannerWonOnee');
                 playBlinkVideo(() => {
                     showScreen('screen-home');
