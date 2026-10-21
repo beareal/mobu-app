@@ -202,6 +202,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('from') === 'notification') {
         history.replaceState(null, null, window.location.pathname);
+        if (localStorage.getItem('appPhase') === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { updateHomeTasks(); showScreen('screen-line'); return; }
         const appPhase = localStorage.getItem('appPhase');
         if (appPhase === 'main_loop') {
             updateHomeTasks();
@@ -227,7 +228,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
-
+if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { showScreen('screen-line'); return; }
           if (appPhase === 'main_loop' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
                 showScreen('screen-line');
             } else if (appPhase === 'main_loop') {
@@ -405,6 +406,7 @@ if (getMobuState() === 'normal' && localStorage.getItem('closedOnTalkBeforeEvent
     localStorage.removeItem('talkAbandonRescueReportMilestone');
 }
 localStorage.setItem('lastCompletionTimestamp', Date.now().toString());
+if (!localStorage.getItem('talkAbandonRescueReportMilestone')) { localStorage.setItem('talkStampPending', 'true'); } else { localStorage.removeItem('talkStampPending'); }
 localStorage.removeItem('closedOnTalkBeforeEvent');               
 // サボり状態をリセット（仕様書 3-3, 7 準拠）
 localStorage.setItem('talkAbandonPrevNormal', getMobuState() === 'normal' ? 'true' : 'false');
@@ -482,6 +484,7 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
             if (window.isBackButtonBlocked) {
     return;
 }
+localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
                   if (localStorage.getItem('returnBannerWonOnee') === 'true') {
                 localStorage.removeItem('returnBannerWonOnee');
                 playBlinkVideo(() => {
@@ -802,12 +805,14 @@ document.addEventListener('visibilitychange', function() {
             }
         }
                 if (currentScreenId === 'screen-line') {
+            localStorage.removeItem('talkResumeMark'); if (localStorage.getItem('talkStampPending') === 'true') { localStorage.setItem('talkResumeMark', 'true'); }     
             const prevTotal = getPreviousTotalTasks();
             const currTotal = getTotalTasksCompleted();
             for (const m of [10, 20, 30, 40]) {
                 if (prevTotal < m && currTotal >= m && !getIsWatched(m)) {
 if (!localStorage.getItem('oneeResumeMilestone')) { localStorage.setItem('closedOnTalkBeforeEvent', 'true'); }
                     if (localStorage.getItem('talkAbandonPrevNormal') === 'true') localStorage.setItem('talkAbandonRescuePending', String(m));
+                   localStorage.removeItem('talkResumeMark');
                     break;
                 }
             }
@@ -829,6 +834,7 @@ if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-h
         [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
         if (checkAndRestoreCafeIfNeeded()) return;
         triggerCafePreloadIfNeeded();
+        if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && currentScreenId !== 'screen-line') { showScreen('screen-line'); return; }
         checkAndShowSaboriBanner();
     }
 });

@@ -766,6 +766,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
 
     showGenericStampReplySelector(function(stampSrc) {
         appendUserStampMessage(stampSrc);
+localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); 
     });
 } else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'talk_abandon_rescue') {
                 const notification = JSON.parse(tappedNotificationData);
@@ -851,6 +852,7 @@ let oneeResumeDelay = 1000;
                // 5. スタンプが選ばれた時の処理を登録
                            showGenericStampReplySelector(function(stampSrc) {
                     appendUserStampMessage(stampSrc);
+              localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
                 });
                 } else if ([10, 20, 30, 40].includes(parseInt(localStorage.getItem('talkAbandonRescueReportMilestone') || '0', 10))) {
     const rescueReportMilestone = parseInt(localStorage.getItem('talkAbandonRescueReportMilestone'), 10);
@@ -872,7 +874,33 @@ let oneeResumeDelay = 1000;
     const rescueReactionText = pickTaskReactionDialogue(rescueReportTask).replace(/○○/g, rescueReportNickname);
     appendLineMessage('mobu', rescueReactionText, rescueReportDelay);
     rescueReportDelay += 1000;
-    appendLineMessage('mobu', 'それじゃあ、待ってますね👋', rescueReportDelay);
+    appendLineMessage('mobu', 'それじゃあ、待ってますね👋', rescueReportDelay);} else if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') {
+    } else if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') {
+    const resumeNickname = localStorage.getItem('nickname') || 'あなた';
+    const resumeDataRaw = localStorage.getItem('talkResumeData');
+    if (resumeDataRaw) {
+        const resumeData = JSON.parse(resumeDataRaw);
+        appendLineMessage('mobu', resumeData.message, 500);
+        setTimeout(() => {
+            showGenericStampReplySelector(function(stampSrc) {
+ localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
+                appendUserStampMessage(stampSrc);
+            });
+        }, 1500);
+    } else {
+        const resumeTask = localStorage.getItem('currentReportTask');
+        const resumeReport = userReplyDialogues.taskReports[resumeTask] || `【${resumeTask}】、できた♪`;
+        const resumeReaction = (localStorage.getItem('savedTaskReactionText') || '').replace(/○○/g, resumeNickname);
+        appendLineMessage('user', resumeReport, 500);
+        appendLineMessage('mobu', resumeReaction, 1500);
+        setTimeout(() => {
+            showGenericStampReplySelector(function(stampSrc) {
+ localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
+                appendUserStampMessage(stampSrc);
+                checkAndSetupEvent();
+            });
+        }, 2500);
+    }
 } else if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') {
     inputBar.style.display = 'block';
     moodSelector.style.display = 'none';
@@ -926,6 +954,7 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                             if (getMoodTimeSlot() !== 'midnight' && getTotalTasksCompleted() < 40 && Math.random() < 0.3) {
                                 startMoodSharing();
                             } else {
+                                localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
                                 checkAndSetupEvent();
                             }
                         }, initialDelay + 1000);
@@ -1091,6 +1120,7 @@ if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('
                              }
   showGenericStampReplySelector(function (stampSrc) {
     appendUserStampMessage(stampSrc);
+localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
     checkAndSetupEvent();
 });
                          }
@@ -1551,6 +1581,7 @@ function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
     setTimeout(() => {
         stampSelector.style.display = 'none';
         showGenericStampReplySelector(function (stampSrc) {
+           localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
             appendUserStampMessage(stampSrc);
             if (localStorage.getItem('oneeResumeMilestone')) {
                 localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
@@ -2249,6 +2280,7 @@ const banner = document.getElementById('fake-notification-banner');
         // どの通知がタップされたかを localStorage に保存
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
+        if (notificationType === 'talk_abandon_rescue') { localStorage.removeItem('talkStampPending'); } else { localStorage.setItem('talkStampPending', 'true'); }
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
             sender: sender,
@@ -2278,6 +2310,7 @@ const banner = document.getElementById('fake-notification-banner');
             localStorage.removeItem('showFirstHomeBanner');
             localStorage.setItem('isBannerRead', 'true');
         }
+        if (notificationType === 'talk_abandon_rescue') { localStorage.removeItem('talkResumeData'); } else { localStorage.setItem('talkResumeData', JSON.stringify({ type: notificationType, sender: sender, message: message, icon: iconSrc, milestone: milestone })); }
         // 瞬き演出を挟んでLINE画面へ遷移
 if (notificationType === 'onee' && !localStorage.getItem('oneeResumeMilestone') && (shouldShowReturnBanner(10) || shouldShowReturnBanner(20) || shouldShowReturnBanner(30))) {
         localStorage.setItem('returnBannerWonOnee', 'true');
@@ -2928,7 +2961,8 @@ const cushionText = pickCushionDialogue().replace(/○○/g, cushionNickname);
             if (shouldGlowBackButton) {
                 window.startBackButtonGlowTimer(taskReactionText.length, 1000);
             }
-             if (localStorage.getItem('oneeResumeMilestone')) {
+localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');            
+            if (localStorage.getItem('oneeResumeMilestone')) {
                 localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
                 localStorage.setItem('closedOnTalkBeforeEvent', 'true');
                 checkAndSetupEvent();
