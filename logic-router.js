@@ -1052,12 +1052,11 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                              oneeMessageUsed = true;
                              localStorage.removeItem('pendingOneeMessage');
                          } else {
+                                                   appendLineMessage('user', userTaskReportText, initialDelay);
+                             initialDelay += 1500;
                              appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
                              initialDelay += 1500;
-                             const reactions = userReplyDialogues.recoveryReactions;
-                             const randomReaction = reactions[Math.floor(Math.random() * reactions.length)];
-                             appendLineMessage('user', randomReaction, initialDelay);
-                             initialDelay += 1500;
+                                                          oneeMessageUsed = true;
                          }
 
                          setIsWaitingForRecoveryPhase2(true);
