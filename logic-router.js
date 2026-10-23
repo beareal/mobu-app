@@ -3423,8 +3423,13 @@ function showCinematicScene(ver, level) {
         log[patternKey] = log[patternKey].filter(i => !indexes.includes(i));
         available = indexes.length <= 1 ? indexes : indexes.filter(i => i !== lastShown);
     }
-    const chosenIndex = available[Math.floor(Math.random() * available.length)];
+    const savedUnwatched = JSON.parse(localStorage.getItem('cinematicUnwatched') || 'null');
+const isResume = !!savedUnwatched && String(savedUnwatched.ver) === String(ver) && String(savedUnwatched.level) === String(level) && Number.isInteger(savedUnwatched.index) && savedUnwatched.index >= 0 && savedUnwatched.index < rawSets.length;
+const chosenIndex = isResume ? savedUnwatched.index : available[Math.floor(Math.random() * available.length)];
+if (!isResume) {
     log[patternKey].push(chosenIndex);
+    localStorage.setItem('cinematicUnwatched', JSON.stringify({ ver: ver, level: level, index: chosenIndex }));
+}
     saveCinematicDialogueLog(log);
     const rawLines = rawSets[chosenIndex];
     const lines = rawLines.map(line => line.replace(/○○/g, nickname));
@@ -3452,6 +3457,11 @@ if (cinematicBg) {
                 subtitleEl.style.opacity = '1';
             }, 300);
         } else {
+            const unwatchedMark = JSON.parse(localStorage.getItem('cinematicUnwatched') || 'null');
+if (unwatchedMark && unwatchedMark.resumed === true) {
+    saveLastCompletionGameDate();
+}
+localStorage.removeItem('cinematicUnwatched');
             cinematicScreen.removeEventListener('click', handleTap);
             playBlinkVideo(() => {
                 showScreen('screen-home');

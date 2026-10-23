@@ -201,6 +201,16 @@ document.addEventListener('DOMContentLoaded', function() {
         updateHomeTasks();
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.get('from') === 'notification') {
+        const notifUnwatchedMark = JSON.parse(localStorage.getItem('cinematicUnwatched') || 'null');
+if (notifUnwatchedMark) {
+    notifUnwatchedMark.resumed = true;
+    localStorage.setItem('cinematicUnwatched', JSON.stringify(notifUnwatchedMark));
+    preloadImage(`assets/cinema/ver${notifUnwatchedMark.ver}cinema.webp`);
+    playBlinkVideo(() => {
+        showCinematicScene(notifUnwatchedMark.ver, notifUnwatchedMark.level);
+    });
+    return;
+}
         history.replaceState(null, null, window.location.pathname);
         if (localStorage.getItem('appPhase') === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { updateHomeTasks(); showScreen('screen-line'); return; }
         const appPhase = localStorage.getItem('appPhase');
@@ -225,7 +235,16 @@ document.addEventListener('DOMContentLoaded', function() {
         welcomeScreen.addEventListener('click', function() {
             // ユーザー操作のタイミングで通知許可とトークン取得を開始
             requestNotificationPermission();
-
+const cinematicUnwatchedMark = JSON.parse(localStorage.getItem('cinematicUnwatched') || 'null');
+if (cinematicUnwatchedMark) {
+    cinematicUnwatchedMark.resumed = true;
+    localStorage.setItem('cinematicUnwatched', JSON.stringify(cinematicUnwatchedMark));
+    preloadImage(`assets/cinema/ver${cinematicUnwatchedMark.ver}cinema.webp`);
+    playBlinkVideo(() => {
+        showCinematicScene(cinematicUnwatchedMark.ver, cinematicUnwatchedMark.level);
+    });
+    return;
+}
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { showScreen('screen-line'); return; }
