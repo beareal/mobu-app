@@ -1130,13 +1130,14 @@ if (!followUpRaw) {
 
                      const followUpUserReactions = {
                          lv1: `ありがと～🫶これからはお互い無理せず、私たちのペースで進めていきましょう！あ、そういえば、${userTaskReportText}`,
-                         lv2: `そういえば最近のモブ君ちょっと面白かった😂でもやっぱりいつもの感じが一番落ち着きますね。また一緒にゆるく頑張ろ！それはそうと、${userTaskReportText}`,
+                         lv2: `そういえば最近のモブ君ちょっと面白かったかも😂\nでもやっぱりいつもの感じが一番落ち着きますね。また一緒にゆるく頑張ろ！それはそうと、${userTaskReportText}`,
                          lv3: `こちらこそ、そう言ってもらえて嬉しい🥹また一緒に少しずつ積み重ねていこうね✨あ、ちなみにね、${userTaskReportText}`
                      };
                      appendLineMessage('user', followUpUserReactions[followUpLevel], initialDelay);
                      initialDelay += 1500;
 localStorage.setItem('recoveryFollowUpTalkShown', 'true');           
                      oneeMessageUsed = true;
+                     const recoveryHomeBannerEl = document.getElementById('fake-notification-banner'); if (recoveryHomeBannerEl) { recoveryHomeBannerEl.classList.remove('show'); }
                  }
                 if (!oneeMessageUsed && isBannerCurrentlyShown()) {
                     handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton);
@@ -3313,7 +3314,7 @@ const recoveryFollowUpDialogues = {
         lv2: [
             "俺、本気で美のカリスマを目指しかけてました🤣\n○○が戻ってきてくれたおかげで、いつもの自分を取り戻せました。",
 "最近はどんな風に過ごしてたのか、\nまたカフェで教えてくださいね！\n俺はオネェさまになっていた間、\n美肌に効くスムージーを開発しました👍",
-"○○がまた再開してくれて本当にうれしいです！\n俺も○○と一緒に、\nここからまた少しずつペースを戻していきますね！"
+"○○がまた再開してくれて本当にうれしいです！\n俺もオネェキャラから\n少しずつ本来の自分を取り戻していきますね笑"
         ],
         lv3: [
             "美を極め過ぎて\nもはやオネェが素の状態になりかけてました😱\nでも、○○が再開してくれた今なら\nいい思い出...ですかね？\nといより、もう\n思い出にして下さい🙇笑",
