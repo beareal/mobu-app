@@ -1089,8 +1089,8 @@ if (oneeResumeMilestone > 0) {
 }
                      }
                  }
-                 localStorage.setItem('pendingCinemaLevel', lastRecoveryLevel);
-localStorage.removeItem('justRecoveredThisReport');
+                 if (justRecovered && lastRecoveryLevel) { localStorage.setItem('pendingCinemaLevel', lastRecoveryLevel); }
+                 localStorage.removeItem('justRecoveredThisReport');
 let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true' && !willCafeEventTriggerNow();
                  localStorage.removeItem('showBackButtonGlow');
                  if (lastRecoveryLevel && !justRecovered) {
