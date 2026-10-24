@@ -503,7 +503,8 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
     return;
 }
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-          if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }        
+         if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
+if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }        
 if (localStorage.getItem('returnBannerWonOnee') === 'true') {
                 localStorage.removeItem('returnBannerWonOnee');
                 playBlinkVideo(() => {

@@ -759,6 +759,7 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
     });
 
 } else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'recovery') {
+      localStorage.setItem('recoveryFollowUpTalkShown', 'true');
     const notification = JSON.parse(tappedNotificationData);
     localStorage.removeItem('tappedNotification');
 
@@ -767,7 +768,8 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
     showGenericStampReplySelector(function(stampSrc) {
         appendUserStampMessage(stampSrc);
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); 
-    });
+if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }   
+});
 } else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'talk_abandon_rescue') {
                 const notification = JSON.parse(tappedNotificationData);
                 inputBar.style.display = 'none';
@@ -853,7 +855,8 @@ let oneeResumeDelay = 1000;
                            showGenericStampReplySelector(function(stampSrc) {
                     appendUserStampMessage(stampSrc);
               if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
-                    localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
+              if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }    
+              localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
                 });
                 } else if ([10, 20, 30, 40].includes(parseInt(localStorage.getItem('talkAbandonRescueReportMilestone') || '0', 10))) {
     const rescueReportMilestone = parseInt(localStorage.getItem('talkAbandonRescueReportMilestone'), 10);
@@ -881,12 +884,15 @@ let oneeResumeDelay = 1000;
     const resumeDataRaw = localStorage.getItem('talkResumeData');
     if (resumeDataRaw) {
         const resumeData = JSON.parse(resumeDataRaw);
+                if (resumeData.type === 'recovery') { localStorage.setItem('recoveryFollowUpTalkShown', 'true'); }
         appendLineMessage('mobu', resumeData.message, 500);
         setTimeout(() => {
             showGenericStampReplySelector(function(stampSrc) {
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
 if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
- appendUserStampMessage(stampSrc);
+if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); } 
+
+appendUserStampMessage(stampSrc);
             });
         }, 1500);
     } else {
@@ -899,6 +905,7 @@ if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem
             showGenericStampReplySelector(function(stampSrc) {
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
                 appendUserStampMessage(stampSrc);
+          if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
                 checkAndSetupEvent();
             });
         }, 2500);
@@ -965,6 +972,7 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                     showGenericStampReplySelector(function(stampSrc) {
                         appendUserStampMessage(stampSrc);
                         const reportedTask = localStorage.getItem('currentReportTask');
+                if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
                         const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
                         let initialDelay = 500;
 
@@ -1059,6 +1067,7 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                                                           oneeMessageUsed = true;
                          }
 
+localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown');
                          setIsWaitingForRecoveryPhase2(true);
                          const oneeResumePrevTotal = getPreviousTotalTasks();
 const oneeResumeCurrentTotal = getTotalTasksCompleted();
@@ -1088,8 +1097,8 @@ let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true'
                     // ステップ4: 古い記録が残っていたら、表示せず静かに片付ける（安全策）
                     localStorage.removeItem('lastRecoveryLevel');
                 }
-if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('oneeResumeMilestone')) {
-                const followUpDays = parseInt(localStorage.getItem('followUpAbandonDays') || '0', 10);
+if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('recoveryFollowUpTalkShown') !== 'true') {               
+    const followUpDays = parseInt(localStorage.getItem('followUpAbandonDays') || '0', 10);
                      let followUpLevel = 'lv1';
                      if (followUpDays >= 10) followUpLevel = 'lv3';
                      else if (followUpDays >= 4) followUpLevel = 'lv2';
@@ -1106,9 +1115,14 @@ if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('
                              followUpLog.shown = followUpLog.shown.filter(text => !followUpPool.includes(text));
                              followUpAvailable = followUpPool.length <= 1 ? followUpPool : followUpPool.filter(text => text !== followUpLastShown);
                          }
-                         const followUpRaw = followUpAvailable[Math.floor(Math.random() * followUpAvailable.length)];
-                         followUpLog.shown.push(followUpRaw);
-                         saveRecoveryFollowUpLog(followUpVersion, followUpLevel, followUpLog);
+                        let followUpRaw = localStorage.getItem('recoveryFollowUpFixedDialogue');
+if (!followUpRaw) {
+    followUpRaw = followUpAvailable[Math.floor(Math.random() * followUpAvailable.length)];
+    followUpLog.shown.push(followUpRaw);
+    saveRecoveryFollowUpLog(followUpVersion, followUpLevel, followUpLog);
+    localStorage.setItem('recoveryFollowUpFixedDialogue', followUpRaw);
+}
+
                          followUpMobuLine = followUpRaw.replace(/○○/g, followUpNickname);
                      }
                      appendLineMessage('mobu', followUpMobuLine, initialDelay);
@@ -1121,8 +1135,7 @@ if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('
                      };
                      appendLineMessage('user', followUpUserReactions[followUpLevel], initialDelay);
                      initialDelay += 1500;
-
-                     setIsWaitingForRecoveryPhase2(false);
+localStorage.setItem('recoveryFollowUpTalkShown', 'true');           
                      oneeMessageUsed = true;
                  }
                 if (!oneeMessageUsed && isBannerCurrentlyShown()) {
@@ -1147,6 +1160,7 @@ if (!justRecovered && getIsWaitingForRecoveryPhase2() && !localStorage.getItem('
     appendUserStampMessage(stampSrc);
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
     checkAndSetupEvent();
+    if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
 });
                          }
                      }, initialDelay + 1000);
@@ -1608,6 +1622,7 @@ function handleMoodStampClick(mood, stampSrc, shouldGlowBackButton) {
         showGenericStampReplySelector(function (stampSrc) {
            localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
            if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
+if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
            appendUserStampMessage(stampSrc);
             if (localStorage.getItem('oneeResumeMilestone')) {
                 localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
@@ -1676,6 +1691,7 @@ function checkAndSetupEvent() {
     }
         if (eventTriggeredMilestone > 0) {
         setIsWaitingForRecoveryPhase2(false);
+                localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown');
     }
 
     if (eventTriggeredMilestone > 0) {
@@ -2321,9 +2337,7 @@ const banner = document.getElementById('fake-notification-banner');
             localStorage.removeItem('currentBannerType');
         }
         // 重要：復帰プロセス段階2のフラグ消去（バナーをタップした瞬間）
-        if (notificationType === 'recovery') {
-            setIsWaitingForRecoveryPhase2(false);
-        }
+    
                 if (notificationType === 'first_home') {
             localStorage.removeItem('showFirstHomeBanner');
         }
@@ -2951,7 +2965,7 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
 
     showGenericStampReplySelector(function(stampSrc) {
         appendUserStampMessage(stampSrc);
-
+if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
         const bannerEl = document.getElementById('fake-notification-banner');
         if (bannerEl) {
             bannerEl.classList.remove('show');
@@ -3387,9 +3401,13 @@ function showRecoveryFollowUpNotification() {
         log.shown = log.shown.filter(text => !pool.includes(text));
         available = pool.length <= 1 ? pool : pool.filter(text => text !== lastShown);
     }
-    const raw = available[Math.floor(Math.random() * available.length)];
-    log.shown.push(raw);
-    saveRecoveryFollowUpLog(version, level, log);
+     let raw = localStorage.getItem('recoveryFollowUpFixedDialogue');
+    if (!raw) {
+        raw = available[Math.floor(Math.random() * available.length)];
+        log.shown.push(raw);
+        saveRecoveryFollowUpLog(version, level, log);
+        localStorage.setItem('recoveryFollowUpFixedDialogue', raw);
+    }
 
     const message = raw.replace(/○○/g, nickname);
 

@@ -167,7 +167,7 @@ function checkAbandonment() {
     if (diffDays >= 2) {
         // 重要：新たなサボりが確定したため、未読の段階2フラグを破棄 (仕様書 6-1)
         setIsWaitingForRecoveryPhase2(false);
-
+localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown');
         // 放置日数を保存（diffDaysから1を引いた実サボり日数）(仕様書 3-3)
         const abandonDays = diffDays - 1;
         setAbandonDays(abandonDays);
