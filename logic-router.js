@@ -1152,12 +1152,13 @@ localStorage.setItem('recoveryFollowUpTalkShown', 'true');
         initialDelay += 1000;
                      setTimeout(() => {
                          if (getMoodTimeSlot() !== 'midnight' && getTotalTasksCompleted() < 40 && Math.random() < 0.3) {
-                             startMoodSharing(shouldGlowBackButton);
+                                                        const moodWaitTimer = setInterval(() => { const gs = document.getElementById('generic-stamp-selector'); if (!gs || gs.style.display !== 'grid') { clearInterval(moodWaitTimer); startMoodSharing(shouldGlowBackButton); } }, 200);
                          } else {
                              if (shouldGlowBackButton) {
                                  window.startBackButtonGlowTimer(taskReactionText.length, 1000);
                              }
   showGenericStampReplySelector(function (stampSrc) {
+
     appendUserStampMessage(stampSrc);
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
     checkAndSetupEvent();
