@@ -359,6 +359,8 @@ const returnBannerDialogues = {
 };
 
 function showReturnBannerIfNeeded() {
+    const activeScreen = document.querySelector('.screen.active');
+    if (activeScreen && activeScreen.id === 'screen-cafe') return false;
     const milestones = [10, 20, 30];
     for (const m of milestones) {
         if (!shouldShowReturnBanner(m)) continue;
