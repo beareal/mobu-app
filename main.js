@@ -419,14 +419,14 @@ if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true
                addTasksCompleted(completedTasks.length);
                // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
-if (getMobuState() === 'normal' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) > 24 * 60 * 60 * 1000) {
+if (getMobuState() === 'normal' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true') {
                localStorage.setItem('talkAbandonRescueReportMilestone', localStorage.getItem('savedEventMilestone') || '');
 } else {
     localStorage.removeItem('talkAbandonRescueReportMilestone');
 }
 localStorage.setItem('lastCompletionTimestamp', Date.now().toString());
 if (!localStorage.getItem('talkAbandonRescueReportMilestone')) { localStorage.setItem('talkStampPending', 'true'); } else { localStorage.removeItem('talkStampPending'); }
-localStorage.removeItem('closedOnTalkBeforeEvent');               
+if (!localStorage.getItem('talkAbandonRescueReportMilestone')) { localStorage.removeItem('closedOnTalkBeforeEvent'); }
 // サボり状態をリセット（仕様書 3-3, 7 準拠）
 localStorage.setItem('talkAbandonPrevNormal', getMobuState() === 'normal' ? 'true' : 'false');
                resetAbandonment();
