@@ -379,7 +379,7 @@ function showReturnBannerIfNeeded() {
 }
 function shouldShowReturnBanner(milestone) {
     if (!getIsInvited(milestone) || getIsWatched(milestone)) return false;
-
+    if (localStorage.getItem('talkAbandonRescueBackLeft') === String(milestone)) return false;
     const exitTime = getCafeExitTime(milestone);
     if (!exitTime) return false;
 

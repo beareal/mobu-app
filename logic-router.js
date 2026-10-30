@@ -779,7 +779,8 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                 const rescuePartsCount = notification.message.split('@@').length;
                 appendSplitDialogueMessage('mobu', notification.message, 100);
                                 setIsInvited(rescueMilestone, true);
-                localStorage.removeItem('tappedNotification');
+      if (rescueMilestone !== 40) { localStorage.setItem('talkAbandonRescueInTalk', String(rescueMilestone)); localStorage.removeItem('talkAbandonRescueBackLeft'); }
+                                localStorage.removeItem('tappedNotification');
                 setTimeout(() => {
                     const rescueReplyStamp = document.getElementById('reply-stamp-image');
                     inputBar.style.display = 'none';
@@ -788,6 +789,7 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                     const newRescueStamp = rescueReplyStamp.cloneNode(true);
                     rescueReplyStamp.parentNode.replaceChild(newRescueStamp, rescueReplyStamp);
                     newRescueStamp.addEventListener('click', function() {
+                    if (localStorage.getItem('talkAbandonRescueInTalk') === String(rescueMilestone)) { localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); localStorage.removeItem('talkAbandonRescueInTalk'); }
                         appendUserStampMessage('assets/images/stamp_now.webp');
                         setTimeout(() => {
                             if (rescueMilestone === 40) {
@@ -870,7 +872,8 @@ let oneeResumeDelay = 1000;
     let rescueReportDelay = 500;
     appendSplitDialogueMessage('mobu', rescueBannerText, rescueReportDelay);
         setIsInvited(rescueReportMilestone, true);
-    rescueReportDelay += rescueBannerText.split('@@').length * 1000;
+if (rescueReportMilestone !== 40) { localStorage.setItem('talkAbandonRescueInTalk', String(rescueReportMilestone)); localStorage.removeItem('talkAbandonRescueBackLeft'); }
+        rescueReportDelay += rescueBannerText.split('@@').length * 1000;
     appendLineMessage('user', 'うれし～！ありがとう🫶気づかなくて、そのまま今日もタスク報告してた😂今から向かいます！でもせっかくだから先に報告だけさせて笑', rescueReportDelay);
     rescueReportDelay += 1000;
     appendLineMessage('user', userReplyDialogues.taskReports[rescueReportTask] || `【${rescueReportTask}】、できた♪`, rescueReportDelay);
@@ -1749,6 +1752,7 @@ window.isBackButtonBlocked = false;
 
            newReplyStamp.addEventListener('click', function() {
     appendUserStampMessage('assets/images/stamp_now.webp');
+    if (localStorage.getItem('talkAbandonRescueInTalk') === String(eventTriggeredMilestone)) { localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); localStorage.removeItem('talkAbandonRescueInTalk'); }
     setTimeout(() => {
         if (eventTriggeredMilestone === 40) {
             playFadeTransition(() => {
@@ -3600,6 +3604,14 @@ const talkAbandonRescueBannerDialogues = {
 function showTalkAbandonRescueBannerIfNeeded() {
        const savedMilestone = parseInt(localStorage.getItem('talkAbandonRescuePending') || '0', 10);
     if (!savedMilestone) return false;
+        if (localStorage.getItem('talkAbandonRescueBackLeft') === String(savedMilestone)) {
+        const backLeftExitTime = getCafeExitTime(savedMilestone);
+        if (getIsWatched(savedMilestone) || !backLeftExitTime || Date.now() - backLeftExitTime < 30 * 60 * 1000) return false;
+        const backLeftNickname = localStorage.getItem('nickname') || 'あなた';
+        const backLeftMessage = talkAbandonRescueBannerDialogues[savedMilestone](backLeftNickname);
+        showFakeNotification('モブ君', backLeftMessage, getMobuIconSrc(), 'talk_abandon_rescue', savedMilestone);
+        return true;
+    }
     if (Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) return false;
     if (![10, 20, 30, 40].includes(savedMilestone)) return false;
         if (localStorage.getItem('talkAbandonRescueBannerClosed_' + savedMilestone) === 'true') return false;
