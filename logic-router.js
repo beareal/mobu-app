@@ -3605,7 +3605,7 @@ function showTalkAbandonRescueBannerIfNeeded() {
        const savedMilestone = parseInt(localStorage.getItem('talkAbandonRescuePending') || '0', 10);
     if (!savedMilestone) return false;
         if (localStorage.getItem('talkAbandonRescueBackLeft') === String(savedMilestone)) {
-        const backLeftExitTime = getCafeExitTime(savedMilestone);
+             const backLeftExitTime = parseInt(localStorage.getItem('talkAbandonRescueMonologueExit') || '0', 10);
         if (getIsWatched(savedMilestone) || !backLeftExitTime || Date.now() - backLeftExitTime < 30 * 60 * 1000) return false;
         const backLeftNickname = localStorage.getItem('nickname') || 'あなた';
         const backLeftMessage = talkAbandonRescueBannerDialogues[savedMilestone](backLeftNickname);

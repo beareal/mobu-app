@@ -529,6 +529,7 @@ if (localStorage.getItem('returnBannerWonOnee') === 'true') {
                     showScreen('screen-monologue');
                     const monologueScreen = document.getElementById('screen-monologue');
                     monologueScreen.addEventListener('click', function() {
+localStorage.removeItem('talkAbandonRescueBackLeft'); localStorage.removeItem('talkAbandonRescueMonologueExit'); 
                         playFadeTransition(() => {
                             if (pendingMilestone === 40) {
                                 startEndingSequence();
@@ -817,6 +818,7 @@ document.addEventListener('visibilitychange', function() {
     if (document.visibilityState === 'hidden') {
         // 離脱時：カフェ・歩行・ドア画面なら離脱時刻を記録
         const cafeScreenIds = ['screen-cafe', 'screen-walking', 'screen-door'];
+      if (currentScreenId === 'screen-monologue' && localStorage.getItem('talkAbandonRescueBackLeft')) { localStorage.setItem('talkAbandonRescueMonologueExit', String(Date.now())); }
         if (cafeScreenIds.includes(currentScreenId)) {
             for (const m of milestones) {
                 if (getIsInvited(m) && !getIsWatched(m)) {
