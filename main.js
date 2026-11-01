@@ -524,7 +524,7 @@ if (localStorage.getItem('returnBannerWonOnee') === 'true') {
 
             if (pendingMilestone > 0) {
                 // 強制回収フロー：モノローグ画面へ
-                if (localStorage.getItem('talkAbandonRescueInTalk') === String(pendingMilestone)) { localStorage.setItem('talkAbandonRescueBackLeft', String(pendingMilestone)); localStorage.removeItem('talkAbandonRescueInTalk'); }
+if (localStorage.getItem('talkAbandonRescueInTalk') === String(pendingMilestone)) { localStorage.setItem('talkAbandonRescueBackLeft', String(pendingMilestone)); localStorage.removeItem('talkAbandonRescueInTalk'); localStorage.removeItem('closedOnTalkBeforeEvent'); }
                 playFadeTransition(() => {
                     showScreen('screen-monologue');
                     const monologueScreen = document.getElementById('screen-monologue');
