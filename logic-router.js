@@ -1752,7 +1752,7 @@ window.isBackButtonBlocked = false;
 
            newReplyStamp.addEventListener('click', function() {
     appendUserStampMessage('assets/images/stamp_now.webp');
-    if (localStorage.getItem('talkAbandonRescueInTalk') === String(eventTriggeredMilestone)) { localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); localStorage.removeItem('talkAbandonRescueInTalk'); }
+if (localStorage.getItem('talkAbandonRescueInTalk') === String(eventTriggeredMilestone)) { localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); localStorage.removeItem('talkAbandonRescueInTalk'); localStorage.removeItem('closedOnTalkBeforeEvent'); }    
     setTimeout(() => {
         if (eventTriggeredMilestone === 40) {
             playFadeTransition(() => {
