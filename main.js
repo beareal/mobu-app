@@ -216,7 +216,7 @@ if (notifUnwatchedMark) {
         const appPhase = localStorage.getItem('appPhase');
         if (appPhase === 'main_loop') {
             updateHomeTasks();
-                   if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+                if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && !localStorage.getItem('talkAbandonRescueBackLeft') && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
             showScreen('screen-line');
             return;
         }
@@ -248,7 +248,7 @@ if (cinematicUnwatchedMark) {
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
 if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { showScreen('screen-line'); return; }
-          if (appPhase === 'main_loop' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+ if (appPhase === 'main_loop' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && !localStorage.getItem('talkAbandonRescueBackLeft') && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {        
                 showScreen('screen-line');
             } else if (appPhase === 'main_loop') {
                 updateHomeTasks();
@@ -495,8 +495,7 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
             console.log('[glowTest] is-sparkling クラスを付与しました');
             targetIcon.closest('.line-back-wrap').classList.add('is-sparkling');
            }, remainingMs);
-    };
-    
+    };  
     // C-2: LINE画面
     const lineBackIcon = document.querySelector('#screen-line .line-header img');
     if (lineBackIcon) {
@@ -526,7 +525,7 @@ if (localStorage.getItem('returnBannerWonOnee') === 'true') {
 
             if (pendingMilestone > 0) {
                 // 強制回収フロー：モノローグ画面へ
-if (localStorage.getItem('talkAbandonRescueInTalk') === String(pendingMilestone)) { localStorage.setItem('talkAbandonRescueBackLeft', String(pendingMilestone)); localStorage.removeItem('talkAbandonRescueInTalk'); localStorage.removeItem('closedOnTalkBeforeEvent'); }
+if (localStorage.getItem('talkAbandonRescueInTalk') === String(pendingMilestone)) { localStorage.setItem('talkAbandonRescueBackLeft', String(pendingMilestone)); localStorage.removeItem('talkAbandonRescueInTalk'); }
                 playFadeTransition(() => {
                     showScreen('screen-monologue');
                     const monologueScreen = document.getElementById('screen-monologue');
@@ -851,7 +850,7 @@ if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-h
             showEpilogueReadyPopup();
             return;
         }
-                if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+                if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && !localStorage.getItem('talkAbandonRescueBackLeft') && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
             showScreen('screen-line');
             return;
         }
