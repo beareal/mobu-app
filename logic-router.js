@@ -882,7 +882,37 @@ if (rescueReportMilestone !== 40) { localStorage.setItem('talkAbandonRescueInTal
     appendLineMessage('mobu', rescueReactionText, rescueReportDelay);
     rescueReportDelay += 1000;
   appendLineMessage('mobu', 'それじゃあ、待ってますね👋', rescueReportDelay);
-    } else if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') {
+    setTimeout(() => {
+        const rescueReportReplyStamp = document.getElementById('reply-stamp-image');
+        inputBar.style.display = 'none';
+        replyArea.style.display = 'flex';
+           window.isBackButtonBlocked = false;
+        rescueReportReplyStamp.src = 'assets/images/stamp_now.webp';
+        const newRescueReportStamp = rescueReportReplyStamp.cloneNode(true);
+        rescueReportReplyStamp.parentNode.replaceChild(newRescueReportStamp, rescueReportReplyStamp);
+        newRescueReportStamp.addEventListener('click', function() {
+            appendUserStampMessage('assets/images/stamp_now.webp');
+                  if (localStorage.getItem('talkAbandonRescueInTalk') === String(rescueReportMilestone)) { localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark'); localStorage.removeItem('talkAbandonRescueInTalk'); }
+                  setTimeout(() => {
+                if (rescueReportMilestone === 40) {
+                    playFadeTransition(() => {
+                        startEndingSequence();
+                    });
+                } else if (isCafeImagesReady(rescueReportMilestone)) {
+                    playFadeTransition(() => {
+                        showScreen('screen-cafe');
+                        handleCafeEventWithJIT(rescueReportMilestone);
+                    });
+                } else {
+                    playFadeTransition(() => {
+                        showScreen('screen-walking');
+                        startWalkingToDoor(rescueReportMilestone);
+                    });
+                }
+            }, 500);
+                }, { once: true });
+    }, rescueReportDelay + 1500); 
+} else if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') {
     const resumeNickname = localStorage.getItem('nickname') || 'あなた';
     const resumeDataRaw = localStorage.getItem('talkResumeData');
     if (resumeDataRaw) {
