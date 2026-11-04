@@ -2037,7 +2037,8 @@ function handleCafeEventWithJIT(milestone) {
     }
 if (bgImage) bgImage.src = imagePaths[0];
     localStorage.setItem('talkAbandonRescueBannerClosed_' + milestone, 'true');
-   localStorage.removeItem('oneeResumeIcon');
+     if (localStorage.getItem('talkAbandonRescuePending') === String(milestone)) { const rescueBannerToHide = document.getElementById('fake-notification-banner'); if (rescueBannerToHide && localStorage.getItem('currentBannerType') === 'talk_abandon_rescue') { rescueBannerToHide.classList.remove('show'); localStorage.removeItem('currentBannerType'); } } 
+    localStorage.removeItem('oneeResumeIcon');
     localStorage.removeItem('oneeResumeBanner');
 localStorage.removeItem('oneeResumeLevel');
 localStorage.removeItem('oneeResumeRecovery');
