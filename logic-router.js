@@ -3039,16 +3039,20 @@ const cushionText = pickCushionDialogue().replace(/○○/g, cushionNickname);
             if (shouldGlowBackButton) {
                 window.startBackButtonGlowTimer(taskReactionText.length, 1000);
             }
-            if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
-localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');            
-            if (localStorage.getItem('oneeResumeMilestone')) {
-                localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
-                localStorage.setItem('closedOnTalkBeforeEvent', 'true');
-                checkAndSetupEvent();
-                localStorage.removeItem('closedOnTalkBeforeEvent');
-            } else {
-                checkAndSetupEvent();
-            }
+showGenericStampReplySelector(function (stampSrc) {
+    appendUserStampMessage(stampSrc);
+    localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
+    if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
+    if (localStorage.getItem('oneeResumeMilestone')) {
+        localStorage.setItem('savedEventMilestone', localStorage.getItem('oneeResumeMilestone'));
+        localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+        checkAndSetupEvent();
+        localStorage.removeItem('closedOnTalkBeforeEvent');
+    } else {
+        checkAndSetupEvent();
+    }
+});
+
         }
     }, delay + 1000);
 });
