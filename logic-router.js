@@ -973,18 +973,37 @@ appendUserStampMessage(stampSrc);
     replyArea.style.display = 'none';
     window.isBackButtonBlocked = willCafeEventTriggerNow();
     const redisplayTask = localStorage.getItem('currentReportTask');
+    const replayBannerText = localStorage.getItem('replayBannerText');
+    const replayRecoveryText = localStorage.getItem('replayRecoveryText');    
     const redisplayNickname = localStorage.getItem('nickname') || 'あなた';
     let redisplayDelay = 500;
-    appendLineMessage('user', userReplyDialogues.taskReports[redisplayTask] || `【${redisplayTask}】、できた♪`, redisplayDelay);
+    if (replayBannerText) {
+        appendLineMessage('mobu', replayBannerText, redisplayDelay);
+        redisplayDelay += 1500;
+    }
+    appendLineMessage('user', userReplyDialogues.taskReports[redisplayTask] || `【${redisplayTask}】、できた♪`, redisplayDelay);    
     redisplayDelay += 1000;
+        if (replayRecoveryText) {
+        appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, redisplayNickname), redisplayDelay);
+        redisplayDelay += 1500;
+    }
     const savedReaction = localStorage.getItem('savedTaskReactionText');
     if (savedReaction) {
         appendLineMessage('mobu', savedReaction.replace(/○○/g, redisplayNickname), redisplayDelay);
         redisplayDelay += 1000;
     }
+        setTimeout(() => {
+        showGenericStampReplySelector(function(stampSrc) {
+                       appendUserStampMessage(stampSrc);
+            localStorage.removeItem('replayBannerText');
+            localStorage.removeItem('replayRecoveryText');
+        });
+    }, redisplayDelay);
+
     setTimeout(() => {
         checkAndSetupEvent();
     }, redisplayDelay + 1000);
+    
 } else if (getPendingBanners().length > 0) {
                 window.isBackButtonBlocked = willCafeEventTriggerNow();
                 const firstPendingBanner = getPendingBanners()[0];
@@ -1079,7 +1098,8 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                          if (pendingOneeMessage) {
                              appendLineMessage('mobu', pendingOneeMessage, initialDelay);
                              initialDelay += 1500;
-
+localStorage.setItem('replayBannerText', pendingOneeMessage);
+localStorage.setItem('replayRecoveryText', rawDialogue);
                              const combinedReaction = `心配させてごめんね💦でも、今日はタスクこなしたから✌️${userTaskReportText}`;
                              appendLineMessage('user', combinedReaction, initialDelay);
                              initialDelay += 1500;
