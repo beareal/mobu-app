@@ -954,9 +954,14 @@ appendUserStampMessage(stampSrc);
             appendLineMessage('mobu', resumeReaction, 1500);
             resumeReplayDelay = 2500;
         }
+                if (localStorage.getItem('replayGlowMark') === 'true') {
+            window.startBackButtonGlowFixed(-resumeReplayDelay);
+        }
+
         setTimeout(() => {
             showGenericStampReplySelector(function(stampSrc) {
  localStorage.removeItem('replayBannerText'); localStorage.removeItem('replayRecoveryText'); localStorage.removeItem('replayReactionText'); 
+ localStorage.removeItem('replayGlowMark');
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
  
  appendUserStampMessage(stampSrc);
@@ -1168,6 +1173,7 @@ if (oneeResumeMilestone > 0) {
                  localStorage.removeItem('justRecoveredThisReport');
 let shouldGlowBackButton = localStorage.getItem('showBackButtonGlow') === 'true' && !willCafeEventTriggerNow();
                  localStorage.removeItem('showBackButtonGlow');
+                 if (shouldGlowBackButton) { localStorage.setItem('replayGlowMark', 'true'); }
                  if (lastRecoveryLevel && !justRecovered) {
                     // ステップ4: 古い記録が残っていたら、表示せず静かに片付ける（安全策）
                     localStorage.removeItem('lastRecoveryLevel');
