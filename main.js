@@ -844,8 +844,8 @@ if (!localStorage.getItem('oneeResumeMilestone')) { localStorage.setItem('closed
             }
         }
     } else if (document.visibilityState === 'visible') {
-if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-home') {
-        showScreen('screen-home');
+if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-home' && localStorage.getItem('talkResumeMark') !== 'true') {       
+    showScreen('screen-home');
     return;
 }
         if (document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home' && isEpilogueReadyPending()) {
