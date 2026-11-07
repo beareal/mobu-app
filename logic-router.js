@@ -932,16 +932,33 @@ appendUserStampMessage(stampSrc);
         const resumeTask = localStorage.getItem('currentReportTask');
         const resumeReport = userReplyDialogues.taskReports[resumeTask] || `【${resumeTask}】、できた♪`;
         const resumeReaction = (localStorage.getItem('savedTaskReactionText') || '').replace(/○○/g, resumeNickname);
-        appendLineMessage('user', resumeReport, 500);
-        appendLineMessage('mobu', resumeReaction, 1500);
+           const replayBannerText = localStorage.getItem('replayBannerText');
+        const replayRecoveryText = localStorage.getItem('replayRecoveryText');
+        let resumeReplayDelay = 500;
+        if (replayBannerText) {
+            appendLineMessage('mobu', replayBannerText, resumeReplayDelay);
+            resumeReplayDelay += 1500;
+            appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${resumeReport}`, resumeReplayDelay);
+            resumeReplayDelay += 1500;
+            if (replayRecoveryText) {
+                appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, resumeNickname), resumeReplayDelay);
+                resumeReplayDelay += 1500;
+            }
+        } else {
+            appendLineMessage('user', resumeReport, 500);
+            appendLineMessage('mobu', resumeReaction, 1500);
+            resumeReplayDelay = 2500;
+        }
         setTimeout(() => {
             showGenericStampReplySelector(function(stampSrc) {
+ localStorage.removeItem('replayBannerText'); localStorage.removeItem('replayRecoveryText');
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-                appendUserStampMessage(stampSrc);
+ 
+ appendUserStampMessage(stampSrc);
           if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
-                checkAndSetupEvent();
+                  checkAndSetupEvent();
             });
-        }, 2500);
+        }, resumeReplayDelay);
     }
 } else if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') {
     const resumeNickname = localStorage.getItem('nickname') || 'あなた';
