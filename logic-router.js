@@ -944,6 +944,11 @@ appendUserStampMessage(stampSrc);
                 appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, resumeNickname), resumeReplayDelay);
                 resumeReplayDelay += 1500;
             }
+                        const replayReactionText = localStorage.getItem('replayReactionText');
+            if (replayReactionText) {
+                appendLineMessage('mobu', replayReactionText.replace(/○○/g, resumeNickname), resumeReplayDelay);
+                resumeReplayDelay += 1500;
+            }
         } else {
             appendLineMessage('user', resumeReport, 500);
             appendLineMessage('mobu', resumeReaction, 1500);
@@ -951,7 +956,7 @@ appendUserStampMessage(stampSrc);
         }
         setTimeout(() => {
             showGenericStampReplySelector(function(stampSrc) {
- localStorage.removeItem('replayBannerText'); localStorage.removeItem('replayRecoveryText');
+ localStorage.removeItem('replayBannerText'); localStorage.removeItem('replayRecoveryText'); localStorage.removeItem('replayReactionText'); 
  localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
  
  appendUserStampMessage(stampSrc);
@@ -1218,9 +1223,11 @@ localStorage.setItem('recoveryFollowUpTalkShown', 'true');
                      }
                      const nickname = localStorage.getItem('nickname') || 'あなた';
                      const taskReactionText = pickTaskReactionDialogue(reportedTask).replace(/○○/g, nickname);
-                     appendLineMessage('mobu', taskReactionText, initialDelay);
+                                         appendLineMessage('mobu', taskReactionText, initialDelay);
+                     localStorage.setItem('replayReactionText', taskReactionText);
         initialDelay += 1000;
                      setTimeout(() => {
+
                          if (getMoodTimeSlot() !== 'midnight' && getTotalTasksCompleted() < 40 && Math.random() < 0.3) {
                              showGenericStampReplySelector(function (stampSrc) { appendUserStampMessage(stampSrc); startMoodSharing(shouldGlowBackButton); });                         
                                                     } else {
