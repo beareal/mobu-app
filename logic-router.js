@@ -1024,12 +1024,9 @@ appendUserStampMessage(stampSrc);
                        appendUserStampMessage(stampSrc);
             localStorage.removeItem('replayBannerText');
             localStorage.removeItem('replayRecoveryText');
+                        checkAndSetupEvent();
         });
     }, redisplayDelay);
-
-    setTimeout(() => {
-        checkAndSetupEvent();
-    }, redisplayDelay + 1000);
     
 } else if (getPendingBanners().length > 0) {
                 window.isBackButtonBlocked = willCafeEventTriggerNow();
