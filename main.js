@@ -844,7 +844,7 @@ if (!localStorage.getItem('oneeResumeMilestone')) { localStorage.setItem('closed
             }
         }
     } else if (document.visibilityState === 'visible') {
-if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-home' && localStorage.getItem('talkResumeMark') !== 'true') {       
+if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-home') {  
     showScreen('screen-home');
     return;
 }
