@@ -2093,7 +2093,8 @@ localStorage.removeItem('oneeResumeMilestone');
 localStorage.removeItem('pendingOneeMessage');
 localStorage.removeItem('currentBannerType');
        if (localStorage.getItem('talkAbandonRescuePending') === String(milestone)) saveLastCompletionGameDate();
-    dialogueText.textContent = dialogues[0];
+    if (getCafeExitTime(milestone)) saveLastCompletionGameDate();
+       dialogueText.textContent = dialogues[0];
     let currentIndex = 0;
     let waitingForHideTap = false;
 
