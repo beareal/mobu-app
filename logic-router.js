@@ -3150,6 +3150,11 @@ function checkAndShowSaboriBanner() {
         localStorage.removeItem('saboriPendingDialogue');
     }
     const currentHour = new Date().getHours();
+   if (getPendingBanners().length > 0) {
+    localStorage.setItem('saboriShownDate', getGameDate());
+    checkAndShowHomeBanners();
+    return;
+}
     const isSaboriTimeWindow = currentHour >= 21 && currentHour < 24;
     const completed = getCompletedToday();
     const isZero = !completed || completed.taskIndices.length === 0;
