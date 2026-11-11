@@ -2532,6 +2532,9 @@ function clearSlotViewed(slot, gameDate) {
 function markSlotAsTapped(slot, gameDate) {
     const key = 'tappedSlot_' + gameDate + '_' + slot;
     localStorage.setItem(key, 'true');
+        if (slot === 'sabori') {
+        localStorage.setItem('tappedSlot_' + gameDate + '_night', 'true');
+    }
 }
 
 function getIsSlotTapped(slot, gameDate) {
@@ -2923,7 +2926,7 @@ const moodQuestionDialogues = {
             "それにしても\n小さい事でも、達成感って感じるものですよね！\n○○はどう感じてます？"
         ],
         night: [
-            "あの…連絡いただけて、すごく嬉しかったです✨○○は今、どんな気分ですか？",
+            "あの…連絡いただけて、すごく嬉しかったです😊○○は今、どんな気分ですか？",
             "あの…ふと○○は今日、どんな風にすごされたのかなって気になってしまって🙂今、どんな気分ですか？"
         ]
     },
