@@ -859,7 +859,8 @@ let oneeResumeDelay = 1000;
               if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }
               if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }    
               localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-                });
+            localStorage.setItem('talkReadConfirmedTime', Date.now().toString());
+            });
                 } else if ([10, 20, 30, 40].includes(parseInt(localStorage.getItem('talkAbandonRescueReportMilestone') || '0', 10))) {
     const rescueReportMilestone = parseInt(localStorage.getItem('talkAbandonRescueReportMilestone'), 10);
     localStorage.removeItem('talkAbandonRescueReportMilestone');
@@ -1241,7 +1242,8 @@ localStorage.setItem('recoveryFollowUpTalkShown', 'true');
 
     appendUserStampMessage(stampSrc);
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-    checkAndSetupEvent();
+localStorage.setItem('talkReadConfirmedTime', Date.now().toString());   
+checkAndSetupEvent();
     if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
 });
                          }
@@ -3161,7 +3163,7 @@ function checkAndShowSaboriBanner() {
     const isSaboriTimeWindow = currentHour >= 21 && currentHour < 24;
     const completed = getCompletedToday();
     const isZero = !completed || completed.taskIndices.length === 0;
-    if (isSaboriTimeWindow && isZero && getMobuVersion() === 'ver1' && localStorage.getItem('saboriShownDate') !== getGameDate()) {
+    if (isSaboriTimeWindow && isZero && getMobuVersion() === 'ver1' && localStorage.getItem('saboriShownDate') !== getGameDate() && Date.now() - parseInt(localStorage.getItem('talkReadConfirmedTime') || '0', 10) >= 24 * 60 * 60 * 1000) {   
         const saboriDialogue = getNextSaboriDialogue();
         if (saboriDialogue) {
             const nickname = localStorage.getItem('nickname') || 'あなた';

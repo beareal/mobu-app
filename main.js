@@ -504,7 +504,8 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
     return;
 }
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
-         if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
+localStorage.setItem('talkReadConfirmedTime', Date.now().toString());      
+if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
 localStorage.removeItem('replayGlowMark');
          localStorage.removeItem('replayBannerText'); localStorage.removeItem('replayRecoveryText'); localStorage.removeItem('replayReactionText');        
 if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }        
