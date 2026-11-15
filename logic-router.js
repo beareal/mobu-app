@@ -2396,7 +2396,7 @@ const banner = document.getElementById('fake-notification-banner');
     const currentBannerSlotInfo = slotInfo || { slot: getCurrentTimeOfDay(), date: getGameDate() };
     localStorage.setItem('currentBannerSlotInfo', JSON.stringify(currentBannerSlotInfo));
     localStorage.setItem('currentBannerType', notificationType);
-        if (notificationType === 'periodic') {
+        if (notificationType === 'periodic' && currentBannerSlotInfo.slot !== 'sabori') {
         saveFixedSlotDialogue(message, currentBannerSlotInfo.displayTime || 'now');
     }
     // 50ms遅らせてshowを付ける（スライドイン演出）
@@ -3047,6 +3047,12 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     if (slotInfoRaw) {
         const slotInfo = JSON.parse(slotInfoRaw);
         markSlotAsTapped(slotInfo.slot, slotInfo.date);
+        if (slotInfo.slot === 'sabori') {
+            const readBannerEl = document.getElementById('fake-notification-banner');
+            if (readBannerEl) {
+                readBannerEl.classList.remove('show');
+            }
+        }
     }
     localStorage.setItem('lastBannerReadTime', Date.now().toString());
 
@@ -3147,6 +3153,9 @@ function checkAndShowSaboriBanner() {
         const isRead = localStorage.getItem('tappedSlot_' + pending.date + '_sabori') === 'true';
         if (!isRead) {
             showFakeNotification('モブ君', pending.text, getMobuIconSrc(), 'periodic', null, { slot: 'sabori', date: pending.date });
+            if (pending.date === getGameDate() && getCurrentTimeOfDay() === 'night') {
+                markSlotAsShown();
+            }
             return;
         }
         localStorage.removeItem('saboriPendingDialogue');
@@ -3167,6 +3176,7 @@ function checkAndShowSaboriBanner() {
             const text = saboriDialogue.text.replace(/○○/g, nickname);
             const today = getGameDate();
             showFakeNotification('モブ君', text, getMobuIconSrc(), 'periodic', null, { slot: 'sabori', date: today });
+            markSlotAsShown();
             localStorage.setItem('saboriPendingDialogue', JSON.stringify({ date: today, text: text }));
                         localStorage.setItem('saboriShownDate', today);
             return;
