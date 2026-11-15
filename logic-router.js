@@ -2534,9 +2534,6 @@ function clearSlotViewed(slot, gameDate) {
 function markSlotAsTapped(slot, gameDate) {
     const key = 'tappedSlot_' + gameDate + '_' + slot;
     localStorage.setItem(key, 'true');
-        if (slot === 'sabori') {
-        localStorage.setItem('tappedSlot_' + gameDate + '_night', 'true');
-    }
 }
 
 function getIsSlotTapped(slot, gameDate) {
