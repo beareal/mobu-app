@@ -143,6 +143,7 @@ function checkAbandonment() {
     const totalTasks = getTotalTasksCompleted();
     // 1. 累計1回も完了していないユーザーは判定対象外 (仕様書 2-2)
     if (totalTasks === 0) return;
+    if (hasPendingUnwatchedEvent()) return;
     const talkAbandonPendingMilestone = parseInt(localStorage.getItem('talkAbandonRescuePending') || '0', 10);
     if (talkAbandonPendingMilestone && localStorage.getItem('talkAbandonRescueBannerClosed_' + talkAbandonPendingMilestone) !== 'true') return;
     if ([10, 20, 30].some(m => getIsInvited(m) && !getIsWatched(m) && getCafeExitTime(m))) return;
@@ -430,6 +431,18 @@ function getIsWatched(milestone) {
     const key = 'isWatched_' + milestone;
     return localStorage.getItem(key) === 'true';
 }
+
+function isEventMilestoneResolved(milestone) {
+    if (milestone === 40) {
+        return localStorage.getItem('isEndingViewed') === 'true';
+    }
+    return getIsWatched(milestone);
+}
+
+function hasPendingUnwatchedEvent() {
+    return [10, 20, 30, 40].some(milestone => getIsInvited(milestone) && !isEventMilestoneResolved(milestone));
+}
+
 function isEpilogueReadyPending() {
     if (getTotalTasksCompleted() < 40) return false;
     const milestones = [10, 20, 30, 40];

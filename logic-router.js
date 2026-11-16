@@ -219,7 +219,7 @@ const recoveryDialogues = {
             "最高のタイミングでの連絡だよ👍\nちょうど○○の事考えてたんだ。\n連絡無かったら、またオネェのお叱りメッセージ送りつけてたかもしれないから\n防いでくれてよかった笑@@冗談はさておき",
             "また一緒に頑張れるようになって、\nめちゃくちゃ嬉しい！\n○○からの連絡が、最近の俺の日常の中で楽しみになってるから😄\nその証拠に\n1人だけでルーティン消化してた時は\nペース狂って、謎の口調になってたよね🤣@@話が逸れたけど",
             "すぐ再開して偉い！\nまた○○と並んで頑張れるのが楽しみ。\nこうして○○から状況を聞けた日は、今日一日が良い日だったって思えるよ✌️\n○○とこうやって報告し合える時間が、\n思ってる以上に\n俺の活力になってるから。\n○○の影響力が高すぎて、一人で空回って謎のキャラ変してたくらいだしね😂@@自分の余談はこれくらいにして笑",
-            "報告ありがとう！\nやっぱり○○が戻ってきてくれると、\n俺も気合が入るな。\n○○の頑張りが伝わってくるこの連絡が、\n俺のモチベなんだ😄\nいないとこんなにペースを乱されるんだって痛感したし、\n怪しいキャラになってたのも納得だよ笑@@俺の怪しいキャラの話は\n置いておいて笑",
+            "報告ありがとう！\nやっぱり○○が戻ってきてくれると、\n俺も気合が入るな。\n○○の頑張りが伝わってくるこの連絡が、\n俺のモチベなんだ😄\n○○がいないとこんなにペースを乱されるんだって痛感したし、\n怪しいキャラになってたのも納得だよ笑@@俺の怪しいキャラの話は\n置いておいて笑",
             "連絡ありがと！\n○○がまた始めてくれて、\nいつものペースを取り戻せた感じがする。\n○○の存在が自分の中で\nかなりのウエイトを占めてるんだな\nって実感した。\n自分でも何キャラを目指してたのか分からないくらい、\n○○不足で様子がおかしかったよね🤣@@そんなことより",
             "正直○○から連絡来るだけで、\nどんなに忙しくても\n一気に疲れが吹き飛ぶよ！\n○○からの連絡がないとキャラの軸？がブレるんだなって、\n自分のオネェ化で悟った笑@@脱線はこのくらいにして...",
             "再開お疲れ様！\n○○がまた動き出してくれて、俺もウキウキだよ笑\nやっぱり1人で頑張るより、\n○○も一緒に頑張ってるんだって実感できると、\nすごく元気出るんだ\n○○の影響力が高すぎて、\n一人で勝手に空回って\n謎のキャラ変をしてたくらいだしね🤣@@それはそうと"
@@ -1372,11 +1372,12 @@ return `assets/images/cafe/cafe${milestone}/cafe${milestone}_${index + 1}.webp`;
 }
 
 function checkAndRestoreCafeIfNeeded() {
-    if (localStorage.getItem('oneeResumeMilestone')) return false;
     const milestones = [10, 20, 30];
+    const oneeResumeMilestone = localStorage.getItem('oneeResumeMilestone');
     const THIRTY_MINUTES = 30 * 60 * 1000;
 
     for (const m of milestones) {
+        if (oneeResumeMilestone && oneeResumeMilestone !== String(m)) continue;
         if (!getIsInvited(m) || getIsWatched(m)) continue;
 
         const exitTime = getCafeExitTime(m);
@@ -3622,7 +3623,9 @@ function showRestartConfirmPopup() {
     }, { once: true });
 }
 function showEpilogueReadyPopup() {
-if (!isEpilogueReadyPending() || localStorage.getItem('isEndingViewed') === 'true' || localStorage.getItem('oneeResumeMilestone')) return;
+    const pendingUnwatchedMilestone = [10, 20, 30, 40].find(m => getIsInvited(m) && !isEventMilestoneResolved(m));
+    const endingResumePending = pendingUnwatchedMilestone === 40 || localStorage.getItem('talkAbandonRescuePending') === '40';
+if (!isEpilogueReadyPending() || localStorage.getItem('isEndingViewed') === 'true' || (localStorage.getItem('oneeResumeMilestone') && !endingResumePending)) return;
     const popup = document.getElementById('epilogue-ready-popup');
     if (!popup) return;
 
@@ -3650,10 +3653,17 @@ if (!isEpilogueReadyPending() || localStorage.getItem('isEndingViewed') === 'tru
 }
 
 function checkAndShowHomeBanners() {
-    if (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeBanner')) {
-    localStorage.setItem('currentBannerType', 'onee');
-    localStorage.setItem('pendingOneeMessage', localStorage.getItem('oneeResumeBanner'));
-}
+    const suppressOneeResumeBanner = hasPendingUnwatchedEvent() || localStorage.getItem('closedOnTalkBeforeEvent') === 'true' || localStorage.getItem('talkAbandonRescuePending');
+    const pendingUnwatchedMilestone = [10, 20, 30, 40].find(m => getIsInvited(m) && !isEventMilestoneResolved(m));
+    const endingResumePending = pendingUnwatchedMilestone === 40 || localStorage.getItem('talkAbandonRescuePending') === '40';
+    if (suppressOneeResumeBanner && localStorage.getItem('currentBannerType') === 'onee') {
+        localStorage.removeItem('currentBannerType');
+        localStorage.removeItem('pendingOneeMessage');
+    }
+    if (!suppressOneeResumeBanner && localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeBanner')) {
+        localStorage.setItem('currentBannerType', 'onee');
+        localStorage.setItem('pendingOneeMessage', localStorage.getItem('oneeResumeBanner'));
+    }
         const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
 if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending') && !localStorage.getItem('oneeResumeMilestone')) return;
         const existingBanner = document.getElementById('fake-notification-banner');
@@ -3666,7 +3676,7 @@ if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAba
         showFakeNotification('モブ君', message, getMobuIconSrc(), 'first_home');
         return;
     }
-    if (isEpilogueReadyPending() && !localStorage.getItem('oneeResumeMilestone')) return;
+    if (isEpilogueReadyPending() && (!localStorage.getItem('oneeResumeMilestone') || endingResumePending)) return;
         if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {

@@ -836,24 +836,21 @@ document.addEventListener('visibilitychange', function() {
             const prevTotal = getPreviousTotalTasks();
             const currTotal = getTotalTasksCompleted();
             for (const m of [10, 20, 30, 40]) {
-                if (prevTotal < m && currTotal >= m && !getIsWatched(m)) {
-if (!localStorage.getItem('oneeResumeMilestone')) { localStorage.setItem('closedOnTalkBeforeEvent', 'true'); }
-                    if (localStorage.getItem('talkAbandonPrevNormal') === 'true') localStorage.setItem('talkAbandonRescuePending', String(m));
-                   localStorage.removeItem('talkResumeMark');
+                if (prevTotal < m && currTotal >= m && !isEventMilestoneResolved(m)) {
+                    localStorage.setItem('closedOnTalkBeforeEvent', 'true');
+                    localStorage.setItem('talkAbandonRescuePending', String(m));
+                    localStorage.removeItem('talkResumeMark');
                     break;
                 }
             }
         }
     } else if (document.visibilityState === 'visible') {
-if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-home') {  
-    showScreen('screen-home');
-    return;
-}
+        const hasTalkEventResume = localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && !localStorage.getItem('talkAbandonRescueBackLeft') && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000;
         if (document.querySelector('.screen.active') && document.querySelector('.screen.active').id === 'screen-home' && isEpilogueReadyPending()) {
             showEpilogueReadyPopup();
             return;
         }
-                if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && !localStorage.getItem('talkAbandonRescueBackLeft') && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {
+        if (hasTalkEventResume) {
             showScreen('screen-line');
             return;
         }
@@ -862,6 +859,11 @@ if (localStorage.getItem('oneeResumeMilestone') && currentScreenId !== 'screen-h
         if (checkAndRestoreCafeIfNeeded()) return;
         triggerCafePreloadIfNeeded();
         if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && currentScreenId !== 'screen-line') { showScreen('screen-line'); return; }
+        if ((hasPendingUnwatchedEvent() || localStorage.getItem('talkAbandonRescuePending') || localStorage.getItem('oneeResumeMilestone')) && currentScreenId !== 'screen-home') {
+            showScreen('screen-home');
+            if (isEpilogueReadyPending()) showEpilogueReadyPopup();
+            return;
+        }
         checkAndShowSaboriBanner();
     }
 });
