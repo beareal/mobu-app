@@ -3048,6 +3048,9 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
     if (slotInfoRaw) {
         const slotInfo = JSON.parse(slotInfoRaw);
         markSlotAsTapped(slotInfo.slot, slotInfo.date);
+        if (currentBannerType === 'periodic' && slotInfo.slot === getCurrentTimeOfDay() && slotInfo.date === getGameDate()) {
+            markSlotAsShown();
+        }
         if (slotInfo.slot === 'sabori') {
             const readBannerEl = document.getElementById('fake-notification-banner');
             if (readBannerEl) {
