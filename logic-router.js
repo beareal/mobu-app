@@ -1324,17 +1324,19 @@ const TALK_BANNER_FRAGMENT_LINES = ['それはそうと','それはさておき'
 
 function pickTalkBannerText() {
     const log = getTalkHistoryLog();
+    let fallback = null;
     for (let i = log.length - 1; i >= 0; i--) {
         const entry = log[i];
         if (entry.sender !== 'mobu' || entry.type !== 'text') continue;
         const text = (entry.content || '').trim();
         if (!text) continue;
+        if (fallback === null) fallback = text;
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         const lastLine = lines.length ? lines[lines.length - 1] : '';
         if (TALK_BANNER_FRAGMENT_LINES.includes(lastLine)) continue;
         return text;
     }
-    return null;
+    return fallback;
 }
 
 function saveTalkInterruptionData() {
@@ -3728,6 +3730,7 @@ function checkAndShowHomeBanners() {
         localStorage.setItem('currentBannerType', 'onee');
         localStorage.setItem('pendingOneeMessage', localStorage.getItem('oneeResumeBanner'));
     }
+        if (showTalkInterruptionBannerIfNeeded()) return;
         const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
 if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending') && !localStorage.getItem('oneeResumeMilestone')) return;
         const existingBanner = document.getElementById('fake-notification-banner');
@@ -3794,6 +3797,21 @@ function showTalkAbandonRescueBannerIfNeeded() {
     showFakeNotification('モブ君', message, getMobuIconSrc(), 'talk_abandon_rescue', savedMilestone);
     return true;
 }
+function showTalkInterruptionBannerIfNeeded() {
+    const raw = localStorage.getItem('talkInterruptionData');
+    if (!raw) return false;
+    if (isBannerCurrentlyShown()) return false;
+    let data;
+    try { data = JSON.parse(raw); } catch (e) { localStorage.removeItem('talkInterruptionData'); return false; }
+    if (!data || !data.bannerText) { localStorage.removeItem('talkInterruptionData'); return false; }
+    if (getMobuState() !== 'normal' || Date.now() - (data.timestamp || 0) > 2 * 24 * 60 * 60 * 1000) {
+        localStorage.removeItem('talkInterruptionData');
+        return false;
+    }
+    showFakeNotification('モブ君', data.bannerText, getMobuIconSrc(), 'talk_interruption');
+    return true;
+}
+
 function isBannerCurrentlyShown() {
     const banner = document.getElementById('fake-notification-banner');
     return banner ? banner.classList.contains('show') : false;
