@@ -1376,18 +1376,19 @@ const TALK_BANNER_FRAGMENT_LINES = ['それはそうと','それはさておき'
 function pickTalkBannerText() {
     const log = getTalkHistoryLog();
     let fallback = null;
+    let fallbackIndex = -1;
     for (let i = log.length - 1; i >= 0; i--) {
         const entry = log[i];
         if (entry.sender !== 'mobu' || entry.type !== 'text') continue;
         const text = (entry.content || '').trim();
         if (!text) continue;
-        if (fallback === null) fallback = text;
+        if (fallback === null) { fallback = text; fallbackIndex = i; }
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         const lastLine = lines.length ? lines[lines.length - 1] : '';
         if (TALK_BANNER_FRAGMENT_LINES.includes(lastLine)) continue;
-        return text;
+        return { text: text, index: i };
     }
-    return fallback;
+    return fallback === null ? null : { text: fallback, index: fallbackIndex };
 }
 
 function saveTalkInterruptionData() {
@@ -1397,12 +1398,14 @@ function saveTalkInterruptionData() {
     const genericSel = document.getElementById('generic-stamp-selector');
     const moodSel = document.getElementById('mood-stamp-selector');
     const pendingStampUI = (genericSel && genericSel.style.display === 'grid') ? 'generic' : (moodSel && moodSel.style.display === 'grid') ? 'mood' : null;
+    const picked = pickTalkBannerText();
     localStorage.setItem('talkInterruptionData', JSON.stringify({
         history: log,
-        bannerText: pickTalkBannerText(),
+        bannerText: picked ? picked.text : null,
         timestamp: Date.now(),
         pendingStampUI: pendingStampUI,
-        reportTask: localStorage.getItem('currentReportTask')
+        reportTask: localStorage.getItem('currentReportTask'),
+        replayFromIndex: picked ? picked.index : 0
     }));
 }
 
