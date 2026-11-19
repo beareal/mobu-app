@@ -504,6 +504,7 @@ window.startBackButtonGlowFixed = function(elapsedMs = 0) {
             if (window.isBackButtonBlocked) {
     return;
 }
+            saveTalkInterruptionData();
 localStorage.removeItem('talkResumeData'); localStorage.removeItem('talkStampPending'); localStorage.removeItem('talkResumeMark');
 localStorage.setItem('talkReadConfirmedTime', Date.now().toString());      
 if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }

@@ -1320,6 +1320,33 @@ function isTalkWaitingForUserStamp() {
     const moodVisible = moodSelector && moodSelector.style.display === 'grid';
     return !!genericVisible || !!moodVisible;
 }
+const TALK_BANNER_FRAGMENT_LINES = ['それはそうと','それはさておき','そんなことは置いておいて','そんなことより','そんなことより！','そんな事より','ていうか','冗談はさておき','脱線はこのくらいにして...','話が逸れたけど','話は変わるけど','話脱線させちゃったけど','まぁ茶番はここまでにしておいて笑','俺の口調についてはここまでにして笑','自分の余談はこれくらいにして笑','俺の最近の奇行？笑の話はここまでにして...','本題に戻りますが','本題に戻りますね！','タスクの話に戻るけど','それはともかく','それはおいておいて...','おいておいて！','置いておいて笑'];
+
+function pickTalkBannerText() {
+    const log = getTalkHistoryLog();
+    for (let i = log.length - 1; i >= 0; i--) {
+        const entry = log[i];
+        if (entry.sender !== 'mobu' || entry.type !== 'text') continue;
+        const text = (entry.content || '').trim();
+        if (!text) continue;
+        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
+        const lastLine = lines.length ? lines[lines.length - 1] : '';
+        if (TALK_BANNER_FRAGMENT_LINES.includes(lastLine)) continue;
+        return text;
+    }
+    return null;
+}
+
+function saveTalkInterruptionData() {
+    if (!isTalkWaitingForUserStamp()) return;
+    const log = getTalkHistoryLog();
+    if (!log.length) return;
+    localStorage.setItem('talkInterruptionData', JSON.stringify({
+        history: log,
+        bannerText: pickTalkBannerText(),
+        timestamp: Date.now()
+    }));
+}
 
 function appendLineMessage(sender, text, delay = 0) {
     const chatArea = document.querySelector('#screen-line .line-chat');
