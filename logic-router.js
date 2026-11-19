@@ -810,6 +810,57 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                         }, 500);
                     }, { once: true });
                 }, 100 + (rescuePartsCount - 1) * 1000 + 1500);
+                        } else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'talk_interruption') {
+                const interNotification = JSON.parse(tappedNotificationData);
+                localStorage.removeItem('tappedNotification');
+                inputBar.style.display = 'none';
+                moodSelector.style.display = 'none';
+                replyArea.style.display = 'none';
+
+                const interDataRaw = localStorage.getItem('talkInterruptionData');
+                let interData = null;
+                try { interData = interDataRaw ? JSON.parse(interDataRaw) : null; } catch (e) { interData = null; }
+
+                localStorage.setItem('talkResumeMark', 'true');
+                const replayHistory = (interData && Array.isArray(interData.history)) ? interData.history : [];
+                let replayDelay = 100;
+                replayHistory.forEach(entry => {
+                    setTimeout(() => {
+                        if (entry.sender === 'mobu' && entry.type === 'text') {
+                            appendLineMessage('mobu', entry.content, 0);
+                        } else if (entry.sender === 'mobu' && entry.type === 'stamp') {
+                            appendMobuStampMessage(entry.content);
+                        } else if (entry.sender === 'user' && entry.type === 'stamp') {
+                            appendUserStampMessage(entry.content);
+                        }
+                    }, replayDelay);
+                    replayDelay += 1200;
+                });
+
+                setTimeout(() => {
+                    localStorage.removeItem('talkResumeMark');
+                    const pendingUI = interData ? interData.pendingStampUI : null;
+                    if (pendingUI === 'mood') {
+                        showMoodStampSelectorForReplay();
+                    } else {
+                        showGenericStampReplySelector(function(stampSrc) {
+                            localStorage.removeItem('talkInterruptionData');
+                            localStorage.removeItem('talkResumeData');
+                            localStorage.removeItem('talkStampPending');
+                            clearTalkHistoryLog();
+                            appendUserStampMessage(stampSrc);
+                            const interReportTask = interData ? interData.reportTask : null;
+                            if (interReportTask) {
+                                const interNickname = localStorage.getItem('nickname') || 'あなた';
+                                const interReaction = pickTaskReactionDialogue(interReportTask).replace(/○○/g, interNickname);
+                                appendLineMessage('mobu', interReaction, 1000);
+                            } else {
+                                appendLineMessage('mobu', 'うん、スタンプありがとう！', 1000);
+                            }
+                            setTimeout(() => { checkAndSetupEvent(); }, 2000);
+                        });
+                    }
+                }, replayDelay + 500);
             } else if (tappedNotificationData) {
                 // [A] 通知をタップして遷移してきた場合
                 const notification = JSON.parse(tappedNotificationData);
@@ -1343,10 +1394,15 @@ function saveTalkInterruptionData() {
     if (!isTalkWaitingForUserStamp()) return;
     const log = getTalkHistoryLog();
     if (!log.length) return;
+    const genericSel = document.getElementById('generic-stamp-selector');
+    const moodSel = document.getElementById('mood-stamp-selector');
+    const pendingStampUI = (genericSel && genericSel.style.display === 'grid') ? 'generic' : (moodSel && moodSel.style.display === 'grid') ? 'mood' : null;
     localStorage.setItem('talkInterruptionData', JSON.stringify({
         history: log,
         bannerText: pickTalkBannerText(),
-        timestamp: Date.now()
+        timestamp: Date.now(),
+        pendingStampUI: pendingStampUI,
+        reportTask: localStorage.getItem('currentReportTask')
     }));
 }
 
@@ -3365,6 +3421,24 @@ function appendUserStampMessage(stampSrc) {
  * 気分共有以外の場面共通の「5種類スタンプ選択」を表示する
  * @param {function} onStampSelected 選ばれたスタンプのsrcを受け取って実行する処理
  */
+function showMoodStampSelectorForReplay() {
+    const inputBar = document.getElementById('line-input-bar');
+    const stampSelector = document.getElementById('mood-stamp-selector');
+    const stamps = document.querySelectorAll('.mood-stamp');
+    inputBar.style.display = 'none';
+    stampSelector.style.display = 'grid';
+    stamps.forEach(stamp => {
+        const newStamp = stamp.cloneNode(true);
+        stamp.parentNode.replaceChild(newStamp, stamp);
+        newStamp.addEventListener('click', () => {
+            localStorage.removeItem('talkInterruptionData');
+            localStorage.removeItem('talkResumeMark');
+            clearTalkHistoryLog();
+            handleMoodStampClick(newStamp.dataset.mood, newStamp.src, false);
+        }, { once: true });
+    });
+}
+
 function showGenericStampReplySelector(onStampSelected) {
     const inputBar = document.getElementById('line-input-bar');
     const replyArea = document.getElementById('notification-reply-area');
