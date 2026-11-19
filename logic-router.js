@@ -440,7 +440,7 @@ function pickMoodStampReply(mood) {
 function appendMobuStampMessage(stampSrc) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-
+    recordTalkHistoryMessage('mobu', 'stamp', stampSrc);
     playSE('se_line_receive.mp3');
 
     const messageDiv = document.createElement('div');
@@ -1288,10 +1288,43 @@ checkAndSetupEvent();
  * @param {string} text 表示するメッセージのテキスト
  * @param {number} delay 表示するまでの遅延時間（ミリ秒）
  */
+function getTalkHistoryLog() {
+    try {
+        return JSON.parse(localStorage.getItem('talkHistoryLog') || '[]');
+    } catch (e) {
+        return [];
+    }
+}
+
+function saveTalkHistoryLog(log) {
+    localStorage.setItem('talkHistoryLog', JSON.stringify(log.slice(-200)));
+}
+
+function clearTalkHistoryLog() {
+    localStorage.removeItem('talkHistoryLog');
+}
+
+function recordTalkHistoryMessage(sender, type, content) {
+    if (localStorage.getItem('talkStampPending') !== 'true') return;
+    if (localStorage.getItem('talkResumeMark') === 'true') return;
+    const log = getTalkHistoryLog();
+    log.push({ sender: sender, type: type, content: content });
+    saveTalkHistoryLog(log);
+}
+
+function isTalkWaitingForUserStamp() {
+    if (localStorage.getItem('talkStampPending') === 'true') return true;
+    const genericSelector = document.getElementById('generic-stamp-selector');
+    const moodSelector = document.getElementById('mood-stamp-selector');
+    const genericVisible = genericSelector && genericSelector.style.display === 'grid';
+    const moodVisible = moodSelector && moodSelector.style.display === 'grid';
+    return !!genericVisible || !!moodVisible;
+}
+
 function appendLineMessage(sender, text, delay = 0) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-
+    recordTalkHistoryMessage(sender, 'text', text);
     setTimeout(() => {
         if (sender === 'mobu') {
             playSE('se_line_receive.mp3');
@@ -2411,6 +2444,7 @@ const banner = document.getElementById('fake-notification-banner');
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
         if (notificationType === 'talk_abandon_rescue') { localStorage.removeItem('talkStampPending'); } else { localStorage.setItem('talkStampPending', 'true'); }
+                clearTalkHistoryLog();
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
             sender: sender,
@@ -3271,7 +3305,7 @@ function getCurrentTimeOfDay() {
 function appendUserStampMessage(stampSrc) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-
+    recordTalkHistoryMessage('user', 'stamp', stampSrc);
     playSE('se_stamp_send.mp3'); // スタンプ送信音
 
     const messageDiv = document.createElement('div');

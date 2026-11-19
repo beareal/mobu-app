@@ -427,6 +427,7 @@ console.log('【診断A】判定前', getMobuState(), localStorage.getItem('clos
 }
 localStorage.setItem('lastCompletionTimestamp', Date.now().toString());
 if (!localStorage.getItem('talkAbandonRescueReportMilestone')) { localStorage.setItem('talkStampPending', 'true'); } else { localStorage.removeItem('talkStampPending'); }
+clearTalkHistoryLog();
 if (!localStorage.getItem('talkAbandonRescueReportMilestone')) { localStorage.removeItem('closedOnTalkBeforeEvent'); }
 console.log('【診断B】削除後', localStorage.getItem('talkAbandonRescueReportMilestone'), localStorage.getItem('closedOnTalkBeforeEvent'), localStorage.getItem('savedEventMilestone'));
 // サボり状態をリセット（仕様書 3-3, 7 準拠）
