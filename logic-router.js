@@ -1358,12 +1358,7 @@ function recordTalkHistoryMessage(sender, type, content) {
 }
 
 function isTalkWaitingForUserStamp() {
-    if (localStorage.getItem('talkStampPending') === 'true') return true;
-    const genericSelector = document.getElementById('generic-stamp-selector');
-    const moodSelector = document.getElementById('mood-stamp-selector');
-    const genericVisible = genericSelector && genericSelector.style.display === 'grid';
-    const moodVisible = moodSelector && moodSelector.style.display === 'grid';
-    return !!genericVisible || !!moodVisible;
+    return localStorage.getItem('talkStampPending') === 'true';
 }
 const TALK_BANNER_FRAGMENT_LINES = ['それはそうと','それはさておき','そんなことは置いておいて','そんなことより','そんなことより！','そんな事より','ていうか','冗談はさておき','脱線はこのくらいにして...','話が逸れたけど','話は変わるけど','話脱線させちゃったけど','まぁ茶番はここまでにしておいて笑','俺の口調についてはここまでにして笑','自分の余談はこれくらいにして笑','俺の最近の奇行？笑の話はここまでにして...','本題に戻りますが','本題に戻りますね！','タスクの話に戻るけど','それはともかく','それはおいておいて...','おいておいて！','置いておいて笑'];
 
