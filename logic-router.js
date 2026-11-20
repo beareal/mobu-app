@@ -842,7 +842,19 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                     window.__talkReplayActive = false;
                     localStorage.removeItem('talkResumeMark');
                     const pendingUI = interData ? interData.pendingStampUI : null;
-                    if (pendingUI === 'mood') {
+                    if (pendingUI === 'mood' && interData && interData.pendingMood) {
+                        displayMoodStampReply(interData.pendingMood, 500, false);
+                        setTimeout(() => {
+                            showGenericStampReplySelector(function(stampSrc) {
+                                localStorage.removeItem('talkInterruptionData');
+                                localStorage.removeItem('talkResumeData');
+                                localStorage.removeItem('talkStampPending');
+                                clearTalkHistoryLog();
+                                appendUserStampMessage(stampSrc);
+                                checkAndSetupEvent();
+                            });
+                        }, 1500);
+                    } else if (pendingUI === 'mood') {
                         showMoodStampSelectorForReplay();
                     } else {
                         showGenericStampReplySelector(function(stampSrc) {
@@ -1388,13 +1400,21 @@ function saveTalkInterruptionData() {
     const moodSel = document.getElementById('mood-stamp-selector');
     const pendingStampUI = (genericSel && genericSel.style.display === 'grid') ? 'generic' : (moodSel && moodSel.style.display === 'grid') ? 'mood' : null;
     const picked = pickTalkBannerText();
+    let pendingMood = null;
+    for (let i = log.length - 1; i >= 0; i--) {
+        if (log[i].sender === 'user' && log[i].type === 'stamp') {
+            document.querySelectorAll('.mood-stamp').forEach(el => { if (el.src === log[i].content) pendingMood = el.dataset.mood; });
+            break;
+        }
+    }
     localStorage.setItem('talkInterruptionData', JSON.stringify({
         history: log,
         bannerText: picked ? picked.text : null,
         timestamp: Date.now(),
         pendingStampUI: pendingStampUI,
         reportTask: localStorage.getItem('currentReportTask'),
-        replayFromIndex: picked ? picked.index : 0
+        replayFromIndex: picked ? picked.index : 0,
+        pendingMood: pendingMood
     }));
 }
 
