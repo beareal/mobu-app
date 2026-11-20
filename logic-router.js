@@ -863,7 +863,8 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                             localStorage.removeItem('talkStampPending');
                             clearTalkHistoryLog();
                             appendUserStampMessage(stampSrc);
-                            checkAndSetupEvent();
+                            const interNeedsEventCheck = (interData && interData.reportTask) || replayHistory.some(e => e.sender === 'user' && e.type === 'stamp' && typeof e.content === 'string' && e.content.indexOf('stamp_mood_') !== -1);
+                            if (interNeedsEventCheck) { checkAndSetupEvent(); }
                         });
                     }
                 }, replayDelay + 500);
