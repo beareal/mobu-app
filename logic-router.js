@@ -824,8 +824,9 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                 localStorage.setItem('talkResumeMark', 'true');
                 window.__talkReplayActive = true;
                 const replayHistory = (interData && Array.isArray(interData.history)) ? interData.history : [];
+                const replayStartIndex = (interData && typeof interData.replayFromIndex === 'number' && interData.replayFromIndex >= 0 && interData.replayFromIndex < replayHistory.length) ? interData.replayFromIndex : 0;
                 let replayDelay = 100;
-                replayHistory.forEach(entry => {
+                replayHistory.slice(replayStartIndex).forEach(entry => {
                     setTimeout(() => {
                         if (entry.sender === 'mobu' && entry.type === 'text') {
                             appendLineMessage('mobu', entry.content, 0);
