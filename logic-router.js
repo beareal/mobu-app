@@ -1401,8 +1401,8 @@ function saveTalkInterruptionData() {
 function appendLineMessage(sender, text, delay = 0) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-    recordTalkHistoryMessage(sender, 'text', text);
     setTimeout(() => {
+        recordTalkHistoryMessage(sender, 'text', text);
         if (sender === 'mobu') {
             playSE('se_line_receive.mp3');
         }
