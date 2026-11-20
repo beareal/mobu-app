@@ -822,6 +822,7 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                 try { interData = interDataRaw ? JSON.parse(interDataRaw) : null; } catch (e) { interData = null; }
 
                 localStorage.setItem('talkResumeMark', 'true');
+                window.__talkReplayActive = true;
                 const replayHistory = (interData && Array.isArray(interData.history)) ? interData.history : [];
                 let replayDelay = 100;
                 replayHistory.forEach(entry => {
@@ -838,6 +839,7 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                 });
 
                 setTimeout(() => {
+                    window.__talkReplayActive = false;
                     localStorage.removeItem('talkResumeMark');
                     const pendingUI = interData ? interData.pendingStampUI : null;
                     if (pendingUI === 'mood') {
@@ -1357,7 +1359,7 @@ function clearTalkHistoryLog() {
 
 function recordTalkHistoryMessage(sender, type, content) {
     if (localStorage.getItem('talkStampPending') !== 'true') return;
-    if (localStorage.getItem('talkResumeMark') === 'true') return;
+    if (window.__talkReplayActive === true) return;
     const log = getTalkHistoryLog();
     log.push({ sender: sender, type: type, content: content });
     saveTalkHistoryLog(log);
