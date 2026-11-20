@@ -851,15 +851,7 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                             localStorage.removeItem('talkStampPending');
                             clearTalkHistoryLog();
                             appendUserStampMessage(stampSrc);
-                            const interReportTask = interData ? interData.reportTask : null;
-                            if (interReportTask) {
-                                const interNickname = localStorage.getItem('nickname') || 'あなた';
-                                const interReaction = pickTaskReactionDialogue(interReportTask).replace(/○○/g, interNickname);
-                                appendLineMessage('mobu', interReaction, 1000);
-                            } else {
-                                appendLineMessage('mobu', 'うん、スタンプありがとう！', 1000);
-                            }
-                            setTimeout(() => { checkAndSetupEvent(); }, 2000);
+                            checkAndSetupEvent();
                         });
                     }
                 }, replayDelay + 500);
