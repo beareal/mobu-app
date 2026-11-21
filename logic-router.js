@@ -1395,6 +1395,7 @@ function pickTalkBannerText() {
 }
 
 function saveTalkInterruptionData() {
+    if (localStorage.getItem('talkResumeOnee') === 'true') return;
     if (!isTalkWaitingForUserStamp()) return;
     const log = getTalkHistoryLog();
     if (!log.length) return;
@@ -3835,7 +3836,7 @@ if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAba
         if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
-showFakeNotification('モブ君', pendingOneeMessage, (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeIcon')) || getMobuIconSrc(), 'onee');
+showFakeNotification('モブ君', pendingOneeMessage, (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeIcon')) || getMobuOneeIconSrc(), 'onee');
             return;
     
         }
