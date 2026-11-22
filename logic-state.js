@@ -464,8 +464,3 @@ function getMobuIconSrc() {
         return `assets/images/icons/mobu_icon_onee_v${verNum}.webp`;
     }
 }
-function getMobuOneeIconSrc() {
-    const version = getMobuVersion();
-    const verNum = version.replace('ver', '');
-    return `assets/images/icons/mobu_icon_onee_v${verNum}.webp`;
-}

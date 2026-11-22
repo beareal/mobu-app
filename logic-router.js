@@ -237,20 +237,6 @@ const recoveryDialogues = {
     }
 };
 
-// @@の前半パートがオネェ口調の復帰セリフ（中断バナーのアイコン判定用）
-const ONEE_FIRST_PART_DIALOGUES = new Set();
-['ver1', 'ver2'].forEach(version => {
-    Object.values(recoveryDialogues[version]).forEach(list => {
-        list.forEach(dialogue => ONEE_FIRST_PART_DIALOGUES.add(dialogue));
-    });
-});
-[
-    "心配してたのよ❣️アタシのカワイイ○○🫰@@なんてね！まだオネェ入ってると思った？\nもう普段の俺に戻ってるよ😊@@俺の最近の奇行？笑の話はここまでにして...",
-    "○○‼️ちゃんと再開したのね～🥰偉いわ✨@@うっかりオネェ期の気配が残るメッセージ送って\nごめん！\n○○からの連絡が嬉しくて気が緩んでた🫠",
-    "カワイイ不良娘のカムバックね～❣️\nこれはブチ上がるわね⤴️⤴️@@ごめん！ブチ上がり過ぎてオネェ様のテンションで返信してた笑\nそれはさておき\n俺、○○がタスクやったよって報告してくれる瞬間が好きなんだ。\nどんなに間が空いても、また一緒に頑張れるのが嬉しい。",
-    "おサボりプリンセスのご帰還ね～👸\nアタシの中ではパレード始ってるわよ💃💕@@なんてテンション上がって、思わず最近のオネェのノリで返してた😂\nおかえり！また一緒にがんばろ！"
-].forEach(dialogue => ONEE_FIRST_PART_DIALOGUES.add(dialogue));
-
 // ユーザーの返信セリフデータ
 const userReplyDialogues = {
     // 復帰時の汎用リアクションセリフ (ランダムで選ばれる)
@@ -836,11 +822,9 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                 try { interData = interDataRaw ? JSON.parse(interDataRaw) : null; } catch (e) { interData = null; }
 
                 localStorage.setItem('talkResumeMark', 'true');
-                window.__talkReplayActive = true;
                 const replayHistory = (interData && Array.isArray(interData.history)) ? interData.history : [];
-                const replayStartIndex = (interData && typeof interData.replayFromIndex === 'number' && interData.replayFromIndex >= 0 && interData.replayFromIndex < replayHistory.length) ? interData.replayFromIndex : 0;
                 let replayDelay = 100;
-                replayHistory.slice(replayStartIndex).forEach(entry => {
+                replayHistory.forEach(entry => {
                     setTimeout(() => {
                         if (entry.sender === 'mobu' && entry.type === 'text') {
                             appendLineMessage('mobu', entry.content, 0);
@@ -854,22 +838,9 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                 });
 
                 setTimeout(() => {
-                    window.__talkReplayActive = false;
                     localStorage.removeItem('talkResumeMark');
                     const pendingUI = interData ? interData.pendingStampUI : null;
-                    if (pendingUI === 'mood' && interData && interData.pendingMood) {
-                        displayMoodStampReply(interData.pendingMood, 500, false);
-                        setTimeout(() => {
-                            showGenericStampReplySelector(function(stampSrc) {
-                                localStorage.removeItem('talkInterruptionData');
-                                localStorage.removeItem('talkResumeData');
-                                localStorage.removeItem('talkStampPending');
-                                clearTalkHistoryLog();
-                                appendUserStampMessage(stampSrc);
-                                checkAndSetupEvent();
-                            });
-                        }, 1500);
-                    } else if (pendingUI === 'mood') {
+                    if (pendingUI === 'mood') {
                         showMoodStampSelectorForReplay();
                     } else {
                         showGenericStampReplySelector(function(stampSrc) {
@@ -878,8 +849,15 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                             localStorage.removeItem('talkStampPending');
                             clearTalkHistoryLog();
                             appendUserStampMessage(stampSrc);
-                            const interNeedsEventCheck = !(interData && interData.fromOneeTalk) && ((interData && interData.reportTask) || replayHistory.some(e => e.sender === 'user' && e.type === 'stamp' && typeof e.content === 'string' && e.content.indexOf('stamp_mood_') !== -1));
-                            if (interNeedsEventCheck) { checkAndSetupEvent(); }
+                            const interReportTask = interData ? interData.reportTask : null;
+                            if (interReportTask) {
+                                const interNickname = localStorage.getItem('nickname') || 'あなた';
+                                const interReaction = pickTaskReactionDialogue(interReportTask).replace(/○○/g, interNickname);
+                                appendLineMessage('mobu', interReaction, 1000);
+                            } else {
+                                appendLineMessage('mobu', 'うん、スタンプありがとう！', 1000);
+                            }
+                            setTimeout(() => { checkAndSetupEvent(); }, 2000);
                         });
                     }
                 }, replayDelay + 500);
@@ -908,7 +886,7 @@ let oneeResumeDelay = 1000;
     appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${oneeResumeTaskText}`, oneeResumeDelay);
     oneeResumeDelay += 1500;
     if (oneeResumeRecovery) {
-        appendRecoveryDialogueMessage('mobu', oneeResumeRecovery.replace(/○○/g, oneeResumeNickname), oneeResumeDelay, ONEE_FIRST_PART_DIALOGUES.has(oneeResumeRecovery));
+        appendRecoveryDialogueMessage('mobu', oneeResumeRecovery.replace(/○○/g, oneeResumeNickname), oneeResumeDelay);
         oneeResumeDelay += 1500;
     }
     if (oneeResumeReaction) {
@@ -1015,7 +993,7 @@ appendUserStampMessage(stampSrc);
             appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${resumeReport}`, resumeReplayDelay);
             resumeReplayDelay += 1500;
             if (replayRecoveryText) {
-                appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, resumeNickname), resumeReplayDelay, ONEE_FIRST_PART_DIALOGUES.has(replayRecoveryText));
+                appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, resumeNickname), resumeReplayDelay);
                 resumeReplayDelay += 1500;
             }
                         const replayReactionText = localStorage.getItem('replayReactionText');
@@ -1085,7 +1063,7 @@ appendUserStampMessage(stampSrc);
     appendLineMessage('user', userReplyDialogues.taskReports[redisplayTask] || `【${redisplayTask}】、できた♪`, redisplayDelay);    
     redisplayDelay += 1000;
         if (replayRecoveryText) {
-        appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, redisplayNickname), redisplayDelay, ONEE_FIRST_PART_DIALOGUES.has(replayRecoveryText));
+        appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, redisplayNickname), redisplayDelay);
         redisplayDelay += 1500;
     }
     const savedReaction = localStorage.getItem('savedTaskReactionText');
@@ -1186,7 +1164,6 @@ if (localStorage.getItem('showFirstHomeBanner') === 'true') {
                  if (lastRecoveryLevel && justRecovered) {
                      const mobuVersion = getMobuVersion();
                      const rawDialogue = pickRecoveryDialogue(mobuVersion, lastRecoveryLevel);
-                     const recoveryHasOneeFirstPart = rawDialogue && ONEE_FIRST_PART_DIALOGUES.has(rawDialogue);
 
                      if (rawDialogue) {
                          const nickname = localStorage.getItem('nickname') || 'あなた';
@@ -1203,7 +1180,7 @@ localStorage.setItem('replayRecoveryText', rawDialogue);
                              appendLineMessage('user', combinedReaction, initialDelay);
                              initialDelay += 1500;
 
-                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay, recoveryHasOneeFirstPart);
+                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
                              initialDelay += 1500;
 const fakeBanner = document.getElementById('fake-notification-banner');
                             if (fakeBanner) {
@@ -1214,7 +1191,7 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                          } else {
                                                    appendLineMessage('user', userTaskReportText, initialDelay);
                              initialDelay += 1500;
-                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay, recoveryHasOneeFirstPart);
+                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
                              initialDelay += 1500;
                                                           oneeMessageUsed = true;
                          }
@@ -1378,18 +1355,21 @@ function clearTalkHistoryLog() {
     localStorage.removeItem('talkHistoryLog');
 }
 
-function recordTalkHistoryMessage(sender, type, content, icon = null) {
+function recordTalkHistoryMessage(sender, type, content) {
     if (localStorage.getItem('talkStampPending') !== 'true') return;
-    if (window.__talkReplayActive === true) return;
+    if (localStorage.getItem('talkResumeMark') === 'true') return;
     const log = getTalkHistoryLog();
-    const entry = { sender: sender, type: type, content: content };
-    if (icon) entry.icon = icon;
-    log.push(entry);
+    log.push({ sender: sender, type: type, content: content });
     saveTalkHistoryLog(log);
 }
 
 function isTalkWaitingForUserStamp() {
-    return localStorage.getItem('talkStampPending') === 'true';
+    if (localStorage.getItem('talkStampPending') === 'true') return true;
+    const genericSelector = document.getElementById('generic-stamp-selector');
+    const moodSelector = document.getElementById('mood-stamp-selector');
+    const genericVisible = genericSelector && genericSelector.style.display === 'grid';
+    const moodVisible = moodSelector && moodSelector.style.display === 'grid';
+    return !!genericVisible || !!moodVisible;
 }
 const TALK_BANNER_FRAGMENT_LINES = ['それはそうと','それはさておき','そんなことは置いておいて','そんなことより','そんなことより！','そんな事より','ていうか','冗談はさておき','脱線はこのくらいにして...','話が逸れたけど','話は変わるけど','話脱線させちゃったけど','まぁ茶番はここまでにしておいて笑','俺の口調についてはここまでにして笑','自分の余談はこれくらいにして笑','俺の最近の奇行？笑の話はここまでにして...','本題に戻りますが','本題に戻りますね！','タスクの話に戻るけど','それはともかく','それはおいておいて...','おいておいて！','置いておいて笑'];
 
@@ -1406,13 +1386,12 @@ function pickTalkBannerText() {
         const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
         const lastLine = lines.length ? lines[lines.length - 1] : '';
         if (TALK_BANNER_FRAGMENT_LINES.includes(lastLine)) continue;
-        return { text: text, index: i, icon: entry.icon || null };
+        return { text: text, index: i };
     }
-    return fallback === null ? null : { text: fallback, index: fallbackIndex, icon: (log[fallbackIndex] && log[fallbackIndex].icon) || null };
+    return fallback === null ? null : { text: fallback, index: fallbackIndex };
 }
 
 function saveTalkInterruptionData() {
-    if (localStorage.getItem('talkResumeOnee') === 'true' && localStorage.getItem('oneeResumeMilestone')) return;
     if (!isTalkWaitingForUserStamp()) return;
     const log = getTalkHistoryLog();
     if (!log.length) return;
@@ -1420,32 +1399,20 @@ function saveTalkInterruptionData() {
     const moodSel = document.getElementById('mood-stamp-selector');
     const pendingStampUI = (genericSel && genericSel.style.display === 'grid') ? 'generic' : (moodSel && moodSel.style.display === 'grid') ? 'mood' : null;
     const picked = pickTalkBannerText();
-    const ignoredOneeBannerText = localStorage.getItem('pendingOneeMessage') || localStorage.getItem('replayBannerText');
-    const useIgnoredOneeBanner = !!localStorage.getItem('pendingCinemaLevel') && !!ignoredOneeBannerText;
-    let pendingMood = null;
-    for (let i = log.length - 1; i >= 0; i--) {
-        if (log[i].sender === 'user' && log[i].type === 'stamp') {
-            document.querySelectorAll('.mood-stamp').forEach(el => { if (el.src === log[i].content) pendingMood = el.dataset.mood; });
-            break;
-        }
-    }
     localStorage.setItem('talkInterruptionData', JSON.stringify({
         history: log,
-        bannerText: useIgnoredOneeBanner ? ignoredOneeBannerText : (picked ? picked.text : null),
+        bannerText: picked ? picked.text : null,
         timestamp: Date.now(),
         pendingStampUI: pendingStampUI,
         reportTask: localStorage.getItem('currentReportTask'),
-        replayFromIndex: useIgnoredOneeBanner ? 0 : (picked ? picked.index : 0),
-        pendingMood: pendingMood,
-        fromOneeTalk: localStorage.getItem('talkResumeOnee') === 'true',
-        iconSrc: useIgnoredOneeBanner || (picked && picked.icon === 'onee') ? getMobuOneeIconSrc() : null
+        replayFromIndex: picked ? picked.index : 0
     }));
 }
 
-function appendLineMessage(sender, text, delay = 0, iconHint = null) {
+function appendLineMessage(sender, text, delay = 0) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-    recordTalkHistoryMessage(sender, 'text', text, iconHint);
+    recordTalkHistoryMessage(sender, 'text', text);
     setTimeout(() => {
         if (sender === 'mobu') {
             playSE('se_line_receive.mp3');
@@ -1462,10 +1429,10 @@ function appendLineMessage(sender, text, delay = 0, iconHint = null) {
         });
     }, delay);
 }
-function appendRecoveryDialogueMessage(sender, text, delay = 0, oneeFirstPart = false) {
+function appendRecoveryDialogueMessage(sender, text, delay = 0) {
     if (text.includes('@@')) {
         const parts = text.split('@@');
-        appendLineMessage(sender, parts[0], delay, oneeFirstPart ? 'onee' : null);
+        appendLineMessage(sender, parts[0], delay);
         appendLineMessage(sender, parts.slice(1).join('@@'), delay + 1000);
     } else {
         appendLineMessage(sender, text, delay);
@@ -3234,8 +3201,7 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
         delay += 1000;
                 if (currentBannerType === 'onee' && localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeRecovery')) {
             const resumeNickname = localStorage.getItem('nickname') || 'あなた';
-            const oneeResumeRecoveryRaw = localStorage.getItem('oneeResumeRecovery');
-            appendRecoveryDialogueMessage('mobu', oneeResumeRecoveryRaw.replace(/○○/g, resumeNickname), delay, ONEE_FIRST_PART_DIALOGUES.has(oneeResumeRecoveryRaw));
+            appendRecoveryDialogueMessage('mobu', localStorage.getItem('oneeResumeRecovery').replace(/○○/g, resumeNickname), delay);
             delay += 1000;
         }
              if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
@@ -3858,7 +3824,7 @@ if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAba
         if (localStorage.getItem('currentBannerType') === 'onee') {
         const pendingOneeMessage = localStorage.getItem('pendingOneeMessage');
         if (pendingOneeMessage) {
-showFakeNotification('モブ君', pendingOneeMessage, (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeIcon')) || getMobuOneeIconSrc(), 'onee');
+showFakeNotification('モブ君', pendingOneeMessage, (localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeIcon')) || getMobuIconSrc(), 'onee');
             return;
     
         }
@@ -3915,11 +3881,11 @@ function showTalkInterruptionBannerIfNeeded() {
     let data;
     try { data = JSON.parse(raw); } catch (e) { localStorage.removeItem('talkInterruptionData'); return false; }
     if (!data || !data.bannerText) { localStorage.removeItem('talkInterruptionData'); return false; }
-    if ((!data.fromOneeTalk && getMobuState() !== 'normal') || Date.now() - (data.timestamp || 0) > 2 * 24 * 60 * 60 * 1000) {
+    if (getMobuState() !== 'normal' || Date.now() - (data.timestamp || 0) > 2 * 24 * 60 * 60 * 1000) {
         localStorage.removeItem('talkInterruptionData');
         return false;
     }
-    showFakeNotification('モブ君', data.bannerText, data.iconSrc || getMobuIconSrc(), 'talk_interruption');
+    showFakeNotification('モブ君', data.bannerText, getMobuIconSrc(), 'talk_interruption');
     return true;
 }
 

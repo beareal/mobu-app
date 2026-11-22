@@ -510,7 +510,7 @@ localStorage.setItem('talkReadConfirmedTime', Date.now().toString());
 if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
 localStorage.removeItem('replayGlowMark');
          localStorage.removeItem('replayBannerText'); localStorage.removeItem('replayRecoveryText'); localStorage.removeItem('replayReactionText');        
-if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('talkResumeOnee'); }        
+if (localStorage.getItem('talkResumeOnee') === 'true') { localStorage.removeItem('oneeResumeBanner'); localStorage.removeItem('talkResumeOnee'); }        
 if (localStorage.getItem('returnBannerWonOnee') === 'true') {
                 localStorage.removeItem('returnBannerWonOnee');
                 playBlinkVideo(() => {
