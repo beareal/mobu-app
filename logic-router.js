@@ -440,7 +440,7 @@ function pickMoodStampReply(mood) {
 function appendMobuStampMessage(stampSrc) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-    recordTalkHistoryMessage('mobu', 'stamp', stampSrc);
+
     playSE('se_line_receive.mp3');
 
     const messageDiv = document.createElement('div');
@@ -810,57 +810,6 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
                         }, 500);
                     }, { once: true });
                 }, 100 + (rescuePartsCount - 1) * 1000 + 1500);
-                        } else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'talk_interruption') {
-                const interNotification = JSON.parse(tappedNotificationData);
-                localStorage.removeItem('tappedNotification');
-                inputBar.style.display = 'none';
-                moodSelector.style.display = 'none';
-                replyArea.style.display = 'none';
-
-                const interDataRaw = localStorage.getItem('talkInterruptionData');
-                let interData = null;
-                try { interData = interDataRaw ? JSON.parse(interDataRaw) : null; } catch (e) { interData = null; }
-
-                localStorage.setItem('talkResumeMark', 'true');
-                const replayHistory = (interData && Array.isArray(interData.history)) ? interData.history : [];
-                let replayDelay = 100;
-                replayHistory.forEach(entry => {
-                    setTimeout(() => {
-                        if (entry.sender === 'mobu' && entry.type === 'text') {
-                            appendLineMessage('mobu', entry.content, 0);
-                        } else if (entry.sender === 'mobu' && entry.type === 'stamp') {
-                            appendMobuStampMessage(entry.content);
-                        } else if (entry.sender === 'user' && entry.type === 'stamp') {
-                            appendUserStampMessage(entry.content);
-                        }
-                    }, replayDelay);
-                    replayDelay += 1200;
-                });
-
-                setTimeout(() => {
-                    localStorage.removeItem('talkResumeMark');
-                    const pendingUI = interData ? interData.pendingStampUI : null;
-                    if (pendingUI === 'mood') {
-                        showMoodStampSelectorForReplay();
-                    } else {
-                        showGenericStampReplySelector(function(stampSrc) {
-                            localStorage.removeItem('talkInterruptionData');
-                            localStorage.removeItem('talkResumeData');
-                            localStorage.removeItem('talkStampPending');
-                            clearTalkHistoryLog();
-                            appendUserStampMessage(stampSrc);
-                            const interReportTask = interData ? interData.reportTask : null;
-                            if (interReportTask) {
-                                const interNickname = localStorage.getItem('nickname') || 'あなた';
-                                const interReaction = pickTaskReactionDialogue(interReportTask).replace(/○○/g, interNickname);
-                                appendLineMessage('mobu', interReaction, 1000);
-                            } else {
-                                appendLineMessage('mobu', 'うん、スタンプありがとう！', 1000);
-                            }
-                            setTimeout(() => { checkAndSetupEvent(); }, 2000);
-                        });
-                    }
-                }, replayDelay + 500);
             } else if (tappedNotificationData) {
                 // [A] 通知をタップして遷移してきた場合
                 const notification = JSON.parse(tappedNotificationData);
@@ -1339,80 +1288,10 @@ checkAndSetupEvent();
  * @param {string} text 表示するメッセージのテキスト
  * @param {number} delay 表示するまでの遅延時間（ミリ秒）
  */
-function getTalkHistoryLog() {
-    try {
-        return JSON.parse(localStorage.getItem('talkHistoryLog') || '[]');
-    } catch (e) {
-        return [];
-    }
-}
-
-function saveTalkHistoryLog(log) {
-    localStorage.setItem('talkHistoryLog', JSON.stringify(log.slice(-200)));
-}
-
-function clearTalkHistoryLog() {
-    localStorage.removeItem('talkHistoryLog');
-}
-
-function recordTalkHistoryMessage(sender, type, content) {
-    if (localStorage.getItem('talkStampPending') !== 'true') return;
-    if (localStorage.getItem('talkResumeMark') === 'true') return;
-    const log = getTalkHistoryLog();
-    log.push({ sender: sender, type: type, content: content });
-    saveTalkHistoryLog(log);
-}
-
-function isTalkWaitingForUserStamp() {
-    if (localStorage.getItem('talkStampPending') === 'true') return true;
-    const genericSelector = document.getElementById('generic-stamp-selector');
-    const moodSelector = document.getElementById('mood-stamp-selector');
-    const genericVisible = genericSelector && genericSelector.style.display === 'grid';
-    const moodVisible = moodSelector && moodSelector.style.display === 'grid';
-    return !!genericVisible || !!moodVisible;
-}
-const TALK_BANNER_FRAGMENT_LINES = ['それはそうと','それはさておき','そんなことは置いておいて','そんなことより','そんなことより！','そんな事より','ていうか','冗談はさておき','脱線はこのくらいにして...','話が逸れたけど','話は変わるけど','話脱線させちゃったけど','まぁ茶番はここまでにしておいて笑','俺の口調についてはここまでにして笑','自分の余談はこれくらいにして笑','俺の最近の奇行？笑の話はここまでにして...','本題に戻りますが','本題に戻りますね！','タスクの話に戻るけど','それはともかく','それはおいておいて...','おいておいて！','置いておいて笑'];
-
-function pickTalkBannerText() {
-    const log = getTalkHistoryLog();
-    let fallback = null;
-    let fallbackIndex = -1;
-    for (let i = log.length - 1; i >= 0; i--) {
-        const entry = log[i];
-        if (entry.sender !== 'mobu' || entry.type !== 'text') continue;
-        const text = (entry.content || '').trim();
-        if (!text) continue;
-        if (fallback === null) { fallback = text; fallbackIndex = i; }
-        const lines = text.split('\n').map(l => l.trim()).filter(l => l.length > 0);
-        const lastLine = lines.length ? lines[lines.length - 1] : '';
-        if (TALK_BANNER_FRAGMENT_LINES.includes(lastLine)) continue;
-        return { text: text, index: i };
-    }
-    return fallback === null ? null : { text: fallback, index: fallbackIndex };
-}
-
-function saveTalkInterruptionData() {
-    if (!isTalkWaitingForUserStamp()) return;
-    const log = getTalkHistoryLog();
-    if (!log.length) return;
-    const genericSel = document.getElementById('generic-stamp-selector');
-    const moodSel = document.getElementById('mood-stamp-selector');
-    const pendingStampUI = (genericSel && genericSel.style.display === 'grid') ? 'generic' : (moodSel && moodSel.style.display === 'grid') ? 'mood' : null;
-    const picked = pickTalkBannerText();
-    localStorage.setItem('talkInterruptionData', JSON.stringify({
-        history: log,
-        bannerText: picked ? picked.text : null,
-        timestamp: Date.now(),
-        pendingStampUI: pendingStampUI,
-        reportTask: localStorage.getItem('currentReportTask'),
-        replayFromIndex: picked ? picked.index : 0
-    }));
-}
-
 function appendLineMessage(sender, text, delay = 0) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-    recordTalkHistoryMessage(sender, 'text', text);
+
     setTimeout(() => {
         if (sender === 'mobu') {
             playSE('se_line_receive.mp3');
@@ -2532,7 +2411,6 @@ const banner = document.getElementById('fake-notification-banner');
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
         localStorage.setItem('lastBannerReadTime', Date.now().toString());
         if (notificationType === 'talk_abandon_rescue') { localStorage.removeItem('talkStampPending'); } else { localStorage.setItem('talkStampPending', 'true'); }
-                clearTalkHistoryLog();
         localStorage.setItem('tappedNotification', JSON.stringify({
             type: notificationType,
             sender: sender,
@@ -3393,7 +3271,7 @@ function getCurrentTimeOfDay() {
 function appendUserStampMessage(stampSrc) {
     const chatArea = document.querySelector('#screen-line .line-chat');
     if (!chatArea) return;
-    recordTalkHistoryMessage('user', 'stamp', stampSrc);
+
     playSE('se_stamp_send.mp3'); // スタンプ送信音
 
     const messageDiv = document.createElement('div');
@@ -3424,24 +3302,6 @@ function appendUserStampMessage(stampSrc) {
  * 気分共有以外の場面共通の「5種類スタンプ選択」を表示する
  * @param {function} onStampSelected 選ばれたスタンプのsrcを受け取って実行する処理
  */
-function showMoodStampSelectorForReplay() {
-    const inputBar = document.getElementById('line-input-bar');
-    const stampSelector = document.getElementById('mood-stamp-selector');
-    const stamps = document.querySelectorAll('.mood-stamp');
-    inputBar.style.display = 'none';
-    stampSelector.style.display = 'grid';
-    stamps.forEach(stamp => {
-        const newStamp = stamp.cloneNode(true);
-        stamp.parentNode.replaceChild(newStamp, stamp);
-        newStamp.addEventListener('click', () => {
-            localStorage.removeItem('talkInterruptionData');
-            localStorage.removeItem('talkResumeMark');
-            clearTalkHistoryLog();
-            handleMoodStampClick(newStamp.dataset.mood, newStamp.src, false);
-        }, { once: true });
-    });
-}
-
 function showGenericStampReplySelector(onStampSelected) {
     const inputBar = document.getElementById('line-input-bar');
     const replyArea = document.getElementById('notification-reply-area');
@@ -3807,7 +3667,6 @@ function checkAndShowHomeBanners() {
         localStorage.setItem('currentBannerType', 'onee');
         localStorage.setItem('pendingOneeMessage', localStorage.getItem('oneeResumeBanner'));
     }
-        if (showTalkInterruptionBannerIfNeeded()) return;
         const lastReadTime = parseInt(localStorage.getItem('lastBannerReadTime') || '0', 10);
 if (Date.now() - lastReadTime < 30 * 60 * 1000 && !localStorage.getItem('talkAbandonRescuePending') && !localStorage.getItem('oneeResumeMilestone')) return;
         const existingBanner = document.getElementById('fake-notification-banner');
@@ -3874,21 +3733,6 @@ function showTalkAbandonRescueBannerIfNeeded() {
     showFakeNotification('モブ君', message, getMobuIconSrc(), 'talk_abandon_rescue', savedMilestone);
     return true;
 }
-function showTalkInterruptionBannerIfNeeded() {
-    const raw = localStorage.getItem('talkInterruptionData');
-    if (!raw) return false;
-    if (isBannerCurrentlyShown()) return false;
-    let data;
-    try { data = JSON.parse(raw); } catch (e) { localStorage.removeItem('talkInterruptionData'); return false; }
-    if (!data || !data.bannerText) { localStorage.removeItem('talkInterruptionData'); return false; }
-    if (getMobuState() !== 'normal' || Date.now() - (data.timestamp || 0) > 2 * 24 * 60 * 60 * 1000) {
-        localStorage.removeItem('talkInterruptionData');
-        return false;
-    }
-    showFakeNotification('モブ君', data.bannerText, getMobuIconSrc(), 'talk_interruption');
-    return true;
-}
-
 function isBannerCurrentlyShown() {
     const banner = document.getElementById('fake-notification-banner');
     return banner ? banner.classList.contains('show') : false;
