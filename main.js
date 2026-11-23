@@ -212,7 +212,7 @@ if (notifUnwatchedMark) {
     return;
 }
         history.replaceState(null, null, window.location.pathname);
-        if (localStorage.getItem('appPhase') === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { updateHomeTasks(); showScreen('screen-line'); return; }
+        if (localStorage.getItem('appPhase') === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && !discardExpiredUnreadTalk()) { updateHomeTasks(); showScreen('screen-line'); return; }
         const appPhase = localStorage.getItem('appPhase');
         if (appPhase === 'main_loop') {
             updateHomeTasks();
@@ -247,7 +247,7 @@ if (cinematicUnwatchedMark) {
 }
             const appPhase = localStorage.getItem('appPhase');
             const nickname = localStorage.getItem('nickname');
-if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true') { showScreen('screen-line'); return; }
+if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && !discardExpiredUnreadTalk()) { showScreen('screen-line'); return; }
  if (appPhase === 'main_loop' && localStorage.getItem('closedOnTalkBeforeEvent') === 'true' && !localStorage.getItem('talkAbandonRescueBackLeft') && Date.now() - parseInt(localStorage.getItem('lastCompletionTimestamp') || '0', 10) <= 24 * 60 * 60 * 1000) {        
                 showScreen('screen-line');
             } else if (appPhase === 'main_loop') {
@@ -858,7 +858,7 @@ document.addEventListener('visibilitychange', function() {
         [10, 20, 30].forEach(m => resetReturnBannerLogIfNeeded(m));
         if (checkAndRestoreCafeIfNeeded()) return;
         triggerCafePreloadIfNeeded();
-        if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && currentScreenId !== 'screen-line') { showScreen('screen-line'); return; }
+        if (localStorage.getItem('talkResumeMark') === 'true' && localStorage.getItem('closedOnTalkBeforeEvent') !== 'true' && currentScreenId !== 'screen-line' && !discardExpiredUnreadTalk()) { showScreen('screen-line'); return; }
         if ((hasPendingUnwatchedEvent() || localStorage.getItem('talkAbandonRescuePending') || localStorage.getItem('oneeResumeMilestone')) && currentScreenId !== 'screen-home') {
             showScreen('screen-home');
             if (isEpilogueReadyPending()) showEpilogueReadyPopup();

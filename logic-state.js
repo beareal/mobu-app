@@ -188,6 +188,34 @@ localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeIte
     }
 }
 
+/**
+ * 未読トークの有効期限判定：最後のタスク完了ゲーム日付から diffDays >= 2（朝4時を2回跨ぐ）なら期限切れ。
+ * 期限切れの場合は未読トークの再放送データを破棄して true を返す。
+ * 再開フラグが立っていない、イベント救済が優先される場合、未完了ユーザー、完了日未保存の場合は false。
+ */
+function discardExpiredUnreadTalk() {
+    if (localStorage.getItem('talkResumeMark') !== 'true') return false;
+    if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') return false;
+    if (getTotalTasksCompleted() === 0) return false;
+    const lastCompDateStr = getLastCompletionGameDate();
+    if (!lastCompDateStr) return false;
+
+    const todayDate = new Date(getGameDate());
+    const lastDate  = new Date(lastCompDateStr);
+    const diffDays  = Math.floor((todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+    if (diffDays < 2) return false;
+
+    localStorage.removeItem('talkResumeMark');
+    localStorage.removeItem('talkStampPending');
+    localStorage.removeItem('talkResumeData');
+    localStorage.removeItem('talkResumeOnee');
+    localStorage.removeItem('replayBannerText');
+    localStorage.removeItem('replayRecoveryText');
+    localStorage.removeItem('replayReactionText');
+    localStorage.removeItem('replayGlowMark');
+    return true;
+}
+
 // ===============================================
 // Phase 5-1.5: プロフィール画面の演出管理
 // ===============================================
