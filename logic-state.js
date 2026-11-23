@@ -170,8 +170,8 @@ function checkAbandonment() {
         // 重要：新たなサボりが確定したため、未読の段階2フラグを破棄 (仕様書 6-1)
         setIsWaitingForRecoveryPhase2(false);
 localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown');
-        // 未読トークの有効期限も同じ基準（diffDays >= 2）で破棄
-        clearUnreadTalkResumeData();
+        // 未読トークは起点別の期限判定で破棄（バナー由来は発生日起点のため期限内なら残す）
+        discardExpiredUnreadTalk();
         // 放置日数を保存（diffDaysから1を引いた実サボり日数）(仕様書 3-3)
         const abandonDays = diffDays - 1;
         setAbandonDays(abandonDays);
@@ -210,13 +210,29 @@ function clearUnreadTalkResumeData() {
 function discardExpiredUnreadTalk() {
     if (localStorage.getItem('talkResumeMark') !== 'true') return false;
     if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') return false;
-    if (getTotalTasksCompleted() === 0) return false;
-    const lastCompDateStr = getLastCompletionGameDate();
-    if (!lastCompDateStr) return false;
+
+    // バナー・通知由来トークは発生ゲーム日付、タスク報告由来トークは最終タスク完了ゲーム日付を起点にする
+    let anchorDateStr = null;
+    const resumeDataRaw = localStorage.getItem('talkResumeData');
+    if (resumeDataRaw) {
+        try {
+            anchorDateStr = JSON.parse(resumeDataRaw).talkDate || null;
+        } catch (e) {
+            anchorDateStr = null;
+        }
+        if (!anchorDateStr) {
+            clearUnreadTalkResumeData();
+            return true;
+        }
+    } else {
+        if (getTotalTasksCompleted() === 0) return false;
+        anchorDateStr = getLastCompletionGameDate();
+        if (!anchorDateStr) return false;
+    }
 
     const todayDate = new Date(getGameDate());
-    const lastDate  = new Date(lastCompDateStr);
-    const diffDays  = Math.floor((todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
+    const anchorDate = new Date(anchorDateStr);
+    const diffDays  = Math.floor((todayDate.getTime() - anchorDate.getTime()) / (1000 * 60 * 60 * 24));
     if (diffDays < 2) return false;
 
     clearUnreadTalkResumeData();
