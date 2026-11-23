@@ -170,6 +170,8 @@ function checkAbandonment() {
         // 重要：新たなサボりが確定したため、未読の段階2フラグを破棄 (仕様書 6-1)
         setIsWaitingForRecoveryPhase2(false);
 localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown');
+        // 未読トークの有効期限も同じ基準（diffDays >= 2）で破棄
+        clearUnreadTalkResumeData();
         // 放置日数を保存（diffDaysから1を引いた実サボり日数）(仕様書 3-3)
         const abandonDays = diffDays - 1;
         setAbandonDays(abandonDays);
@@ -186,6 +188,18 @@ localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeIte
             localStorage.removeItem('saboriShownDate');
         console.log(`サボり判定確定: 差分${diffDays}日（サボり${abandonDays}日）。状態: ${getMobuState()}`);
     }
+}
+
+// 未読トークの再放送に必要な保存データ一式を破棄する（共用データは対象外）
+function clearUnreadTalkResumeData() {
+    localStorage.removeItem('talkResumeMark');
+    localStorage.removeItem('talkStampPending');
+    localStorage.removeItem('talkResumeData');
+    localStorage.removeItem('talkResumeOnee');
+    localStorage.removeItem('replayBannerText');
+    localStorage.removeItem('replayRecoveryText');
+    localStorage.removeItem('replayReactionText');
+    localStorage.removeItem('replayGlowMark');
 }
 
 /**
@@ -205,14 +219,7 @@ function discardExpiredUnreadTalk() {
     const diffDays  = Math.floor((todayDate.getTime() - lastDate.getTime()) / (1000 * 60 * 60 * 24));
     if (diffDays < 2) return false;
 
-    localStorage.removeItem('talkResumeMark');
-    localStorage.removeItem('talkStampPending');
-    localStorage.removeItem('talkResumeData');
-    localStorage.removeItem('talkResumeOnee');
-    localStorage.removeItem('replayBannerText');
-    localStorage.removeItem('replayRecoveryText');
-    localStorage.removeItem('replayReactionText');
-    localStorage.removeItem('replayGlowMark');
+    clearUnreadTalkResumeData();
     return true;
 }
 
