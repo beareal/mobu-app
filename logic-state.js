@@ -170,8 +170,6 @@ function checkAbandonment() {
         // 重要：新たなサボりが確定したため、未読の段階2フラグを破棄 (仕様書 6-1)
         setIsWaitingForRecoveryPhase2(false);
 localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown');
-        // 未読トークは起点別の期限判定で破棄（バナー由来は発生日起点のため期限内なら残す）
-        discardExpiredUnreadTalk();
         // 放置日数を保存（diffDaysから1を引いた実サボり日数）(仕様書 3-3)
         const abandonDays = diffDays - 1;
         setAbandonDays(abandonDays);
@@ -188,55 +186,6 @@ localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeIte
             localStorage.removeItem('saboriShownDate');
         console.log(`サボり判定確定: 差分${diffDays}日（サボり${abandonDays}日）。状態: ${getMobuState()}`);
     }
-}
-
-// 未読トークの再放送に必要な保存データ一式を破棄する（共用データは対象外）
-function clearUnreadTalkResumeData() {
-    localStorage.removeItem('talkResumeMark');
-    localStorage.removeItem('talkStampPending');
-    localStorage.removeItem('talkResumeData');
-    localStorage.removeItem('talkResumeOnee');
-    localStorage.removeItem('replayBannerText');
-    localStorage.removeItem('replayRecoveryText');
-    localStorage.removeItem('replayReactionText');
-    localStorage.removeItem('replayGlowMark');
-}
-
-/**
- * 未読トークの有効期限判定：最後のタスク完了ゲーム日付から diffDays >= 2（朝4時を2回跨ぐ）なら期限切れ。
- * 期限切れの場合は未読トークの再放送データを破棄して true を返す。
- * 再開フラグが立っていない、イベント救済が優先される場合、未完了ユーザー、完了日未保存の場合は false。
- */
-function discardExpiredUnreadTalk() {
-    if (localStorage.getItem('talkResumeMark') !== 'true') return false;
-    if (localStorage.getItem('closedOnTalkBeforeEvent') === 'true') return false;
-
-    // バナー・通知由来トークは発生ゲーム日付、タスク報告由来トークは最終タスク完了ゲーム日付を起点にする
-    let anchorDateStr = null;
-    const resumeDataRaw = localStorage.getItem('talkResumeData');
-    if (resumeDataRaw) {
-        try {
-            anchorDateStr = JSON.parse(resumeDataRaw).talkDate || null;
-        } catch (e) {
-            anchorDateStr = null;
-        }
-        if (!anchorDateStr) {
-            clearUnreadTalkResumeData();
-            return true;
-        }
-    } else {
-        if (getTotalTasksCompleted() === 0) return false;
-        anchorDateStr = getLastCompletionGameDate();
-        if (!anchorDateStr) return false;
-    }
-
-    const todayDate = new Date(getGameDate());
-    const anchorDate = new Date(anchorDateStr);
-    const diffDays  = Math.floor((todayDate.getTime() - anchorDate.getTime()) / (1000 * 60 * 60 * 24));
-    if (diffDays < 2) return false;
-
-    clearUnreadTalkResumeData();
-    return true;
 }
 
 // ===============================================
