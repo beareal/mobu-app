@@ -832,7 +832,7 @@ document.addEventListener('visibilitychange', function() {
             }
         }
                 if (currentScreenId === 'screen-line') {
-            localStorage.removeItem('talkResumeMark'); if (localStorage.getItem('talkStampPending') === 'true') { localStorage.setItem('talkResumeMark', 'true'); }     
+            localStorage.removeItem('talkResumeMark');
             const prevTotal = getPreviousTotalTasks();
             const currTotal = getTotalTasksCompleted();
             for (const m of [10, 20, 30, 40]) {
