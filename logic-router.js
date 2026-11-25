@@ -262,6 +262,10 @@ const userReplyDialogues = {
     }
 };
 
+const pendingBannerFollowUpUserLines = [
+    "そういえば"
+];
+
 /**
  * 現在のタスク達成回数に応じて、モブ君のバージョンを返す
  * @returns {'ver1' | 'ver2'}
@@ -1044,6 +1048,7 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                 replyArea.style.display = 'none';
 
                 appendLineMessage('mobu', firstPendingBanner.text, 500);
+                appendLineMessage('user', pendingBannerFollowUpUserLines[Math.floor(Math.random() * pendingBannerFollowUpUserLines.length)], 1200);
 
                 setTimeout(() => {
                     showGenericStampReplySelector(function(stampSrc) {
