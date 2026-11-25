@@ -628,6 +628,18 @@ function showProfileScreen() {
  */
 
 function showScreen(screenId) {
+    if (screenId === 'screen-home') {
+        const pendingReportRaw = localStorage.getItem('pendingReportTasks');
+        if (pendingReportRaw) {
+            let pendingReportTasks = null;
+            try { pendingReportTasks = JSON.parse(pendingReportRaw); } catch (e) { pendingReportTasks = null; }
+            if (Array.isArray(pendingReportTasks) && pendingReportTasks.length > 0) {
+                setupReportScreen(pendingReportTasks);
+                return;
+            }
+            localStorage.removeItem('pendingReportTasks');
+        }
+    }
     // ★★★ 修正: 音の停止と画面非表示をここで行う ★★★
     stopAllSounds();
     document.querySelectorAll('.screen').forEach(screen => {
@@ -1612,6 +1624,7 @@ function setupReportScreen(completedTasks) {
         currentThoughtText.textContent = 'よし、完了！モブ君に報告しよっと♪';
         currentScreen.onclick = function() {
             localStorage.setItem('currentReportTask', completedTasks[0]);
+            localStorage.removeItem('pendingReportTasks');
             showScreen('screen-line');
         };
     } else {
@@ -1636,6 +1649,7 @@ function setupReportScreen(completedTasks) {
                 e.stopPropagation();
                 
                 localStorage.setItem('currentReportTask', task);
+                localStorage.removeItem('pendingReportTasks');
                 showScreen('screen-line');
             };
             currentSelectionArea.appendChild(btn);

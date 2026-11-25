@@ -417,6 +417,7 @@ if (appPhase === 'main_loop' && localStorage.getItem('talkResumeMark') === 'true
     localStorage.setItem('oneeResumeIcon', getMobuIconSrc());
 }
                addTasksCompleted(completedTasks.length);
+               localStorage.setItem('pendingReportTasks', JSON.stringify(completedTasks));
                // 最後にタスクを完了したゲーム日付（朝4時基準）を保存
                saveLastCompletionGameDate();
 console.log('【診断A】判定前', getMobuState(), localStorage.getItem('closedOnTalkBeforeEvent'), localStorage.getItem('savedEventMilestone'));
