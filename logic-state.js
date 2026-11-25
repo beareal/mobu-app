@@ -148,6 +148,12 @@ function checkAbandonment() {
     if (talkAbandonPendingMilestone && localStorage.getItem('talkAbandonRescueBannerClosed_' + talkAbandonPendingMilestone) !== 'true') return;
     if ([10, 20, 30].some(m => getIsInvited(m) && !getIsWatched(m) && getCafeExitTime(m))) return;
     if (localStorage.getItem('cinematicUnwatched')) return;
+    const abandonmentPrevTotal = getPreviousTotalTasks();
+    const abandonmentCurrentTotal = getTotalTasksCompleted();
+    const hasUndetectedMilestoneCrossing = [10, 20, 30, 40].some(m =>
+        abandonmentPrevTotal < m && abandonmentCurrentTotal >= m && !isEventMilestoneResolved(m)
+    );
+    if (hasUndetectedMilestoneCrossing) return;
     const lastCompDateStr = getLastCompletionGameDate();
     // 2. 累計はあるが完了日がない場合（移行期用）、今日を基準日として保存して終了
     if (!lastCompDateStr) {
