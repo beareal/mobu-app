@@ -851,8 +851,7 @@ let oneeResumeDelay = 1000;
     appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${oneeResumeTaskText}`, oneeResumeDelay);
     oneeResumeDelay += 1500;
     if (oneeResumeRecovery) {
-        appendRecoveryDialogueMessage('mobu', oneeResumeRecovery.replace(/○○/g, oneeResumeNickname), oneeResumeDelay);
-        oneeResumeDelay += 1500;
+        oneeResumeDelay += appendRecoveryDialogueMessage('mobu', oneeResumeRecovery.replace(/○○/g, oneeResumeNickname), oneeResumeDelay);
     }
     if (oneeResumeReaction) {
         appendLineMessage('mobu', oneeResumeReaction.replace(/○○/g, oneeResumeNickname), oneeResumeDelay);
@@ -958,8 +957,7 @@ appendUserStampMessage(stampSrc);
             appendLineMessage('user', `心配させてごめんね💦でも、今日はタスクこなしたから✌️${resumeReport}`, resumeReplayDelay);
             resumeReplayDelay += 1500;
             if (replayRecoveryText) {
-                appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, resumeNickname), resumeReplayDelay);
-                resumeReplayDelay += 1500;
+                resumeReplayDelay += appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, resumeNickname), resumeReplayDelay);
             }
                         const replayReactionText = localStorage.getItem('replayReactionText');
             if (replayReactionText) {
@@ -1028,8 +1026,7 @@ appendUserStampMessage(stampSrc);
     appendLineMessage('user', userReplyDialogues.taskReports[redisplayTask] || `【${redisplayTask}】、できた♪`, redisplayDelay);    
     redisplayDelay += 1000;
         if (replayRecoveryText) {
-        appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, redisplayNickname), redisplayDelay);
-        redisplayDelay += 1500;
+        redisplayDelay += appendRecoveryDialogueMessage('mobu', replayRecoveryText.replace(/○○/g, redisplayNickname), redisplayDelay);
     }
     const savedReaction = localStorage.getItem('savedTaskReactionText');
     if (savedReaction) {
@@ -1146,8 +1143,7 @@ localStorage.setItem('replayRecoveryText', rawDialogue);
                              appendLineMessage('user', combinedReaction, initialDelay);
                              initialDelay += 1500;
 
-                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
-                             initialDelay += 1500;
+                             initialDelay += appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
 const fakeBanner = document.getElementById('fake-notification-banner');
                             if (fakeBanner) {
                                 fakeBanner.classList.remove('show');
@@ -1157,8 +1153,7 @@ const fakeBanner = document.getElementById('fake-notification-banner');
                          } else {
                                                    appendLineMessage('user', userTaskReportText, initialDelay);
                              initialDelay += 1500;
-                             appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
-                             initialDelay += 1500;
+                             initialDelay += appendRecoveryDialogueMessage('mobu', dialogue, initialDelay);
                                                           oneeMessageUsed = true;
                          }
 
@@ -1326,13 +1321,11 @@ function appendLineMessage(sender, text, delay = 0) {
     }, delay);
 }
 function appendRecoveryDialogueMessage(sender, text, delay = 0) {
-    if (text.includes('@@')) {
-        const parts = text.split('@@');
-        appendLineMessage(sender, parts[0], delay);
-        appendLineMessage(sender, parts.slice(1).join('@@'), delay + 1000);
-    } else {
-        appendLineMessage(sender, text, delay);
-    }
+    const parts = text.split('@@');
+    parts.forEach((part, i) => {
+        appendLineMessage(sender, part, delay + i * 1000);
+    });
+    return (parts.length - 1) * 1000 + 1500;
 }
 function appendSplitDialogueMessage(sender, text, delay = 0) {
     const parts = text.split('@@');
@@ -3098,8 +3091,7 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
         delay += 1000;
                 if (currentBannerType === 'onee' && localStorage.getItem('oneeResumeMilestone') && localStorage.getItem('oneeResumeRecovery')) {
             const resumeNickname = localStorage.getItem('nickname') || 'あなた';
-            appendRecoveryDialogueMessage('mobu', localStorage.getItem('oneeResumeRecovery').replace(/○○/g, resumeNickname), delay);
-            delay += 1000;
+            delay += appendRecoveryDialogueMessage('mobu', localStorage.getItem('oneeResumeRecovery').replace(/○○/g, resumeNickname), delay);
         }
              if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
             const cushionNickname = localStorage.getItem('nickname') || 'あなた';
