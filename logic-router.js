@@ -776,6 +776,8 @@ if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'retur
 
 } else if (tappedNotificationData && JSON.parse(tappedNotificationData).type === 'recovery') {
       localStorage.setItem('recoveryFollowUpTalkShown', 'true');
+    setIsWaitingForRecoveryPhase2(false);
+    localStorage.removeItem('recoveryFollowUpFixedDialogue');
     const notification = JSON.parse(tappedNotificationData);
     localStorage.removeItem('tappedNotification');
 
@@ -839,7 +841,14 @@ if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage
 
                // 4. 処理が終わったら、保存しておいたデータを消去（重要）
    localStorage.removeItem('tappedNotification');
+   if (notification.type === 'periodic') {
+       const periodicSlotInfo = JSON.parse(localStorage.getItem('currentBannerSlotInfo') || 'null');
+       if (periodicSlotInfo && periodicSlotInfo.slot && periodicSlotInfo.date) {
+           markSlotAsTapped(periodicSlotInfo.slot, periodicSlotInfo.date);
+       }
+   }
    if (localStorage.getItem('oneeResumeMilestone') && JSON.parse(tappedNotificationData).type === 'onee') {
+    localStorage.removeItem('oneeResumeBanner');
     const oneeResumeNickname = localStorage.getItem('nickname') || 'あなた';
     const oneeResumeTask = localStorage.getItem('currentReportTask');
     const oneeResumeTaskText = userReplyDialogues.taskReports[oneeResumeTask] || `【${oneeResumeTask}】、できた♪`;
@@ -1226,7 +1235,9 @@ if (!followUpRaw) {
                      };
                      appendLineMessage('user', followUpUserReactions[followUpLevel], initialDelay);
                      initialDelay += 1500;
-localStorage.setItem('recoveryFollowUpTalkShown', 'true');           
+localStorage.setItem('recoveryFollowUpTalkShown', 'true');
+                     setIsWaitingForRecoveryPhase2(false);
+                     localStorage.removeItem('recoveryFollowUpFixedDialogue');           
                      oneeMessageUsed = true;
                      const recoveryHomeBannerEl = document.getElementById('fake-notification-banner'); if (recoveryHomeBannerEl) { recoveryHomeBannerEl.classList.remove('show'); }
                  }
@@ -3039,6 +3050,13 @@ function pickRecoveryDialogue(version, level) {
 function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDelay, shouldGlowBackButton) {
    const currentBannerType = localStorage.getItem('currentBannerType');
     const slotInfoRaw = localStorage.getItem('currentBannerSlotInfo');
+    if (currentBannerType === 'recovery') {
+        setIsWaitingForRecoveryPhase2(false);
+        localStorage.removeItem('recoveryFollowUpFixedDialogue');
+    }
+    if (currentBannerType === 'onee' && localStorage.getItem('oneeResumeMilestone')) {
+        localStorage.removeItem('oneeResumeBanner');
+    }
     let bannerText;
     if (slotInfoRaw && JSON.parse(slotInfoRaw).slot === 'sabori') {
         const saboriPending = JSON.parse(localStorage.getItem('saboriPendingDialogue') || 'null');
