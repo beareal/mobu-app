@@ -1066,15 +1066,15 @@ const mainBannerEl = document.getElementById('fake-notification-banner');
                 replyArea.style.display = 'none';
 
                 appendLineMessage('mobu', firstPendingBanner.text, 500);
-                appendLineMessage('user', pendingBannerFollowUpUserLines[Math.floor(Math.random() * pendingBannerFollowUpUserLines.length)], 1200);
 
                 setTimeout(() => {
                     showGenericStampReplySelector(function(stampSrc) {
                         appendUserStampMessage(stampSrc);
+                        appendLineMessage('user', pendingBannerFollowUpUserLines[Math.floor(Math.random() * pendingBannerFollowUpUserLines.length)], 500);
                         const reportedTask = localStorage.getItem('currentReportTask');
                 if (localStorage.getItem('recoveryFollowUpTalkShown') === 'true') { localStorage.removeItem('recoveryFollowUpFixedDialogue'); localStorage.removeItem('recoveryFollowUpTalkShown'); setIsWaitingForRecoveryPhase2(false); }
                         const userTaskReportText = userReplyDialogues.taskReports[reportedTask] || `【${reportedTask}】、できた♪`;
-                        let initialDelay = 500;
+                        let initialDelay = 1500;
 
                         appendLineMessage('user', userTaskReportText, initialDelay);
                         initialDelay += 1000;
