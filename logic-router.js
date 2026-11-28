@@ -3081,12 +3081,10 @@ function handleBannerAwareTaskReport(reportedTask, userTaskReportText, initialDe
         if (currentBannerType === 'periodic' && slotInfo.slot === getCurrentTimeOfDay() && slotInfo.date === getGameDate()) {
             markSlotAsShown();
         }
-        if (slotInfo.slot === 'sabori') {
-            const readBannerEl = document.getElementById('fake-notification-banner');
-            if (readBannerEl) {
-                readBannerEl.classList.remove('show');
-            }
-        }
+    }
+    const consumedBannerEl = document.getElementById('fake-notification-banner');
+    if (consumedBannerEl) {
+        consumedBannerEl.classList.remove('show');
     }
     localStorage.setItem('lastBannerReadTime', Date.now().toString());
 
